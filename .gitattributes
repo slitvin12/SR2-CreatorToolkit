@@ -1,0 +1,3 @@
+# Keep every file byte-for-byte as in the working tree (embedded data and
+# scripts are hashed/parsed exactly; no line-ending conversion).
+* -text

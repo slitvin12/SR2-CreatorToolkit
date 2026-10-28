@@ -1,0 +1,8 @@
+# Pod/gordo tracking: never-loaded areas are labelled instead of "state unknown".
+cmd m28-tracking
+show m28-tracking.txt 40
+expect-file m28-tracking.txt unvisited
+cmd ct-menu 4 1
+sleep 1.5
+shot tracking-page
+cmd close

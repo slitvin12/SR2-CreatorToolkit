@@ -1,0 +1,20 @@
+# Native player marker (Beatrix portrait, pin, view cone) copied into the minimap.
+# The copy is taken automatically about 0.6 s after the native map opens.
+cmd m28-player-marker state
+cmd atlas
+sleep 3
+cmd m28-player-marker state
+expect M28Marker parts=[1-9]
+cmd m28-player-marker dump
+show m28-player-marker.txt 40
+cmd ct-ui-dump marker 5
+show ct-ui-marker.txt 30
+shot marker-native-map
+cmd atlas-close
+sleep 2
+# The minimap is off after every game start; show it with terrain like the atlas page button.
+cmd ct-minimap terrain
+expect-ct show=True
+sleep 1.5
+shot marker-minimap
+log 10 \[M28\] player marker

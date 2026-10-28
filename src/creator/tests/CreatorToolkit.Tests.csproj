@@ -1,0 +1,74 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\CapsuleMapPolicy.cs" Link="CapsuleMapPolicy.cs" />
+    <Compile Include="..\\M21WeatherPolicy.cs" Link="M21WeatherPolicy.cs" />
+    <Compile Include="..\\M20DiscoveryPolicy.cs" Link="M20DiscoveryPolicy.cs" />
+    <Compile Include="..\\M19GraphicsPolicy.cs" Link="M19GraphicsPolicy.cs" />
+    <Compile Include="..\SafetyPolicy.cs" Link="SafetyPolicy.cs" />
+    <Compile Include="..\PlayerMovementPolicy.cs" Link="PlayerMovementPolicy.cs" />
+    <Compile Include="..\TextEditBuffer.cs" Link="TextEditBuffer.cs" />
+    <Compile Include="..\M18Policy.cs" Link="M18Policy.cs" />
+    <Compile Include="..\M17Policy.cs" Link="M17Policy.cs" />
+    <Compile Include="..\MapOverlayLayout.cs" Link="MapOverlayLayout.cs" />
+    <Compile Include="..\MapLayerOrder.cs" Link="MapLayerOrder.cs" />
+    <Compile Include="..\MapDistanceText.cs" Link="MapDistanceText.cs" />
+    <Compile Include="..\MapRareIcons.cs" Link="MapRareIcons.cs" />
+    <Compile Include="..\GordoMapPolicy.cs" Link="GordoMapPolicy.cs" />
+    <Compile Include="..\DiagnosticIo.cs" Link="DiagnosticIo.cs" />
+    <Compile Include="..\StressComparisonPlan.cs" Link="StressComparisonPlan.cs" />
+    <Compile Include="..\TransitSafety.cs" Link="TransitSafety.cs" />
+    <Compile Include="..\CatalogOrder.cs" Link="CatalogOrder.cs" />
+    <Compile Include="..\CapsuleDatabase.cs" Link="CapsuleDatabase.cs" />
+    <Compile Include="..\ExplorerPolicy.cs" Link="ExplorerPolicy.cs" />
+    <Compile Include="..\WaypointStore.cs" Link="WaypointStore.cs" />
+    <Compile Include="..\UiThemePolicy.cs" Link="UiThemePolicy.cs" />
+    <Compile Include="..\CarePolicy.cs" Link="CarePolicy.cs" />
+    <Compile Include="..\InfiniteBuilderPolicy.cs" Link="InfiniteBuilderPolicy.cs" />
+    <Compile Include="..\PhenomenaWindowPolicy.cs" Link="PhenomenaWindowPolicy.cs" />
+    <Compile Include="..\M25RuntimePolicy.cs" Link="M25RuntimePolicy.cs" />
+    <Compile Include="..\M26Policy.cs" Link="M26Policy.cs" />
+    <Compile Include="..\M27Policy.cs" Link="M27Policy.cs" />
+    <Compile Include="..\M28Policy.cs" Link="M28Policy.cs" />
+    <Compile Include="..\M29Policy.cs" Link="M29Policy.cs" />
+    <Compile Include="..\M29NavigationPolicy.cs" Link="M29NavigationPolicy.cs" />
+    <Compile Include="..\M29PngDecoder.cs" Link="M29PngDecoder.cs" />
+    <Compile Include="..\OptimizationPolicy.cs" Link="OptimizationPolicy.cs" />
+    <Compile Include="..\PassiveFramePolicy.cs" Link="PassiveFramePolicy.cs" />
+    <Compile Include="..\GeometryLodPolicy.cs" Link="GeometryLodPolicy.cs" />
+    <Compile Include="..\UiPaintTelemetry.cs" Link="UiPaintTelemetry.cs" />
+    <Compile Include="..\AuditSavePolicy.cs" Link="AuditSavePolicy.cs" />
+    <Compile Include="..\AuditCheckpointStore.cs" Link="AuditCheckpointStore.cs" />
+    <Compile Include="..\NativeFocusPolicy.cs" Link="NativeFocusPolicy.cs" />
+    <Compile Include="..\NativeIconPolicy.cs" Link="NativeIconPolicy.cs" />
+    <Compile Include="..\MapShieldPolicy.cs" Link="MapShieldPolicy.cs" />
+    <Compile Include="..\MapInputGatePolicy.cs" Link="MapInputGatePolicy.cs" />
+    <Compile Include="..\CanonMapIconPolicy.cs" Link="CanonMapIconPolicy.cs" />
+    <Compile Include="..\MapResourceLayerPolicy.cs" Link="MapResourceLayerPolicy.cs" />
+    <Compile Include="..\RadiantCatalogPolicy.cs" Link="RadiantCatalogPolicy.cs" />
+    <Compile Include="..\ScrollMotionPolicy.cs" Link="ScrollMotionPolicy.cs" />
+    <Compile Include="..\CapsuleTruthPolicy.cs" Link="CapsuleTruthPolicy.cs" />
+    <Compile Include="..\WorldSourceObservationPolicy.cs" Link="WorldSourceObservationPolicy.cs" />
+  </ItemGroup>
+  <!-- This repository uses an executable offline checker, not an adapter-based
+       xUnit project. Make the exact dotnet test command execute it and propagate
+       every failure; never report a zero-discovery exit as a successful suite. -->
+  <PropertyGroup>
+    <CreatorToolkitRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\..\..\'))</CreatorToolkitRoot>
+    <CreatorToolkitHost>$(CreatorToolkitRoot)_work\dotnet\dotnet.exe</CreatorToolkitHost>
+  </PropertyGroup>
+  <Target Name="RunCreatorToolkitOfflineChecks" BeforeTargets="VSTest" DependsOnTargets="Build"
+          Condition="'$(IsCrossTargetingBuild)' != 'true'">
+    <Error Condition="!Exists('$(CreatorToolkitHost)')" Text="Repository-local dotnet host is required." />
+    <Message Importance="high" Text="CreatorToolkit: running real offline policy/metadata checks (no native game or save access)." />
+    <Exec Command="&quot;$(CreatorToolkitHost)&quot; build &quot;$(MSBuildThisFileDirectory)..\CreatorToolkit.csproj&quot; -c Release -o &quot;$(CreatorToolkitRoot)_work\creator-stage&quot; -nologo -v minimal --no-incremental --ignore-failed-sources -p:UseSharedCompilation=false" />
+    <Exec Command="&quot;$(CreatorToolkitHost)&quot; &quot;$(TargetPath)&quot; &quot;$(CreatorToolkitRoot).&quot;" />
+    <Exec Command="powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File &quot;$(MSBuildThisFileDirectory)..\test-audit-integrity.ps1&quot;" />
+  </Target>
+</Project>

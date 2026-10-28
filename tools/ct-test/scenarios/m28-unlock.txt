@@ -1,0 +1,19 @@
+# Vacpack styles (palettes). CHANGES THE TEST SAVE: opens every vacpack style in it.
+# The relay refuses on any other save and accepts only the exact pending title.
+cmd m28-palettes
+show m28-palettes.txt 40
+cmd ct-menu 4 0
+sleep 1.5
+shot unlock-cards
+cmd m28-unlock palettes
+expect-ct pending
+sleep 1
+shot unlock-palettes-confirm
+cmd m28-confirm palettes
+expect-ct accepted palettes
+sleep 1
+cmd m28-palettes
+show m28-palettes.txt 40
+status M28Unlocks
+shot unlock-palettes-done
+cmd close

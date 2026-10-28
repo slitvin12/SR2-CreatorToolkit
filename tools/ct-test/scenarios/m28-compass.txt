@@ -1,0 +1,17 @@
+# Compass bar: real icons instead of the stars, own markers with the native flag.
+# Adds one own marker at the player on the TEST save (UserData waypoints file), sets it
+# as the compass goal, dumps, then deletes it again.
+cmd m28-compass-style overlay
+cmd m28-compass-dump
+show m28-compass.txt 40
+shot compass-before
+cmd m28-custom-add 2 CT compass
+expect-ct added
+cmd m28-custom-goal last
+sleep 2
+cmd m28-compass-dump
+show m28-compass.txt 40
+expect M28Compass styled=[1-9]
+shot compass-own-marker
+cmd m28-custom-del last
+expect-ct deleted

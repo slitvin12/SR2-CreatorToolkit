@@ -1,0 +1,290 @@
+#catalog=b423e5181af9a712ffcdd84b34342dd2
+gordo1022215119	Гордо	Cotton-гордо	ConservatoryFields	216.8600	12.1420	185.5000	1	gordoCotton; GordoEat	Assets/Scene/zoneFields_Area1.unity	30
+StaticTeleporterNode_16915_CAB-28473b9acd7a700729fc34928578708e	Телепорты	Телепорт · LabTeleportDestinationDreamland	ConservatoryFields	285.1600	12.3048	397.8400	1	LabTeleportDestinationDreamland; StaticTeleporterNode
+pod0104193918	Капсулы	Капсула · HeartModuleComponent	ConservatoryFields	267.9670	2.0310	398.0370	1	treasurePod Rank1 HeartModuleComponent; TreasurePod	Assets/Scene/zoneFields_Area1.unity		1
+pod1765949255	Капсулы	Капсула · slimestage	ConservatoryFields	212.7730	48.2290	278.6610	1	treasurePod Rank3 slimestage; TreasurePod	Assets/Scene/zoneFields_Area1.unity		1
+pod1801289208	Капсулы	Капсула · largepinkbonsai	ConservatoryFields	209.6200	19.3200	286.8500	1	treasurePod Rank2 largepinkbonsai; TreasurePod	Assets/Scene/zoneFields_Area1.unity		1
+ResearchDroneController_18096_CAB-28473b9acd7a700729fc34928578708e	Дроны	Исследовательский дрон	ConservatoryFields	226.4663	9.6656	335.5531	1	nodeResearchDrone; ResearchDroneController
+StaticTeleporterNode_22188_CAB-8ce9e096f4504bee4ee1bdd8bbf16be8	Телепорты	Телепорт · Teleport Collider	ConservatoryFields	525.7616	13.9350	236.8062	1	Teleport Collider; StaticTeleporterNode
+pod2081158867	Капсулы	Капсула · boombox	ConservatoryFields	274.5500	32.3061	626.6100	1	treasurePod Rank1 boombox; TreasurePod	Assets/Scene/zoneFields_Area4.unity		1
+pod1808307071	Капсулы	Капсула · Flag Veggie	ConservatoryFields	685.5727	1.5620	50.4434	1	treasurePod Rank1 Flag Veggie; TreasurePod	Assets/Scene/zoneConservatory_Den.unity		1
+pod1516882419	Капсулы	Капсула · smallboulder	ConservatoryFields	224.1400	27.3929	415.1400	1	treasurePod Rank2 smallboulder; TreasurePod	Assets/Scene/zoneFields_Area2.unity		1
+pod1210187464	Капсулы	Капсула · Strange Diamond	ConservatoryFields	278.9610	0.2541	512.3450	1	treasurePod Rank2 Strange Diamond; TreasurePod	Assets/Scene/zoneFields_Area2.unity		1
+pod1635512559	Капсулы	Капсула · pinkwarpdepot	ConservatoryFields	349.5960	-1.7230	151.9610	1	treasurePod Rank1 pinkwarpdepot; TreasurePod	Assets/Scene/zoneFields_Area2.unity		1
+pod1958610754	Капсулы	Капсула · Strange Diamond	ConservatoryFields	332.9400	10.4930	163.7880	1	treasurePod Rank2 Strange Diamond; TreasurePod	Assets/Scene/zoneFields_Area2.unity		1
+pod0341863532	Капсулы	Капсула · hydroturret	ConservatoryFields	273.0292	-4.3345	473.9950	1	treasurePod Rank1 hydroturret; TreasurePod	Assets/Scene/zoneFields_Area2.unity		1
+pod0118409926	Капсулы	Капсула · umbrella (beach)	ConservatoryFields	347.5620	12.1060	106.3770	1	treasurePod Rank2 umbrella (beach); TreasurePod	Assets/Scene/zoneFields_Area2.unity		1
+pod0982210366	Капсулы	Капсула · simplebench	ConservatoryFields	249.5120	9.1670	540.5580	1	treasurePod Rank2 simplebench; TreasurePod	Assets/Scene/zoneFields_Area2.unity		1
+StaticTeleporterNode_8113_CAB-63677cfa9fda727dd034d1d09bc149e5	Телепорты	Телепорт · TeleportTrigger	ConservatoryFields	335.8685	10.1500	147.2820	1	TeleportTrigger; StaticTeleporterNode
+StaticTeleporterNode_8112_CAB-63677cfa9fda727dd034d1d09bc149e5	Телепорты	Телепорт · TeleportTrigger	ConservatoryFields	274.1975	0.9941	529.8302	1	TeleportTrigger; StaticTeleporterNode
+gordo0722604697	Гордо	Pink-гордо	ConservatoryFields	160.8800	1.2900	397.0700	1	gordoPink; GordoEat	Assets/Scene/zoneFields_Area3.unity	30
+pod0760050663	Капсулы	Капсула · overjoyedstatue	ConservatoryFields	144.5910	18.0810	335.9320	1	treasurePod Rank3 overjoyedstatue; TreasurePod	Assets/Scene/zoneFields_Area3.unity		1
+pod1196684808	Капсулы	Капсула · PowerCoreComponent	ConservatoryFields	140.8240	-3.3890	218.5570	1	treasurePod Rank2 PowerCoreComponent; TreasurePod	Assets/Scene/zoneFields_Area3.unity		1
+pod0093663621	Капсулы	Капсула · swing	ConservatoryFields	41.8100	-1.8371	157.6800	1	treasurePod Rank1 swing; TreasurePod	Assets/Scene/zoneFields_Area3.unity		1
+pod0075771003	Капсулы	Капсула · emeraldcypresscluster	ConservatoryFields	-8.7860	-1.6100	409.1410	1	treasurePod Rank1 emeraldcypresscluster; TreasurePod	Assets/Scene/zoneFields_Area3.unity		1
+pod0168252584	Капсулы	Капсула · emeraldcypress	ConservatoryFields	88.4820	0.8280	294.0370	1	treasurePod Rank2 emeraldcypress; TreasurePod	Assets/Scene/zoneFields_Area3.unity		1
+StaticTeleporterNode_15676_CAB-a75da46549d3d82427ebccca0e8007d1	Телепорты	Телепорт · TeleportTrigger	ConservatoryFields	52.7368	1.6983	284.3441	1	TeleportTrigger; StaticTeleporterNode
+gordo0383133132	Гордо	Phosphor-гордо	ConservatoryFields	360.3200	-2.4400	315.2700	1	gordoPhosphor; GordoEat	Assets/Scene/zoneFields.unity	30
+WorldStatePrimarySwitch_6060_CAB-55985e1301fb9a8adcd7796e499a783a	Механизмы	Механизм · ruinSwitch	ConservatoryFields	131.8130	-0.1000	161.1447	1	ruinSwitch; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_6061_CAB-55985e1301fb9a8adcd7796e499a783a	Механизмы	Механизм · ruinSwitch	ConservatoryFields	109.7300	13.9690	403.5500	1	ruinSwitch; WorldStatePrimarySwitch
+pod1545015581	Капсулы	Капсула · Coastal Rock	ConservatoryFields	343.3290	-2.5770	323.3900	1	treasurePod Rank1 Coastal Rock; TreasurePod	Assets/Scene/zoneFields.unity		1
+pod1181610117	Капсулы	Капсула · TankGuardComponent	ConservatoryFields	314.9830	-1.2180	345.4590	1	treasurePod Rank1 TankGuardComponent; TreasurePod	Assets/Scene/zoneFields.unity		1
+StaticTeleporterNode_5990_CAB-55985e1301fb9a8adcd7796e499a783a	Телепорты	Телепорт · TeleportTrigger	ConservatoryFields	33.4900	13.4700	394.3200	1	TeleportTrigger; StaticTeleporterNode
+StaticTeleporterNode_5991_CAB-55985e1301fb9a8adcd7796e499a783a	Телепорты	Телепорт · TeleportTrigger	ConservatoryFields	50.1700	7.8800	162.2100	1	TeleportTrigger; StaticTeleporterNode
+pod1535081404	Капсулы	Капсула · Flag Fruit	ConservatoryFields	836.4730	22.7680	288.5020	1	treasurePod Rank1 Flag Fruit; TreasurePod	Assets/Scene/zoneConservatory_Garden.unity		1
+pod0863429762	Капсулы	Капсула · Flag Meat	ConservatoryFields	511.2650	60.5410	502.2560	1	treasurePod Rank1 Flag Meat; TreasurePod	Assets/Scene/zoneConservatory_Arboretum.unity		1
+MapNodeActivator_17699_CAB-28473b9acd7a700729fc34928578708e	Ноды карты	Нода карты	ConservatoryFields	187.8180	4.2250	216.3260	1	nodeMapEntry; MapNodeActivator
+pod0494897323	Капсулы	Капсула · nodeComponentAcqDrone	ConservatoryFields	218.5530	62.4960	277.3060	1	nodeComponentAcqDrone; TreasurePod	Assets/Scene/zoneFields_Area1.unity		1
+pod1527581434	Капсулы	Капсула · nodeComponentAcqDrone	ConservatoryFields	560.2100	42.4300	465.5300	1	nodeComponentAcqDrone; TreasurePod	Assets/Scene/zoneConservatory.unity		1
+pod2114389615	Капсулы	Капсула · nodeComponentAcqDrone	ConservatoryFields	589.4570	26.9817	27.0690	1	nodeComponentAcqDrone; TreasurePod	Assets/Scene/zoneConservatory.unity		1
+pod1720861050	Капсулы	Капсула · nodeComponentAcqDrone	ConservatoryFields	740.2200	16.7900	505.7900	1	nodeComponentAcqDrone; TreasurePod	Assets/Scene/zoneConservatory.unity		1
+door0129604684	Двери	Дверь · techDoorExpansion	ConservatoryFields	663.7292	11.5800	534.6326	1	techDoorExpansion; AccessDoor
+ResearchDroneController_5342_CAB-36c3bee3e33a8c35445ac8ea41937c37	Дроны	Исследовательский дрон	ConservatoryFields	748.0200	17.9850	567.2000	1	Drone_2; ResearchDroneController
+door1356553442	Двери	Дверь · techDoorExpansion	ConservatoryFields	556.3800	7.5800	109.2100	1	techDoorExpansion; AccessDoor
+door0010140679	Двери	Дверь · techDoorExpansion	ConservatoryFields	563.6500	18.6000	254.3000	1	techDoorExpansion; AccessDoor
+ResearchDroneController_8849_CAB-d9bfe2e6bf7801ddaf88f2784b55e9b6	Дроны	Исследовательский дрон	ConservatoryFields	616.2800	18.9700	138.7600	1	Drone_2; ResearchDroneController
+MapNodeActivator_15680_CAB-a75da46549d3d82427ebccca0e8007d1	Ноды карты	Нода карты	ConservatoryFields	103.1512	15.9610	289.9939	1	nodeMapEntry; MapNodeActivator
+ResearchDroneController_15994_CAB-a75da46549d3d82427ebccca0e8007d1	Дроны	Исследовательский дрон	ConservatoryFields	140.7951	8.8126	243.0273	1	Drone_2; ResearchDroneController
+StaticTeleporterNode_5802_CAB-55985e1301fb9a8adcd7796e499a783a	Телепорты	Телепорт · triggerActivate	ConservatoryFields	411.3479	-3.6970	251.4242	1	triggerActivate; StaticTeleporterNode
+door0749608168	Двери	Дверь · techDoorExpansion	ConservatoryFields	602.9100	18.6000	325.4300	1	techDoorExpansion; AccessDoor
+ResearchDroneController_8580_CAB-9e39a092612550e3d4a0597e5ee2b7c7	Дроны	Исследовательский дрон	ConservatoryFields	885.0430	1.7480	267.3913	1	Drone_2; ResearchDroneController
+door1733849867	Двери	Дверь · techDoorExpansion	ConservatoryFields	535.8300	18.8400	420.4300	1	techDoorExpansion; AccessDoor
+ResearchDroneController_6050_CAB-5c104228de2d9c7fd41626815c2a2777	Дроны	Исследовательский дрон	ConservatoryFields	552.2180	37.2000	479.7180	1	Drone_2; ResearchDroneController
+ResearchDroneController_6051_CAB-5c104228de2d9c7fd41626815c2a2777	Дроны	Исследовательский дрон	ConservatoryFields	536.4290	34.6210	426.7960	1	Drone_2; ResearchDroneController
+gordo0437136615	Гордо	Batty-гордо	Labyrinth	93.6000	-4.6100	-370.3500	1	gordoBatty; GordoEat	Assets/Scene/zoneLabyrinth1.unity	50
+pod1976730192	Капсулы	Капсула	Labyrinth	1152.6000	49.4000	-265.7000	1	treasurePod Rank1; TreasurePod	Assets/Scene/zoneLabyrinth1.unity		0
+pod1415751309	Капсулы	Капсула	Labyrinth	1100.0574	39.7371	-360.6959	1	treasurePod Rank1; TreasurePod	Assets/Scene/zoneLabyrinth1.unity		0
+gordo0026007518	Гордо	Tangle-гордо	Labyrinth	295.1000	16.2000	-363.6000	1	gordoTangle; GordoEat	Assets/Scene/zoneLabyrinth1.unity	50
+WorldStatePrimarySwitch_21203_CAB-fe92013203158e70ef664f9dd0794dd9	Механизмы	Механизм · ruinSwitch	Labyrinth	388.0300	6.9800	-112.7100	1	ruinSwitch; WorldStatePrimarySwitch
+gordo0553712223	Гордо	Dervish-гордо	Labyrinth	303.8900	37.6405	-354.7012	1	gordoDervish; GordoEat	Assets/Scene/zoneLabyrinth1.unity	50
+StaticTeleporterNode_21137_CAB-fe92013203158e70ef664f9dd0794dd9	Телепорты	Телепорт · Teleport Collider	Labyrinth	389.3900	1.0000	-29.6100	1	Teleport Collider; StaticTeleporterNode
+gordo1833030323	Гордо	Phosphor-гордо	Labyrinth	-342.1569	106.7000	170.8032	1	gordoPhosphor; GordoEat	Assets/Scene/zoneLabyrinth2.unity	30
+gordo0208994229	Гордо	Batty-гордо	Labyrinth	-284.1253	127.0000	456.1423	1	gordoBatty; GordoEat	Assets/Scene/zoneLabyrinth2.unity	50
+gordo0952951766	Гордо	Boom-гордо	Labyrinth	-412.4503	7.4000	538.0152	1	gordoBoom; BoomGordoEat	Assets/Scene/zoneLabyrinth2.unity	50
+gordo0722942370	Гордо	Dervish-гордо	Labyrinth	-439.1000	171.2000	-501.8000	1	gordoDervish; GordoEat	Assets/Scene/zoneRainbowCore.unity	50
+StaticTeleporterNode_2536_CAB-f381842599d4bfe42dc17740896fef70	Телепорты	Телепорт · Teleport Collider	Labyrinth	-326.0900	7.5000	-348.0000	1	Teleport Collider; StaticTeleporterNode
+WorldStatePrimarySwitch_52024_CAB-a04e20a88a41c45aa5f4c9a7b8618fa4	Механизмы	Механизм · labySwitchSimple	Labyrinth	1469.0997	89.3549	-1157.1487	1	labySwitchSimple; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_52025_CAB-a04e20a88a41c45aa5f4c9a7b8618fa4	Механизмы	Механизм · ruinSwitch	Labyrinth	1432.7702	84.9506	-1209.4987	1	ruinSwitch; WorldStatePrimarySwitch
+StaticTeleporterNode_23389_CAB-3063c449b01d3c159cef50bb562c34f8	Телепорты	Телепорт · TeleportLabToGorge	Labyrinth	1953.2625	73.5600	-1153.5293	1	TeleportLabToGorge; StaticTeleporterNode
+WorldStatePrimarySwitch_24410_CAB-3063c449b01d3c159cef50bb562c34f8	Механизмы	Механизм · ruinSwitch_valleyExitDoor	Labyrinth	1627.4015	72.3591	-1154.8709	1	ruinSwitch_valleyExitDoor; WorldStatePrimarySwitch
+StaticTeleporterNode_57542_CAB-1b2968fcc0cb633541b35ce7d0e8ff67	Телепорты	Телепорт · TeleportLabToStrand	Labyrinth	994.8976	69.4941	-1131.9770	1	TeleportLabToStrand; StaticTeleporterNode
+WorldStatePrimarySwitch_59277_CAB-1b2968fcc0cb633541b35ce7d0e8ff67	Механизмы	Механизм · labySwitchSimple_0	Labyrinth	1142.5235	75.1860	-1396.8067	1	labySwitchSimple_0; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_27011_CAB-500e88c589b8bc34049bf07dc27cc190	Механизмы	Механизм · ruinSwitch_Geyser	Labyrinth	740.5974	66.2930	1003.2678	1	ruinSwitch_Geyser; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_27012_CAB-500e88c589b8bc34049bf07dc27cc190	Механизмы	Механизм · ruinSwitch_Tower_B	Labyrinth	942.7880	46.5100	925.4600	1	ruinSwitch_Tower_B; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_27013_CAB-500e88c589b8bc34049bf07dc27cc190	Механизмы	Механизм · ruinSwitch	Labyrinth	807.2474	74.1421	980.1877	1	ruinSwitch; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_27014_CAB-500e88c589b8bc34049bf07dc27cc190	Механизмы	Механизм · ruinSwitch_Tower_B	Labyrinth	942.7880	46.5100	925.4601	1	ruinSwitch_Tower_B; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_27015_CAB-500e88c589b8bc34049bf07dc27cc190	Механизмы	Механизм · ruinSwitch_TowerA	Labyrinth	980.6138	68.9200	926.4283	1	ruinSwitch_TowerA; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_27016_CAB-500e88c589b8bc34049bf07dc27cc190	Механизмы	Механизм · ruinSwitch_Tower_C	Labyrinth	943.3600	82.0900	925.4601	1	ruinSwitch_Tower_C; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_27017_CAB-500e88c589b8bc34049bf07dc27cc190	Механизмы	Механизм · ruinSwitch_TowerA	Labyrinth	980.6138	68.9200	926.4284	1	ruinSwitch_TowerA; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_27018_CAB-500e88c589b8bc34049bf07dc27cc190	Механизмы	Механизм · ruinSwitch_Tower_C	Labyrinth	943.3600	82.0900	925.4600	1	ruinSwitch_Tower_C; WorldStatePrimarySwitch
+StaticTeleporterNode_45314_CAB-05e03829932bd1a0ca75cbd564f63a14	Телепорты	Телепорт · TeleportHubToCore	Labyrinth	1465.0055	98.1400	-407.0755	1	TeleportHubToCore; StaticTeleporterNode
+WorldStatePrimarySwitch_46640_CAB-05e03829932bd1a0ca75cbd564f63a14	Механизмы	Механизм · labySwitchSimple_GoldenBell	Labyrinth	1468.7270	41.2365	-961.3239	1	labySwitchSimple_GoldenBell; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_55117_CAB-3900f36cdbe5327f3349bd8a6e2a9af9	Механизмы	Механизм · labySwitchSimple_0	Labyrinth	1202.2528	161.4088	-830.9536	1	labySwitchSimple_0; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_19895_CAB-f8d664400fba253277d86c5b336cd074	Механизмы	Механизм · ruinSwitch_Clouds active	Labyrinth	1468.4599	98.5100	-865.3230	1	ruinSwitch_Clouds active; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_58727_CAB-f610dd8ffc4ca7a0d5da91e5cc1938b6	Механизмы	Механизм · labySwitchRunes	Labyrinth	1211.6741	43.9306	-1379.4596	1	labySwitchRunes; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_58728_CAB-f610dd8ffc4ca7a0d5da91e5cc1938b6	Механизмы	Механизм · labySwitchSimple_0	Labyrinth	1265.1421	44.4809	-1246.8160	1	labySwitchSimple_0; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_58729_CAB-f610dd8ffc4ca7a0d5da91e5cc1938b6	Механизмы	Механизм · labySwitchSimple	Labyrinth	1352.4889	53.6206	-1433.8101	1	labySwitchSimple; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_58730_CAB-f610dd8ffc4ca7a0d5da91e5cc1938b6	Механизмы	Механизм · ruinSwitch_Tower_C	Labyrinth	1315.5366	82.0900	-1435.2584	1	ruinSwitch_Tower_C; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_58731_CAB-f610dd8ffc4ca7a0d5da91e5cc1938b6	Механизмы	Механизм · labySwitchSimple	Labyrinth	1315.5288	47.0206	-1435.2501	1	labySwitchSimple; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_32867_CAB-cad6aabcc6389351ab102f2e8e9c894f	Механизмы	Механизм · labySwitchSimple	Labyrinth	1759.5797	57.9473	-1052.1071	1	labySwitchSimple; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_32868_CAB-cad6aabcc6389351ab102f2e8e9c894f	Механизмы	Механизм · labySwitchRunes	Labyrinth	1806.0837	75.1590	-1108.3799	1	labySwitchRunes; WorldStatePrimarySwitch
+gordo1980306476	Гордо	SloomberGordo-гордо	Labyrinth	917.4807	146.6997	-383.0452	1	SloomberGordo; GordoEat	Assets/Scene/zoneLabyrinthDreamland_C.unity	30
+StaticTeleporterNode_74476_CAB-6ee193c4ea43d4b80d010973502e0909	Телепорты	Телепорт · TeleportTrigger	Labyrinth	917.3352	147.7847	-383.2117	1	TeleportTrigger; StaticTeleporterNode
+WorldStatePrimarySwitch_58948_CAB-8c08c08c88d6c40308bd237a291fbf95	Механизмы	Механизм · labySwitchSimple	Labyrinth	878.8188	150.6999	-857.7986	1	labySwitchSimple; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_58949_CAB-8c08c08c88d6c40308bd237a291fbf95	Механизмы	Механизм · ruinSwitch_platform	Labyrinth	1091.7382	144.1640	-838.9779	1	ruinSwitch_platform; WorldStatePrimarySwitch
+gordo1547006325	Гордо	Twin-гордо	Labyrinth	1450.1489	138.5400	-949.5485	1	gordoTwin; GordoEat	Assets/Scene/zoneLabyrinthHub_C.unity	50
+StaticTeleporterNode_64856_CAB-9492f8514ebcb8745f15354100e41b62	Телепорты	Телепорт · TeleportLabHubDestination	Labyrinth	1506.2439	54.8148	-1102.3799	1	TeleportLabHubDestination; StaticTeleporterNode
+WorldStatePrimarySwitch_65980_CAB-9492f8514ebcb8745f15354100e41b62	Механизмы	Механизм · labySwitchSimple	Labyrinth	1468.4089	142.4300	-936.1986	1	labySwitchSimple; WorldStatePrimarySwitch
+podReward0687124938	Капсулы	Теневой тайник · objLabyShadowPlortCollector_bronze-GoldTeleporter	Labyrinth	1495.6292	146.8910	-924.1685	1	objLabyShadowPlortCollector_bronze-GoldTeleporter; TreasurePodRewarder	Assets/Scene/zoneLabyrinthHub_C.unity		1
+StaticTeleporterNode_65527_CAB-9492f8514ebcb8745f15354100e41b62	Телепорты	Телепорт · TeleportTrigger	Labyrinth	1449.9619	139.6280	-949.4231	1	TeleportTrigger; StaticTeleporterNode
+StaticTeleporterNode_18766_CAB-b350f3083f1b29efe1f6288f00f1621e	Телепорты	Телепорт · TeleportHubToCore	Labyrinth	2247.3701	99.2300	-159.2787	1	TeleportHubToCore; StaticTeleporterNode
+WorldStatePrimarySwitch_88172_CAB-3faee489dda8705239d8cba1b1b8226d	Механизмы	Механизм · labySwitchRunes	Labyrinth	1935.8619	172.0571	-791.9020	1	labySwitchRunes; WorldStatePrimarySwitch
+gordo1932334613	Гордо	Kinetic-гордо	Labyrinth	2173.5698	175.4715	-792.1988	1	gordoKinetic; GordoEat	Assets/Scene/zoneLabyrinthTerrarium_FoyerGazebo.unity	30
+WorldStatePrimarySwitch_88173_CAB-3faee489dda8705239d8cba1b1b8226d	Механизмы	Механизм · labySwitchSimple	Labyrinth	2173.4398	176.9400	-792.2589	1	labySwitchSimple; WorldStatePrimarySwitch
+StaticTeleporterNode_41673_CAB-3c41a3ae85b4e45da75a2b261d6f52ed	Телепорты	Телепорт · TeleportTrigger_Terrarium	Labyrinth	1874.6342	146.7344	-769.2035	1	TeleportTrigger_Terrarium; StaticTeleporterNode
+WorldStatePrimarySwitch_85252_CAB-9dbb1e2aa68c5af49b114d0504bb1994	Механизмы	Механизм · labySwitchSimple	Labyrinth	1926.4208	136.0765	-1004.8822	1	labySwitchSimple; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_85253_CAB-9dbb1e2aa68c5af49b114d0504bb1994	Механизмы	Механизм · labySwitchSimple_E	Labyrinth	1994.1384	136.5662	-946.3360	1	labySwitchSimple_E; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_85254_CAB-9dbb1e2aa68c5af49b114d0504bb1994	Механизмы	Механизм · labySwitchSimple_D	Labyrinth	2023.1108	148.4746	-955.8890	1	labySwitchSimple_D; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_85255_CAB-9dbb1e2aa68c5af49b114d0504bb1994	Механизмы	Механизм · labySwitchSimple_B	Labyrinth	2017.1087	160.6181	-989.4590	1	labySwitchSimple_B; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_85256_CAB-9dbb1e2aa68c5af49b114d0504bb1994	Механизмы	Механизм · labySwitchSimple_A	Labyrinth	2005.0344	148.5746	-914.5947	1	labySwitchSimple_A; WorldStatePrimarySwitch
+WorldStatePrimarySwitch_85257_CAB-9dbb1e2aa68c5af49b114d0504bb1994	Механизмы	Механизм · labySwitchSimple_C	Labyrinth	2039.5542	148.3946	-982.8147	1	labySwitchSimple_C; WorldStatePrimarySwitch
+MapNodeActivator_51573_CAB-a04e20a88a41c45aa5f4c9a7b8618fa4	Ноды карты	Нода карты	Labyrinth	1472.3359	91.6059	-1148.5832	1	nodeMapEntry_Hub; MapNodeActivator
+MapNodeActivator_23998_CAB-3063c449b01d3c159cef50bb562c34f8	Ноды карты	Нода карты	Labyrinth	1781.5291	66.0800	-1164.7686	1	nodeMapEntry_LavaDepths; MapNodeActivator
+podReward0675163325	Капсулы	Теневой тайник · objLabyShadowPlortCollector_bronze-LavaFountain	Labyrinth	1755.0652	87.0200	-1154.0741	1	objLabyShadowPlortCollector_bronze-LavaFountain; TreasurePodRewarder	Assets/Scene/zoneLabValleyEntrance.unity		1
+podReward1629379235	Капсулы	Теневой тайник · objLabyShadowPlortCollector_bronze	Labyrinth	1947.1456	69.6304	-1103.7022	1	objLabyShadowPlortCollector_bronze; TreasurePodRewarder	Assets/Scene/zoneLabValleyEntrance.unity		1
+podReward1499380093	Капсулы	Теневой тайник · objLabyShadowPlortCollector_bronze-HeartModule	Labyrinth	1811.7652	48.7500	-1150.1343	1	objLabyShadowPlortCollector_bronze-HeartModule; TreasurePodRewarder	Assets/Scene/zoneLabValleyEntrance.unity		1
+podReward1769104604	Капсулы	Теневой тайник · objLabyShadowPlortCollector_steel-TankBooster	Labyrinth	1160.2935	46.5990	-1357.0768	1	objLabyShadowPlortCollector_steel-TankBooster; TreasurePodRewarder	Assets/Scene/zoneLabStrandEntrance.unity		1
+podReward1596715875	Капсулы	Теневой тайник · objLabyShadowPlortCollector_steel-WallLighting	Labyrinth	917.2988	54.0922	-1237.6985	1	objLabyShadowPlortCollector_steel-WallLighting; TreasurePodRewarder	Assets/Scene/zoneLabStrandEntrance.unity		1
+pod0860549781	Капсулы	Капсула · nodeComponentAcqDrone	Labyrinth	1414.6010	57.2016	-1007.7619	1	nodeComponentAcqDrone; TreasurePod	Assets/Scene/zoneLabyrinthCorePath.unity		1
+podReward2069389869	Капсулы	Теневой тайник · objLabyShadowPlortCollector_bronze-AncientPurpleOak	Labyrinth	1140.8808	154.5020	-869.2090	1	objLabyShadowPlortCollector_bronze-AncientPurpleOak; TreasurePodRewarder	Assets/Scene/zoneLabyrinthDreamland.unity		1
+pod2083646565	Капсулы	Капсула · nodeComponentAcqDrone	Labyrinth	1208.4697	142.1188	-833.8617	1	nodeComponentAcqDrone; TreasurePod	Assets/Scene/zoneLabyrinthDreamland.unity		1
+MapNodeActivator_58310_CAB-f610dd8ffc4ca7a0d5da91e5cc1938b6	Ноды карты	Нода карты	Labyrinth	1274.9987	64.3707	-1426.1785	1	nodeMapEntry_Waterworks; MapNodeActivator
+podReward0722088058	Капсулы	Теневой тайник · objLabyShadowPlortCollector_steel-Aquarium	Labyrinth	1308.9739	79.8376	-1444.0620	1	objLabyShadowPlortCollector_steel-Aquarium; TreasurePodRewarder	Assets/Scene/zoneLabStrandEntranceMain_B.unity		1
+podReward0230846726	Капсулы	Теневой тайник · objLabyShadowPlortCollector_steel-PowerCore	Labyrinth	1195.0841	36.5946	-1410.1595	1	objLabyShadowPlortCollector_steel-PowerCore; TreasurePodRewarder	Assets/Scene/zoneLabStrandEntranceMain_B.unity		1
+podReward0317527534	Капсулы	Теневой тайник · objLabyShadowPlortCollector_bronze-PottedLavaPlants	Labyrinth	1829.1138	69.7270	-998.9102	1	objLabyShadowPlortCollector_bronze-PottedLavaPlants; TreasurePodRewarder	Assets/Scene/zoneLabValleyEntrance_B.unity		1
+podReward1994509550	Капсулы	Теневой тайник · objLabyShadowPlortCollector_bronze-TankBooster	Labyrinth	1691.8810	66.9500	-952.7412	1	objLabyShadowPlortCollector_bronze-TankBooster; TreasurePodRewarder	Assets/Scene/zoneLabValleyEntrance_B.unity		1
+podReward0467802157	Капсулы	Теневой тайник · objLabyShadowPlortCollector_bronze-AnglerFountain	Labyrinth	1098.9714	104.2135	-1001.8739	1	objLabyShadowPlortCollector_bronze-AnglerFountain; TreasurePodRewarder	Assets/Scene/zoneLabyrinthHub_B.unity		1
+MapNodeActivator_74523_CAB-6ee193c4ea43d4b80d010973502e0909	Ноды карты	Нода карты	Labyrinth	925.7777	164.0594	-434.0449	1	nodeMapEntry_Dreamland_Windfarm; MapNodeActivator
+podReward1619668506	Капсулы	Теневой тайник · objLabyShadowPlortCollector_steel-Regenerator	Labyrinth	718.2242	201.3800	-424.4000	1	objLabyShadowPlortCollector_steel-Regenerator; TreasurePodRewarder	Assets/Scene/zoneLabyrinthDreamland_C.unity		1
+MapNodeActivator_58385_CAB-8c08c08c88d6c40308bd237a291fbf95	Ноды карты	Нода карты	Labyrinth	770.5990	151.0615	-997.5882	1	nodeMapEntry_Dreamland_TheMaze; MapNodeActivator
+podReward1935335440	Капсулы	Теневой тайник · objLabyShadowPlortCollector_bronze-StabilizerFlag	Labyrinth	961.4913	155.0742	-951.0300	1	objLabyShadowPlortCollector_bronze-StabilizerFlag; TreasurePodRewarder	Assets/Scene/zoneLabyrinthDreamland_B.unity		1
+podReward0546620404	Капсулы	Теневой тайник · objLabyShadowPlortCollector_bronze-GoldTwistedTree	Labyrinth	762.6448	185.6032	-795.8933	1	objLabyShadowPlortCollector_bronze-GoldTwistedTree; TreasurePodRewarder	Assets/Scene/zoneLabyrinthDreamland_B.unity		1
+podReward0402901848	Капсулы	Теневой тайник · objLabyShadowPlortCollector_bronze-PowerInjector	Labyrinth	778.1597	149.6916	-986.9119	1	objLabyShadowPlortCollector_bronze-PowerInjector; TreasurePodRewarder	Assets/Scene/zoneLabyrinthDreamland_B.unity		1
+podReward1597728847	Капсулы	Теневой тайник · objLabyShadowPlortCollector_bronze-GreyLabyrinthPortal	Labyrinth	1571.0989	120.6410	-1094.8360	1	objLabyShadowPlortCollector_bronze-GreyLabyrinthPortal; TreasurePodRewarder	Assets/Scene/zoneLabyrinthHub_C.unity		1
+podReward1805290971	Капсулы	Теневой тайник · objLabyShadowPlortCollector_bronze-YoungCedaroak	Labyrinth	1371.9978	99.2213	-1053.4906	1	objLabyShadowPlortCollector_bronze-YoungCedaroak; TreasurePodRewarder	Assets/Scene/zoneLabyrinthHub_C.unity		1
+MapNodeActivator_87228_CAB-3faee489dda8705239d8cba1b1b8226d	Ноды карты	Нода карты	Labyrinth	2170.9390	161.8315	-771.8824	1	nodeMapEntry_Terrarium_GazeboRuins; MapNodeActivator
+podReward1816203663	Капсулы	Теневой тайник · objLabyShadowPlortCollector_bronze	Labyrinth	2114.4900	169.8515	-792.2907	1	objLabyShadowPlortCollector_bronze; TreasurePodRewarder	Assets/Scene/zoneLabyrinthTerrarium_FoyerGazebo.unity		1
+podReward1916373190	Капсулы	Теневой тайник · objLabyShadowPlortCollector_bronze	Labyrinth	2113.1705	149.4569	-692.8202	1	objLabyShadowPlortCollector_bronze; TreasurePodRewarder	Assets/Scene/zoneLabyrinthTerrarium_FoyerGazebo.unity		1
+pod2083271981	Капсулы	Капсула · nodeComponentAcqDrone	Labyrinth	1941.1293	170.0631	-791.5632	1	nodeComponentAcqDrone; TreasurePod	Assets/Scene/zoneLabyrinthTerrarium_FoyerGazebo.unity		1
+podReward2011242852	Капсулы	Теневой тайник · objLabyShadowPlortCollector_bronze	Labyrinth	1971.8238	158.1562	-973.1118	1	objLabyShadowPlortCollector_bronze; TreasurePodRewarder	Assets/Scene/zoneLabyrinthTerrarium_JungleGlacier.unity		1
+podReward1605433696	Капсулы	Теневой тайник · objLabyShadowPlortCollector_bronze	Labyrinth	2078.3648	183.1935	-974.8048	1	objLabyShadowPlortCollector_bronze; TreasurePodRewarder	Assets/Scene/zoneLabyrinthTerrarium_JungleGlacier.unity		1
+MapNodeActivator_84995_CAB-9dbb1e2aa68c5af49b114d0504bb1994	Ноды карты	Нода карты	Labyrinth	2019.5692	166.5390	-968.9769	1	nodeMapEntry_Terrarium_JungleRoom; MapNodeActivator
+pod0485660035	Капсулы	Капсула · TankBoosterComponent	LuminousStrand	115.1803	1.7806	-256.3502	1	treasurePod Rank1 TankBoosterComponent; TreasurePod	Assets/Scene/zoneStrand.unity		1
+pod1841041744	Капсулы	Капсула · LanternBeach	LuminousStrand	-152.2361	-2.8979	-46.4254	1	treasurePod Rank2 LanternBeach; TreasurePod	Assets/Scene/zoneStrand.unity		1
+pod0534618219	Капсулы	Капсула · cheerfulstatue	LuminousStrand	-17.0030	24.4110	-111.7980	1	treasurePod Rank2 cheerfulstatue; TreasurePod	Assets/Scene/zoneStrand.unity		1
+pod0873540714	Капсулы	Капсула · TrellisArch	LuminousStrand	-16.2067	0.0553	41.3845	1	treasurePod Rank1 TrellisArch; TreasurePod	Assets/Scene/zoneStrand.unity		1
+pod0990050808	Капсулы	Капсула · coastalrockpillar	LuminousStrand	92.3128	5.2283	-63.0139	1	treasurePod Rank1 coastalrockpillar; TreasurePod	Assets/Scene/zoneStrand.unity		1
+pod0577815438	Капсулы	Капсула · violetwarpdepot	LuminousStrand	125.6100	26.6300	-259.9400	1	treasurePod Rank1 violetwarpdepot; TreasurePod	Assets/Scene/zoneStrand.unity		1
+StaticTeleporterNode_29730_CAB-0c5dfb4de570cf5f6f5b9166a52b50aa	Телепорты	Телепорт · TeleportTrigger	LuminousStrand	-6.6020	13.3600	-120.5666	1	TeleportTrigger; StaticTeleporterNode
+gordo1836740701	Гордо	Hunter-гордо	LuminousStrand	80.2900	-1.1560	-448.2700	1	gordoHunter; GordoEat	Assets/Scene/zoneStrand_Area1.unity	50
+pod1633715782	Капсулы	Капсула · TeacupBase	LuminousStrand	47.1536	0.5300	-428.3221	1	treasurePod Rank1 TeacupBase; TreasurePod	Assets/Scene/zoneStrand_Area1.unity		1
+pod0491776725	Капсулы	Капсула · SwivelFan	LuminousStrand	-19.2000	20.8300	-320.6900	1	treasurePod Rank2 SwivelFan; TreasurePod	Assets/Scene/zoneStrand_Area1.unity		1
+pod2035625591	Капсулы	Капсула · tallvioletswirlshroom	LuminousStrand	89.9510	16.0670	-549.2240	1	treasurePod Rank1 tallvioletswirlshroom; TreasurePod	Assets/Scene/zoneStrand_Area1.unity		1
+pod0129815012	Капсулы	Капсула · azuremangrove	LuminousStrand	144.7480	63.9152	-540.6299	1	treasurePod Rank1 azuremangrove; TreasurePod	Assets/Scene/zoneStrand_Area1.unity		1
+pod1012912366	Капсулы	Капсула · PowerCoreComponent	LuminousStrand	-42.3800	12.0551	-702.2899	1	treasurePod Rank1 PowerCoreComponent; TreasurePod	Assets/Scene/zoneStrand_Area1.unity		1
+pod1409921362	Капсулы	Капсула · gordosnarenovice	LuminousStrand	45.8400	13.8900	-426.6500	1	treasurePod Rank2 gordosnarenovice; TreasurePod	Assets/Scene/zoneStrand_Area1.unity		1
+pod1434621880	Капсулы	Капсула · Gold Cotton Statue	LuminousStrand	32.2920	36.9000	-498.7700	1	treasurePod Rank1 Gold Cotton Statue; TreasurePod	Assets/Scene/zoneStrand_Area1.unity		1
+gordo0445737835	Гордо	Honey-гордо	LuminousStrand	227.6000	15.0400	-238.8000	1	gordoHoney; GordoEat	Assets/Scene/zoneStrand_Area2.unity	50
+pod1056761465	Капсулы	Капсула · DashBootComponent	LuminousStrand	175.2000	31.7100	-404.8800	1	treasurePod Rank2 DashBootComponent; TreasurePod	Assets/Scene/zoneStrand_Area2.unity		1
+pod1629591595	Капсулы	Капсула · slimebaitveggie	LuminousStrand	252.1863	23.0712	-175.5759	1	treasurePod Rank1 slimebaitveggie; TreasurePod	Assets/Scene/zoneStrand_Area2.unity		1
+pod0969027662	Капсулы	Капсула · cavepillar	LuminousStrand	303.4280	19.1660	-326.4880	1	treasurePod Rank1 cavepillar; TreasurePod	Assets/Scene/zoneStrand_Area2.unity		1
+pod1715272063	Капсулы	Капсула · roottangle	LuminousStrand	192.8980	12.2250	-379.7060	1	treasurePod Rank1 roottangle; TreasurePod	Assets/Scene/zoneStrand_Area2.unity		1
+pod0347731269	Капсулы	Капсула · WideTrellis	LuminousStrand	288.3220	67.6000	-287.4670	1	treasurePod Rank3 WideTrellis; TreasurePod	Assets/Scene/zoneStrand_Area2.unity		1
+pod1526484588	Капсулы	Капсула · TankGuardComponent	LuminousStrand	241.0316	-5.1970	-201.6914	1	treasurePod Rank2 TankGuardComponent; TreasurePod	Assets/Scene/zoneStrand_Area2.unity		1
+pod0109338229	Капсулы	Капсула · tallpinkcoralcolumns	LuminousStrand	273.9743	2.7432	-224.8929	1	treasurePod Rank3 tallpinkcoralcolumns; TreasurePod	Assets/Scene/zoneStrand_Area2.unity		1
+pod0289527078	Капсулы	Капсула	LuminousStrand	375.0610	15.9660	-238.0160	1	treasurePod Rank1; TreasurePod	Assets/Scene/zoneStrand_Area2.unity		1
+ResearchDroneController_51699_CAB-3a6dae76bc50dbcb5d043274d8d5f0f0	Дроны	Исследовательский дрон	LuminousStrand	234.7480	18.8200	-273.5400	1	nodeResearchDrone; ResearchDroneController
+ResearchDroneController_51700_CAB-3a6dae76bc50dbcb5d043274d8d5f0f0	Дроны	Исследовательский дрон	LuminousStrand	177.0300	34.0900	-352.0900	1	nodeResearchDrone; ResearchDroneController
+gordo1114950624	Гордо	Ringtail-гордо	LuminousStrand	336.6200	41.8602	-529.4100	1	gordoRingtail; GordoEat	Assets/Scene/zoneStrand_Area3.unity	50
+pod0978435185	Капсулы	Капсула · ScienceResources	LuminousStrand	393.8200	34.8930	-571.9870	1	treasurePod Rank1 ScienceResources; TreasurePod	Assets/Scene/zoneStrand_Area3.unity		1
+pod0846833110	Капсулы	Капсула · Gold Flutter Statue	LuminousStrand	314.5340	42.9850	-455.0370	1	treasurePod Rank1 Gold Flutter Statue; TreasurePod	Assets/Scene/zoneStrand_Area3.unity		1
+pod0009011618	Капсулы	Капсула · TankGuardComponent	LuminousStrand	462.9120	51.5200	-573.8350	1	treasurePod Rank1 TankGuardComponent; TreasurePod	Assets/Scene/zoneStrand_Area3.unity		1
+pod1072315293	Капсулы	Капсула · MushroomPlanter	LuminousStrand	389.4450	-0.2570	-548.9740	1	treasurePod Rank1 MushroomPlanter; TreasurePod	Assets/Scene/zoneStrand_Area3.unity		1
+StaticTeleporterNode_17555_CAB-5f23524db5f8c99c54c86190c79d8946	Телепорты	Телепорт · TeleportTrigger	LuminousStrand	336.6651	42.5100	-529.4326	1	TeleportTrigger; StaticTeleporterNode
+gordo1762816372	Гордо	Angler-гордо	LuminousStrand	393.3510	-0.3000	-566.0974	1	gordoAngler; GordoEat	Assets/Scene/zoneStrand_Area3.unity	50
+gordo0589091050	Гордо	Flutter-гордо	LuminousStrand	197.5600	56.0200	-625.4201	1	gordoFlutter; GordoEat	Assets/Scene/zoneStrand_Area4.unity	30
+pod0018097829	Капсулы	Капсула · springpad	LuminousStrand	259.6080	37.0880	-666.7570	1	treasurePod Rank1 springpad; TreasurePod	Assets/Scene/zoneStrand_Area4.unity		1
+pod1656551108	Капсулы	Капсула · Sureshot Component	LuminousStrand	117.2710	57.7200	-686.9690	1	treasurePod Rank1 Sureshot Component; TreasurePod	Assets/Scene/zoneStrand_Area4.unity		1
+WorldStatePrimarySwitch_38711_CAB-6af29e6363334157a6bfe120a7a1d360	Механизмы	Механизм · ruinSwitch	LuminousStrand	176.9800	24.2360	-613.1000	1	ruinSwitch; WorldStatePrimarySwitch
+pod1386449730	Капсулы	Капсула · starbloom	LuminousStrand	241.4600	43.2720	-526.0900	1	treasurePod Rank1 starbloom; TreasurePod	Assets/Scene/zoneStrand_Area4.unity		1
+pod1359946455	Капсулы	Капсула · Strange Diamond	LuminousStrand	181.7136	9.7720	-643.9652	1	treasurePod Rank3 Strange Diamond; TreasurePod	Assets/Scene/zoneStrand_Area4.unity		1
+pod0151924677	Капсулы	Капсула · end teleporterstrand	LuminousStrand	192.3289	7.5010	-668.8424	1	treasurePod Rank3 end teleporterstrand; TreasurePod	Assets/Scene/zoneStrand_Area4.unity		1
+ResearchDroneController_38527_CAB-6af29e6363334157a6bfe120a7a1d360	Дроны	Исследовательский дрон	LuminousStrand	194.3369	7.9110	-649.6474	1	nodeResearchDrone; ResearchDroneController
+pod0045829729	Капсулы	Капсула	LuminousStrand	348.3489	32.8798	-336.7944	1	treasurePod Rank1; TreasurePod	Assets/Scene/zoneStrand_Area5.unity		1
+pod0409059950	Капсулы	Капсула	LuminousStrand	-241.9727	-3.1062	-612.9088	1	treasurePod Rank1; TreasurePod	Assets/Scene/zoneStrand_Area5.unity		1
+pod1156864638	Капсулы	Капсула	LuminousStrand	-137.5228	23.6801	-236.2683	1	treasurePod Rank1; TreasurePod	Assets/Scene/zoneStrand_Area5.unity		1
+StaticTeleporterNode_6667_CAB-c3e26e65850314dc94dc523adb80caa9	Телепорты	Телепорт · TeleportStrandToLABYRINTH	LuminousStrand	222.5200	37.1800	-874.3100	1	TeleportStrandToLABYRINTH; StaticTeleporterNode
+MapNodeActivator_29750_CAB-0c5dfb4de570cf5f6f5b9166a52b50aa	Ноды карты	Нода карты	LuminousStrand	-7.8393	20.7808	-16.9547	1	nodeMapEntry; MapNodeActivator
+ResearchDroneController_30127_CAB-0c5dfb4de570cf5f6f5b9166a52b50aa	Дроны	Исследовательский дрон	LuminousStrand	50.9000	5.0210	-261.0600	1	Drone_2; ResearchDroneController
+ResearchDroneController_34330_CAB-2e1b87ec32bd82b1134c0ba46ae83c2a	Дроны	Исследовательский дрон	LuminousStrand	63.0510	37.8300	-476.5900	1	Drone_2; ResearchDroneController
+MapNodeActivator_50920_CAB-3a6dae76bc50dbcb5d043274d8d5f0f0	Ноды карты	Нода карты	LuminousStrand	166.4800	12.5700	-283.9500	1	nodeMapEntry; MapNodeActivator
+pod1495661484	Капсулы	Капсула · nodeComponentAcqDrone	LuminousStrand	175.7249	70.5960	-395.3440	1	nodeComponentAcqDrone; TreasurePod	Assets/Scene/zoneStrand_Area2.unity		1
+ResearchDroneController_17909_CAB-5f23524db5f8c99c54c86190c79d8946	Дроны	Исследовательский дрон	LuminousStrand	375.2920	20.1800	-432.3530	1	Drone_2; ResearchDroneController
+MapNodeActivator_38041_CAB-6af29e6363334157a6bfe120a7a1d360	Ноды карты	Нода карты	LuminousStrand	260.8190	54.3110	-655.4970	1	nodeMapEntry; MapNodeActivator
+pod0950466721	Капсулы	Капсула · CrystalSpires	PowderfallBluffs	-647.4050	-1.1880	1483.1500	1	treasurePod Rank3 - CrystalSpires; TreasurePod	Assets/Scene/zoneBluffs_Area1.unity		1
+pod2087223113	Капсулы	Капсула · WarpDepotWhite	PowderfallBluffs	-838.3410	19.6900	1527.3879	1	treasurePod Rank3 - WarpDepotWhite; TreasurePod	Assets/Scene/zoneBluffs_Area1.unity		1
+pod0089193547	Капсулы	Капсула · GlacialCrystal	PowderfallBluffs	-710.6367	-4.9120	1278.4215	1	treasurePod Rank3 - GlacialCrystal; TreasurePod	Assets/Scene/zoneBluffs_Area1.unity		1
+pod0510198439	Капсулы	Капсула · IceLamp	PowderfallBluffs	-881.0200	20.3204	1449.2340	1	treasurePod Rank3 - IceLamp; TreasurePod	Assets/Scene/zoneBluffs_Area1.unity		1
+pod1055279941	Капсулы	Капсула · PowerCore	PowderfallBluffs	-837.1710	69.4300	1491.9270	1	treasurePod Rank3 - PowerCore; TreasurePod	Assets/Scene/zoneBluffs_Area1.unity		1
+pod0263833389	Капсулы	Капсула · IceCubed	PowderfallBluffs	-728.0631	49.5320	1525.9800	1	treasurePod Rank3 - IceCubed; TreasurePod	Assets/Scene/zoneBluffs_Area1.unity		1
+pod0489436472	Капсулы	Капсула · ChillySlimeStack	PowderfallBluffs	-740.3542	9.7466	1495.5717	1	treasurePod Rank3 - ChillySlimeStack; TreasurePod	Assets/Scene/zoneBluffs_Area1.unity		1
+pod1104691454	Капсулы	Капсула · FrostedShell	PowderfallBluffs	-808.0450	-2.5650	1542.5551	1	treasurePod Rank3 - FrostedShell; TreasurePod	Assets/Scene/zoneBluffs_Area1.unity		1
+ResearchDroneController_28949_CAB-fbae6e96888247ab41cfb4daa3656c1c	Дроны	Исследовательский дрон	PowderfallBluffs	-822.5440	44.7590	1484.1350	1	nodeResearchDrone; ResearchDroneController
+ResearchDroneController_28950_CAB-fbae6e96888247ab41cfb4daa3656c1c	Дроны	Исследовательский дрон	PowderfallBluffs	-675.4561	16.8590	1402.3201	1	nodeResearchDrone; ResearchDroneController
+StaticTeleporterNode_28376_CAB-fbae6e96888247ab41cfb4daa3656c1c	Телепорты	Телепорт · TeleportTrigger	PowderfallBluffs	-708.4534	6.6600	1343.1116	1	TeleportTrigger; StaticTeleporterNode
+gordo1269206194	Гордо	Saber-гордо	PowderfallBluffs	-619.1220	68.8100	1655.2639	1	gordoSaber; GordoEat	Assets/Scene/zoneBluffs_Area2.unity	50
+pod0029409628	Капсулы	Капсула · Frozen Flame	PowderfallBluffs	-730.3440	33.6260	1654.2371	1	treasurePod Rank3 - Frozen Flame; TreasurePod	Assets/Scene/zoneBluffs_Area2.unity		1
+pod0615972840	Капсулы	Капсула · MajesticSnowflake	PowderfallBluffs	-745.4677	22.1470	1765.0431	1	treasurePod Rank3 - MajesticSnowflake; TreasurePod	Assets/Scene/zoneBluffs_Area2.unity		1
+pod1938456889	Капсулы	Капсула · SnowGlobe	PowderfallBluffs	-1012.3124	21.3777	1575.2186	1	treasurePod Rank3 - SnowGlobe; TreasurePod	Assets/Scene/zoneBluffs_Area2.unity		1
+pod0057937454	Капсулы	Капсула · SnowMachine	PowderfallBluffs	-656.4547	0.4670	1656.1661	1	treasurePod Rank3 - SnowMachine; TreasurePod	Assets/Scene/zoneBluffs_Area2.unity		1
+pod1546457616	Капсулы	Капсула · IceTreeo	PowderfallBluffs	-900.7753	44.4820	1819.7402	1	treasurePod Rank3 - IceTreeo; TreasurePod	Assets/Scene/zoneBluffs_Area2.unity		1
+pod0679894154	Капсулы	Капсула · SnowZBench	PowderfallBluffs	-689.1230	42.0600	1577.7080	1	treasurePod Rank3 - SnowZBench; TreasurePod	Assets/Scene/zoneBluffs_Area2.unity		1
+pod0543357602	Капсулы	Капсула · SnowyBush	PowderfallBluffs	-819.6190	-4.5660	1628.6560	1	treasurePod Rank3 - SnowyBush; TreasurePod	Assets/Scene/zoneBluffs_Area2.unity		1
+pod1153621735	Капсулы	Капсула · HydroShower	PowderfallBluffs	-669.2310	41.5330	1683.3250	1	treasurePod Rank3 - HydroShower; TreasurePod	Assets/Scene/zoneBluffs_Area2.unity		1
+pod1739512644	Капсулы	Капсула · Sun Sap	PowderfallBluffs	-862.4020	28.8850	1705.1900	1	treasurePod Rank3 - Sun Sap; TreasurePod	Assets/Scene/zoneBluffs_Area2.unity		1
+pod0041998598	Капсулы	Капсула · TankBooster	PowderfallBluffs	-624.2000	37.7600	1718.6000	1	treasurePod Rank3 - TankBooster; TreasurePod	Assets/Scene/zoneBluffs_Area2.unity		1
+StaticTeleporterNode_28217_CAB-0439c5456319820c06a21994ddbf1e02	Телепорты	Телепорт · TeleportTrigger	PowderfallBluffs	-618.8851	69.3480	1655.3423	1	TeleportTrigger; StaticTeleporterNode
+pod1046481357	Капсулы	Капсула · AuroraPine	PowderfallBluffs	-563.0500	51.8250	1621.6940	1	treasurePod Rank3 - AuroraPine; TreasurePod	Assets/Scene/zoneBluffs_Area3.unity		1
+pod0924782515	Капсулы	Капсула · Fireflower	PowderfallBluffs	-590.6061	-3.4500	1586.4730	1	treasurePod Rank3 - Fireflower; TreasurePod	Assets/Scene/zoneBluffs_Area3.unity		1
+pod1342401920	Капсулы	Капсула · Sureshot	PowderfallBluffs	-637.6455	122.7628	1569.3333	1	treasurePod Rank3 - Sureshot; TreasurePod	Assets/Scene/zoneBluffs_Area3.unity		1
+pod2128774646	Капсулы	Капсула · TeleporterPowderfall	PowderfallBluffs	-645.2010	51.4870	1565.1990	1	treasurePod Rank3 - TeleporterPowderfall; TreasurePod	Assets/Scene/zoneBluffs_Area3.unity		1
+pod1789192471	Капсулы	Капсула · Drones	PowderfallBluffs	-682.0773	122.2200	1615.7938	1	treasurePod Drones; TreasurePod	Assets/Scene/zoneBluffs_Area3.unity		1
+pod1405846802	Капсулы	Капсула · TeleporterWhite	PowderfallBluffs	-651.6370	91.5377	1584.1350	1	treasurePod Rank3 - TeleporterWhite; TreasurePod	Assets/Scene/zoneBluffs_Area3.unity		1
+ResearchDroneController_19053_CAB-e35e00207bf56644c1ab5d02ebe98972	Дроны	Исследовательский дрон	PowderfallBluffs	-533.5233	70.1310	1568.5931	1	nodeResearchDrone; ResearchDroneController
+ResearchDroneController_19052_CAB-e35e00207bf56644c1ab5d02ebe98972	Дроны	Исследовательский дрон	PowderfallBluffs	-582.5020	9.9820	1567.6270	1	nodeResearchDrone; ResearchDroneController
+pod1206319258	Капсулы	Капсула · AuroraFlowers	PowderfallBluffs	-1076.5700	8.1608	1761.4100	1	treasurePod Rank3 - AuroraFlowers; TreasurePod	Assets/Scene/zoneBluffs_Area4.unity		1
+MapNodeActivator_28292_CAB-0439c5456319820c06a21994ddbf1e02	Ноды карты	Нода карты	PowderfallBluffs	-820.8818	8.0430	1708.5714	1	nodeMapEntry; MapNodeActivator
+MapNodeActivator_18648_CAB-e35e00207bf56644c1ab5d02ebe98972	Ноды карты	Нода карты	PowderfallBluffs	-574.9130	86.1550	1579.0280	1	nodeMapEntry; MapNodeActivator
+pod1878942658	Капсулы	Капсула · nodeComponentAcqDrone	PowderfallBluffs	-1049.6138	71.3468	1822.8710	1	nodeComponentAcqDrone; TreasurePod	Assets/Scene/zoneBluffs_Area4.unity		1
+pod0557934296	Капсулы	Капсула · Stony Egg Lamp Statue	RumblingGorge	-271.7784	21.6986	501.9852	1	treasurePod Rank1 Stony Egg Lamp Statue; TreasurePod	Assets/Scene/zoneGorge_Area1.unity		1
+pod0114507721	Капсулы	Капсула · Drones	RumblingGorge	-518.5600	65.6800	530.1200	1	treasurePod Drones; TreasurePod	Assets/Scene/zoneGorge_Area1.unity		1
+pod0580546977	Капсулы	Капсула · DashPad	RumblingGorge	-439.9274	37.0120	484.9673	1	treasurePod Rank3 DashPad; TreasurePod	Assets/Scene/zoneGorge_Area1.unity		1
+pod0286619036	Капсулы	Капсула · BasicTallLamp	RumblingGorge	-517.1460	6.3800	571.1460	1	treasurePod Rank1 BasicTallLamp; TreasurePod	Assets/Scene/zoneGorge_Area1.unity		1
+pod2115246886	Капсулы	Капсула · TankBoosterComponent	RumblingGorge	-207.4037	-1.3337	464.9876	1	treasurePod Rank1 TankBoosterComponent; TreasurePod	Assets/Scene/zoneGorge_Area1.unity		1
+pod1964892581	Капсулы	Капсула · AmberCypressCluster	RumblingGorge	-523.9300	32.6400	524.4300	1	treasurePod Rank2 AmberCypressCluster; TreasurePod	Assets/Scene/zoneGorge_Area1.unity		1
+ResearchDroneController_15904_CAB-d8a820d18382f0e1eb6c434bff79cb59	Дроны	Исследовательский дрон	RumblingGorge	-442.9356	21.0440	508.6246	1	nodeResearchDrone; ResearchDroneController
+StaticTeleporterNode_15510_CAB-d8a820d18382f0e1eb6c434bff79cb59	Телепорты	Телепорт · TeleportTrigger	RumblingGorge	-205.3096	17.4600	463.6939	1	TeleportTrigger; StaticTeleporterNode
+pod1788347305	Капсулы	Капсула · Sureshot Component	RumblingGorge	-322.6180	5.9700	304.2491	1	treasurePod Rank1 Sureshot Component; TreasurePod	Assets/Scene/zoneGorge_Area2.unity		1
+pod1483781086	Капсулы	Капсула · ItemDisplay	RumblingGorge	-629.9810	24.8631	216.6670	1	treasurePod Rank2 ItemDisplay; TreasurePod	Assets/Scene/zoneGorge_Area2.unity		1
+pod1338943518	Капсулы	Капсула · TeacupLargo	RumblingGorge	-451.2600	3.8718	404.2400	1	treasurePod Rank2 TeacupLargo; TreasurePod	Assets/Scene/zoneGorge_Area2.unity		1
+pod0548674121	Капсулы	Капсула · ExtraTankComponent	RumblingGorge	-523.7355	29.7901	417.7028	1	treasurePod Rank2 ExtraTankComponent; TreasurePod	Assets/Scene/zoneGorge_Area2.unity		1
+pod1755806447	Капсулы	Капсула · Wheelbarrow	RumblingGorge	-502.7500	-3.6526	362.1100	1	treasurePod Rank1 Wheelbarrow; TreasurePod	Assets/Scene/zoneGorge_Area2.unity		1
+pod1790402129	Капсулы	Капсула · PortableSlimeBaitMeat	RumblingGorge	-351.5803	19.4310	461.1562	1	treasurePod Rank3 PortableSlimeBaitMeat; TreasurePod	Assets/Scene/zoneGorge_Area2.unity		1
+pod0733928187	Капсулы	Капсула · Gold Chicken Statue	RumblingGorge	-587.8000	81.8725	279.1840	1	treasurePod Rank1 Gold Chicken Statue; TreasurePod	Assets/Scene/zoneGorge_Area2.unity		1
+ResearchDroneController_28646_CAB-3df6addc9956bd33d5a306208d0357e6	Дроны	Исследовательский дрон	RumblingGorge	-307.8680	8.8350	308.6020	1	nodeResearchDrone; ResearchDroneController
+StaticTeleporterNode_28370_CAB-3df6addc9956bd33d5a306208d0357e6	Телепорты	Телепорт · TeleportTrigger	RumblingGorge	-624.9159	66.7000	234.5981	1	TeleportTrigger; StaticTeleporterNode
+gordo0647361766	Гордо	Rock-гордо	RumblingGorge	-322.5700	16.0950	570.9500	1	gordoRock; GordoEat	Assets/Scene/zoneGorge_Area3.unity	50
+gordo0924604970	Гордо	Tabby-гордо	RumblingGorge	-581.5182	49.0885	884.2189	1	gordoTabby; GordoEat	Assets/Scene/zoneGorge_Area3.unity	50
+gordo1394565746	Гордо	Crystal-гордо	RumblingGorge	-531.0000	38.0900	688.0400	1	gordoCrystal; GordoEat	Assets/Scene/zoneGorge_Area3.unity	50
+pod0985309113	Капсулы	Капсула · Gold Angler Slime Statue	RumblingGorge	-608.5760	62.0010	696.7560	1	treasurePod Rank1 Gold Angler Slime Statue; TreasurePod	Assets/Scene/zoneGorge_Area3.unity		1
+pod1581761049	Капсулы	Капсула · WarpDepotBlue	RumblingGorge	-571.6254	27.2331	868.0837	1	treasurePod Rank3 WarpDepotBlue; TreasurePod	Assets/Scene/zoneGorge_Area3.unity		1
+pod0328459990	Капсулы	Капсула · PinballBumper	RumblingGorge	-499.5029	48.2300	769.1755	1	treasurePod Rank3 PinballBumper; TreasurePod	Assets/Scene/zoneGorge_Area3.unity		1
+pod0659540514	Капсулы	Капсула · CrystalGordoScienceResources	RumblingGorge	-512.2470	50.4467	680.4440	1	treasurePod Rank1 CrystalGordoScienceResources; TreasurePod	Assets/Scene/zoneGorge_Area3.unity		1
+pod2090521660	Капсулы	Капсула · JetpackComponent	RumblingGorge	-290.5800	34.8686	567.9200	1	treasurePod Rank2 JetpackComponent; TreasurePod	Assets/Scene/zoneGorge_Area3.unity		1
+pod0984789354	Капсулы	Капсула · HappyStatue	RumblingGorge	-531.9531	-2.4700	653.9510	1	treasurePod Rank3 HappyStatue; TreasurePod	Assets/Scene/zoneGorge_Area3.unity		1
+pod0870375649	Капсулы	Капсула · TallAmberCypress	RumblingGorge	-633.4240	37.6670	687.3720	1	treasurePod Rank2 TallAmberCypress; TreasurePod	Assets/Scene/zoneGorge_Area3.unity		1
+pod1373628091	Капсулы	Капсула · WindChimes	RumblingGorge	-361.0770	24.5432	620.2760	1	treasurePod Rank3 WindChimes; TreasurePod	Assets/Scene/zoneGorge_Area3.unity		1
+pod0569048278	Капсулы	Капсула · HeartModuleComponent	RumblingGorge	-542.0850	18.9284	651.1882	1	treasurePod Rank1 HeartModuleComponent; TreasurePod	Assets/Scene/zoneGorge_Area3.unity		1
+pod0913949485	Капсулы	Капсула · PinkStripedLamp	RumblingGorge	-364.1819	5.4995	776.4271	1	treasurePod Rank3 PinkStripedLamp; TreasurePod	Assets/Scene/zoneGorge_Area3.unity		1
+ResearchDroneController_32451_CAB-84dd523c5c54c90ae15ee38ecc2c4c24	Дроны	Исследовательский дрон	RumblingGorge	-559.3314	50.3671	888.1037	1	nodeResearchDrone; ResearchDroneController
+StaticTeleporterNode_31811_CAB-84dd523c5c54c90ae15ee38ecc2c4c24	Телепорты	Телепорт · TeleportTrigger	RumblingGorge	-699.5368	15.8840	767.7459	1	TeleportTrigger; StaticTeleporterNode
+StaticTeleporterNode_31810_CAB-84dd523c5c54c90ae15ee38ecc2c4c24	Телепорты	Телепорт · TeleportTrigger	RumblingGorge	-581.5115	50.3800	884.0701	1	TeleportTrigger; StaticTeleporterNode
+gordo0091013817	Гордо	Boom-гордо	RumblingGorge	-892.3199	12.5200	507.8650	1	gordoBoom; BoomGordoEat	Assets/Scene/zoneGorge_Area4.unity	50
+gordo0204299382	Гордо	Batty-гордо	RumblingGorge	-675.9312	14.9146	410.3941	1	gordoBatty; GordoEat	Assets/Scene/zoneGorge_Area4.unity	50
+pod1051060854	Капсулы	Капсула · TallMagmaClump	RumblingGorge	-757.7125	20.4999	407.3865	1	treasurePod Rank2 TallMagmaClump; TreasurePod	Assets/Scene/zoneGorge_Area4.unity		1
+pod0685908830	Капсулы	Капсула · MediumPalm	RumblingGorge	-757.9374	18.3151	489.3557	1	treasurePod Rank2 MediumPalm; TreasurePod	Assets/Scene/zoneGorge_Area4.unity		1
+pod1593591091	Капсулы	Капсула · WarpDepotGrey	RumblingGorge	-633.9480	31.5410	517.6510	1	treasurePod Rank3 WarpDepotGrey; TreasurePod	Assets/Scene/zoneGorge_Area4.unity		1
+pod1390403760	Капсулы	Капсула · PortableSlimeBaitFruit	RumblingGorge	-697.5557	31.2060	545.4575	1	treasurePod Rank3 PortableSlimeBaitFruit; TreasurePod	Assets/Scene/zoneGorge_Area4.unity		1
+pod1963461088	Капсулы	Капсула · BattyGordoScienceResources	RumblingGorge	-685.1625	14.8250	417.5739	1	treasurePod Rank1 BattyGordoScienceResources; TreasurePod	Assets/Scene/zoneGorge_Area4.unity		1
+pod0760381198	Капсулы	Капсула · PottedPlants	RumblingGorge	-678.8270	26.1400	304.2200	1	treasurePod Rank2 PottedPlants; TreasurePod	Assets/Scene/zoneGorge_Area4.unity		1
+pod1505196384	Капсулы	Капсула · MagmaPool	RumblingGorge	-705.3334	6.3766	338.9546	1	treasurePod Rank2 MagmaPool; TreasurePod	Assets/Scene/zoneGorge_Area4.unity		1
+pod1740132230	Капсулы	Капсула · Stalagmite	RumblingGorge	-608.0660	47.9314	369.5569	1	treasurePod Rank2 Stalagmite; TreasurePod	Assets/Scene/zoneGorge_Area4.unity		1
+pod1997657793	Капсулы	Капсула · StrangeDiamond	RumblingGorge	-903.0620	12.2610	500.3159	1	treasurePod Rank3 StrangeDiamond; TreasurePod	Assets/Scene/zoneGorge_Area4.unity		1
+pod0602276772	Капсулы	Капсула · TeleporterZoneGorge	RumblingGorge	-904.5107	13.5510	500.2040	1	treasurePod Rank3 TeleporterZoneGorge; TreasurePod	Assets/Scene/zoneGorge_Area4.unity		1
+ResearchDroneController_42507_CAB-0bd0db0bdd4c264f0b163d68934282ff	Дроны	Исследовательский дрон	RumblingGorge	-757.7700	43.2320	413.1640	1	nodeResearchDrone; ResearchDroneController
+ResearchDroneController_42506_CAB-0bd0db0bdd4c264f0b163d68934282ff	Дроны	Исследовательский дрон	RumblingGorge	-921.4390	7.8980	499.7389	1	nodeResearchDrone; ResearchDroneController
+ResearchDroneController_42505_CAB-0bd0db0bdd4c264f0b163d68934282ff	Дроны	Исследовательский дрон	RumblingGorge	-603.5560	33.2110	368.4899	1	nodeResearchDrone; ResearchDroneController
+pod0438502675	Капсулы	Капсула · Carousel	RumblingGorge	-802.5000	7.1222	196.4900	1	treasurePod Rank2 Carousel; TreasurePod	Assets/Scene/zoneGorge_Area5.unity		1
+pod0162660583	Капсулы	Капсула · GoldenDervishStatue	RumblingGorge	-809.5800	-2.8401	383.3900	1	treasurePod Rank2 GoldenDervishStatue; TreasurePod	Assets/Scene/zoneGorge_Area5.unity		1
+pod1895611814	Капсулы	Капсула · Accelerator	RumblingGorge	-518.6780	-2.3831	298.3810	1	treasurePod Rank2 Accelerator; TreasurePod	Assets/Scene/zoneGorge_Area5.unity		1
+StaticTeleporterNode_12226_CAB-7441029efd58e3c8f272b8fa5033c3a0	Телепорты	Телепорт · TeleportGorgeToLABYRINTH	RumblingGorge	-1152.0106	28.0100	499.6001	1	TeleportGorgeToLABYRINTH; StaticTeleporterNode
+MapNodeActivator_15535_CAB-d8a820d18382f0e1eb6c434bff79cb59	Ноды карты	Нода карты	RumblingGorge	-443.2014	17.1300	560.2943	1	nodeMapEntry; MapNodeActivator
+MapNodeActivator_31871_CAB-84dd523c5c54c90ae15ee38ecc2c4c24	Ноды карты	Нода карты	RumblingGorge	-560.9420	47.4400	747.0524	1	nodeMapEntry; MapNodeActivator
+pod0062100325	Капсулы	Капсула · nodeComponentAcqDrone	RumblingGorge	-614.7270	81.6551	691.7240	1	nodeComponentAcqDrone; TreasurePod	Assets/Scene/zoneGorge_Area3.unity		1
+MapNodeActivator_41922_CAB-0bd0db0bdd4c264f0b163d68934282ff	Ноды карты	Нода карты	RumblingGorge	-756.6467	28.7700	461.0916	1	nodeMapEntry; MapNodeActivator
+pod0396679720	Капсулы	Капсула · SquareStonePlatform	Sanctuary	1637.7083	29.2890	515.5613	1	treasurePod Rank1_SquareStonePlatform; TreasurePod	Assets/Scene/zoneConservatory_Sanctuary.unity		1
+StaticTeleporterNode_82310_CAB-d70fc0ccb0d44f6460367bc3ec5e4a85	Телепорты	Телепорт · Teleport Collider	ConservatoryFields	1580.9523	0.6529	528.9771	1	Teleport Collider; StaticTeleporterNode
+MapNodeActivator_53580_CAB-158a4d6d1777c866b3ce71995e1d178a	Ноды карты	Нода карты	ConservatoryFields	1931.7610	10.8160	579.4511	1	nodeMapEntry; MapNodeActivator
+pod2059374432	Капсулы	Капсула · nodeComponentAcqDrone	Sanctuary	1841.5963	23.2570	544.0280	1	nodeComponentAcqDrone; TreasurePod	Assets/Scene/zoneConservatory_Sanctuary_Hideaway.unity		1
+StaticTeleporterNode_82832_CAB-d70fc0ccb0d44f6460367bc3ec5e4a85	Телепорты	Телепорт · triggerActivate	ConservatoryFields	1501.5299	-3.2070	519.6236	1	triggerActivate; StaticTeleporterNode
+pod1244444043	Капсулы	Капсула · nodeComponentAcqDrone	Sanctuary	1600.6822	7.1000	529.2671	1	nodeComponentAcqDrone; TreasurePod	Assets/Scene/zoneConservatory_Sanctuary.unity		1

@@ -1,0 +1,31 @@
+# Native drone-menu button vs. the creator atlas header on the native map.
+# The header button "-" sits at (sw-54s, 48s) top-left, s = clamp(sh/1080, 0.6, 1.3):
+# 1920x1440 -> (1850, 62). After M28 the drone button must not be under it.
+cmd atlas
+sleep 3
+cmd ct-state
+expect-ct map=True
+cmd ct-atlas-panel expanded
+sleep 1
+cmd m28-drone find
+show m28-drone.txt 40
+cmd m28-drone state
+expect M28Drone moved|clear
+cmd ct-ui-hit 1850 62
+show ct-ui-hit.txt 20
+expect-file ct-ui-hit.txt ^(?![\s\S]*<- drone button)
+shot drone-expanded
+cmd ct-atlas-panel collapsed
+sleep 1
+cmd m28-drone state
+cmd ct-ui-hit 1850 62
+show ct-ui-hit.txt 20
+expect-file ct-ui-hit.txt ^(?![\s\S]*<- drone button)
+shot drone-collapsed
+cmd ct-ui-dump drone 6
+show ct-ui-drone.txt 40
+cmd ct-atlas-panel expanded
+sleep 1
+cmd atlas-close
+sleep 2
+cmd m28-drone state

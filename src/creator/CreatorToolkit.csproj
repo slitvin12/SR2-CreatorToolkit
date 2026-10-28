@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>CreatorToolkit</AssemblyName>
+    <RootNamespace>CreatorToolkit</RootNamespace>
+    <TargetFramework>net6.0</TargetFramework>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <NoWarn>CA1416;CS0618;CS8632</NoWarn>
+    <RefsDir>$(MSBuildThisFileDirectory)..\..\refs\</RefsDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="$(RefsDir)*.dll" Exclude="$(RefsDir)CreatorToolkit.dll" Private="false" />
+    <Compile Remove="tests\**\*.cs" />
+    <Compile Remove="api\**\*.cs" />
+    <EmbeddedResource Include="GhostDroneIndex.tsv" LogicalName="CreatorToolkit.GhostDroneIndex.tsv" />
+    <EmbeddedResource Include="MapIndex.tsv" LogicalName="CreatorToolkit.MapIndex.tsv" />
+    <EmbeddedResource Include="CapsuleContents.json" LogicalName="CreatorToolkit.CapsuleContents.json" />
+    <EmbeddedResource Include="CreatorAtlas.rgba" LogicalName="CreatorToolkit.CreatorAtlas.rgba" />
+    <EmbeddedResource Include="FandomMarkers.tsv" LogicalName="CreatorToolkit.FandomMarkers.tsv" />
+    <EmbeddedResource Include="FandomAtlas.rgba" LogicalName="CreatorToolkit.FandomAtlas.rgba" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,2819 @@
+{
+  "Utc": "2026-10-16T21:04:42.0391112Z",
+  "Rows": [
+    {
+      "Id": "pod0104193918",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1765949255",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1801289208",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod2081158867",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area4.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1808307071",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneConservatory_Den.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1516882419",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1210187464",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1635512559",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1958610754",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0341863532",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0118409926",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0982210366",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0760050663",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1196684808",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0093663621",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0075771003",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0168252584",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1545015581",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1181610117",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1535081404",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneConservatory_Garden.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0863429762",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneConservatory_Arboretum.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0494897323",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1527581434",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneConservatory.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod2114389615",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneConservatory.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1720861050",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneConservatory.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1976730192",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinth1.unity",
+      "AuthoredActive": false,
+      "MembershipComplete": true,
+      "Allowed": false,
+      "Reason": "authored inactive or disabled"
+    },
+    {
+      "Id": "pod1415751309",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinth1.unity",
+      "AuthoredActive": false,
+      "MembershipComplete": true,
+      "Allowed": false,
+      "Reason": "authored inactive or disabled"
+    },
+    {
+      "Id": "podReward0687124938",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthHub_C.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward0675163325",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabValleyEntrance.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward1629379235",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabValleyEntrance.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward1499380093",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabValleyEntrance.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward1769104604",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabStrandEntrance.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward1596715875",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabStrandEntrance.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0860549781",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthCorePath.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward2069389869",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthDreamland.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod2083646565",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthDreamland.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward0722088058",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabStrandEntranceMain_B.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward0230846726",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabStrandEntranceMain_B.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward0317527534",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabValleyEntrance_B.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward1994509550",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabValleyEntrance_B.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward0467802157",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthHub_B.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward1619668506",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthDreamland_C.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward1935335440",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthDreamland_B.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward0546620404",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthDreamland_B.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward0402901848",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthDreamland_B.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward1597728847",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthHub_C.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward1805290971",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthHub_C.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward1816203663",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthTerrarium_FoyerGazebo.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward1916373190",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthTerrarium_FoyerGazebo.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod2083271981",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthTerrarium_FoyerGazebo.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward2011242852",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthTerrarium_JungleGlacier.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "podReward1605433696",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthTerrarium_JungleGlacier.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0485660035",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1841041744",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0534618219",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0873540714",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0990050808",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0577815438",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1633715782",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0491776725",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod2035625591",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0129815012",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1012912366",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1409921362",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1434621880",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1056761465",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1629591595",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0969027662",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1715272063",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0347731269",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1526484588",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0109338229",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0289527078",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0978435185",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0846833110",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0009011618",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1072315293",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0018097829",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area4.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1656551108",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area4.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1386449730",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area4.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1359946455",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area4.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0151924677",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area4.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0045829729",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area5.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0409059950",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area5.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1156864638",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area5.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1495661484",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0950466721",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod2087223113",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0089193547",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0510198439",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1055279941",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0263833389",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0489436472",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1104691454",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0029409628",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0615972840",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1938456889",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0057937454",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1546457616",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0679894154",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0543357602",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1153621735",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1739512644",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0041998598",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1046481357",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0924782515",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1342401920",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod2128774646",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1789192471",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1405846802",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1206319258",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area4.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1878942658",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area4.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0557934296",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0114507721",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0580546977",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0286619036",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod2115246886",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1964892581",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area1.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1788347305",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1483781086",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1338943518",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0548674121",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1755806447",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1790402129",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0733928187",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area2.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0985309113",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1581761049",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0328459990",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0659540514",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod2090521660",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0984789354",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0870375649",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1373628091",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0569048278",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0913949485",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1051060854",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0685908830",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1593591091",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1390403760",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1963461088",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0760381198",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1505196384",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1740132230",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1997657793",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0602276772",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0438502675",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area5.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0162660583",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area5.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod1895611814",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area5.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0062100325",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": true,
+      "Reason": "exact current SceneGroup reference"
+    },
+    {
+      "Id": "pod0396679720",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneConservatory_Sanctuary.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": false,
+      "Reason": "source scene not positively confirmed in current SceneGroup"
+    },
+    {
+      "Id": "pod2059374432",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneConservatory_Sanctuary_Hideaway.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": false,
+      "Reason": "source scene not positively confirmed in current SceneGroup"
+    },
+    {
+      "Id": "pod1244444043",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneConservatory_Sanctuary.unity",
+      "AuthoredActive": true,
+      "MembershipComplete": true,
+      "Allowed": false,
+      "Reason": "source scene not positively confirmed in current SceneGroup"
+    }
+  ],
+  "Membership": [
+    {
+      "Group": "Labyrinth",
+      "Complete": true,
+      "Scenes": [
+        "Assets/Scene/Core/coreSceneLabyrinth.unity",
+        "Assets/Scene/zoneLabStrandEntrance.unity",
+        "Assets/Scene/zoneLabStrandEntranceMain_B.unity",
+        "Assets/Scene/zoneLabValleyEntrance.unity",
+        "Assets/Scene/zoneLabValleyEntrance_B.unity",
+        "Assets/Scene/zoneLabyrinthHub.unity",
+        "Assets/Scene/zoneLabyrinthHub_B.unity",
+        "Assets/Scene/zoneLabyrinthHub_C.unity",
+        "Assets/Scene/zoneLabyrinthHub_Vista.unity",
+        "Assets/Scene/zoneLabyrinthDreamland.unity",
+        "Assets/Scene/zoneLabyrinthDreamland_B.unity",
+        "Assets/Scene/zoneLabyrinthDreamland_C.unity",
+        "Assets/Scene/zoneLabyrinthTerrarium_Entry.unity",
+        "Assets/Scene/zoneLabyrinthTerrarium_FoyerGazebo.unity",
+        "Assets/Scene/zoneLabyrinthTerrarium_JungleGlacier.unity",
+        "Assets/Scene/zoneLabyrinthCorePath.unity",
+        "Assets/Scene/zoneLabyrinthWeather.unity",
+        "Assets/Scene/zoneLabyrinthAudio.unity",
+        "Assets/Scene/zoneLabyrinthNavigation.unity",
+        "Assets/Scene/zoneLabyrinthCoreBase.unity"
+      ]
+    },
+    {
+      "Group": "RainbowMetrics",
+      "Complete": false,
+      "Scenes": []
+    },
+    {
+      "Group": "RainbowZoo",
+      "Complete": false,
+      "Scenes": []
+    },
+    {
+      "Group": "DenExpansion_Test",
+      "Complete": true,
+      "Scenes": [
+        "Assets/Scene/Core/environmentConservatoryFields.unity",
+        "Assets/Scene/zoneConservatory_Den.unity",
+        "Assets/Scene/zoneConservatory_Digsite.unity",
+        "Assets/Scene/zoneFields_Vista.unity",
+        "Assets/Scene/zoneConservatoryWeather.unity",
+        "Assets/Scene/zoneConservatoryNavigation.unity"
+      ]
+    },
+    {
+      "Group": "LabyrinthTest",
+      "Complete": false,
+      "Scenes": []
+    },
+    {
+      "Group": "LuminousStrand",
+      "Complete": true,
+      "Scenes": [
+        "Assets/Scene/Core/environmentStrand.unity",
+        "Assets/Scene/zoneStrand.unity",
+        "Assets/Scene/zoneStrand_Area1.unity",
+        "Assets/Scene/zoneStrand_Area2.unity",
+        "Assets/Scene/zoneStrand_Area3.unity",
+        "Assets/Scene/zoneStrand_Area4.unity",
+        "Assets/Scene/zoneStrand_Area5.unity",
+        "Assets/Scene/zoneStrandLabyrinthGate.unity",
+        "Assets/Scene/zoneStrand_Vista.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Den.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Fields.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Gorge.unity",
+        "Assets/Scene/zoneStrandWeather.unity",
+        "Assets/Scene/zoneStrandNavigation.unity"
+      ]
+    },
+    {
+      "Group": "IntroSequenceTest",
+      "Complete": false,
+      "Scenes": []
+    },
+    {
+      "Group": "AllZones",
+      "Complete": false,
+      "Scenes": [
+        "Assets/Scene/zoneConservatory.unity",
+        "Assets/Scene/zoneConservatory_Arboretum.unity",
+        "Assets/Scene/zoneConservatory_Den.unity",
+        "Assets/Scene/zoneConservatory_Garden.unity",
+        "Assets/Scene/zoneConservatory_Pools.unity",
+        "Assets/Scene/zoneConservatory_Sanctuary.unity",
+        "Assets/Scene/zoneStrand.unity",
+        "Assets/Scene/zoneStrand_Area1.unity",
+        "Assets/Scene/zoneStrand_Area2.unity",
+        "Assets/Scene/zoneStrand_Area3.unity",
+        "Assets/Scene/zoneStrand_Area4.unity",
+        "Assets/Scene/zoneGorge_Area1.unity",
+        "Assets/Scene/zoneGorge_Area2.unity",
+        "Assets/Scene/zoneGorge_Area3.unity",
+        "Assets/Scene/zoneGorge_Area4.unity",
+        "Assets/Scene/zoneFields.unity",
+        "Assets/Scene/zoneFields_Area1.unity",
+        "Assets/Scene/zoneFields_Area2.unity",
+        "Assets/Scene/zoneFields_Area3.unity",
+        "Assets/Scene/zoneBluffs.unity",
+        "Assets/Scene/zoneBluffs_Area1.unity",
+        "Assets/Scene/zoneBluffs_Area2.unity",
+        "Assets/Scene/zoneBluffs_Area3.unity"
+      ]
+    },
+    {
+      "Group": "PowderfallBluffs",
+      "Complete": true,
+      "Scenes": [
+        "Assets/Scene/Core/environmentBluffs.unity",
+        "Assets/Scene/zoneBluffs.unity",
+        "Assets/Scene/zoneBluffs_Area1.unity",
+        "Assets/Scene/zoneBluffs_Area2.unity",
+        "Assets/Scene/zoneBluffs_Area3.unity",
+        "Assets/Scene/zoneBluffs_Area4.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Den.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Fields.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Gorge.unity",
+        "Assets/Scene/zoneBluffsWeather.unity",
+        "Assets/Scene/zoneBluffsNavigation.unity"
+      ]
+    },
+    {
+      "Group": "KCCTestingTool",
+      "Complete": false,
+      "Scenes": []
+    },
+    {
+      "Group": "PerfBox",
+      "Complete": false,
+      "Scenes": []
+    },
+    {
+      "Group": "RumblingGorge",
+      "Complete": true,
+      "Scenes": [
+        "Assets/Scene/Core/environmentGorge.unity",
+        "Assets/Scene/zoneGorge_Area1.unity",
+        "Assets/Scene/zoneGorge_Area2.unity",
+        "Assets/Scene/zoneGorge_Area3.unity",
+        "Assets/Scene/zoneGorge_Area4.unity",
+        "Assets/Scene/zoneGorge_Area5.unity",
+        "Assets/Scene/zoneGorgeGateTransfer.unity",
+        "Assets/Scene/zoneGorge_Vista.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Den.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Fields.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Strand.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Bluffs.unity",
+        "Assets/Scene/zoneGorgeWeather.unity",
+        "Assets/Scene/zoneGorgeNavigation.unity"
+      ]
+    },
+    {
+      "Group": "GadgetDemo",
+      "Complete": false,
+      "Scenes": []
+    },
+    {
+      "Group": "ConservatoryFields",
+      "Complete": true,
+      "Scenes": [
+        "Assets/Scene/Core/environmentConservatoryFields.unity",
+        "Assets/Scene/zoneConservatory.unity",
+        "Assets/Scene/zoneConservatory_Arboretum.unity",
+        "Assets/Scene/zoneConservatory_Den.unity",
+        "Assets/Scene/zoneConservatory_Garden.unity",
+        "Assets/Scene/zoneConservatory_Pools.unity",
+        "Assets/Scene/zoneConservatory_Digsite.unity",
+        "Assets/Scene/zoneFields.unity",
+        "Assets/Scene/zoneFields_Area1.unity",
+        "Assets/Scene/zoneFields_Area2.unity",
+        "Assets/Scene/zoneFields_Area3.unity",
+        "Assets/Scene/zoneFields_Area4.unity",
+        "Assets/Scene/zoneFields_Vista.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Strand.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Gorge.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Bluffs.unity",
+        "Assets/Scene/zoneConservatoryWeather.unity",
+        "Assets/Scene/zoneConservatoryNavigation.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Sanctuary.unity"
+      ]
+    },
+    {
+      "Group": "SceneRestructuringTest",
+      "Complete": false,
+      "Scenes": [
+        "Assets/Scene/Core/environmentBluffs.unity",
+        "Assets/Scene/zoneBluffs.unity",
+        "Assets/Scene/zoneBluffs_Area2.unity",
+        "Assets/Scene/zoneBluffs_Area3.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Den.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Fields.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Gorge.unity"
+      ]
+    },
+    {
+      "Group": "SlimeShaderTest",
+      "Complete": false,
+      "Scenes": [
+        "Assets/Scene/Core/environmentConservatoryFields.unity"
+      ]
+    },
+    {
+      "Group": "InteractionsTest",
+      "Complete": false,
+      "Scenes": []
+    },
+    {
+      "Group": "Sanctuary",
+      "Complete": true,
+      "Scenes": [
+        "Assets/Scene/Core/environmentSanctuary.unity",
+        "Assets/Scene/zoneConservatory_Sanctuary.unity",
+        "Assets/Scene/zoneConservatory_Sanctuary_Hideaway.unity",
+        "Assets/Scene/zoneSanctuaryWeather.unity",
+        "Assets/Scene/zoneSanctuaryAudio.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Den.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Gorge.unity",
+        "Assets/Scene/ProxyZones/ProxyZone_Strand.unity",
+        "Assets/Scene/ZoneSanctuary_Vista.unity"
+      ]
+    }
+  ],
+  "Loaded": [
+    {
+      "Id": "pod1527581434",
+      "Scene": "Assets/Scene/zoneConservatory.unity",
+      "Active": true,
+      "Enabled": true,
+      "X": 560.21,
+      "Y": 42.43,
+      "Z": 465.53,
+      "Indexed": true
+    },
+    {
+      "Id": "pod2114389615",
+      "Scene": "Assets/Scene/zoneConservatory.unity",
+      "Active": true,
+      "Enabled": true,
+      "X": 589.457,
+      "Y": 26.981657,
+      "Z": 27.069,
+      "Indexed": true
+    },
+    {
+      "Id": "pod1720861050",
+      "Scene": "Assets/Scene/zoneConservatory.unity",
+      "Active": true,
+      "Enabled": true,
+      "X": 740.22,
+      "Y": 16.79,
+      "Z": 505.79,
+      "Indexed": true
+    },
+    {
+      "Id": "pod0863429762",
+      "Scene": "Assets/Scene/zoneConservatory_Arboretum.unity",
+      "Active": true,
+      "Enabled": true,
+      "X": 511.26498,
+      "Y": 60.541,
+      "Z": 502.256,
+      "Indexed": true
+    }
+  ],
+  "Points": [
+    {
+      "Id": "pod0289527078",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area2.unity",
+      "X": 375.061,
+      "Y": 15.966,
+      "Z": -238.016
+    },
+    {
+      "Id": "pod0045829729",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area5.unity",
+      "X": 348.3489,
+      "Y": 32.8798,
+      "Z": -336.7944
+    },
+    {
+      "Id": "pod0409059950",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area5.unity",
+      "X": -241.9727,
+      "Y": -3.1062,
+      "Z": -612.9088
+    },
+    {
+      "Id": "pod1156864638",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area5.unity",
+      "X": -137.5228,
+      "Y": 23.6801,
+      "Z": -236.2683
+    },
+    {
+      "Id": "pod1895611814",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area5.unity",
+      "X": -518.678,
+      "Y": -2.3831,
+      "Z": 298.381
+    },
+    {
+      "Id": "pod1964892581",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area1.unity",
+      "X": -523.93,
+      "Y": 32.64,
+      "Z": 524.43
+    },
+    {
+      "Id": "pod1206319258",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area4.unity",
+      "X": -1076.57,
+      "Y": 8.1608,
+      "Z": 1761.41
+    },
+    {
+      "Id": "pod1046481357",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area3.unity",
+      "X": -563.05,
+      "Y": 51.825,
+      "Z": 1621.694
+    },
+    {
+      "Id": "pod0286619036",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area1.unity",
+      "X": -517.146,
+      "Y": 6.38,
+      "Z": 571.146
+    },
+    {
+      "Id": "pod1963461088",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "X": -685.1625,
+      "Y": 14.825,
+      "Z": 417.5739
+    },
+    {
+      "Id": "pod0438502675",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area5.unity",
+      "X": -802.5,
+      "Y": 7.1222,
+      "Z": 196.49
+    },
+    {
+      "Id": "pod0489436472",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area1.unity",
+      "X": -740.3542,
+      "Y": 9.7466,
+      "Z": 1495.5717
+    },
+    {
+      "Id": "pod1545015581",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields.unity",
+      "X": 343.329,
+      "Y": -2.577,
+      "Z": 323.39
+    },
+    {
+      "Id": "pod0659540514",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "X": -512.247,
+      "Y": 50.4467,
+      "Z": 680.444
+    },
+    {
+      "Id": "pod0950466721",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area1.unity",
+      "X": -647.405,
+      "Y": -1.188,
+      "Z": 1483.15
+    },
+    {
+      "Id": "pod1056761465",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area2.unity",
+      "X": 175.2,
+      "Y": 31.71,
+      "Z": -404.88
+    },
+    {
+      "Id": "pod0580546977",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area1.unity",
+      "X": -439.9274,
+      "Y": 37.012,
+      "Z": 484.9673
+    },
+    {
+      "Id": "pod0114507721",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area1.unity",
+      "X": -518.56,
+      "Y": 65.68,
+      "Z": 530.12
+    },
+    {
+      "Id": "pod1789192471",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area3.unity",
+      "X": -682.0773,
+      "Y": 122.22,
+      "Z": 1615.7938
+    },
+    {
+      "Id": "pod0548674121",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area2.unity",
+      "X": -523.7355,
+      "Y": 29.7901,
+      "Z": 417.7028
+    },
+    {
+      "Id": "pod0924782515",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area3.unity",
+      "X": -590.6061,
+      "Y": -3.45,
+      "Z": 1586.473
+    },
+    {
+      "Id": "pod1535081404",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneConservatory_Garden.unity",
+      "X": 836.473,
+      "Y": 22.768,
+      "Z": 288.502
+    },
+    {
+      "Id": "pod0863429762",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneConservatory_Arboretum.unity",
+      "X": 511.26498,
+      "Y": 60.541,
+      "Z": 502.256
+    },
+    {
+      "Id": "pod1808307071",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneConservatory_Den.unity",
+      "X": 685.5727,
+      "Y": 1.562,
+      "Z": 50.4434
+    },
+    {
+      "Id": "pod1104691454",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area1.unity",
+      "X": -808.045,
+      "Y": -2.565,
+      "Z": 1542.555
+    },
+    {
+      "Id": "pod0029409628",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "X": -730.344,
+      "Y": 33.626,
+      "Z": 1654.237
+    },
+    {
+      "Id": "pod0089193547",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area1.unity",
+      "X": -710.6367,
+      "Y": -4.912,
+      "Z": 1278.4215
+    },
+    {
+      "Id": "pod0985309113",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "X": -608.576,
+      "Y": 62.001,
+      "Z": 696.756
+    },
+    {
+      "Id": "pod0733928187",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area2.unity",
+      "X": -587.8,
+      "Y": 81.8725,
+      "Z": 279.184
+    },
+    {
+      "Id": "pod1434621880",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area1.unity",
+      "X": 32.292,
+      "Y": 36.9,
+      "Z": -498.77
+    },
+    {
+      "Id": "pod0846833110",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area3.unity",
+      "X": 314.534,
+      "Y": 42.985,
+      "Z": -455.037
+    },
+    {
+      "Id": "pod0162660583",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area5.unity",
+      "X": -809.58,
+      "Y": -2.8401,
+      "Z": 383.39
+    },
+    {
+      "Id": "pod0984789354",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "X": -531.9531,
+      "Y": -2.47,
+      "Z": 653.951
+    },
+    {
+      "Id": "pod0104193918",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area1.unity",
+      "X": 267.967,
+      "Y": 2.031,
+      "Z": 398.037
+    },
+    {
+      "Id": "pod0569048278",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "X": -542.085,
+      "Y": 18.9284,
+      "Z": 651.1882
+    },
+    {
+      "Id": "pod1153621735",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "X": -669.231,
+      "Y": 41.533,
+      "Z": 1683.325
+    },
+    {
+      "Id": "pod0263833389",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area1.unity",
+      "X": -728.0631,
+      "Y": 49.532,
+      "Z": 1525.98
+    },
+    {
+      "Id": "pod0510198439",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area1.unity",
+      "X": -881.02,
+      "Y": 20.3204,
+      "Z": 1449.234
+    },
+    {
+      "Id": "pod1546457616",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "X": -900.7753,
+      "Y": 44.482,
+      "Z": 1819.7402
+    },
+    {
+      "Id": "pod1483781086",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area2.unity",
+      "X": -629.981,
+      "Y": 24.8631,
+      "Z": 216.667
+    },
+    {
+      "Id": "pod2090521660",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "X": -290.58,
+      "Y": 34.8686,
+      "Z": 567.92
+    },
+    {
+      "Id": "pod1841041744",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand.unity",
+      "X": -152.2361,
+      "Y": -2.8979,
+      "Z": -46.4254
+    },
+    {
+      "Id": "pod1505196384",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "X": -705.3334,
+      "Y": 6.3766,
+      "Z": 338.9546
+    },
+    {
+      "Id": "pod0615972840",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "X": -745.4677,
+      "Y": 22.147,
+      "Z": 1765.0431
+    },
+    {
+      "Id": "pod0685908830",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "X": -757.9374,
+      "Y": 18.3151,
+      "Z": 489.3557
+    },
+    {
+      "Id": "pod1072315293",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area3.unity",
+      "X": 389.445,
+      "Y": -0.257,
+      "Z": -548.974
+    },
+    {
+      "Id": "pod0328459990",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "X": -499.5029,
+      "Y": 48.23,
+      "Z": 769.1755
+    },
+    {
+      "Id": "pod0913949485",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "X": -364.1819,
+      "Y": 5.4995,
+      "Z": 776.4271
+    },
+    {
+      "Id": "pod1390403760",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "X": -697.5557,
+      "Y": 31.206,
+      "Z": 545.4575
+    },
+    {
+      "Id": "pod1790402129",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area2.unity",
+      "X": -351.5803,
+      "Y": 19.431,
+      "Z": 461.1562
+    },
+    {
+      "Id": "pod0760381198",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "X": -678.827,
+      "Y": 26.14,
+      "Z": 304.22
+    },
+    {
+      "Id": "pod1055279941",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area1.unity",
+      "X": -837.171,
+      "Y": 69.43,
+      "Z": 1491.927
+    },
+    {
+      "Id": "pod1012912366",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area1.unity",
+      "X": -42.38,
+      "Y": 12.0551,
+      "Z": -702.2899
+    },
+    {
+      "Id": "pod1196684808",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area3.unity",
+      "X": 140.824,
+      "Y": -3.389,
+      "Z": 218.557
+    },
+    {
+      "Id": "pod0978435185",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area3.unity",
+      "X": 393.82,
+      "Y": 34.893,
+      "Z": -571.987
+    },
+    {
+      "Id": "pod0982210366",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area2.unity",
+      "X": 249.512,
+      "Y": 9.167,
+      "Z": 540.558
+    },
+    {
+      "Id": "pod1629591595",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area2.unity",
+      "X": 252.1863,
+      "Y": 23.0712,
+      "Z": -175.5759
+    },
+    {
+      "Id": "pod1765949255",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area1.unity",
+      "X": 212.773,
+      "Y": 48.229,
+      "Z": 278.661
+    },
+    {
+      "Id": "pod1516882419",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area2.unity",
+      "X": 224.14,
+      "Y": 27.3929,
+      "Z": 415.14
+    },
+    {
+      "Id": "pod1938456889",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "X": -1012.3124,
+      "Y": 21.3777,
+      "Z": 1575.2186
+    },
+    {
+      "Id": "pod0057937454",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "X": -656.4547,
+      "Y": 0.467,
+      "Z": 1656.1661
+    },
+    {
+      "Id": "pod0679894154",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "X": -689.123,
+      "Y": 42.06,
+      "Z": 1577.708
+    },
+    {
+      "Id": "pod0543357602",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "X": -819.619,
+      "Y": -4.566,
+      "Z": 1628.656
+    },
+    {
+      "Id": "pod0018097829",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area4.unity",
+      "X": 259.608,
+      "Y": 37.088,
+      "Z": -666.757
+    },
+    {
+      "Id": "pod1740132230",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "X": -608.066,
+      "Y": 47.9314,
+      "Z": 369.5569
+    },
+    {
+      "Id": "pod1386449730",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area4.unity",
+      "X": 241.46,
+      "Y": 43.272,
+      "Z": -526.09
+    },
+    {
+      "Id": "pod0557934296",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area1.unity",
+      "X": -271.7784,
+      "Y": 21.6986,
+      "Z": 501.9852
+    },
+    {
+      "Id": "pod1359946455",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area4.unity",
+      "X": 181.7136,
+      "Y": 9.772,
+      "Z": -643.9652
+    },
+    {
+      "Id": "pod1958610754",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area2.unity",
+      "X": 332.94,
+      "Y": 10.493,
+      "Z": 163.788
+    },
+    {
+      "Id": "pod1210187464",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area2.unity",
+      "X": 278.961,
+      "Y": 0.2541,
+      "Z": 512.345
+    },
+    {
+      "Id": "pod1997657793",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "X": -903.062,
+      "Y": 12.261,
+      "Z": 500.3159
+    },
+    {
+      "Id": "pod1739512644",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "X": -862.402,
+      "Y": 28.885,
+      "Z": 1705.19
+    },
+    {
+      "Id": "pod1342401920",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area3.unity",
+      "X": -637.6455,
+      "Y": 122.7628,
+      "Z": 1569.3333
+    },
+    {
+      "Id": "pod1788347305",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area2.unity",
+      "X": -322.618,
+      "Y": 5.97,
+      "Z": 304.2491
+    },
+    {
+      "Id": "pod1656551108",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area4.unity",
+      "X": 117.271,
+      "Y": 57.72,
+      "Z": -686.969
+    },
+    {
+      "Id": "pod0491776725",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area1.unity",
+      "X": -19.2,
+      "Y": 20.83,
+      "Z": -320.69
+    },
+    {
+      "Id": "pod0870375649",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "X": -633.424,
+      "Y": 37.667,
+      "Z": 687.372
+    },
+    {
+      "Id": "pod1051060854",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "X": -757.7125,
+      "Y": 20.4999,
+      "Z": 407.3865
+    },
+    {
+      "Id": "pod0109338229",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area2.unity",
+      "X": 273.9743,
+      "Y": 2.7432,
+      "Z": -224.8929
+    },
+    {
+      "Id": "pod2035625591",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area1.unity",
+      "X": 89.951,
+      "Y": 16.067,
+      "Z": -549.224
+    },
+    {
+      "Id": "pod0041998598",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area2.unity",
+      "X": -624.2,
+      "Y": 37.76,
+      "Z": 1718.6
+    },
+    {
+      "Id": "pod2115246886",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area1.unity",
+      "X": -207.4037,
+      "Y": -1.3337,
+      "Z": 464.9876
+    },
+    {
+      "Id": "pod0485660035",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand.unity",
+      "X": 115.1803,
+      "Y": 1.7806,
+      "Z": -256.3502
+    },
+    {
+      "Id": "pod0009011618",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area3.unity",
+      "X": 462.912,
+      "Y": 51.52,
+      "Z": -573.835
+    },
+    {
+      "Id": "pod1181610117",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields.unity",
+      "X": 314.983,
+      "Y": -1.218,
+      "Z": 345.459
+    },
+    {
+      "Id": "pod1526484588",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area2.unity",
+      "X": 241.0316,
+      "Y": -5.197,
+      "Z": -201.6914
+    },
+    {
+      "Id": "pod1633715782",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area1.unity",
+      "X": 47.1536,
+      "Y": 0.53,
+      "Z": -428.3221
+    },
+    {
+      "Id": "pod1338943518",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area2.unity",
+      "X": -451.26,
+      "Y": 3.8718,
+      "Z": 404.24
+    },
+    {
+      "Id": "pod2128774646",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area3.unity",
+      "X": -645.201,
+      "Y": 51.487,
+      "Z": 1565.199
+    },
+    {
+      "Id": "pod1405846802",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area3.unity",
+      "X": -651.637,
+      "Y": 91.5377,
+      "Z": 1584.135
+    },
+    {
+      "Id": "pod0602276772",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "X": -904.5107,
+      "Y": 13.551,
+      "Z": 500.204
+    },
+    {
+      "Id": "pod0873540714",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand.unity",
+      "X": -16.2067,
+      "Y": 0.0553,
+      "Z": 41.3845
+    },
+    {
+      "Id": "pod1581761049",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "X": -571.6254,
+      "Y": 27.2331,
+      "Z": 868.0837
+    },
+    {
+      "Id": "pod1593591091",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area4.unity",
+      "X": -633.948,
+      "Y": 31.541,
+      "Z": 517.651
+    },
+    {
+      "Id": "pod2087223113",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area1.unity",
+      "X": -838.341,
+      "Y": 19.69,
+      "Z": 1527.388
+    },
+    {
+      "Id": "pod1755806447",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area2.unity",
+      "X": -502.75,
+      "Y": -3.6526,
+      "Z": 362.11
+    },
+    {
+      "Id": "pod0347731269",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area2.unity",
+      "X": 288.322,
+      "Y": 67.6,
+      "Z": -287.467
+    },
+    {
+      "Id": "pod1373628091",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "X": -361.077,
+      "Y": 24.5432,
+      "Z": 620.276
+    },
+    {
+      "Id": "pod0129815012",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area1.unity",
+      "X": 144.748,
+      "Y": 63.9152,
+      "Z": -540.6299
+    },
+    {
+      "Id": "pod2081158867",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area4.unity",
+      "X": 274.55,
+      "Y": 32.3061,
+      "Z": 626.61
+    },
+    {
+      "Id": "pod0969027662",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area2.unity",
+      "X": 303.428,
+      "Y": 19.166,
+      "Z": -326.488
+    },
+    {
+      "Id": "pod0534618219",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand.unity",
+      "X": -17.003,
+      "Y": 24.411,
+      "Z": -111.798
+    },
+    {
+      "Id": "pod0990050808",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand.unity",
+      "X": 92.3128,
+      "Y": 5.2283,
+      "Z": -63.0139
+    },
+    {
+      "Id": "pod0168252584",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area3.unity",
+      "X": 88.482,
+      "Y": 0.828,
+      "Z": 294.037
+    },
+    {
+      "Id": "pod0075771003",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area3.unity",
+      "X": -8.786,
+      "Y": -1.61,
+      "Z": 409.141
+    },
+    {
+      "Id": "pod0151924677",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area4.unity",
+      "X": 192.3289,
+      "Y": 7.501,
+      "Z": -668.8424
+    },
+    {
+      "Id": "pod1409921362",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area1.unity",
+      "X": 45.84,
+      "Y": 13.89,
+      "Z": -426.65
+    },
+    {
+      "Id": "pod0341863532",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area2.unity",
+      "X": 273.0292,
+      "Y": -4.3345,
+      "Z": 473.995
+    },
+    {
+      "Id": "pod1801289208",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area1.unity",
+      "X": 209.62,
+      "Y": 19.32,
+      "Z": 286.85
+    },
+    {
+      "Id": "pod0062100325",
+      "GroupName": "RumblingGorge",
+      "SourceScene": "Assets/Scene/zoneGorge_Area3.unity",
+      "X": -614.727,
+      "Y": 81.6551,
+      "Z": 691.724
+    },
+    {
+      "Id": "pod2083271981",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthTerrarium_FoyerGazebo.unity",
+      "X": 1941.1293,
+      "Y": 170.0631,
+      "Z": -791.5632
+    },
+    {
+      "Id": "pod1878942658",
+      "GroupName": "PowderfallBluffs",
+      "SourceScene": "Assets/Scene/zoneBluffs_Area4.unity",
+      "X": -1049.6138,
+      "Y": 71.3468,
+      "Z": 1822.871
+    },
+    {
+      "Id": "pod1495661484",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area2.unity",
+      "X": 175.7249,
+      "Y": 70.596,
+      "Z": -395.344
+    },
+    {
+      "Id": "pod2083646565",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthDreamland.unity",
+      "X": 1208.4697,
+      "Y": 142.1188,
+      "Z": -833.8617
+    },
+    {
+      "Id": "pod1720861050",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneConservatory.unity",
+      "X": 740.22,
+      "Y": 16.79,
+      "Z": 505.79
+    },
+    {
+      "Id": "pod2114389615",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneConservatory.unity",
+      "X": 589.457,
+      "Y": 26.981657,
+      "Z": 27.069
+    },
+    {
+      "Id": "pod0494897323",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area1.unity",
+      "X": 218.553,
+      "Y": 62.496,
+      "Z": 277.306
+    },
+    {
+      "Id": "pod1527581434",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneConservatory.unity",
+      "X": 560.21,
+      "Y": 42.43,
+      "Z": 465.53
+    },
+    {
+      "Id": "pod0860549781",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthCorePath.unity",
+      "X": 1414.601,
+      "Y": 57.2016,
+      "Z": -1007.7619
+    },
+    {
+      "Id": "pod0760050663",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area3.unity",
+      "X": 144.591,
+      "Y": 18.081,
+      "Z": 335.932
+    },
+    {
+      "Id": "pod1635512559",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area2.unity",
+      "X": 349.596,
+      "Y": -1.723,
+      "Z": 151.961
+    },
+    {
+      "Id": "pod1715272063",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand_Area2.unity",
+      "X": 192.898,
+      "Y": 12.225,
+      "Z": -379.706
+    },
+    {
+      "Id": "pod0093663621",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area3.unity",
+      "X": 41.81,
+      "Y": -1.8371,
+      "Z": 157.68
+    },
+    {
+      "Id": "pod0118409926",
+      "GroupName": "ConservatoryFields",
+      "SourceScene": "Assets/Scene/zoneFields_Area2.unity",
+      "X": 347.562,
+      "Y": 12.106,
+      "Z": 106.377
+    },
+    {
+      "Id": "pod0577815438",
+      "GroupName": "LuminousStrand",
+      "SourceScene": "Assets/Scene/zoneStrand.unity",
+      "X": 125.61,
+      "Y": 26.63,
+      "Z": -259.94
+    },
+    {
+      "Id": "podReward2011242852",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthTerrarium_JungleGlacier.unity",
+      "X": 1971.8239,
+      "Y": 158.1562,
+      "Z": -973.1118
+    },
+    {
+      "Id": "podReward1605433696",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthTerrarium_JungleGlacier.unity",
+      "X": 2078.3647,
+      "Y": 183.1935,
+      "Z": -974.8048
+    },
+    {
+      "Id": "podReward1916373190",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthTerrarium_FoyerGazebo.unity",
+      "X": 2113.1704,
+      "Y": 149.4569,
+      "Z": -692.8202
+    },
+    {
+      "Id": "podReward1816203663",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthTerrarium_FoyerGazebo.unity",
+      "X": 2114.49,
+      "Y": 169.8515,
+      "Z": -792.2907
+    },
+    {
+      "Id": "podReward1629379235",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabValleyEntrance.unity",
+      "X": 1947.1456,
+      "Y": 69.6304,
+      "Z": -1103.7021
+    },
+    {
+      "Id": "podReward2069389869",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthDreamland.unity",
+      "X": 1140.8809,
+      "Y": 154.502,
+      "Z": -869.209
+    },
+    {
+      "Id": "podReward0467802157",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthHub_B.unity",
+      "X": 1098.9714,
+      "Y": 104.2135,
+      "Z": -1001.8739
+    },
+    {
+      "Id": "podReward0687124938",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthHub_C.unity",
+      "X": 1495.6292,
+      "Y": 146.891,
+      "Z": -924.1685
+    },
+    {
+      "Id": "podReward0546620404",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthDreamland_B.unity",
+      "X": 762.6448,
+      "Y": 185.6032,
+      "Z": -795.8933
+    },
+    {
+      "Id": "podReward1597728847",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthHub_C.unity",
+      "X": 1571.0989,
+      "Y": 120.641,
+      "Z": -1094.836
+    },
+    {
+      "Id": "podReward1499380093",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabValleyEntrance.unity",
+      "X": 1811.7653,
+      "Y": 48.75,
+      "Z": -1150.1343
+    },
+    {
+      "Id": "podReward0675163325",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabValleyEntrance.unity",
+      "X": 1755.0652,
+      "Y": 87.02,
+      "Z": -1154.0741
+    },
+    {
+      "Id": "podReward0317527534",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabValleyEntrance_B.unity",
+      "X": 1829.1138,
+      "Y": 69.727,
+      "Z": -998.9102
+    },
+    {
+      "Id": "podReward0402901848",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthDreamland_B.unity",
+      "X": 778.1597,
+      "Y": 149.6916,
+      "Z": -986.9119
+    },
+    {
+      "Id": "podReward1935335440",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthDreamland_B.unity",
+      "X": 961.4913,
+      "Y": 155.0742,
+      "Z": -951.03
+    },
+    {
+      "Id": "podReward1994509550",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabValleyEntrance_B.unity",
+      "X": 1691.881,
+      "Y": 66.95,
+      "Z": -952.7412
+    },
+    {
+      "Id": "podReward1805290971",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthHub_C.unity",
+      "X": 1371.9978,
+      "Y": 99.2213,
+      "Z": -1053.4906
+    },
+    {
+      "Id": "podReward0722088058",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabStrandEntranceMain_B.unity",
+      "X": 1308.9739,
+      "Y": 79.8376,
+      "Z": -1444.062
+    },
+    {
+      "Id": "podReward0230846726",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabStrandEntranceMain_B.unity",
+      "X": 1195.0841,
+      "Y": 36.5946,
+      "Z": -1410.1595
+    },
+    {
+      "Id": "podReward1619668506",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabyrinthDreamland_C.unity",
+      "X": 718.2242,
+      "Y": 201.38,
+      "Z": -424.4
+    },
+    {
+      "Id": "podReward1769104604",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabStrandEntrance.unity",
+      "X": 1160.2935,
+      "Y": 46.599,
+      "Z": -1357.0768
+    },
+    {
+      "Id": "podReward1596715875",
+      "GroupName": "Labyrinth",
+      "SourceScene": "Assets/Scene/zoneLabStrandEntrance.unity",
+      "X": 917.2988,
+      "Y": 54.0922,
+      "Z": -1237.6985
+    }
+  ]
+}

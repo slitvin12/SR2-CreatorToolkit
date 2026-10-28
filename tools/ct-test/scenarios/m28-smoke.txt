@@ -1,0 +1,19 @@
+# Read-only smoke test of the M28 tools on the loaded test save (nothing is changed).
+# Run: ct.ps1 run m28-smoke   -> _work\ct-test\m28-smoke.log
+status Ready SaveGameName
+expect SaveGameName ^20261020001829_6$
+cmd ct-help
+expect-ct written ct-help.txt
+cmd ct-state
+expect-ct test=True
+cmd m28-drone state
+cmd m28-compass-dump
+expect-ct written m28-compass.txt
+cmd m28-player-marker state
+cmd m28-palettes
+expect-ct written m28-palettes.txt
+cmd m28-tracking
+expect-ct written m28-tracking.txt
+status M28Drone M28Compass M28Marker M28Unlocks M28Atlas
+shot smoke-hud
+log 15

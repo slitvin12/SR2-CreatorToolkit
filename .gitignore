@@ -1,0 +1,32 @@
+# The repository publishes Creator Toolkit only. Everything else in this
+# working folder (other experiments, game references, saves, logs, backups)
+# stays local: the list below is a whitelist.
+/*
+!/.gitignore
+!/.gitattributes
+!/README.md
+!/LICENSE
+
+!/src/
+/src/*
+!/src/creator/
+
+!/tools/
+/tools/*
+!/tools/ct-test/
+
+# Build output
+bin/
+obj/
+
+# Internal QA notes, validation reports and local backups
+/src/creator/qa/
+/src/creator/REPORT-*.md
+/src/creator/VALIDATION*.md
+/src/creator/STRESS-VALIDATION*.md
+/src/creator/VISUAL-QA-*.md
+/src/creator/WORKLOG-*.md
+*.bak
+*.rollback
+*.pending
+*.log
