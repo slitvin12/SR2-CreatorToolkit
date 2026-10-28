@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>CreatorToolkitAgentDirector</AssemblyName>
+    <RootNamespace>CreatorToolkitAgentDirector</RootNamespace>
+    <TargetFramework>net6.0</TargetFramework>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <DebugType>none</DebugType>
+    <Deterministic>true</Deterministic>
+    <RefsDir>$(MSBuildThisFileDirectory)..\..\refs\</RefsDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Soft dependency: Creator Toolkit internals are reached by reflection, never referenced. -->
+    <Reference Include="$(RefsDir)*.dll" Exclude="$(RefsDir)CreatorToolkit.dll;$(RefsDir)CreatorToolkitAgentDirector.dll" Private="false" />
+  </ItemGroup>
+</Project>

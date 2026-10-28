@@ -1,4 +1,5 @@
-# The repository publishes Creator Toolkit only. Everything else in this
+# The repository publishes Creator Toolkit and its Agent Director test bridge
+# for AI agents only. Everything else in this
 # working folder (other experiments, game references, saves, logs, backups)
 # stays local: the list below is a whitelist.
 /*
@@ -7,14 +8,20 @@
 !/README.md
 !/LICENSE
 !/THIRD-PARTY-NOTICES.md
+# Agent Director: agent cheat sheets and the ct CLI entry point
+!/AGENTS.md
+!/AGENT-DIRECTOR.md
+!/ct.cmd
 
 !/src/
 /src/*
 !/src/creator/
+!/src/agentdirector/
 
 !/tools/
 /tools/*
 !/tools/ct-test/
+!/tools/ct.ps1
 
 # Build output
 bin/
