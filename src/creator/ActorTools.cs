@@ -310,8 +310,9 @@ internal sealed class ActorTools
                 pending.Add((currentModel,currentObject));
                 currentModel=null;currentObject=null;
             }
-            foreach(var actor in pending)_owned.Add(actor.Object);
-            _app.Notify("Создано: "+entry.Name+" × "+pending.Count+". Только эти объекты доступны для очистки.");
+            foreach(var actor in pending){_owned.Add(actor.Object);_app.Coop?.AnnounceSpawn(actor.Object);}
+            _app.Notify("Создано: "+entry.Name+" × "+pending.Count+". Только эти объекты доступны для очистки."+
+                (_app.Coop?.InSession==true?" В коопе друзья видят обычный вариант: сияние не синхронизируется.":""));
         }
         catch(Exception creationError)
         {
@@ -365,7 +366,12 @@ internal sealed class ActorTools
             throw new InvalidOperationException((entry.UnavailableReason??"Нативный лучистый тип недоступен.")+" Создание отключено.");
         if (entry == null || entry.Type == null) throw new InvalidOperationException("Выберите объект в каталоге.");
         if(!entry.CanSpawn)throw new InvalidOperationException(entry.UnavailableReason+" Создание отключено для защиты сейва.");
-        if(IsGordo(entry.Type)){BeginGordoSpawn(entry);return;}
+        if(IsGordo(entry.Type))
+        {
+            // Ranching Together replicates actors, not SnareModel gordos: a co-op gordo would exist only here.
+            if(_app.Coop?.InSession==true)throw new InvalidOperationException("Кооп: Гордо создаются через нативную ловушку, которую "+MultiplayerPolicy.ModName+" не синхронизирует. Доступно в одиночной игре.");
+            BeginGordoSpawn(entry);return;
+        }
         if(entry.IsRadiant)RequireRadiantEntry(entry);
         if (entry.Type.TryCast<GadgetDefinition>() != null)
             throw new InvalidOperationException("Декорации требуют штатного размещения GadgetModel и не поддерживаются акторным спавнером.");
@@ -406,9 +412,11 @@ internal sealed class ActorTools
             }
             _owned.Add(go);
             if(entry.IsPrototype)_prototypes.Apply(go,entry.Prototype);
+            _app.Coop?.AnnounceSpawn(go); // Co-op: SR2MP replicates the actor to everyone (no-op offline).
             created++;
         }
-        _app.Notify("Создано: " + entry.Name + " × " + created + ". Только эти объекты доступны для очистки.");
+        _app.Notify("Создано: " + entry.Name + " × " + created + ". Только эти объекты доступны для очистки."+
+            (entry.IsPrototype&&_app.Coop?.InSession==true?" Настройки прототипа видны только вам.":""));
     }
 
     // Gordo is NOT an ActorModel. The native SnareModel owns its persistence,
@@ -567,7 +575,7 @@ internal sealed class ActorTools
         if(!CanStore(entry,index))throw new InvalidOperationException("Этот ресурс несовместим с выбранным слотом.");
         Action fill = () => FillAmmo(entry, index);
         if (slot.Count > 0 && slot.Id != entry.Type)
-            _app.Confirm("Заменить содержимое слота?", "Содержимое выбранного слота будет заменено на 100 шт. «" + entry.Name + "». Изменение попадёт в сейв.", fill);
+            _app.Confirm("Заменить содержимое слота?", "Содержимое выбранного слота будет заменено на " + (ModInterop.CustomVacLimits ? "«" + entry.Name + "» до лимита слота" : "100 шт. «" + entry.Name + "»") + ". Изменение попадёт в сейв.", fill);
         else _app.Queue("fill ammo", fill);
     }
 
@@ -584,14 +592,15 @@ internal sealed class ActorTools
         var before = slot.Metadata;
         var beforeAppearance = slot.Appearance;
         int beforeCount = slot.Count;
+        int target = ModInterop.FillTarget(slot); // 100, or the slot's own limit with a slot-limit mod (Vacuum Modifications…)
         try
         {
             ammo.Clear(index);
-            if (!ammo.MaybeAddResource(entry.Type, index, SafetyPolicy.AmmoFill, true))
+            if (!ammo.MaybeAddResource(entry.Type, index, target, true))
                 throw new InvalidOperationException("Этот тип нельзя хранить в выбранном слоте.");
             // Use the native Count setter (including its callbacks), not a raw backing-field write.
-            slot.Count = SafetyPolicy.AmmoFill;
-            if (ammo.GetSlotCount(index) != SafetyPolicy.AmmoFill) throw new InvalidOperationException("Нативный слот не принял 100 шт.");
+            slot.Count = target;
+            if (ammo.GetSlotCount(index) != target) throw new InvalidOperationException("Нативный слот не принял " + target + " шт.");
         }
         catch
         {
@@ -600,7 +609,7 @@ internal sealed class ActorTools
             slot.Count = beforeCount;
             throw;
         }
-        if (notify) _app.Notify("Слот " + (index + 1) + ": " + entry.Name + " × 100 (может превышать штатную ёмкость).");
+        if (notify) _app.Notify("Слот " + (index + 1) + ": " + entry.Name + " × " + target + (ModInterop.CustomVacLimits ? " (лимит слота)." : " (может превышать штатную ёмкость)."));
     }
 
     internal void ResetTracking()

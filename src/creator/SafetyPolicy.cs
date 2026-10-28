@@ -14,6 +14,9 @@ internal static class SafetyPolicy
     internal static int SpawnCount(int count) => Math.Clamp(count, 1, MaxSpawnBatch);
     internal static float Speed(float speed) => float.IsFinite(speed) ? Math.Clamp(speed, 1f, PlayerMovementPolicy.MaxSpeed) : 1f;
     internal static bool NeedsRefill(int count) => count>0&&count<=RefillThreshold;
+    // Refill point for a custom fill target (slot-limit mods): a quarter of it; vanilla 100 keeps 25.
+    internal static int RefillAt(int target) => target==AmmoFill?RefillThreshold:Math.Max(1,target/4);
+    internal static bool NeedsRefill(int count,int target) => count>0&&count<=RefillAt(target);
     internal static bool NearbyReturnOffset(float x,float y,float z) =>
         float.IsFinite(x)&&float.IsFinite(y)&&float.IsFinite(z)&&
         x*x+z*z<=MaxReturnOffset*MaxReturnOffset+.0001f&&Math.Abs(y)<=MaxReturnHeightDelta;

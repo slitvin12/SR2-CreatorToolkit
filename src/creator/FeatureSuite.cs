@@ -582,7 +582,7 @@ internal sealed partial class FeatureSuite
             var ammo=_app.Context.PlayerState.Ammo;int slot=Enumerable.Range(0,ammo.Slots.Length).First(i=>ammo.Slots[i].IsUnlocked);
             ammo.SetSelectedSlot(slot);Require(ammo._selectedAmmoIdx==slot,"Cannot select ammo slot.");
             var entry=_app.Actors.Catalog.First(e=>e.Category=="Плорты");_app.Actors.FillAmmoForTest(entry,slot);
-            Require(ammo.GetSlotCount(slot)==100&&ammo.GetSlotName(slot)==entry.Type,"Ammo count/id mismatch.");
+            Require(ammo.GetSlotCount(slot)==ModInterop.FillTarget(ammo.Slots[slot])&&ammo.GetSlotName(slot)==entry.Type,"Ammo count/id mismatch.");
         });
         Add("Auto refill / confirmation required",()=>{
             _app.Convenience.RequestRefill();
@@ -592,7 +592,7 @@ internal sealed partial class FeatureSuite
         Add("Auto refill / confirmation UI capture",()=>ScreenCapture.CaptureScreenshot(Path.Combine(_app.DataDirectory,"convenience-refill-confirmation.png")),.3f);
         Add("Auto refill / cancelled unchanged",()=>{
             _app.CloseMenu();var ammo=_app.Context.PlayerState.Ammo;
-            Require(_app.Pending==null&&!_app.Convenience.Refilling&&ammo.GetSlotCount(ammo._selectedAmmoIdx)==100,"Cancelled refill changed the slot or left automation armed.");
+            Require(_app.Pending==null&&!_app.Convenience.Refilling&&ammo.GetSlotCount(ammo._selectedAmmoIdx)==ModInterop.FillTarget(ammo.Slots[ammo._selectedAmmoIdx]),"Cancelled refill changed the slot or left automation armed.");
         });
         Add("Auto refill / approved request",()=>{
             _app.Convenience.RequestRefill();Require(_app.Pending!=null,"No refill approval request.");
@@ -603,13 +603,13 @@ internal sealed partial class FeatureSuite
             _app.Convenience.StopRefill("Проверка подтверждения завершена");
         });
         Add("Auto refill / above threshold unchanged",()=>{
-            var ammo=_app.Context.PlayerState.Ammo;var slot=ammo.Slots[ammo._selectedAmmoIdx];slot.Count=30;
-            _app.Convenience.ArmRefillForTest();_app.Convenience.TickRefill();Require(slot.Count==30,"Auto refill ran above its threshold.");
+            var ammo=_app.Context.PlayerState.Ammo;var slot=ammo.Slots[ammo._selectedAmmoIdx];int above=SafetyPolicy.RefillAt(ModInterop.FillTarget(slot))+5;slot.Count=above;
+            _app.Convenience.ArmRefillForTest();_app.Convenience.TickRefill();Require(slot.Count==above,"Auto refill ran above its threshold.");
         });
         Add("Auto refill / threshold and native callbacks",()=>{
-            var ammo=_app.Context.PlayerState.Ammo;var slot=ammo.Slots[ammo._selectedAmmoIdx];slot.Count=25;
+            var ammo=_app.Context.PlayerState.Ammo;var slot=ammo.Slots[ammo._selectedAmmoIdx];int fill=ModInterop.FillTarget(slot);slot.Count=SafetyPolicy.RefillAt(fill);
             int before=_app.Convenience.RefillOperations;_app.Convenience.TickRefill();
-            Require(slot.Count==100&&ammo.GetSlotCount(ammo._selectedAmmoIdx)==100&&_app.Convenience.RefillOperations>before,"Native auto refill did not produce exactly 100.");
+            Require(slot.Count==fill&&ammo.GetSlotCount(ammo._selectedAmmoIdx)==fill&&_app.Convenience.RefillOperations>before,"Native auto refill did not produce exactly 100.");
             _app.ShowTabForTest(7);_app.Input.Open();
         },.3f);
         Add("Auto refill / armed UI capture",()=>ScreenCapture.CaptureScreenshot(Path.Combine(_app.DataDirectory,"convenience-refill-armed.png")),.3f);
@@ -630,7 +630,7 @@ internal sealed partial class FeatureSuite
             _app.Convenience.ArmRefillForTest();
             var entry=_app.Actors.Catalog.First(e=>e.Type!=old&&e.Category=="Плорты"&&_app.Actors.CanStore(e,index));
             _app.Actors.FillAmmoForTest(entry,index);_app.Convenience.TickRefill();
-            Require(!_app.Convenience.Refilling&&ammo.Slots[index].Id==entry.Type&&ammo.Slots[index].Count==100,"Newly inserted loot was changed.");
+            Require(!_app.Convenience.Refilling&&ammo.Slots[index].Id==entry.Type&&ammo.Slots[index].Count==ModInterop.FillTarget(ammo.Slots[index]),"Newly inserted loot was changed.");
         });
         Add("Time +1 hour",()=>{var t=_app.Context.TimeDirector;double target=t.HoursFromNow(1);_app.World.AdvanceHours(1);Require(Math.Abs(t.WorldTime()-target)<2,"1h time mismatch.");});
         Add("Time +6 hours",()=>{var t=_app.Context.TimeDirector;double target=t.HoursFromNow(6);_app.World.AdvanceHours(6);Require(Math.Abs(t.WorldTime()-target)<2,"6h time mismatch.");});

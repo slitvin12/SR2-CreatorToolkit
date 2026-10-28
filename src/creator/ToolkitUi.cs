@@ -1022,8 +1022,9 @@ internal sealed partial class ToolkitUi
                 string status = _app.Audit?.Active == true ? _app.Audit.Status : _app.Status;
                 int newline=status.IndexOf('\n'); if(newline>=0)status=status.Substring(0,newline);
                 if(status.Length>94)status=status.Substring(0,91)+"…";
-                GUI.Label(new Rect(30,height-46,width-250,38),status,_muted);
-                GUI.Label(new Rect(width-210,height-46,180,38),"Insert  ·  Esc",_muted);
+                bool coop=_app.Coop?.InSession==true; // Ranching Together: role and server cheat rule instead of the key hint.
+                GUI.Label(new Rect(30,height-46,width-(coop?370:250),38),status,_muted);
+                GUI.Label(coop?new Rect(width-330,height-46,300,38):new Rect(width-210,height-46,180,38),coop?_app.Coop.Footer:"Insert  ·  Esc",_muted);
                 if(modal)DrawConfirmation(width,height);
                 AllocationMark(5,ref allocationStamp);
             }
@@ -1551,9 +1552,9 @@ internal sealed partial class ToolkitUi
             SpritePreview(new Rect(x + 16, panelTop + 16, 54, 54), _ammoSelected);
             GUI.Label(new Rect(x + 86, panelTop + 16, w - 102, 72), _ammoSelected != null ? _ammoSelected.Name : "Выберите совместимый ресурс", _wrap);
             bool allow = GUI.enabled; GUI.enabled = allow && _ammoSelected != null;
-            if (Button(new Rect(x + 16, panelTop + 116, w - 32, 48), "Заполнить 100 шт.", _accentButton)) { var entry = _ammoSelected; _app.Actors.RequestAmmo(entry); }
+            if (Button(new Rect(x + 16, panelTop + 116, w - 32, 48), "Заполнить " + ModInterop.FillText, _accentButton)) { var entry = _ammoSelected; _app.Actors.RequestAmmo(entry); }
             GUI.enabled = allow;
-            GUI.Label(new Rect(x + 16, panelTop + 190, w - 32, 106), "Замена — с подтверждением. 100 шт. могут превысить ёмкость.", _muted);
+            GUI.Label(new Rect(x + 16, panelTop + 190, w - 32, 106), (ModInterop.CustomVacLimits ? "Замена — с подтверждением. Лимит слота задаёт мод вакпака." : "Замена — с подтверждением. 100 шт. могут превысить ёмкость."), _muted);
         }
         finally { EndGroup(); }
     }
@@ -1686,7 +1687,7 @@ internal sealed partial class ToolkitUi
             GUI.Label(new Rect(20,378,col-40,38),tools.RefillStatus,_muted);
             if(Button(new Rect(20,422,col-40,44),tools.Refilling?"Отключить автопополнение":"Включить для выбранного слота…",tools.Refilling?_selectedButton:_button))
                 _app.Queue("auto refill request",tools.RequestRefill);
-            GUI.Label(new Rect(20,478,col-40,54),"25 → 100 шт. · сохраняется игрой.\nПустой или другой слот — стоп.",_muted);
+            GUI.Label(new Rect(20,478,col-40,54),ModInterop.RefillText + " · сохраняется игрой.\nПустой или другой слот — стоп.",_muted);
 
             GUI.Box(new Rect(x,328,col,216),GUIContent.none,_card);
             GUI.Label(new Rect(x+20,340,col-40,34),"Компактный инфо-HUD",_heading);

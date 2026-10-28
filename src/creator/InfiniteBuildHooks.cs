@@ -48,21 +48,26 @@ internal static class InfiniteBuildHooks
         _installed=true;int installed=0;
         bool Patch(Type type,string name,Type[] args,string prefix,string postfix)
         {
+            MethodInfo original=null;HarmonyMethod pre=null,post=null;
             try
             {
-                MethodInfo original=AccessTools.Method(type,name,args);
+                original=AccessTools.Method(type,name,args);
                 if(original==null)throw new MissingMethodException(type.FullName,name);
+                // Coexistence: run after other mods' patches (CoexistencePolicy).
                 HarmonyMethod Own(string patch)
                 {
                     if(patch==null)return null;
                     var method=AccessTools.Method(typeof(InfiniteBuildHooks),patch);
-                    return method==null?throw new MissingMethodException(nameof(InfiniteBuildHooks),patch):new HarmonyMethod(method);
+                    return method==null?throw new MissingMethodException(nameof(InfiniteBuildHooks),patch):new HarmonyMethod(method,HarmonyLib.Priority.Last);
                 }
-                harmony.Patch(original,prefix:Own(prefix),postfix:Own(postfix));
+                pre=Own(prefix);post=Own(postfix);
+                harmony.Patch(original,prefix:pre,postfix:post);
+                HookCoexistence.Track(original,pre?.method);HookCoexistence.Track(original,post?.method);
                 installed++;return true;
             }
             catch(Exception e)
             {
+                HookCoexistence.InstallFailed(original,pre?.method,e);HookCoexistence.InstallFailed(original,post?.method,e);
                 InstallError=type.Name+"."+name+": "+e.Message;
                 ToolkitMod.I?.Fail("patch infinite builder "+type.Name+"."+name,e);
                 return false;
@@ -99,6 +104,13 @@ internal static class InfiniteBuildHooks
         }
         Hooks=installed;
         return installed;
+    }
+
+    // HookCoexistence withdrew this group after repeated faults: the mode stays off for the session.
+    internal static void Withdraw(string reason,ToolkitMod app)
+    {
+        _countHook=_spendHook=false;InstallError=reason??"";
+        SetEnabled(false,app);
     }
 
     internal static void SetEnabled(bool enabled,ToolkitMod app)
@@ -159,7 +171,7 @@ internal static class InfiniteBuildHooks
             int shown=InfiniteBuilderPolicy.Display(true,InfiniteBuilderPolicy.Known(kind==KindLearned,__result),__result);
             if(shown!=__result){__result=shown;VirtualReads++;}
         }
-        catch(Exception e){ToolkitMod.I?.Fail("infinite builder count view",e);}
+        catch(Exception e){HookCoexistence.Fault(nameof(CountRead),e);}
     }
 
     // SetCount prefix. Known writers run inside real barriers; an unknown writer
@@ -178,7 +190,7 @@ internal static class InfiniteBuildHooks
             LastSpend=Stamp()+" guarded "+__0.ReferenceId+" "+written+"->"+__1;
             ToolkitMod.I?.LoggerInstance.Warning("Infinite builder kept a real count: "+LastSpend);
         }
-        catch(Exception e){ToolkitMod.I?.Fail("infinite builder count guard",e);}
+        catch(Exception e){HookCoexistence.Fault(nameof(CountWrite),e);}
     }
 
     // TryToSpendItems prefix. HasItem/GetItemCount/SetCount inside always see
@@ -211,7 +223,7 @@ internal static class InfiniteBuildHooks
             app.LoggerInstance.Msg("Infinite builder: native placement unit not spent definition="+held+" free="+FreeSpends);
             return false;
         }
-        catch(Exception e){ToolkitMod.I?.Fail("infinite builder spend",e);return Vanilla("error",held);}
+        catch(Exception e){HookCoexistence.Fault(nameof(SpendBegin),e);return Vanilla("error",held);}
     }
     private static void SpendEnd(){if(_suppress>0)_suppress--;}
     private static bool Vanilla(string reason,string held)

@@ -345,7 +345,7 @@ using (var pe = new PEReader(File.OpenRead(dll)))
     Check(!refs.Any(n => n.Contains("Minecraft", StringComparison.OrdinalIgnoreCase) || n.Contains("McHud", StringComparison.OrdinalIgnoreCase) || n.Contains("WebSocket", StringComparison.OrdinalIgnoreCase)), "no Minecraft/bridge/socket assembly dependency");
     Check(refs.Contains("MelonLoader") && refs.Contains("Assembly-CSharp"), "native MelonLoader and game API references");
     var types = md.TypeDefinitions.Where(h => md.GetTypeDefinition(h).GetDeclaringType().IsNil).ToDictionary(h => md.GetString(md.GetTypeDefinition(h).Namespace) + "." + md.GetString(md.GetTypeDefinition(h).Name));
-    Check(md.GetAssemblyDefinition().Version==new Version(0,6,0,0),"release assembly version is 0.6.0");
+    Check(md.GetAssemblyDefinition().Version==new Version(0,6,1,0),"release assembly version is 0.6.1");
     foreach (string name in new[] { "ToolkitMod", "ToolkitUi", "InputCapture", "PlayerTools", "ActorTools", "WorldTools", "UnlockTools", "CinemaTools", "MapTools", "PrototypeTools", "NativeUiProbe", "NativeAtlasProbe", "ConvenienceTools", "StressSuite", "DiagnosticIo", "NativeHooks", "EngineFrameProbe", "StressComparisonPlan", "TransitSafety", "CatalogOrder", "CapsuleDatabase", "CapsuleTools","ExplorerPolicy","WaypointStore","WaypointRecord","CustomWaypointTools","RadarTools","FarmTools","UiThemePolicy","CarePolicy","SlimeCareTools","GadgetTools","NativeIconTools","PhenomenaTools","PhenomenaWindowPolicy","AuditSaveGuard","AuditSavePolicy","AuditImmutableBaseline","AuditCheckpointStore" })
         Check(types.ContainsKey("CreatorToolkit." + name), "packaged module " + name);
     var mod = md.GetTypeDefinition(types["CreatorToolkit.ToolkitMod"]);
@@ -591,7 +591,7 @@ using(var stream=File.OpenRead(capsulePath))Check(CapsuleDatabase.Read(stream,"d
 Check(File.ReadAllBytes(Path.Combine(root,"src","creator","CreatorAtlas.rgba")).Length==256*256*4,"sixteen map/menu pictograms share one bounded 256×256 texture");
 string comfort=File.ReadAllText(Path.Combine(root,"src","creator","ConvenienceTools.cs"));
 Check(comfort.Contains("_refillSession!=_app.Session")&&comfort.Contains("ammo._selectedAmmoIdx!=_refillSlot")&&comfort.Contains("slot.Id.ReferenceId!=_refillId"),"auto refill is bound to session, selected slot and native resource ID");
-Check(comfort.Contains("slot.Count<=0")&&comfort.Contains("SafetyPolicy.NeedsRefill(slot.Count)")&&!comfort.Contains("ammo.Clear("),"auto refill does not revive empty slots or replace metadata");
+Check(comfort.Contains("slot.Count<=0")&&comfort.Contains("SafetyPolicy.NeedsRefill(slot.Count,target)")&&!comfort.Contains("ammo.Clear("),"auto refill does not revive empty slots or replace metadata");
 Check(comfort.Contains("Profile=0;")&&comfort.Contains("before.Session!=_app.Session")&&comfort.Contains("_app.Player.SpeedMultiplier=before.Speed"),"profile restore validates its captured session and exact speed");
 Check(comfort.Contains("controller.IsGrounded")&&comfort.Contains("IsClearPosition")&&comfort.Contains("TryMapGround"),"SOS captures grounded collision-checked positions only");
 Check(comfort.Contains("_app.Map.RequestTeleport("),"SOS uses guarded native scene transit");
@@ -1541,6 +1541,9 @@ M26Regression.Run(Check,root);
 M27Regression.Run(Check,root);
 M28Regression.Run(Check,root);
 M29Regression.Run(Check,root);
+CoopRegression.Run(Check,root);
+CoexistenceRegression.Run(Check,root);
+InteropRegression.Run(Check,root);
 Console.WriteLine($"SUMMARY: {passed} checks passed. Compilation/package/policy checks only; live-game validation is pending.");
 string sha = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(dll))).ToLowerInvariant();
 File.WriteAllText(Path.Combine(root, "_work", "creator-tests.summary.txt"), $"PASS {passed}\nDllSha256={sha}\nLiveGameVerified=false\n");

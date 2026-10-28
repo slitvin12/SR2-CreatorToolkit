@@ -10,19 +10,25 @@ using MelonLoader.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "Creator Toolkit", "0.6.0", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
+[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "Creator Toolkit", "0.6.1", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: MelonGame("MonomiPark", "SlimeRancher2")]
-[assembly: AssemblyVersion("0.6.0.0")]
-[assembly: AssemblyFileVersion("0.6.0.0")]
+[assembly: AssemblyVersion("0.6.1.0")]
+[assembly: AssemblyFileVersion("0.6.1.0")]
+// SR2 Mod Manager: hooks shared with these mods were checked together (co-op via Ranching Together).
+[assembly: AssemblyMetadata("SR2ModManager.CompatibleWith", "SR2MP;Starlight;InfiniteHealth")]
+// SR2 Mod Manager: every Harmony hook is cooperative - Priority.Last, no transpilers/finalizers, cancelling prefixes only
+// while the feature is switched on, exceptions fall back to vanilla and repeated faults withdraw only our own patches.
+[assembly: AssemblyMetadata("SR2ModManager.HookPolicy", "cooperative")]
 
 namespace CreatorToolkit;
 
 public sealed class ToolkitMod : MelonMod
 {
     internal static ToolkitMod I;
-    internal const string Version = "0.6.0";
+    internal const string Version = "0.6.1";
     internal readonly InputCapture Input = new();
     internal PlayerTools Player;
+    internal MultiplayerBridge Coop; // Ranching Together (SR2MP) co-op rules; inert without the mod.
     internal ActorTools Actors;
     internal WorldTools World;
     internal UnlockTools Unlocks;
@@ -116,8 +122,11 @@ public sealed class ToolkitMod : MelonMod
         DataDirectory = Path.Combine(MelonEnvironment.UserDataDirectory, "CreatorToolkit");
         Directory.CreateDirectory(DataDirectory);
         _diagnosticIo=new DiagnosticIo(DataDirectory);
+        HookCoexistence.Configure(HarmonyInstance,this); // Before any hook install: tracks our patches so faults withdraw only them.
+        ModInterop.Configure(this); // Known third-party mods (by name, reflection only) and slot-limit mods.
         AuditSaveGuard.Configure(DataDirectory);
         int saveHooks=AuditSaveGuard.Install(HarmonyInstance); // Before audit recovery or any opt-in boot.
+        Coop = new MultiplayerBridge(this);
         Player = new PlayerTools(this);
         Actors = new ActorTools(this);
         World = new WorldTools(this);
@@ -152,13 +161,13 @@ public sealed class ToolkitMod : MelonMod
         Stress = new StressSuite(this);
         Benchmark = new PassiveFrameBenchmark(this);
         ModProfiler = new M20ModProfiler(this);
-        _readyTicks=new (string,Action)[]{("player",Player.Tick),("world",World.Tick),("weather",World.TickWeather),
+        _readyTicks=new (string,Action)[]{("coop rules",Coop.Enforce),("player",Player.Tick),("world",World.Tick),("weather",World.TickWeather),
             ("map unlock",Unlocks.Tick),("cinema",Cinema.Tick),("conveniences",Convenience.Tick),("actors",Actors.Tick),
             ("custom waypoints",Custom.Tick),("zone radar",Radar.Tick),("corral assistant",Farm.Tick),("slime care",Care.Tick),
             ("gadget placement",Gadgets.Tick),("native phenomena",Phenomena.Tick),("graphics optimization",Optimization.Tick),
             ("corral autofeed",AutoFeed.Tick),("compass markers",Compass.Tick)};
         _alwaysTicks=new (string,Action)[]{("cinematic rate",CinematicRate.Tick),("navigation settings",Navigation.Tick),("atlas",Map.Tick),("minimap terrain",MiniMapTerrain.Tick),("selftest",Tests.Tick),("native atlas probe",MapProbe.Tick),
-            ("native UI probe",UiProbe.Tick),("M15 slider probe",SliderProbe.Tick),("functional suite",Audit.Tick)};
+            ("native UI probe",UiProbe.Tick),("M15 slider probe",SliderProbe.Tick),("functional suite",Audit.Tick),("hook coexistence",HookCoexistence.Tick),("mod interop",ModInterop.Tick)};
         _lateTicks=new (string,Action)[]{("drone panel layout",DronePanels.LateTick)};
         _m28LateTicks=new (string,Action)[]{("drone toggle",DroneToggle.LateTick),("compass icons",Compass.LateTick),("player marker",PlayerMarker.LateTick)};
         InstalledHooks = saveHooks+NativeHooks.Install(HarmonyInstance);
@@ -184,6 +193,7 @@ public sealed class ToolkitMod : MelonMod
             bool profileSession=Stress?.Measuring==true,observeSession=ModProfiler?.Capturing==true;long sessionStart=profileSession||observeSession?Stopwatch.GetTimestamp():0,sessionBytes=observeSession?GC.GetAllocatedBytesForCurrentThread():0;
             AuditSaveGuard.Tick();
             BindSession();
+            Coop.Poll(); // Co-op role/cheat rules (reflection only, polled twice a second).
             InfiniteBuildHooks.Frame(this); // Resets per-frame scopes; disables the view on save change.
             if(MenuOpen&&NativeUiPriority.HasNativeFocus)YieldToNativeUi();
             Input.TickNativeHandoff();
@@ -472,10 +482,16 @@ public sealed class ToolkitMod : MelonMod
 
     internal void Queue(string label, Action action)
     {
+        // Co-op gate: cheats need the host's "Allow Cheats", the clock/weather belong to the host,
+        // time/mob freeze cannot be synchronised. Offline this is a no-op.
+        string denied = Coop?.Deny(label);
+        if (denied != null) { Notify(denied); return; }
         IntPtr expected = Session;
         _jobs.Enqueue(() =>
         {
             if (!Ready || !SafetyPolicy.SameSession(expected, Session)) throw new InvalidOperationException("Сейв изменился: операция отменена.");
+            string late = Coop?.Deny(label);
+            if (late != null) throw new InvalidOperationException(late);
             action();
             if (string.IsNullOrEmpty(LastError)) LoggerInstance.Msg("Action: " + label);
         });
@@ -484,6 +500,8 @@ public sealed class ToolkitMod : MelonMod
     internal void Confirm(string title, string description, Action action)
     {
         if (!Ready) { Notify("Сначала загрузите сейв."); return; }
+        string denied = Coop?.Deny(title);
+        if (denied != null) { Notify(denied); return; }
         Pending = new Confirmation { Title = title, Description = description, Execute = action, Session = Session };
     }
 
@@ -700,7 +718,7 @@ public sealed class ToolkitMod : MelonMod
             details.Append($"WeatherInitialized: {registry!=null&&registry.Initialized}\nWeatherNativeZones: {registry?._zones?.Count}\nPlayerZone: {tracker?.GetCurrentZone()?.DebugNameKey}\nPlayerLatestZone: {tracker?.GetLatestZone()?.DebugNameKey}\n");
         }catch(Exception e){details.Append("WeatherDiagnostic: "+e.Message+"\n");}
         try { var save=GameContext.Instance?.AutoSaveDirector; var metadata=NativeSaveMetadata.Read(save); if(metadata!=null&&metadata.HasValue) details.Append("SaveGameName: "+metadata.Value.GameName+"\n"); /* Native TryGetCurrentGameSummary incorrectly looks up an unsuffixed filename; do not poll it. */ } catch(Exception e) { details.Append("SaveDiagnostic: "+e.Message+"\n"); }
-        string snapshot=$"CreatorToolkit {Version}\nStandalone: true\nReady: {Ready}\nMenu: {MenuOpen}\nDisabledActions: {Input.DisabledCount}\nHooks: {InstalledHooks}\nCatalog: {Actors.Catalog.Count}\nSpawnedOwned: {Actors.OwnedCount}\nGod: {Player.GodMode}\nEnergy: {Player.InfiniteEnergy}\nSpeed: {Player.SpeedMultiplier:F2}\nFlight: {Player.Flight}\nFreezeTime: {World.FreezeTime}\nFreezeMobs: {World.FreezeMobs}\nHiddenHUD: {Cinema.HideHud}\nWaypoints: {Cinema.Waypoints.Count}\nError: {LastError}\nStatus: {Status}\n" + details.ToString();
+        string snapshot=$"CreatorToolkit {Version}\nStandalone: true\nReady: {Ready}\nMenu: {MenuOpen}\nDisabledActions: {Input.DisabledCount}\nHooks: {InstalledHooks}\nCoexistence: {HookCoexistence.Summary}\nInterop: {ModInterop.Summary}\nCatalog: {Actors.Catalog.Count}\nSpawnedOwned: {Actors.OwnedCount}\nGod: {Player.GodMode}\nEnergy: {Player.InfiniteEnergy}\nSpeed: {Player.SpeedMultiplier:F2}\nFlight: {Player.Flight}\nFreezeTime: {World.FreezeTime}\nFreezeMobs: {World.FreezeMobs}\nHiddenHUD: {Cinema.HideHud}\nWaypoints: {Cinema.Waypoints.Count}\nError: {LastError}\nStatus: {Status}\n" + details.ToString();
         if(profile)Stress.RecordSection("diagnostic-snapshot",Stopwatch.GetTimestamp()-snapshotStart);
         _diagnosticIo.QueueSnapshot(snapshot);
     }

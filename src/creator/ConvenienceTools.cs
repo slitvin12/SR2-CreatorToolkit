@@ -141,7 +141,7 @@ internal sealed class ConvenienceTools
         if(ammo?.Slots==null||index<0||index>=ammo.Slots.Length)throw new InvalidOperationException("Выберите открытый непустой слот.");
         string id=ammo.Slots[index]?.Id?.ReferenceId;
         if(string.IsNullOrEmpty(id)||ammo.Slots[index].Count<=0)throw new InvalidOperationException("Сначала поместите ресурс в выбранный слот.");
-        _app.Confirm("Включить автопополнение?", "Слот "+(index+1)+" будет пополняться до 100 шт., когда останется 25 или меньше. Количество сохраняется игрой. При смене выбранного слота, ресурса или опустошении чит отключится.",()=>ArmRefill(index,id));
+        _app.Confirm("Включить автопополнение?", "Слот "+(index+1)+" будет пополняться "+(ModInterop.CustomVacLimits?"до лимита слота (его задаёт мод вакпака), когда останется четверть или меньше":"до 100 шт., когда останется 25 или меньше")+". Количество сохраняется игрой. При смене выбранного слота, ресурса или опустошении чит отключится.",()=>ArmRefill(index,id));
     }
     private void ArmRefill(int index,string id)
     {
@@ -176,13 +176,14 @@ internal sealed class ConvenienceTools
             slot.Definition==null||!slot.Definition.IsAllowed(slot.Id))
         {StopRefill("Отключено: слот пуст, закрыт или ресурс изменился");return;}
         if(_app.Map.Busy||_app.Map.NativeMapOpen||Time.timeScale<=0)return;
-        if(!SafetyPolicy.NeedsRefill(slot.Count))return;
+        int target=ModInterop.FillTarget(slot); // 100, or the slot's own limit with a slot-limit mod
+        if(!SafetyPolicy.NeedsRefill(slot.Count,target))return;
         int before=slot.Count;
         try
         {
             // Native setter updates its HUD/model callbacks; never replace metadata.
-            slot.Count=SafetyPolicy.AmmoFill;
-            if(slot.Count!=SafetyPolicy.AmmoFill)throw new InvalidOperationException("Слот не принял пополнение.");
+            slot.Count=target;
+            if(slot.Count!=target)throw new InvalidOperationException("Слот не принял пополнение.");
             RefillOperations++;
         }
         catch

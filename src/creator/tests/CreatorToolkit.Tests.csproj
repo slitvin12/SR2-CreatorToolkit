@@ -55,6 +55,9 @@
     <Compile Include="..\ScrollMotionPolicy.cs" Link="ScrollMotionPolicy.cs" />
     <Compile Include="..\CapsuleTruthPolicy.cs" Link="CapsuleTruthPolicy.cs" />
     <Compile Include="..\WorldSourceObservationPolicy.cs" Link="WorldSourceObservationPolicy.cs" />
+    <Compile Include="..\MultiplayerPolicy.cs" Link="MultiplayerPolicy.cs" />
+    <Compile Include="..\CoexistencePolicy.cs" Link="CoexistencePolicy.cs" />
+    <Compile Include="..\ModInteropPolicy.cs" Link="ModInteropPolicy.cs" />
   </ItemGroup>
   <!-- This repository uses an executable offline checker, not an adapter-based
        xUnit project. Make the exact dotnet test command execute it and propagate
