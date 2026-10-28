@@ -80,7 +80,7 @@ powershell -ExecutionPolicy Bypass -File src\creator\install.ps1
 
 ## Лицензия
 
-Код мода распространяется по лицензии [MIT](LICENSE). Сторонние материалы под неё не подпадают:
+Код мода распространяется по лицензии [MIT](LICENSE). Сторонние материалы под неё не подпадают (подробно — [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)):
 
 - Slime Rancher 2, её названия и графика принадлежат Monomi Park. Сборок и файлов игры в репозитории нет, их берут из своей установки.
 - `src/creator/FandomAtlas.rgba` — значки интерактивной карты вики [ru.slimerancher.fandom.com](https://ru.slimerancher.fandom.com) (это графика игры).

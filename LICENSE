@@ -19,16 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-Third-party material (not covered by the MIT license above):
-
-- Slime Rancher 2, its names and artwork are (c) Monomi Park. This is an
-  unofficial fan project and is not affiliated with or endorsed by Monomi Park.
-- src/creator/FandomAtlas.rgba contains map icons copied from the interactive
-  map of the Slime Rancher Fandom wiki (ru.slimerancher.fandom.com); the icons
-  are game artwork.
-- src/creator/FandomMarkers.tsv contains marker positions and hints partly
-  derived from the Slime Rancher Fandom wiki, whose text is available under
-  CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0/).

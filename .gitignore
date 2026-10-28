@@ -6,6 +6,7 @@
 !/.gitattributes
 !/README.md
 !/LICENSE
+!/THIRD-PARTY-NOTICES.md
 
 !/src/
 /src/*
