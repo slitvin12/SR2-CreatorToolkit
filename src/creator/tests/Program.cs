@@ -345,7 +345,7 @@ using (var pe = new PEReader(File.OpenRead(dll)))
     Check(!refs.Any(n => n.Contains("Minecraft", StringComparison.OrdinalIgnoreCase) || n.Contains("McHud", StringComparison.OrdinalIgnoreCase) || n.Contains("WebSocket", StringComparison.OrdinalIgnoreCase)), "no Minecraft/bridge/socket assembly dependency");
     Check(refs.Contains("MelonLoader") && refs.Contains("Assembly-CSharp"), "native MelonLoader and game API references");
     var types = md.TypeDefinitions.Where(h => md.GetTypeDefinition(h).GetDeclaringType().IsNil).ToDictionary(h => md.GetString(md.GetTypeDefinition(h).Namespace) + "." + md.GetString(md.GetTypeDefinition(h).Name));
-    Check(md.GetAssemblyDefinition().Version==new Version(0,6,1,0),"release assembly version is 0.6.1");
+    Check(md.GetAssemblyDefinition().Version==new Version(0,7,0,0),"release assembly version is 0.7.0");
     foreach (string name in new[] { "ToolkitMod", "ToolkitUi", "InputCapture", "PlayerTools", "ActorTools", "WorldTools", "UnlockTools", "CinemaTools", "MapTools", "PrototypeTools", "NativeUiProbe", "NativeAtlasProbe", "ConvenienceTools", "StressSuite", "DiagnosticIo", "NativeHooks", "EngineFrameProbe", "StressComparisonPlan", "TransitSafety", "CatalogOrder", "CapsuleDatabase", "CapsuleTools","ExplorerPolicy","WaypointStore","WaypointRecord","CustomWaypointTools","RadarTools","FarmTools","UiThemePolicy","CarePolicy","SlimeCareTools","GadgetTools","NativeIconTools","PhenomenaTools","PhenomenaWindowPolicy","AuditSaveGuard","AuditSavePolicy","AuditImmutableBaseline","AuditCheckpointStore" })
         Check(types.ContainsKey("CreatorToolkit." + name), "packaged module " + name);
     var mod = md.GetTypeDefinition(types["CreatorToolkit.ToolkitMod"]);
@@ -1544,6 +1544,7 @@ M29Regression.Run(Check,root);
 CoopRegression.Run(Check,root);
 CoexistenceRegression.Run(Check,root);
 InteropRegression.Run(Check,root);
+M30CaptureRegression.Run(Check,root);
 Console.WriteLine($"SUMMARY: {passed} checks passed. Compilation/package/policy checks only; live-game validation is pending.");
 string sha = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(dll))).ToLowerInvariant();
 File.WriteAllText(Path.Combine(root, "_work", "creator-tests.summary.txt"), $"PASS {passed}\nDllSha256={sha}\nLiveGameVerified=false\n");

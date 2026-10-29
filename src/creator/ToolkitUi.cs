@@ -201,7 +201,7 @@ internal sealed partial class ToolkitUi
         _hoverCapsule=null;_capsuleId="";_capsuleScroll=Vector2.zero;_capsuleLayout=null;_family="Все";
         _mapCardShown=null;_mapCardSlot=null;_atlasChipSource=null;
         _phenomenaPage=false;_phenomenaScroll=Vector2.zero;_phenomenaSelection="";_timePage=false;
-        _infoPage=false;
+        _infoPage=false;_capturePage=false;_saveNamePage=false;_saveNameDraft="";
         ResetOptimizationUi();
         PaintTelemetry.Reset();_tabClickAt=0;_tabClickIndex=-1;
         ResetExplorerUi();ResetCreationUi();_headerSlime=null;ResetM27Ui();
@@ -1616,9 +1616,11 @@ internal sealed partial class ToolkitUi
         {
             if(_timePage){CinematicRatePage(area);return;}
             if(_phenomenaPage){PhenomenaPage(area.width);return;}
+            if(_capturePage){CapturePage(area);return;}
             var cinema = _app.Cinema;
             if(Button(new Rect(area.width-250,112,250,40),"Скорость времени…",_violetButton)){_timePage=true;ClearInteraction();return;}
-            bool hidden = Toggle(new Rect(0, 0, area.width, 94), "Чистый кадр / скрыть HUD", cinema.HideHud, "Убирает игровой интерфейс и вакпак. Меню остаётся доступно по Insert.");
+            if(Button(new Rect(area.width-250,27,250,40),"Камера и запись…",_accentButton)){_capturePage=true;ClearInteraction();return;}
+            bool hidden = Toggle(new Rect(0, 0, area.width-266, 94), "Чистый кадр / скрыть HUD", cinema.HideHud, "Убирает игровой интерфейс и вакпак. Меню остаётся доступно по Insert.");
             if (hidden != cinema.HideHud) _app.Queue("hide HUD", () => cinema.SetHideHud(hidden));
             GUI.Label(new Rect(0, 116, area.width-266, 35), "Точки телепортации · " + cinema.Waypoints.Count + " / 5", _heading);
             _waypointName = TextBox("waypoint-name", new Rect(0, 165, area.width - 234, 38), _waypointName, 40, "Название новой точки…");
@@ -1650,6 +1652,7 @@ internal sealed partial class ToolkitUi
     {
         if(_optimizationPage){OptimizationPage(area);return;}
         if(_infoPage){InfoPage(area);return;}
+        if(_saveNamePage){SaveNamePage(area);return;}
         BeginGroup(area);
         try
         {
@@ -1697,7 +1700,8 @@ internal sealed partial class ToolkitUi
             for(int i=0;i<places.Length;i++)
                 if(Button(new Rect(x+20+i*(pw+8),434,pw,44),places[i],tools.HudPlacement==i?_selectedButton:_button))tools.HudPlacement=i;
             GUI.Label(new Rect(x+20,490,col-40,44),"Зона, XYZ, время и активные эффекты.\nНе мешает карте и режиму чистого кадра.",_muted);
-            GUI.Label(new Rect(0,558,area.width-560,32),"Точки SOS и инфо-HUD — только в этом сеансе.",_muted);
+            GUI.Label(new Rect(0,558,area.width-794,32),"SOS и инфо-HUD — на сеанс.",_muted);
+            if(Button(new Rect(area.width-778,551,226,42),"Имя сейва…",_accentButton))OpenSaveNameUi();
             if(Button(new Rect(area.width-536,551,234,42),"Консоль / Инфо",_button))
             {_infoPage=true;ClearInteraction();}
             if(Button(new Rect(area.width-286,551,286,42),"Оптимизация / Potato Mode",_goldButton))

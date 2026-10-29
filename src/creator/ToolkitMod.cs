@@ -10,10 +10,10 @@ using MelonLoader.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "Creator Toolkit", "0.6.1", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
+[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "Creator Toolkit", "0.7.0", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: MelonGame("MonomiPark", "SlimeRancher2")]
-[assembly: AssemblyVersion("0.6.1.0")]
-[assembly: AssemblyFileVersion("0.6.1.0")]
+[assembly: AssemblyVersion("0.7.0.0")]
+[assembly: AssemblyFileVersion("0.7.0.0")]
 // SR2 Mod Manager: hooks shared with these mods were checked together (co-op via Ranching Together).
 [assembly: AssemblyMetadata("SR2ModManager.CompatibleWith", "SR2MP;Starlight;InfiniteHealth")]
 // SR2 Mod Manager: every Harmony hook is cooperative - Priority.Last, no transpilers/finalizers, cancelling prefixes only
@@ -25,7 +25,7 @@ namespace CreatorToolkit;
 public sealed class ToolkitMod : MelonMod
 {
     internal static ToolkitMod I;
-    internal const string Version = "0.6.1";
+    internal const string Version = "0.7.0";
     internal readonly InputCapture Input = new();
     internal PlayerTools Player;
     internal MultiplayerBridge Coop; // Ranching Together (SR2MP) co-op rules; inert without the mod.
@@ -55,6 +55,11 @@ public sealed class ToolkitMod : MelonMod
     internal PlayerMarkerTools PlayerMarker;
     // M29 task 4: minimap / compass settings (navigation.cfg) and the smooth minimap zoom.
     internal NavigationTools Navigation;
+    // 0.7.0: camera and capture (FOV, smooth zoom, FPS counter, background limit, smooth physics),
+    // free gadget placement and own save names in the main menu.
+    internal CaptureTools Capture;
+    internal FreePlacementTools FreePlacement;
+    internal SaveNameTools SaveNames;
     internal PassiveFrameBenchmark Benchmark;
     internal M20ModProfiler ModProfiler;
     internal bool BenchmarkPendingWork=>Pending!=null||_jobs.Count>0;
@@ -102,7 +107,7 @@ public sealed class ToolkitMod : MelonMod
     internal int UiDynamicLabels=>_ui.DynamicLabelCount;
     internal int UiFilterCaches=>_ui.FilterCacheCount;
     private (string Label,Action Run)[] _readyTicks,_alwaysTicks,_lateTicks;
-    private (string Label,Action Run)[] _m28LateTicks;
+    private (string Label,Action Run)[] _m28LateTicks,_m30LateTicks,_m30Ticks;
     internal void UiForTest(int tab,int category,int quantity)=>_ui.SetForTest(tab,category,quantity);
     internal int UiQuantityForTest=>_ui.QuantityForTest;
     internal float UiScrollForTest=>_ui.ScrollForTest;
@@ -152,6 +157,10 @@ public sealed class ToolkitMod : MelonMod
         PlayerMarker = new PlayerMarkerTools(this);
         Navigation = new NavigationTools(this);
         Navigation.Load();
+        Capture = new CaptureTools(this);
+        FreePlacement = new FreePlacementTools(this);
+        SaveNames = new SaveNameTools(this);
+        SaveNames.Load();
         _ui = new ToolkitUi(this);
         Tests = new SmokeTests(this);
         Audit = new FeatureSuite(this);
@@ -168,9 +177,12 @@ public sealed class ToolkitMod : MelonMod
             ("corral autofeed",AutoFeed.Tick),("compass markers",Compass.Tick)};
         _alwaysTicks=new (string,Action)[]{("cinematic rate",CinematicRate.Tick),("navigation settings",Navigation.Tick),("atlas",Map.Tick),("minimap terrain",MiniMapTerrain.Tick),("selftest",Tests.Tick),("native atlas probe",MapProbe.Tick),
             ("native UI probe",UiProbe.Tick),("M15 slider probe",SliderProbe.Tick),("functional suite",Audit.Tick),("hook coexistence",HookCoexistence.Tick),("mod interop",ModInterop.Tick)};
+        _m30Ticks=new (string,Action)[]{("capture",Capture.Tick),("save names",SaveNames.Tick)}; // every frame, main menu too
         _lateTicks=new (string,Action)[]{("drone panel layout",DronePanels.LateTick)};
+        _m30LateTicks=new (string,Action)[]{("camera fov",Capture.LateTick)};
         _m28LateTicks=new (string,Action)[]{("drone toggle",DroneToggle.LateTick),("compass icons",Compass.LateTick),("player marker",PlayerMarker.LateTick)};
         InstalledHooks = saveHooks+NativeHooks.Install(HarmonyInstance);
+        Capture.Load(); // After the hook count: a saved «Плавная физика» installs its hook here.
         LoggerInstance.Msg("CreatorToolkit " + Version + " initialized; standalone MelonLoader/IL2CPP; Insert only.");
     }
 
@@ -225,6 +237,7 @@ public sealed class ToolkitMod : MelonMod
                 foreach(var tick in _readyTicks)SafeTick(tick.Label,tick.Run);
             }
             foreach(var tick in _alwaysTicks)SafeTick(tick.Label,tick.Run);
+            foreach(var tick in _m30Ticks)SafeTick(tick.Label,tick.Run);
             bool profileDiagnostics=Stress?.Measuring==true,observeDiagnostics=ModProfiler?.Capturing==true;long diagnosticStart=profileDiagnostics||observeDiagnostics?Stopwatch.GetTimestamp():0,diagnosticBytes=observeDiagnostics?GC.GetAllocatedBytesForCurrentThread():0;
             try{PollDiagnostics();}
             finally{if(profileDiagnostics)Stress.RecordSection("diagnostics",Stopwatch.GetTimestamp()-diagnosticStart);
@@ -248,6 +261,8 @@ public sealed class ToolkitMod : MelonMod
         if(_lateTicks!=null)foreach(var tick in _lateTicks)SafeTick(tick.Label,tick.Run);
         // M28: drone-menu button placement, compass icons on the bar's own instances, player marker capture.
         if(_m28LateTicks!=null)foreach(var tick in _m28LateTicks)SafeTick(tick.Label,tick.Run);
+        // 0.7.0: camera FOV / smooth zoom, written after the game's own camera update.
+        if(_m30LateTicks!=null)foreach(var tick in _m30LateTicks)SafeTick(tick.Label,tick.Run);
     }
 
     public override void OnGUI()
@@ -273,10 +288,12 @@ public sealed class ToolkitMod : MelonMod
         if (!MenuOpen)
         {
             try { _ui.DrawTransitStatus();_ui.DrawSessionHud();_ui.DrawExplorerHud();_ui.DrawMiniMap();_ui.DrawMapOverlay();Audit?.DrawNativeFontSwatch(); } catch(Exception e) { Fail("HUD / map overlay",e); }
+            try { _ui.DrawFpsCounter(); } catch(Exception e) { Fail("FPS counter",e); }
             return;
         }
         try { _ui.Draw(); Tests?.Rendered(); }
         catch (Exception e) { Tests?.GuiFailed(e); Fail("GUI", e); CloseMenu(); }
+        try { _ui.DrawFpsCounter(); } catch(Exception e) { Fail("FPS counter",e); }
     }
 
     public override void OnSceneWasUnloaded(int buildIndex,string sceneName)
@@ -297,6 +314,7 @@ public sealed class ToolkitMod : MelonMod
         AuditSaveGuard.OnHostQuit();
         Stress?.Cancel();
         Navigation?.Flush();
+        SafeTick("capture shutdown",()=>Capture?.Shutdown());
         RestoreTransient();
         _ui?.Dispose();
         _diagnosticIo?.Dispose();
@@ -365,6 +383,8 @@ public sealed class ToolkitMod : MelonMod
         SafeTick("restore custom waypoints",()=>Custom?.Reset());
         SafeTick("restore atlas", () => Map?.Reset());
         SafeTick("restore conveniences", () => Convenience?.Reset());
+        SafeTick("restore free placement", () => FreePlacement?.Reset());
+        SafeTick("reset camera and capture", () => Capture?.ResetSession());
         CloseMenu();
         SafeTick("restore player", () => Player?.Reset());
         SafeTick("restore world", () => World?.Reset());
@@ -454,6 +474,7 @@ public sealed class ToolkitMod : MelonMod
         Farm?.Reset();Radar?.Reset();Custom?.HideGoal();Care?.Reset();Gadgets?.Reset();
         AutoFeed?.Reset();Compass?.Reset();DronePanels?.Reset();
         DroneToggle?.Reset();
+        FreePlacement?.Reset();Capture?.Shutdown();
         var save=GameContext.Instance?.AutoSaveDirector;
         if(Ready)
         {
@@ -542,6 +563,18 @@ public sealed class ToolkitMod : MelonMod
             LoggerInstance.Msg("Infinite builder hooks installed="+added+" available="+InfiniteBuildHooks.Available);
         }
         return InfiniteBuildHooks.Available;
+    }
+
+    // «Плавная физика» hook (IdentifiableActor.Awake postfix): installed on the first enable only.
+    internal bool EnsureCaptureHooks()
+    {
+        if(!CaptureHooks.Installed)
+        {
+            int added=CaptureHooks.Install(HarmonyInstance);
+            InstalledHooks+=added;
+            LoggerInstance.Msg("Smooth physics hook installed="+added+" available="+CaptureHooks.Available);
+        }
+        return CaptureHooks.Available;
     }
 
     // UI-only navigation, no pointer injection or game/progression action.
@@ -663,6 +696,8 @@ public sealed class ToolkitMod : MelonMod
                     default:
                         if(command.StartsWith("menu-tab ",StringComparison.Ordinal)&&int.TryParse(command.Substring(9),out int menuTab)&&menuTab>=0&&menuTab<ToolkitUi.TabCount)
                         {NavigateMenu(command,()=>_ui.ShowPage(menuTab));break;}
+                        if(Capture.Handle(command)||SaveNames.Handle(command))break; // 0.7.0 settings, same setters as the UI
+                        if(command=="free-placement-on"||command=="free-placement-off"){bool on=command.EndsWith("-on",StringComparison.Ordinal);if(Ready)Queue("free placement",()=>FreePlacement.Set(on));break;}
                         if(M28TestIpc.Handle(this,_ui,command,NavigateMenu))break; // ct-/m28- relay, ct-test.enabled gated
                         if(M27AcceptanceIpc.Handle(this,_ui,command,NavigateMenu))break; // M27 opt-in file gated
                         if(M26AcceptanceIpc.Handle(this,_ui,command)||M26AcceptanceCore.Handle(this,_ui,command))break; // opt-in file gated
@@ -706,6 +741,7 @@ public sealed class ToolkitMod : MelonMod
         details.Append(Optimization.Diagnostics());
         details.Append(NativeUiPriority.Diagnostics());
         details.Append(InfiniteBuildHooks.Diagnostics());
+        details.Append(Capture.Diagnostics());details.Append(FreePlacement.Diagnostics());details.Append(SaveNames.Diagnostics());
         details.Append(M26AcceptanceCore.Diagnostics(this,_ui));details.Append(M26AcceptanceIpc.Diagnostics(this,_ui));
         details.Append(M27AcceptanceIpc.Diagnostics(this,_ui));
         details.Append(M28TestIpc.Diagnostics(this));

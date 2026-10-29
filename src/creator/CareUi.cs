@@ -145,11 +145,15 @@ internal sealed partial class ToolkitUi
             tools.RequestPlace(_gadgetSelection);
         GUI.enabled = enabled;
         GUI.Label(new Rect(x + 18, 411, right - 36, 83),
-            infinite ? "Бесконечный режим: экземпляр не списывается, Преобразователь не трогается. Лимиты и проверки места — штатные." :
+            infinite ? "Бесконечный режим: экземпляр не списывается, Преобразователь не трогается. "+(_app.FreePlacement.Enabled?"Свободная установка: без проверки пересечений и уклона.":"Лимиты и проверки места — штатные.") :
             "Нужен изготовленный экземпляр. Размещение — с подтверждением; удаление и возврат — через штатное строительство.", _muted);
         // Bottom row, outside the detail card: the card has no spare height for a third text block plus a button.
         if(Button(new Rect(width-300,522,300,42),"Ресурсы Преобразователя…",_goldButton))
         {_refineryPage=true;_app.Queue("refinery catalog",_app.Refinery.Refresh);}
-        GUI.Label(new Rect(0, 529, width-316, 60), tools.Status, _muted);
+        // «Свободная установка» (native build mode): clipping, any slope, overhangs and a longer reach.
+        bool free=_app.FreePlacement.Enabled;
+        if(Button(new Rect(width-616,522,300,42),CapturePolicy.FreePlacementLabel(free),free?_selectedButton:_button))
+            _app.Queue("free placement",()=>_app.FreePlacement.Set(!_app.FreePlacement.Enabled));
+        GUI.Label(new Rect(0, 529, width-632, 60), free?_app.FreePlacement.Status:tools.Status, _muted);
     }
 }

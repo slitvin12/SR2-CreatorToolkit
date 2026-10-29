@@ -140,6 +140,7 @@ internal sealed class MultiplayerBridge
                 if (p.Flight) { p.SetFlight(false); off = true; }
             }
             if (_app.Gadgets?.InfiniteBuilder == true) { _app.Gadgets.SetInfiniteBuilder(false); off = true; }
+            if (_app.FreePlacement?.Enabled == true) { _app.FreePlacement.Set(false); off = true; }
             if (_app.AutoFeed?.Enabled == true) { _app.AutoFeed.Set(false); off = true; }
             if (_app.Farm?.Enabled == true && _app.Map?.Busy != true) { _app.Farm.SetModes(false, false); off = true; }
             if (_app.Convenience?.Refilling == true) { _app.Convenience.StopRefill("Кооп: автопополнение выключено"); off = true; }

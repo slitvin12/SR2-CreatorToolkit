@@ -34,7 +34,7 @@ internal static class MultiplayerPolicy
     {
         // creation, inventory, money, vitals
         "spawn", "fill ammo", "currency max", "currency 100000", "currency 10000", "refill vitals",
-        "auto refill request", "infinite builder", "flight",
+        "auto refill request", "infinite builder", "free placement", "flight",
         "refinery fill request", "refinery all +100 request", "refinery selected fill request", "refinery selected +100 request",
         "m26 acceptance refinery request",
         // movement (SR2MP: warp / position / noclip)
@@ -68,6 +68,8 @@ internal static class MultiplayerPolicy
         "m27 acceptance tracking refresh", "m27 acceptance tracking atlas", "m27 acceptance compass markers", "m27 acceptance autofeed off",
         "Удалить свою метку?", "Test",
         "coop: effects off",
+        // 0.7.0: camera, smooth physics (local rendering only) and own save names (a local file)
+        "camera fov", "smooth zoom", "smooth physics", "save name",
     };
 
     internal static CoopKind Classify(string label)
