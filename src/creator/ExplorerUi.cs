@@ -10,7 +10,8 @@ internal sealed partial class ToolkitUi
     private string _customSelection="",_customEditId="",_customEditName="";
     private Vector2 _customScroll,_radarScroll;
     private ActorTools.Entry _radarSelection;
-    private static readonly string[] ExplorerSections={"Атлас","Мои метки","Радар","Ферма","Навигация"};
+    // 0.8.0: «Ферма» moved to «Удобство» (automation lives there); legacy section 3 = farm, 4 = navigation.
+    private static readonly string[] ExplorerSections={"Атлас","Мои метки","Радар","Навигация"};
     private static readonly string[] MarkerColorNames={"Розовый","Бирюза","Золото","Лаванда","Лайм","Голубой"};
     private static readonly Color[] MarkerColors={
         new(.95f,.33f,.60f),new(.12f,.74f,.69f),new(1f,.69f,.16f),
@@ -22,26 +23,27 @@ internal sealed partial class ToolkitUi
         _explorerSection=_customEditColor=0;_customSelection=_customEditId=_customEditName="";
         _customScroll=_radarScroll=Vector2.zero;_radarSelection=null;
     }
+    // Test/IPC indices keep the 0.7 numbering: 0 atlas, 1 markers, 2 radar, 3 farm, 4 navigation.
     internal void ShowExplorerForTest(int section,string id="")
     {
-        ShowTabForTest(6);_explorerSection=Mathf.Clamp(section,0,ExplorerSections.Length-1);_customSelection=id;
+        if(section==3){ShowFarmForTest();return;}
+        ShowTabForTest(6);_explorerSection=section>=4?3:Mathf.Clamp(section,0,ExplorerSections.Length-1);_customSelection=id;
     }
     internal bool ExplorerSectionVisibleForTest(int section)=>
-        _app.MenuOpen&&_tab==6&&_explorerSection==section;
+        section==3?_app.MenuOpen&&_tab==7&&_farmPage:_app.MenuOpen&&_tab==6&&_explorerSection==(section>=4?3:section);
     private void ExplorerNavigation(float width)
     {
         int count=ExplorerSections.Length;float part=(width-8*(count-1))/count;
         for(int i=0;i<count;i++)
             if(NativeRoleButton(new Rect(i*(part+8),44,part,40),ExplorerSections[i],
-                i switch{0=>"Atlas",1=>"MyMarkers",2=>"Radar",3=>"Farm",_=>"Compass"},_explorerSection==i))
+                i switch{0=>"Atlas",1=>"MyMarkers",2=>"Radar",_=>"Compass"},_explorerSection==i))
             {_explorerSection=i;ClearInteraction();}
     }
     private void ExplorerPage(float width)
     {
         if(_explorerSection==1)CustomWaypointPage(width);
         else if(_explorerSection==2)RadarPage(width);
-        else if(_explorerSection==4)NavigationPage(width);
-        else FarmPage(width);
+        else NavigationPage(width);
     }
     private int ColorChoices(Rect rect,int selected,string prefix)
     {
@@ -61,7 +63,7 @@ internal sealed partial class ToolkitUi
     {
         var tools=_app.Custom;tools.EnsureLoaded();
         float left=(width-18)*.58f,x=left+18,right=width-x;
-        GUI.Label(new Rect(0,100,width,34),"Свои цветные метки · "+tools.Records.Count+" / 32",_heading);
+        L.Label(new Rect(0,100,width,34),"Свои цветные метки · "+tools.Records.Count+" / 32",_heading);
         tools.DraftName=TextBox("custom-new-name",new Rect(0,145,left,40),tools.DraftName,48,"Название новой метки…");
         tools.DraftColor=ColorChoices(new Rect(0,197,left,40),tools.DraftColor,"new");
         bool enabled=GUI.enabled;GUI.enabled=enabled&&tools.Records.Count<32;
@@ -70,7 +72,7 @@ internal sealed partial class ToolkitUi
         if(Button(new Rect((left+8)/2,249,(left-8)/2,44),"Поставить на карте",_button))
             _app.Queue("custom placement map",()=>{_app.Map.ClickTeleport=false;_app.Map.CustomPointMode=true;_app.Map.Open();});
         GUI.enabled=enabled;
-        Rect view=new(0,309,left,230);GUI.Box(view,GUIContent.none,_card);
+        Rect view=new(0,309,left,230);L.Box(view,GUIContent.none,_card);
         _customScroll=BeginScroll(40,new Rect(10,319,left-20,210),_customScroll,tools.Records.Count*48);
         try
         {
@@ -85,13 +87,13 @@ internal sealed partial class ToolkitUi
                     UnityEngine.InputSystem.Mouse.current.leftButton.isPressed);
                 Fill(HoverChildRect(row,new Rect(row.x+5,row.y+10,4,24),offset),MarkerColor(record.Color));
             }
-            if(tools.Records.Count==0)GUI.Label(new Rect(12,8,left-80,90),"Пока нет своих меток.\nСохраните позицию на земле или нажмите ЛКМ на карте.",_muted);
+            if(tools.Records.Count==0)L.Label(new Rect(12,8,left-80,90),DetailedHelp?"Пока нет своих меток.\nСохраните позицию на земле или нажмите ЛКМ на карте.":"Пока нет своих меток.",_muted);
         }
         finally{EndGroup();}
-        GUI.Box(new Rect(x,145,right,394),GUIContent.none,_card);
+        L.Box(new Rect(x,145,right,394),GUIContent.none,_card);
         var selected=tools.Find(_customSelection);
         if(selected==null)
-        {GUI.Label(new Rect(x+18,165,right-36,100),"Выберите свою метку.\nИмя и цвет можно изменить; удаление требует подтверждения.",_muted);}
+        {L.Label(new Rect(x+18,165,right-36,100),DetailedHelp?"Выберите свою метку.\nИмя и цвет можно изменить; удаление требует подтверждения.":"Выберите свою метку.",_muted);}
         else
         {
             if(_customEditId!=selected.Id)
@@ -104,7 +106,7 @@ internal sealed partial class ToolkitUi
                 _app.Queue("custom rename",()=>tools.Rename(id,name,color));
             }
             var point=tools.FindPoint(selected.Id);
-            GUI.Label(new Rect(x+16,305,right-32,48),point?.Group==null?"Зона этой метки сейчас недоступна. Телепорт отключён.":selected.ExactHeight?"Маяк + компас · проверенная наземная высота":"Компас · высота посадки будет проверена при телепорте",_muted);
+            L.Label(new Rect(x+16,305,right-32,48),point?.Group==null?"Зона этой метки сейчас недоступна. Телепорт отключён.":selected.ExactHeight?"Маяк + компас · проверенная наземная высота":"Компас · высота посадки будет проверена при телепорте",_muted);
             GUI.enabled=enabled&&point?.Group!=null;
             if(Button(new Rect(x+16,365,(right-40)/2,40),"На карте",_button))
             {var chosen=point;_app.Queue("show custom map marker",()=>_app.Map.OpenAt(chosen));}
@@ -120,22 +122,22 @@ internal sealed partial class ToolkitUi
                 _app.Confirm("Удалить свою метку?","Будет удалена только выбранная пользовательская метка. Капсулы и другие объекты игры не затрагиваются.",()=>tools.Delete(id));
             }
         }
-        GUI.Label(new Rect(0,551,width,42),tools.Status,_muted);
+        L.Label(new Rect(0,551,width,42),tools.Status,_muted);
     }
     private void RadarPage(float width)
     {
         var tools=_app.Radar;float left=(width-18)*.55f,x=left+18,right=width-x;
-        GUI.Label(new Rect(0,100,width,34),"Любимая еда и редкие материалы · до 100 м",_heading);
+        L.Label(new Rect(0,100,width,34),"Любимая еда и редкие материалы · до 100 м",_heading);
         var slimes=Filter("","Слаймы",false).Where(e=>!e.IsPrototype).ToList();
         if(_radarSelection==null)
             _radarSelection=slimes.FirstOrDefault(e=>e.Type.ReferenceId==tools.SlimeReference);
         Catalog(new Rect(0,145,left,394),slimes,ref _radarScroll,ref _radarSelection);
         if(_radarSelection!=null&&_radarSelection.Type.ReferenceId!=tools.SlimeReference)
         {var chosen=_radarSelection;_app.Queue("select radar slime",()=>tools.SetSlime(chosen));}
-        GUI.Box(new Rect(x,145,right,394),GUIContent.none,_card);
+        L.Box(new Rect(x,145,right,394),GUIContent.none,_card);
         if(_radarSelection!=null)SpritePreview(new Rect(x+16,165,50,50),_radarSelection);
-        GUI.Label(new Rect(x+80,165,right-96,45),tools.SlimeName,_wrap);
-        GUI.Label(new Rect(x+16,226,right-32,72),"Любимая еда из нативной SlimeDiet:\n"+tools.FavoriteNames,_muted);
+        L.Label(new Rect(x+80,165,right-96,45),tools.SlimeName,_wrap);
+        L.Label(new Rect(x+16,226,right-32,72),"Любимая еда:\n"+tools.FavoriteNames,_muted);
         if(Button(new Rect(x+16,310,right-32,44),tools.FavoriteFood?"Любимая еда: ВКЛ":"Любимая еда: ВЫКЛ",tools.FavoriteFood?_selectedButton:_button))
         {bool food=!tools.FavoriteFood,rare=tools.RareResources;_app.Queue("radar favorite food",()=>tools.SetModes(food,rare));}
         if(Button(new Rect(x+16,364,right-32,44),tools.RareResources?"Редкие материалы: ВКЛ":"Редкие материалы: ВЫКЛ",tools.RareResources?_selectedButton:_button))
@@ -146,8 +148,8 @@ internal sealed partial class ToolkitUi
         {bool on=!markers;_app.Queue("compass markers",()=>_app.Compass.SetEnabled(on));}
         // Top-aligned 16 px block below the compass button, inside the card (M27 live
         // test: three centred 17 px lines overflowed onto the button).
-        GUI.Label(new Rect(x+16,468,right-32,68),tools.Status+"\n"+(compass!=null?compass.Status:""),_atlasDetail);
-        if(DetailedHelp)GUI.Label(new Rect(0,550,width,46),"Ближайшая цель · обновление раз в секунду · только загруженная зона; скрытые залежи не угадываются.",_muted);
+        L.Label(new Rect(x+16,468,right-32,68),tools.Status+"\n"+(compass!=null?compass.Status:""),_atlasDetail);
+        Hint(new Rect(0,550,width,46),"Ближайшая цель · обновление раз в секунду · только загруженная зона; скрытые залежи не угадываются.",_muted);
     }
     // M29 task 4: minimap and compass settings; every change is saved to navigation.cfg.
     private static readonly int[] CornerOrder={1,0,3,2};
@@ -162,89 +164,89 @@ internal sealed partial class ToolkitUi
     private void NavigationPage(float width)
     {
         var nav=_app.Navigation;
-        if(nav==null){GUI.Label(new Rect(0,100,width,34),"Настройки навигации недоступны",_heading);return;}
+        if(nav==null){L.Label(new Rect(0,100,width,34),"Настройки навигации недоступны",_heading);return;}
         var s=nav.Settings;
         float col=(width-18)/2,x=col+18,lx=16,lw=col-32,cx=lx+148,cw=lw-148;
-        GUI.Label(new Rect(0,100,width,34),"Мини-карта и компас · сохраняется сразу",_heading);
+        L.Label(new Rect(0,100,width,34),"Мини-карта и компас · сохраняется сразу",_heading);
         // Minimap card.
-        GUI.Box(new Rect(0,145,col,394),GUIContent.none,_card);
-        GUI.Label(new Rect(lx,153,lw,30),"Мини-карта",_wrap);
-        GUI.Label(new Rect(lx,190,140,34),"Режим",_muted);
+        L.Box(new Rect(0,145,col,394),GUIContent.none,_card);
+        L.Label(new Rect(lx,153,lw,30),"Мини-карта",_wrap);
+        L.Label(new Rect(lx,190,140,34),"Режим",_muted);
         int mode=NavigationChoice(new Rect(cx,190,cw,34),M29NavigationSettings.ModeTitles,s.Mode);
         if(mode>=0&&mode!=s.Mode)_app.Queue("minimap mode",()=>nav.SetMode(mode));
-        GUI.Label(new Rect(lx,234,140,34),"Размер",_muted);
+        L.Label(new Rect(lx,234,140,34),"Размер",_muted);
         int size=NavigationChoice(new Rect(cx,234,cw,34),M29NavigationSettings.SizeTitles,s.Size);
         if(size>=0)nav.Edit(n=>n.Size=size);
-        GUI.Label(new Rect(lx,278,140,34),"Масштаб "+M29NavigationSettings.Metres(s.Range),_muted);
+        L.Label(new Rect(lx,278,140,34),"Масштаб "+M29NavigationSettings.Metres(s.Range),_muted);
         if(Button(new Rect(cx,278,40,34),"−",_button))nav.ZoomIn();
         float t=M29NavigationSettings.RangeToSlider(s.Range);
         float slid=Slider(60,new Rect(cx+50,281,cw-100,28),t,0f,1f);
         if(Math.Abs(slid-t)>1e-4f)nav.SetRange(M29NavigationSettings.SliderToRange(slid));
         if(Button(new Rect(cx+cw-40,278,40,34),"+",_button))nav.ZoomOut();
-        GUI.Label(new Rect(lx,322,140,34),"Угол",_muted);
+        L.Label(new Rect(lx,322,140,34),"Угол",_muted);
         int corner=NavigationChoice(new Rect(cx,322,cw,34),CornerArrows,Array.IndexOf(CornerOrder,s.Corner));
         if(corner>=0)nav.Edit(n=>n.Corner=CornerOrder[corner]);
-        GUI.Label(new Rect(lx,366,140,34),"Прозр. "+s.Transparency+" %",_muted);
+        L.Label(new Rect(lx,366,140,34),"Прозр. "+s.Transparency+" %",_muted);
         int clear=M29NavigationSettings.ClampTransparency(Mathf.RoundToInt(Slider(61,new Rect(cx,369,cw,28),s.Transparency,0,M29NavigationSettings.MaxTransparency)));
         if(clear!=s.Transparency)nav.Edit(n=>n.Transparency=clear,false);
-        GUI.Label(new Rect(lx,410,140,34),"Ориентация",_muted);
+        L.Label(new Rect(lx,410,140,34),"Ориентация",_muted);
         int north=NavigationChoice(new Rect(cx,410,cw,34),new[]{"По взгляду","Север сверху"},s.NorthUp?1:0);
         if(north>=0)nav.Edit(n=>n.NorthUp=north==1);
         var terrain=_app.MiniMapTerrain;
-        GUI.Label(new Rect(lx,454,lw,80),M29NavigationSettings.ModeTitles[Mathf.Clamp(s.Mode,0,2)]+" · "+M29NavigationSettings.SizeTitles[Mathf.Clamp(s.Size,0,2)]+
+        L.Label(new Rect(lx,454,lw,80),M29NavigationSettings.ModeTitles[Mathf.Clamp(s.Mode,0,2)]+" · "+M29NavigationSettings.SizeTitles[Mathf.Clamp(s.Size,0,2)]+
             " · "+M29NavigationSettings.CornerTitles[Mathf.Clamp(s.Corner,0,3)]+" · фон "+(100-s.Transparency)+" %"+(s.NorthUp?" · север сверху":" · по взгляду")+
             (nav.Zooming?" · масштаб "+M29NavigationSettings.Metres(nav.Range):"")+"\n"+(s.Mode==1&&terrain!=null?terrain.Status:"Слои мини-карты — включённые слои атласа."),_atlasDetail);
         // Compass card.
         float rx=x+16,rcx=rx+148;
-        GUI.Box(new Rect(x,145,col,394),GUIContent.none,_card);
-        GUI.Label(new Rect(rx,153,lw,30),"Компас",_wrap);
+        L.Box(new Rect(x,145,col,394),GUIContent.none,_card);
+        L.Label(new Rect(rx,153,lw,30),"Компас",_wrap);
         var compass=_app.Compass;bool markers=compass!=null&&compass.Enabled;
         if(Button(new Rect(rx,190,lw,34),markers?"Метки на компасе: ВКЛ":"Метки на компасе: ВЫКЛ",markers?_selectedButton:_button))
         {bool on=!markers;_app.Queue("compass markers",()=>nav.SetCompass(on));}
-        GUI.Label(new Rect(rx,234,140,34),"Дальн. "+s.CompassRange+" м",_muted);
+        L.Label(new Rect(rx,234,140,34),"Дальн. "+s.CompassRange+" м",_muted);
         int reach=M29NavigationSettings.ClampCompassRange(Mathf.RoundToInt(Slider(62,new Rect(rcx,237,cw,28),s.CompassRange,M29NavigationSettings.MinCompassRange,M29NavigationSettings.MaxCompassRange)));
         if(reach!=s.CompassRange)nav.Edit(n=>n.CompassRange=reach,false);
-        GUI.Label(new Rect(rx,278,140,34),"Меток",_muted);
+        L.Label(new Rect(rx,278,140,34),"Меток",_muted);
         if(Button(new Rect(rcx,278,40,34),"−",_button))nav.Edit(n=>n.CompassMarkers--);
-        GUI.Label(new Rect(rcx+50,278,cw-100,34),s.CompassMarkers+" из "+M29NavigationSettings.MaxCompassMarkers,_badge);
+        L.Label(new Rect(rcx+50,278,cw-100,34),s.CompassMarkers+" из "+M29NavigationSettings.MaxCompassMarkers,_badge);
         if(Button(new Rect(rcx+cw-40,278,40,34),"+",_button))nav.Edit(n=>n.CompassMarkers++);
-        GUI.Label(new Rect(rx,322,140,34),"Фантомы",_muted);
+        L.Label(new Rect(rx,322,140,34),"Фантомы",_muted);
         int ghosts=NavigationChoice(new Rect(rcx,322,cw,34),M29NavigationSettings.GhostTitles,s.Ghosts);
         if(ghosts>=0)nav.Edit(n=>n.Ghosts=ghosts);
-        GUI.Label(new Rect(rx,362,lw,44),s.Ghosts==2?"Ближайший фантомный дрон зоны с наградой — всегда, без предела дальности.":
+        Hint(new Rect(rx,362,lw,44),s.Ghosts==2?"Ближайший фантомный дрон зоны с наградой — всегда, без предела дальности.":
             s.Ghosts==1?"Фантомные дроны раньше других слоёв, как свои метки.":"Фантомные дроны — наравне с другими дронами.",_muted);
         if(Button(new Rect(rx,410,lw,34),"Сбросить вид и пределы",_button))_app.Queue("navigation reset",nav.ResetLook);
-        GUI.Label(new Rect(rx,450,lw,86),(compass!=null?compass.Status:"Компас недоступен")+"\nСначала по одной метке на каждый слой.",_atlasDetail);
-        GUI.Label(new Rect(0,550,width,46),nav.FilePath+"\n"+nav.Status,_muted);
+        L.Label(new Rect(rx,450,lw,86),(compass!=null?compass.Status:"Компас недоступен")+(DetailedHelp?"\nСначала по одной метке на каждый слой.":""),_atlasDetail);
+        L.Label(new Rect(0,550,width,46),DetailedHelp?nav.FilePath+"\n"+nav.Status:nav.Status,_muted);
     }
-    private void FarmPage(float width)
+    // 0.8.0: «Удобство → Ферма…»; the cards start at «top», the heading is drawn by the caller.
+    private void FarmPage(float width,float top)
     {
-        var tools=_app.Farm;float col=(width-18)/2,x=col+18;
-        GUI.Label(new Rect(0,100,width,34),"Фермерский помощник · установленные устройства",_heading);
-        GUI.Box(new Rect(0,145,col,200),GUIContent.none,_card);
-        NativeRequiredIcon(new Rect(18,162,42,42),"PinkPlort");
-        GUI.Label(new Rect(76,164,col-92,40),"Сбор плортов",_heading);
-        GUI.Label(new Rect(18,219,col-36,54),"Купленный сборщик загона · до 30 м.",_muted);
-        if(Button(new Rect(18,283,col-36,48),tools.Collect?"Автосбор: ВКЛ · отключить":"Автосбор: ВЫКЛ · включить…",tools.Collect?_selectedButton:_button))
+        var tools=_app.Farm;float col=(width-18)/2,x=col+18,o=top-145;
+        L.Box(new Rect(0,145+o,col,200),GUIContent.none,_card);
+        NativeRequiredIcon(new Rect(18,162+o,42,42),"PinkPlort");
+        L.Label(new Rect(76,164+o,col-92,40),"Сбор плортов",_heading);
+        Hint(new Rect(18,219+o,col-36,54),"Купленный сборщик загона · до 30 м.");
+        if(Button(new Rect(18,283+o,col-36,48),tools.Collect?"Автосбор: ВКЛ · отключить":"Автосбор: ВЫКЛ · включить…",tools.Collect?_selectedButton:_button))
             tools.Request(!tools.Collect,tools.Feed);
-        GUI.Box(new Rect(x,145,col,200),GUIContent.none,_card);
-        NativeRequiredIcon(new Rect(x+18,162,42,42),"Feeder");
-        GUI.Label(new Rect(x+76,164,col-92,40),"Пополнение кормушек",_heading);
-        GUI.Label(new Rect(x+18,219,col-36,54),"Из выбранного слота в кормушку · до 4 шт./с.",_muted);
-        if(Button(new Rect(x+18,283,col-36,48),tools.Feed?"Кормушки: ВКЛ · отключить":"Кормушки: ВЫКЛ · включить…",tools.Feed?_selectedButton:_button))
+        L.Box(new Rect(x,145+o,col,200),GUIContent.none,_card);
+        NativeRequiredIcon(new Rect(x+18,162+o,42,42),"Feeder");
+        L.Label(new Rect(x+76,164+o,col-92,40),"Пополнение кормушек",_heading);
+        Hint(new Rect(x+18,219+o,col-36,54),"Из выбранного слота в кормушку · до 4 шт./с.");
+        if(Button(new Rect(x+18,283+o,col-36,48),tools.Feed?"Кормушки: ВКЛ · отключить":"Кормушки: ВЫКЛ · включить…",tools.Feed?_selectedButton:_button))
             tools.Request(tools.Collect,!tools.Feed);
         // M27: corral autofeed - hungry corral slimes get one portion of their own diet.
         var feed=_app.AutoFeed;bool feeding=feed!=null&&feed.Enabled;
-        GUI.Box(new Rect(0,357,width,112),GUIContent.none,_card);
-        NativeRequiredIcon(new Rect(18,370,42,42),"Farm");
-        GUI.Label(new Rect(76,372,width-424,36),"Автокормление загонов",_heading);
-        GUI.Label(new Rect(76,410,width-424,52),"Голодным слаймам в загонах — по порции из их рациона (сначала любимая) · до 300 м.",_muted);
-        if(feed!=null&&Button(new Rect(width-330,384,312,48),feeding?"Автокорм: ВКЛ · отключить":"Автокорм: ВЫКЛ · включить…",feeding?_selectedButton:_button))
+        L.Box(new Rect(0,357+o,width,112),GUIContent.none,_card);
+        NativeRequiredIcon(new Rect(18,370+o,42,42),"Farm");
+        L.Label(new Rect(76,372+o,width-424,36),"Автокормление загонов",_heading);
+        Hint(new Rect(76,410+o,width-424,52),"Голодным слаймам в загонах — по порции из их рациона (сначала любимая) · до 300 м.");
+        if(feed!=null&&Button(new Rect(width-330,384+o,312,48),feeding?"Автокорм: ВКЛ · отключить":"Автокорм: ВЫКЛ · включить…",feeding?_selectedButton:_button))
             feed.Request(!feeding);
-        GUI.Box(new Rect(0,481,width,62),GUIContent.none,_card);
-        GUI.Label(new Rect(18,486,width-36,26),tools.Status,_wrap);
-        GUI.Label(new Rect(18,512,width-36,26),feed!=null?feed.Status:"",_muted);
-        GUI.Label(new Rect(0,551,width,42),"Изменяет инвентарь · включение с подтверждением.",_muted);
+        L.Box(new Rect(0,481+o,width,62),GUIContent.none,_card);
+        L.Label(new Rect(18,486+o,width-36,26),tools.Status,_wrap);
+        L.Label(new Rect(18,512+o,width-36,26),feed!=null?feed.Status:"",_muted);
+        Hint(new Rect(0,551+o,width,42),"Изменяет инвентарь · включение с подтверждением.");
     }
     // A required native-only role never falls back to the schematic atlas.
     // Missing/unloaded assets stay visibly unavailable, with cached provenance.
@@ -252,17 +254,17 @@ internal sealed partial class ToolkitUi
     {
         var sprite=_app.Map.Icons.Role(role);
         if(sprite!=null)DrawSprite(rect,sprite);
-        else GUI.Label(rect,new GUIContent("нет\nиконки",_app.Map.Icons.RoleDiagnostic(role)),_small);
+        else L.Label(rect,new GUIContent(Loc.T("нет\nиконки"),_app.Map.Icons.RoleDiagnostic(role)),_small);
     }
     private void CustomMapCard(Rect rect,MapTools.Point point)
     {
         var tools=_app.Custom;
-        GUI.Box(rect,GUIContent.none,_frame);
+        L.Box(rect,GUIContent.none,_frame);
         NativeRequiredIcon(new Rect(rect.x+16,rect.y+14,36,36),"Compass");
         Fill(new Rect(rect.x+12,rect.y+16,3,34),MarkerColor(point.ColorIndex));
-        GUI.Label(new Rect(rect.x+62,rect.y+8,rect.width-122,58),point.Name,_atlasDetail);
+        L.Label(new Rect(rect.x+62,rect.y+8,rect.width-122,58),point.Name,_atlasDetail);
         if(Button(new Rect(rect.xMax-52,rect.y+8,44,44),"×",_button)){_app.Map.Selected=null;return;}
-        GUI.Label(new Rect(rect.x+16,rect.y+74,rect.width-32,104),
+        L.Label(new Rect(rect.x+16,rect.y+74,rect.width-32,104),
             "Своя метка · "+MarkerColorNames[Mathf.Clamp(point.ColorIndex,0,5)]+"\n"+
             (point.ExactHeight?"Наземный маяк и компас":"Компас; высота земли проверится при переходе")+"\n"+
             "Телепорт — через безопасную прогрузку зоны.",_atlasDetail);
@@ -274,7 +276,7 @@ internal sealed partial class ToolkitUi
         GUI.enabled=enabled;
         if(Button(new Rect(rect.x+16,rect.y+302,rect.width-32,44),"Изменить имя / цвет / удалить…",_button))
         {string id=point.Id;_app.Queue("custom marker settings",()=>{_app.Map.CloseNative();ShowExplorerForTest(1,id);_app.Input.OpenAfterNativeClose();});}
-        GUI.Label(new Rect(rect.x+16,rect.y+358,rect.width-32,56),"Метка хранится отдельно\nот игрового сейва.",_muted);
+        Hint(new Rect(rect.x+16,rect.y+358,rect.width-32,56),"Метка хранится отдельно\nот игрового сейва.");
     }
     internal void DrawExplorerHud()
     {
@@ -317,8 +319,8 @@ internal sealed partial class ToolkitUi
     }
     private void ExplorerHudRow(Rect rect,string direction,string text,Color stripe)
     {
-        GUI.Box(rect,GUIContent.none,_hudFrame);Fill(new Rect(rect.x+8,rect.y+12,3,28),stripe);
-        GUI.Label(new Rect(rect.x+18,rect.y+9,35,34),direction,_hudLabel);
-        GUI.Label(new Rect(rect.x+57,rect.y+9,rect.width-73,34),text,_hudLabel);
+        L.Box(rect,GUIContent.none,_hudFrame);Fill(new Rect(rect.x+8,rect.y+12,3,28),stripe);
+        L.Label(new Rect(rect.x+18,rect.y+9,35,34),direction,_hudLabel);
+        L.Label(new Rect(rect.x+57,rect.y+9,rect.width-73,34),text,_hudLabel);
     }
 }

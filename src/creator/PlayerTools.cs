@@ -324,6 +324,7 @@ internal sealed partial class PlayerTools
     internal void SetFlight(bool enabled)
     {
         if(enabled&&_transitHold)throw new InvalidOperationException("Безопасный переход удерживает физику. Дождитесь посадки или возврата.");
+        if(enabled&&StarlightBridge.NoClipActive)throw new InvalidOperationException("Включён NoClip Starlight — выключите его в меню читов Starlight.");
         if (enabled == Flight) return;
         if (!enabled) { StopFlight(); _app.Notify("Полёт выключен; коллизии и гравитация восстановлены."); return; }
         if (_controller == null || _motor == null) { Tick(); }

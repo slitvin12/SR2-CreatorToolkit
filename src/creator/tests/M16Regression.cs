@@ -36,7 +36,7 @@ internal static class M16Regression
         string ui=Read("ToolkitUi.cs"),input=Read("InputCapture.cs"),sources=Read("WorldSourceObservations.cs"),map=Read("MapTools.cs"),opt=Read("OptimizationUi.cs"),tools=Read("OptimizationTools.cs");
         Check(ui.Contains("DrawRoundedSurface(track,_sliderTrackPaint")&&ui.Contains("DrawRoundedSurface(filled,_sliderFillPaint")&&!ui.Contains("GUI.Box(track,GUIContent.none,_trackStyle)"),"thin slider uses non-overlapping capsule slices instead of oversized 20px native borders");
         Check(input.Contains("BeginOpenAnimation()")&&ui.Contains("24f*(1f-entrance)")&&ui.Contains("OpeningProgress>=1f"),"every real Insert/open path animates fixed window geometry and gates input until settled");
-        Check(ui.Contains("212+(i/filterColumns)*44")&&ui.Contains("MapLayerOrder.FilterWidth(area.width,filterLayers.Length)"),"every native map layer label (incl. food and plort layers) fits two filter rows");
+        Check(ui.Contains("152+(i/filterColumns)*44")&&ui.Contains("MapLayerOrder.FilterWidth(area.width,filterLayers.Length)"),"every native map layer label (incl. food and plort layers) fits two filter rows");
         {
             string fandom=Read("FandomMarkers.tsv"),index=Read("MapIndex.tsv"),progress=Read("MapProgress.cs"),mini=Read("MiniMapUi.cs");
             string catalog=index.Split('\n')[0].Trim();

@@ -21,5 +21,8 @@
     <EmbeddedResource Include="CreatorAtlas.rgba" LogicalName="CreatorToolkit.CreatorAtlas.rgba" />
     <EmbeddedResource Include="FandomMarkers.tsv" LogicalName="CreatorToolkit.FandomMarkers.tsv" />
     <EmbeddedResource Include="FandomAtlas.rgba" LogicalName="CreatorToolkit.FandomAtlas.rgba" />
+    <!-- Not «Loc.en.tsv»: MSBuild would treat «.en» as a culture and move it into a satellite assembly. -->
+    <EmbeddedResource Include="LocEnglish.tsv" LogicalName="CreatorToolkit.LocEnglish.tsv" />
+    <EmbeddedResource Include="icon.png" LogicalName="CreatorToolkit.icon.png" />
   </ItemGroup>
 </Project>

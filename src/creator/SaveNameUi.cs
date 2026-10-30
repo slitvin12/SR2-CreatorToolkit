@@ -17,11 +17,11 @@ internal sealed partial class ToolkitUi
         BeginGroup(area);
         try
         {
-            GUI.Label(new Rect(0, 0, w - 220, 38), "Имя сейва", _heading);
+            L.Label(new Rect(0, 0, w - 220, 38), "Имя сейва", _heading);
             if (Button(new Rect(w - 200, 0, 200, 40), "Назад", _button)) { _saveNamePage = false; ClearInteraction(); return; }
-            GUI.Box(new Rect(0, 76, w, 300), GUIContent.none, _card);
+            L.Box(new Rect(0, 76, w, 300), GUIContent.none, _card);
             int slot = names.CurrentSlot;
-            GUI.Label(new Rect(24, 96, w - 48, 34), slot > 0 ? "Текущий сейв: «Файл " + slot + "»" + (names.CurrentName.Length > 0 ? " · сейчас «" + names.CurrentName + "»" : " · без имени") :
+            L.Label(new Rect(24, 96, w - 48, 34), slot > 0 ? "Текущий сейв: «Файл " + slot + "»" + (names.CurrentName.Length > 0 ? " · сейчас «" + names.CurrentName + "»" : " · без имени") :
                 "Текущий сейв не определён — загрузите мир.", _label);
             _saveNameDraft = TextBox("save-name", new Rect(24, 148, w - 48, 40), _saveNameDraft, CapturePolicy.MaxSaveName, "Например: Ферма на Радужных полях");
             bool enabled = GUI.enabled; GUI.enabled = enabled && slot > 0;
@@ -30,9 +30,9 @@ internal sealed partial class ToolkitUi
             GUI.enabled = enabled && slot > 0 && names.CurrentName.Length > 0;
             if (Button(new Rect(40 + bw, 208, bw, 46), "Убрать имя", _button)) { _saveNameDraft = ""; _app.Queue("save name", () => names.SetCurrentName("")); }
             GUI.enabled = enabled;
-            GUI.Label(new Rect(24, 272, w - 48, 92), "В главном меню («Файлы сохранений») вместо «Файл " + (slot > 0 ? slot : 1) + "» будет это имя. До " + CapturePolicy.MaxSaveName +
+            Hint(new Rect(24, 272, w - 48, 92), "В главном меню («Файлы сохранений») вместо «Файл " + (slot > 0 ? slot : 1) + "» будет это имя. До " + CapturePolicy.MaxSaveName +
                 " символов. Сами сейвы не меняются: имена хранятся в UserData\\CreatorToolkit\\save-names.cfg, удаление мода вернёт обычные подписи.", _muted);
-            GUI.Label(new Rect(0, 400, w, 72), names.Status, _tableHeading);
+            L.Label(new Rect(0, 400, w, 72), names.Status, _tableHeading);
         }
         finally { EndGroup(); }
     }

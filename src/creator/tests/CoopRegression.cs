@@ -48,7 +48,7 @@ internal static class CoopRegression
         Check(labels.Count>=100,"source scan found action labels ("+labels.Count+")");
         var unknown=labels.Where(l=>!P.Known(l)).ToArray();
         Check(unknown.Length==0,"every Queue/Confirm label has a co-op class"+(unknown.Length==0?"":": "+string.Join(", ",unknown)));
-        foreach(string l in new[]{"freeze time","weather","spawn","flight","Открыть весь атлас?"})Check(labels.Contains(l),"policy label still used in sources: "+l);
+        foreach(string l in new[]{"freeze time","weather","spawn","flight","Открыть карту и ноды"})Check(labels.Contains(l),"policy label still used in sources: "+l);
 
         // Static wiring (not behavioural proof).
         string mod=Compact(File.ReadAllText(Path.Combine(dir,"ToolkitMod.cs")));

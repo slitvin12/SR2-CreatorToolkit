@@ -59,6 +59,6 @@ internal static class M23ResourceLayerRegression
           icons.Contains("Category(MapResourceLayerPolicy.Food,\"iconVeggieCarrot_small\");"),"new layer buttons borrow exact native game sprites");
         C(ui.Contains("map.PanelExpanded?MapLayerOrder.PanelHeight(layers.Length):56")&&ui.Contains("Rect panel=panelBounds;")&&
           ui.Contains("new Rect(16,controlsY+190,292,42)")&&!ui.Contains("PanelExpanded?780:56"),"panel, marker exclusion and controls grow together");
-        C(ui.Contains("212+(i/filterColumns)*44")&&ui.Contains("MapLayerOrder.FilterWidth(area.width,filterLayers.Length)"),"atlas page filters use the shared two-row layout");
+        C(ui.Contains("152+(i/filterColumns)*44")&&ui.Contains("MapLayerOrder.FilterWidth(area.width,filterLayers.Length)"),"atlas page filters use the shared two-row layout");
     }
 }

@@ -49,7 +49,7 @@ internal sealed partial class ToolkitUi
             {_optDraft=tools.ForUi();_optRevision=tools.UiRevision;_optDraftReady=true;_optDraftChanged=false;}
             if(!_renderDraftReady||(!_renderChanged&&!_optQueued&&_dragSlider<0&&_renderRevision!=tools.UiRevision))
             {_runtimeDraft=tools.Runtime.Request;_renderDraft=tools.DetailedSettings;_renderRevision=tools.UiRevision;_renderDraftReady=true;_renderChanged=false;}
-            GUI.Label(new Rect(0,0,area.width-250,38),"Графика и производительность",_heading);
+            L.Label(new Rect(0,0,area.width-250,38),"Графика и производительность",_heading);
             if(Button(new Rect(area.width-226,0,226,42),"Назад",_button)){_optimizationPage=false;ClearInteraction();return;}
             float tw=(area.width-30)/4;
             if(Button(new Rect(0,56,tw,40),"Текстуры и загрузка",_optSubpage==0?_selectedButton:_button)){_optSubpage=0;ClearInteraction();}
@@ -67,7 +67,7 @@ internal sealed partial class ToolkitUi
             GUI.enabled=controlsEnabled&&!_optQueued&&tools.Active;
             if(Button(new Rect(3*(bw+12),478,bw,44),"Восстановить всё",_button))GraphicsPreset(2);
             GUI.enabled=controlsEnabled;
-            GUI.Label(new Rect(0,538,area.width,42),_optQueued?"Применение…":_renderChanged?"Есть изменения · нажмите «Применить своё»":tools.Runtime.Active?tools.Runtime.Status:tools.MaximumActive?tools.MaximumStatus:"Настройки временные · «Игра» возвращает исходное состояние",_small);
+            L.Label(new Rect(0,538,area.width,42),_optQueued?"Применение…":_renderChanged?"Есть изменения · нажмите «Применить своё»":tools.Runtime.Active?tools.Runtime.Status:tools.MaximumActive?tools.MaximumStatus:"Настройки временные · «Игра» возвращает исходное состояние",_small);
             if(_optDraftChanged&&!_optQueued&&_dragSlider<0&&(Mouse.current==null||!Mouse.current.leftButton.isPressed)&&Event.current.type==EventType.Repaint)QueueOptimization(_optDraft);
         }
         finally{EndGroup();}

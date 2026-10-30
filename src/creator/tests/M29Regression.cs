@@ -210,8 +210,8 @@ internal static class M29Regression
         C(ui.Contains("if(M29AtlasSearchPolicy.Active(map.Search))AtlasSearchChip(new Rect(52,6,212,44),map);")&&
           ui.Contains("if(Button(new Rect(chip.xMax-42,chip.y+5,38,34),\"×\",_button))ClearAtlasSearch();")&&
           ui.Contains("M29AtlasSearchPolicy.ChipHead(map.SearchHitsOnPage())"),"wiring: the native-map header shows the active search with a clear button");
-        C(ui.Contains("TextBox(\"atlas-search\",new Rect(0,160,area.width-52,40)")&&
-          ui.Contains("if(Button(new Rect(area.width-44,160,44,40),\"×\",_button))ClearAtlasSearch();")&&
+        C(ui.Contains("TextBox(\"atlas-search\",new Rect(470,100,area.width-470-52,40)")&&
+          ui.Contains("if(Button(new Rect(area.width-44,100,44,40),\"×\",_button))ClearAtlasSearch();")&&
           ui.Contains("M29AtlasSearchPolicy.PageHint(map.Search)"),"wiring: the atlas page has a clear button and the pinned-markers hint");
         C(ui.Contains("if(_editingField==\"atlas-search\")BlurTextInput();")&&ui.Contains("_pendingTextWrites.Remove(\"atlas-search\");")&&
           ui.Contains("_mapCardShown=null;_mapCardSlot=null;"),"wiring: clearing survives a focused field; session reset forgets the card slot");

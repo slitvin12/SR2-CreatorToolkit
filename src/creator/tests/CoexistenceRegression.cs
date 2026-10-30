@@ -91,7 +91,7 @@ internal static class CoexistenceRegression
         int configure=mod.IndexOf("HookCoexistence.Configure(HarmonyInstance,this);",StringComparison.Ordinal);
         int saveInstall=mod.IndexOf("AuditSaveGuard.Install(HarmonyInstance)",StringComparison.Ordinal),nativeInstall=mod.IndexOf("NativeHooks.Install(HarmonyInstance)",StringComparison.Ordinal);
         Check(configure>=0&&configure<saveInstall&&configure<nativeInstall,"coexistence is configured before any hook is installed");
-        Check(mod.Contains("(\"hookcoexistence\",HookCoexistence.Tick),(\"modinterop\",ModInterop.Tick)}"),"isolation and census run every frame, also before Ready");
+        Check(mod.Contains("(\"hookcoexistence\",HookCoexistence.Tick),(\"modinterop\",ModInterop.Tick),(\"starlightbridge\",StarlightBridge.Tick)}"),"isolation, census and the Starlight bridge run every frame, also before Ready");
         Check(mod.Contains("Coexistence:{HookCoexistence.Summary}\\n"),"diagnostics snapshot carries the census line");
         Check(mod.Contains("[assembly:AssemblyMetadata(\"SR2ModManager.HookPolicy\",\"cooperative\")]"),"mod manager learns the hooks are cooperative");
 

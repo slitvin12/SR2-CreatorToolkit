@@ -26,7 +26,7 @@ internal sealed class InputCapture
 
     internal void Open()
     {
-        if (Active || NativeUiPriority.HasNativeFocus) return;
+        if (Active || NativeUiPriority.HasNativeFocus || StarlightBridge.MenuOpen) return; // 0.8.0: never over a Starlight menu
         _nativeHandoff=false;
         _openAfterNativeCloseUntil=0;
         _previousLock = Cursor.lockState;

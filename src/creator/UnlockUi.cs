@@ -66,17 +66,17 @@ internal sealed partial class ToolkitUi
 
     private void UnlockCards(float width)
     {
-        GUI.Label(new Rect(476,0,width-476,40),"Постоянные изменения сейва · каждое действие с подтверждением",_muted);
+        L.Label(new Rect(476,0,width-476,40),"Постоянные изменения сейва · каждое действие с подтверждением",_muted);
         var actions=UnlockActions();
         float col=M28UnlockLayout.Column(width);
         for(int i=0;i<UnlockTitles.Length;i++)
         {
             float x=M28UnlockLayout.X(i,width),y=M28UnlockLayout.Y(i);
-            GUI.Box(new Rect(x,y,col,M28UnlockLayout.CardHeight),GUIContent.none,_card);
-            GUI.Label(new Rect(x+18,y+10,col-36,30),UnlockTitles[i],_label);
-            GUI.Label(new Rect(x+18,y+40,col-254,46),UnlockBlurbs[i],_muted);
+            L.Box(new Rect(x,y,col,M28UnlockLayout.CardHeight),GUIContent.none,_card);
+            L.Label(new Rect(x+18,y+10,col-36,30),UnlockTitles[i],_label);
+            Hint(new Rect(x+18,y+40,col-254,46),UnlockBlurbs[i]);
             string result=UnlockResult(i);
-            if(!string.IsNullOrEmpty(result))GUI.Label(new Rect(x+18,y+90,col-36,28),Ellipsize(result,col-36,_small),_small);
+            if(!string.IsNullOrEmpty(result))L.Label(new Rect(x+18,y+90,col-36,28),Ellipsize(result,col-36,_small),_small);
             if(Button(new Rect(x+col-218,y+41,M28UnlockLayout.ButtonWidth,M28UnlockLayout.ButtonHeight),"Разблокировать…",_button))
             {
                 string title=UnlockTitles[i];Action action=actions[i];
@@ -111,10 +111,10 @@ internal sealed partial class ToolkitUi
             _trackSummary=tools.Summary(_trackKind,M27TrackingPolicy.Count(tools.Rows,_trackKind))+
                 (_trackView.Count<M27TrackingPolicy.Count(tools.Rows,_trackKind).Total?" · в фильтре "+_trackView.Count:"");
         }
-        GUI.Label(new Rect(680,52,width-680,40),Ellipsize("Отметки — из сейва; расстояние — от игрока",width-680,_small),_small);
-        GUI.Label(new Rect(0,148,width,32),Ellipsize(_trackSummary,width,_muted),_muted);
+        L.Label(new Rect(680,52,width-680,40),Ellipsize("Отметки — из сейва; расстояние — от игрока",width-680,_small),_small);
+        L.Label(new Rect(0,148,width,32),Ellipsize(_trackSummary,width,_muted),_muted);
         var rows=_trackView;
-        GUI.Box(new Rect(0,184,width,306),GUIContent.none,_card);
+        L.Box(new Rect(0,184,width,306),GUIContent.none,_card);
         M27TrackingPolicy.Row selected=null;
         _trackScroll=BeginScroll(71,new Rect(10,192,width-20,290),_trackScroll,rows.Count*48f,48f);
         try
@@ -132,11 +132,11 @@ internal sealed partial class ToolkitUi
                 string distance=MapTools.DistanceText(row.Distance);
                 float distanceWidth=distance.Length>0?110:0,textWidth=rowWidth-44-distanceWidth;
                 var text=isSelected?_selectedRowText:_muted;
-                GUI.Label(new Rect(32,y+1,textWidth,24),Ellipsize(row.Name,textWidth,text),text);
-                GUI.Label(new Rect(32,y+23,textWidth,20),Ellipsize(row.Zone+" · "+row.State,textWidth,_small),_small);
-                if(distanceWidth>0)GUI.Label(new Rect(rowWidth-distanceWidth-8,y+1,distanceWidth,42),distance,_small);
+                L.Label(new Rect(32,y+1,textWidth,24),Ellipsize(row.Name,textWidth,text),text);
+                L.Label(new Rect(32,y+23,textWidth,20),Ellipsize(row.Zone+" · "+row.State,textWidth,_small),_small);
+                if(distanceWidth>0)L.Label(new Rect(rowWidth-distanceWidth-8,y+1,distanceWidth,42),distance,_small);
             }
-            if(rows.Count==0)GUI.Label(new Rect(16,16,width-100,96),_app.Ready?"В этом фильтре ничего нет.":tools.Status,_muted);
+            if(rows.Count==0)L.Label(new Rect(16,16,width-100,96),_app.Ready?"В этом фильтре ничего нет.":tools.Status,_muted);
         }
         finally{EndGroup();}
         var point=selected?.Tag as MapTools.Point;
@@ -161,7 +161,7 @@ internal sealed partial class ToolkitUi
         finally{GUI.enabled=enabled;}
         string hint=selected==null?"Выберите строку списка.":point==null?"Место этой записи на карте неизвестно.":
             point.Group==null?"Группа сцены не подтверждена — телепорт отключён.":"Телепорт — через безопасную прогрузку зоны.";
-        GUI.Label(new Rect(868,500,width-868,44),Ellipsize(hint,width-868,_small),_small);
-        GUI.Label(new Rect(0,554,width,40),Ellipsize(tools.Status,width,_muted),_muted);
+        L.Label(new Rect(868,500,width-868,44),Ellipsize(hint,width-868,_small),_small);
+        L.Label(new Rect(0,554,width,40),Ellipsize(tools.Status,width,_muted),_muted);
     }
 }

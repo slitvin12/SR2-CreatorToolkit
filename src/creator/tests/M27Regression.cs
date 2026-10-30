@@ -48,10 +48,10 @@ internal static class M27Regression
           "live: after a restart the minimap page comes from the player's native zone, not only the atlas-only mapping");
         C(drone.Contains("M27DronePanelPolicy.UsableRoot(")&&drone.Contains("menu._contentBorder")&&drone.Contains("Include(_target,offset,cam,"),
           "live: the drone box unites the card root, border, tabs and content");
-        C(ui.Contains("_confirmTextHeight=_wrap.CalcHeight(newGUIContent(description),652);")&&
+        C(ui.Contains("_confirmTextHeight=_wrap.CalcHeight(newGUIContent(Loc.T(description)),652);")&&
           ui.Contains("floatdialogHeight=Mathf.Clamp(_confirmTextHeight+200,360,Mathf.Max(360,height-40));")&&
           ui.Contains("newRect(dialog.x+24,dialog.y+90,dialog.width-48,dialogHeight-190),description,_wrap"),"live: confirmation dialogs grow with their description");
-        C(explorer.Contains("GUI.Label(new Rect(x+16,468,right-32,68),tools.Status+\"\\n\"+(compass!=null?compass.Status:\"\"),_atlasDetail);")&&
+        C(explorer.Contains("L.Label(new Rect(x+16,468,right-32,68),tools.Status+\"\\n\"+(compass!=null?compass.Status:\"\"),_atlasDetail);")&&
           explorer.Contains("скрытые залежи не угадываются.\",_muted);"),"live: radar status is a top-aligned block below the compass button");
         C(terrain.Contains("_layerTextures[art.Key]=texture;")&&terrain.Contains("Note(\"committed\"")&&terrain.Contains("Note(\"sample\"")&&
           !terrain.Contains("_calibrations.Remove(_pageName)")&&terrain.Contains("FineSpan=20"),"live: minimap calibration adopts the displayed atlas art and reports why it waits");
@@ -399,9 +399,9 @@ internal static class M27Regression
           "tracking: lists use the policy, atlas/teleport actions and a confirmed single-door change");
         C(M27TrackingPolicy.Kinds.All(k=>map.Contains("\""+k+"\"")),"tracking: every list is an existing atlas category");
         C(feed.Contains("MaybeSpinAndChomp")&&feed.Contains("M27AutoFeedPolicy.ChooseMeal(")&&feed.Contains("M27AutoFeedPolicy.Within(")&&feed.Contains("_app.Confirm(")&&
-          explorer.Contains("NativeRequiredIcon(new Rect(18,370,42,42),\"Farm\")")&&explorer.Contains("feed.Request(!feeding)"),
+          explorer.Contains("NativeRequiredIcon(new Rect(18,370+o,42,42),\"Farm\")")&&explorer.Contains("feed.Request(!feeding)"),
           "autofeed: native chomp path, policy meal choice, confirmed opt-in from the farm page");
-        C(explorer.Contains("NativeRequiredIcon(new Rect(18,162,42,42),\"PinkPlort\")")&&explorer.Contains("NativeRequiredIcon(new Rect(x+18,162,42,42),\"Feeder\")")&&
+        C(explorer.Contains("NativeRequiredIcon(new Rect(18,162+o,42,42),\"PinkPlort\")")&&explorer.Contains("NativeRequiredIcon(new Rect(x+18,162+o,42,42),\"Feeder\")")&&
           explorer.Contains("_radarSelection=slimes.FirstOrDefault(e=>e.Type.ReferenceId==tools.SlimeReference)"),"explorer: existing farm/radar contracts kept");
         // M29: the disc diameter is M29MiniMapLayout.Diameter (size from navigation.cfg) in both; the zoom is the live range.
         C(mini.Contains("M29MiniMapLayout.Diameter(look.Size,Screen.height)")&&terrain.Contains("M29MiniMapLayout.Diameter(nav?.Settings.Size??1,Screen.height)")&&
@@ -415,7 +415,10 @@ internal static class M27Regression
         C(compactTerrain.Contains("internalvoidTick(){if(!Enabled)return;")&&terrain.Contains("M27MiniMapPolicy.NeedsCompose(")&&terrain.Contains("MaxCaptures=6,LayerCapture=1024")&&
           terrain.Contains("\"minimap-pages.txt\"")&&terrain.Contains("_app.DataDirectory")&&terrain.Contains("RenderTexture.ReleaseTemporary(target)"),
           "minimap: idle when off, page readback cached, composite throttled, calibration in UserData");
-        C(ui.Contains("\"Мини-карта: рельеф\"")&&ui.Contains("\"Мини-карта: радар\"")&&ui.Contains("terrain?.SetEnabled(true)"),"minimap: atlas toggle cycles off / terrain / radar");
+        // 0.8.0: the single minimap switch is the «Навигация → Режим» row (off / terrain / radar, saved).
+        string navTools=R("M29NavigationTools.cs");
+        C(explorer.Contains("NavigationChoice(new Rect(cx,190,cw,34),M29NavigationSettings.ModeTitles,s.Mode)")&&explorer.Contains("nav.SetMode(mode)")&&
+          navTools.Contains("map.ShowMiniMap=Settings.Mode!=0;")&&navTools.Contains("_app.MiniMapTerrain?.SetEnabled(Settings.Mode==1);"),"minimap: navigation mode row switches off / terrain / radar");
         C(compass.Contains("RegisterTrackedGameObjectAdvanced")&&compass.Contains("UnregisterTrackedGameObjectAdvanced")&&compass.Contains("M29CompassPolicy.Pick(")&&
           explorer.Contains("_app.Compass.SetEnabled(on)"),"compass: native RadarRegistry markers, bounded by policy, toggled on the radar page");
         C(drone.Contains("M27DronePanelPolicy.Decide(")&&drone.Contains("anchoredPosition")&&

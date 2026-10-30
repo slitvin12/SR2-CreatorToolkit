@@ -72,6 +72,9 @@ internal sealed partial class ToolkitUi
         if(!Application.isFocused&&!SliderTestInput&&!(_app.UiProbe?.Active??false))_dragSlider=-1;
     }
     private void QueuePlayerFlight(bool enabled)=>_app.Queue("flight",()=>_app.Player.SetFlight(enabled));
+    // Same queue labels as «Спавн → Гаджеты»: identical co-op gating and confirmations.
+    private void QueueInfiniteBuilder(bool enabled)=>_app.Queue("infinite builder",()=>_app.Gadgets.SetInfiniteBuilder(enabled));
+    private void QueueFreePlacement(bool enabled)=>_app.Queue("free placement",()=>_app.FreePlacement.Set(enabled));
     private void ResetPlayerEffects(){_app.Player.Reset();_app.Notify("Эффекты игрока сброшены.");}
     internal readonly UiPaintTelemetry PaintTelemetry=new();
     private long _tabClickAt;
@@ -201,7 +204,7 @@ internal sealed partial class ToolkitUi
         _hoverCapsule=null;_capsuleId="";_capsuleScroll=Vector2.zero;_capsuleLayout=null;_family="Все";
         _mapCardShown=null;_mapCardSlot=null;_atlasChipSource=null;
         _phenomenaPage=false;_phenomenaScroll=Vector2.zero;_phenomenaSelection="";_timePage=false;
-        _infoPage=false;_capturePage=false;_saveNamePage=false;_saveNameDraft="";
+        _infoPage=false;_capturePage=false;_saveNamePage=false;_saveNameDraft="";_farmPage=false;
         ResetOptimizationUi();
         PaintTelemetry.Reset();_tabClickAt=0;_tabClickIndex=-1;
         ResetExplorerUi();ResetCreationUi();_headerSlime=null;ResetM27Ui();
@@ -538,6 +541,7 @@ internal sealed partial class ToolkitUi
         if(string.IsNullOrEmpty(text)||text==FandomMapMarkers.SourceNote||text==FandomMapMarkers.ExactNote)return null;
         int wiki=text.IndexOf("Вики: ",StringComparison.Ordinal);
         if(wiki>0&&FandomMapMarkers.IsFandom(point.Category))text=text.Substring(wiki);
+        text=Loc.T(text);
         return text.Length>90?text.Substring(0,87)+"…":text;
     }
     private static int MapIcon(string category)=>category switch
@@ -623,23 +627,18 @@ internal sealed partial class ToolkitUi
         }
         return shadow;
     }
-    private void ShadowText(Rect rect,string text,GUIStyle style)
-    {
-        if(!_buttonLabels.TryGetValue(text,out var content))
-        {if(_buttonLabels.Count>512)_buttonLabels.Clear();content=new GUIContent(text);_buttonLabels[text]=content;}
-        ShadowText(rect,content,style);
-    }
+    private void ShadowText(Rect rect,string text,GUIStyle style)=>ShadowText(rect,ButtonContent(text),style);
     private void ShadowText(Rect rect,GUIContent content,GUIStyle style)
     {
         // Native parchment typography is crisp dark ink, not white lettering
         // with two dark ghost outlines. Jelly depth belongs to the button face.
-        GUI.Label(rect,content,style);
+        L.Label(rect,content,style);
     }
 
     private void GradientTitle(Rect rect)
     {
         const string text="CREATOR TOOLKIT";
-        GUI.Label(rect,text,_title);
+        L.Label(rect,text,_title);
         GUI.DrawTexture(new Rect(rect.x,rect.yMax-1,390,3),_headerGradient);
     }
 
@@ -751,15 +750,38 @@ internal sealed partial class ToolkitUi
     }
     private bool Button(Rect rect,string text,GUIStyle style)
         =>Button(rect,ButtonContent(text),style);
+    // 0.8.0: cached content carries the translated text (Loc.T); the cache is keyed by the source
+    // text and dropped on a language switch (SyncLanguage).
     private GUIContent ButtonContent(string text)
     {
         if(!_buttonLabels.TryGetValue(text,out var content))
         {
             if(_buttonLabels.Count>512)_buttonLabels.Clear();
-            content=new GUIContent(text);_buttonLabels[text]=content;
+            content=new GUIContent(Loc.T(text));_buttonLabels[text]=content;
         }
         return content;
     }
+    // Typed text (text boxes): measured as is, never translated.
+    private readonly Dictionary<string,GUIContent> _rawLabels=new();
+    private GUIContent RawContent(string text)
+    {
+        if(!_rawLabels.TryGetValue(text,out var content))
+        {
+            if(_rawLabels.Count>256)_rawLabels.Clear();
+            content=new GUIContent(text);_rawLabels[text]=content;
+        }
+        return content;
+    }
+    private int _languageGeneration=-1;
+    // Called at the top of every IMGUI entry point: a game language switch rebuilds text caches.
+    internal void SyncLanguage()
+    {
+        if(_languageGeneration==Loc.Generation)return;
+        _languageGeneration=Loc.Generation;
+        _buttonLabels.Clear();_ellipsizeSource=null;_confirmText=null;
+        OnLanguageChanged();
+    }
+    partial void OnLanguageChanged();
     private GUIStyle ButtonTextStyle(GUIContent content,float width)
     {
         // Four lifetime-cached native-font sizes, including the normal padding.
@@ -777,17 +799,18 @@ internal sealed partial class ToolkitUi
     {
         string full=string.IsNullOrEmpty(detail)?head:head+" · "+detail;
         var content=ButtonContent(full);
-        if(_muted.CalcSize(content).x<=rect.width){GUI.Label(rect,content,_muted);return;}
-        if(_small.CalcSize(content).x<=rect.width){GUI.Label(rect,content,_small);return;}
+        if(_muted.CalcSize(content).x<=rect.width){L.Label(rect,content,_muted);return;}
+        if(_small.CalcSize(content).x<=rect.width){L.Label(rect,content,_small);return;}
         float line=Mathf.Ceil(_small.lineHeight)+3f,top=rect.center.y-line;
-        GUI.Label(new Rect(rect.x,top,rect.width,line),ButtonContent(head),_small);
-        GUI.Label(new Rect(rect.x,top+line,rect.width,line),ButtonContent(Ellipsize(detail,rect.width,_small)),_small);
+        L.Label(new Rect(rect.x,top,rect.width,line),ButtonContent(head),_small);
+        L.Label(new Rect(rect.x,top+line,rect.width,line),ButtonContent(Ellipsize(detail,rect.width,_small)),_small);
     }
     private readonly GUIContent _measureContent=new();
     private string _ellipsizeSource,_ellipsizeResult;private float _ellipsizeWidth=-1;
     private string Ellipsize(string text,float width,GUIStyle style)
     {
         if(string.IsNullOrEmpty(text))return text??"";
+        text=Loc.T(text);
         if(text==_ellipsizeSource&&Mathf.Approximately(width,_ellipsizeWidth))return _ellipsizeResult;
         string result=text;_measureContent.text=text;
         if(style.CalcSize(_measureContent).x>width)
@@ -825,8 +848,8 @@ internal sealed partial class ToolkitUi
         float offset=HoverOffset(rect,hovered,held);
         AllocationMark(21,ref allocationStamp);
         Rect visual=visualBounds??rect;
-        if(hovered)GUI.Box(new Rect(visual.x-2,visual.y-2,visual.width+4,visual.height+4),GUIContent.none,_glowBox);
-        GUI.Box(visual,GUIContent.none,_shadowBox);
+        if(hovered)L.Box(new Rect(visual.x-2,visual.y-2,visual.width+4,visual.height+4),GUIContent.none,_glowBox);
+        L.Box(visual,GUIContent.none,_shadowBox);
         Rect face=HoverChildRect(visual,new Rect(visual.x,visual.y,visual.width,Mathf.Max(4,visual.height-UiThemePolicy.RestDepth)),offset);
         { // All pill sizes share the same seam-free radius-clamped paint path.
             if(!_roundedButtonPaint.TryGetValue(rendered.Pointer,out var surface)||surface==null||surface.WasCollected)
@@ -951,12 +974,12 @@ internal sealed partial class ToolkitUi
             Rect window = new((sw-width)/2, (sh-height)/2+24f*(1f-entrance), width,height);
             Fill(new Rect(0,0,sw,sh),new Color(.19f,.15f,.10f,.22f*entrance));
             Fill(new Rect(window.x-2,window.y+8,width+4,height),new Color(.35f,.25f,.13f,.10f));
-            GUI.Box(window,GUIContent.none,_frame);
+            L.Box(window,GUIContent.none,_frame);
             AllocationMark(1,ref allocationStamp);
             BeginGroup(window);
             try
             {
-                GUI.Box(new Rect(25,14,69,69),GUIContent.none,_glowBox);
+                L.Box(new Rect(25,14,69,69),GUIContent.none,_glowBox);
                 GUI.DrawTexture(new Rect(30,14,62,62),_badgeCircle);
                 AllocationMark(7,ref allocationStamp);
                 if(_headerSlime!=null&&!_headerSlime.WasCollected)DrawSprite(new Rect(34,16,54,54),_headerSlime);
@@ -991,18 +1014,18 @@ internal sealed partial class ToolkitUi
                 {
                     GUI.enabled=true;
                     _bodyInteractionBlocked=false; // cancellation remains available
-                    GUI.Box(new Rect(30,185,width-60,260),GUIContent.none,_card);
+                    L.Box(new Rect(30,185,width-60,260),GUIContent.none,_card);
                     Icon(new Rect(58,211,64,64),2);
-                    GUI.Label(new Rect(140,208,width-220,44),"Безопасный переход между островами",_heading);
-                    GUI.Label(new Rect(140,264,width-220,80),_app.Map.TeleportStatus,_wrap);
-                    GUI.Label(new Rect(58,346,width-116,40),"Гравитация удерживается. Посадка — только после прогрузки и повторных проверок коллизий.",_muted);
+                    L.Label(new Rect(140,208,width-220,44),"Безопасный переход между островами",_heading);
+                    L.Label(new Rect(140,264,width-220,80),_app.Map.TeleportStatus,_wrap);
+                    Hint(new Rect(58,346,width-116,40),"Гравитация удерживается. Посадка — только после прогрузки и повторных проверок коллизий.",_muted);
                     if(Button(new Rect(58,392,340,44),"Отменить / повторить возврат",_button))_app.Queue("cancel safe transit",_app.Map.AbortTeleport);
                 }
                 else if(!_app.Ready)
                 {
-                    GUI.Box(new Rect(30,175,width-60,220),GUIContent.none,_card);
-                    GUI.Label(new Rect(58,200,width-116,45),"Сначала загрузите игровой мир",_heading);
-                    GUI.Label(new Rect(58,265,width-116,90),"Меню работает независимо от Minecraft. Функции станут доступны после загрузки игрока и нативных компонентов игры.",_wrap);
+                    L.Box(new Rect(30,175,width-60,220),GUIContent.none,_card);
+                    L.Label(new Rect(58,200,width-116,45),"Сначала загрузите игровой мир",_heading);
+                    L.Label(new Rect(58,265,width-116,90),"Функции станут доступны после загрузки игрока и нативных компонентов игры.",_wrap);
                 }
                 else switch(_tab)
                 { case 0:PlayerPage(body);break; case 1:CreationPage(body);break; case 2:CurrencyPage(body);break; case 3:WorldPage(body);break; case 4:UnlockPage(body);break; case 5:CinemaPage(body);break; case 6:AtlasPage(body);break; case 7:ConveniencePage(body);break; }
@@ -1019,12 +1042,12 @@ internal sealed partial class ToolkitUi
                 _bodyInteractionBlocked=false;
                 GUI.enabled = true;
                 Fill(new Rect(30,height-52,width-60,1),new Color(.15f,.85f,.78f,.35f));
-                string status = _app.Audit?.Active == true ? _app.Audit.Status : _app.Status;
+                string status = Loc.T(_app.Audit?.Active == true ? _app.Audit.Status : _app.Status);
                 int newline=status.IndexOf('\n'); if(newline>=0)status=status.Substring(0,newline);
                 if(status.Length>94)status=status.Substring(0,91)+"…";
                 bool coop=_app.Coop?.InSession==true; // Ranching Together: role and server cheat rule instead of the key hint.
-                GUI.Label(new Rect(30,height-46,width-(coop?370:250),38),status,_muted);
-                GUI.Label(coop?new Rect(width-330,height-46,300,38):new Rect(width-210,height-46,180,38),coop?_app.Coop.Footer:"Insert  ·  Esc",_muted);
+                L.Label(new Rect(30,height-46,width-(coop?370:250),38),status,_muted);
+                L.Label(coop?new Rect(width-330,height-46,300,38):new Rect(width-210,height-46,180,38),coop?_app.Coop.Footer:"Insert  ·  Esc",_muted);
                 if(modal)DrawConfirmation(width,height);
                 AllocationMark(5,ref allocationStamp);
             }
@@ -1059,11 +1082,11 @@ internal sealed partial class ToolkitUi
             if(value!=_lastReturnedText)LastTextBindFrameForTest=Time.frameCount;
             _lastReturnedText=value;
         }
-        GUI.Box(rect,GUIContent.none,_field);
+        L.Box(rect,GUIContent.none,_field);
         Rect inside=new(rect.x+9,rect.y+3,rect.width-18,rect.height-6);
         string display=focused?_textBuffer.PreviewValue:value;
-        float textWidth=_label.CalcSize(ButtonContent(display)).x;
-        float caret=focused?_label.CalcSize(ButtonContent(_textBuffer.CaretPrefix)).x:0;
+        float textWidth=_label.CalcSize(RawContent(display)).x;
+        float caret=focused?_label.CalcSize(RawContent(_textBuffer.CaretPrefix)).x:0;
         if(focused)
         {
             if(caret-_textHorizontalOffset>inside.width-4)_textHorizontalOffset=caret-inside.width+4;
@@ -1077,11 +1100,11 @@ internal sealed partial class ToolkitUi
         {
             if(focused&&_textBuffer.SelectedAll&&_textBuffer.Composition.Length==0)
                 Fill(new Rect(-scroll,2,Mathf.Max(2,textWidth),inside.height-4),new Color(.10f,.75f,.66f,.20f));
-            if(value.Length==0&&!focused)GUI.Label(new Rect(0,0,inside.width,inside.height),placeholder,_muted);
-            GUI.Label(new Rect(-scroll,0,Mathf.Max(inside.width,textWidth+4),inside.height),display,_label);
+            if(value.Length==0&&!focused)L.Label(new Rect(0,0,inside.width,inside.height),placeholder,_muted);
+            GUI.Label(new Rect(-scroll,0,Mathf.Max(inside.width,textWidth+4),inside.height),display,_label); // typed text: never translated
             if(focused&&_textBuffer.Composition.Length>0)
             {
-                float previewWidth=_label.CalcSize(ButtonContent(_textBuffer.Composition)).x;
+                float previewWidth=_label.CalcSize(RawContent(_textBuffer.Composition)).x;
                 Fill(new Rect(caret-previewWidth-scroll,inside.height-3,previewWidth,2),_accent);
             }
             if(focused&&!_textBuffer.SelectedAll&&((int)(Time.unscaledTime*2f)&1)==0)
@@ -1163,7 +1186,7 @@ internal sealed partial class ToolkitUi
     internal void SetFamilyForTest(int category,string family){SetForTest(1,category,1);_family=family;}
     internal int FilteredCountForTest=>Filter("",_categories[_category],false,_family).Count;
 
-    internal void ShowPage(int tab) { _tab = Mathf.Clamp(tab, 0, TabCount-1); if(_tab==3&&_app.Ready)_hour=_app.World.Hour(); if(_tab==6)_explorerSection=0; if(_tab==7){_optimizationPage=false;_infoPage=false;} ClearInteraction(); }
+    internal void ShowPage(int tab) { _tab = Mathf.Clamp(tab, 0, TabCount-1); if(_tab==3&&_app.Ready)_hour=_app.World.Hour(); if(_tab==6)_explorerSection=0; if(_tab==7){_optimizationPage=false;_infoPage=false;_farmPage=false;} ClearInteraction(); }
     internal void ShowTabForTest(int tab)=>ShowPage(tab);
     // Read-only content navigation: the same filter/selection state as Atlas UI.
     internal void ShowCapsules()
@@ -1187,20 +1210,27 @@ internal sealed partial class ToolkitUi
 
     private bool Toggle(Rect rect,string title,bool enabled,string detail)
     {
-        GUI.Box(rect,GUIContent.none,_card);
+        // 0.8.0: the explanation is drawn only with «?» (DetailedHelp). Compact rows (< 70 px)
+        // keep the switch centred and put the explanation on one 14 px line under the title.
+        L.Box(rect,GUIContent.none,_card);
         Fill(new Rect(rect.x+1,rect.y+12,3,rect.height-24),enabled?_accent:new Color(.23f,.42f,.54f));
-        GUI.Label(new Rect(rect.x+18,DetailedHelp?rect.y+10:rect.center.y-17,rect.width-154,34),title,_label);
-        if(DetailedHelp)GUI.Label(new Rect(rect.x+18,rect.y+48,rect.width-36,rect.height-54),detail,_muted);
-        return SlimeSwitch(new Rect(rect.xMax-122,DetailedHelp?rect.y+10:rect.center.y-22,104,44),enabled)?!enabled:enabled;
+        bool compact=rect.height<70f,help=DetailedHelp&&!string.IsNullOrEmpty(detail);
+        float titleY=help?(compact?rect.y+2:rect.y+10):rect.center.y-17;
+        L.Label(new Rect(rect.x+18,titleY,rect.width-154,34),title,_label);
+        if(help)L.Label(compact?new Rect(rect.x+18,rect.y+32,rect.width-154,rect.height-34):new Rect(rect.x+18,rect.y+48,rect.width-36,rect.height-54),
+            detail,compact?_small:_muted);
+        return SlimeSwitch(new Rect(rect.xMax-122,help&&!compact?rect.y+10:rect.center.y-22,104,44),enabled)?!enabled:enabled;
     }
+    // 0.8.0: explanatory text that is useful once, not on every visit.
+    private void Hint(Rect rect,string text,GUIStyle style=null){if(DetailedHelp&&!string.IsNullOrEmpty(text))L.Label(rect,text,style??_muted);}
 
     private bool SlimeSwitch(Rect rect,bool enabled)
     {
         bool hover=CanHover(rect),held=hover&&Mouse.current!=null&&Mouse.current.leftButton.isPressed;
         float offset=HoverOffset(rect,hover,held);
-        if(enabled||hover)GUI.Box(new Rect(rect.x-3,rect.y-3,rect.width+6,rect.height+6),GUIContent.none,_glowBox);
-        GUI.Box(rect,GUIContent.none,_shadowBox);
-        GUI.Box(HoverChildRect(rect,new Rect(rect.x,rect.y,rect.width,rect.height-4),offset),GUIContent.none,enabled?_selectedButton:_button);
+        if(enabled||hover)L.Box(new Rect(rect.x-3,rect.y-3,rect.width+6,rect.height+6),GUIContent.none,_glowBox);
+        L.Box(rect,GUIContent.none,_shadowBox);
+        L.Box(HoverChildRect(rect,new Rect(rect.x,rect.y,rect.width,rect.height-4),offset),GUIContent.none,enabled?_selectedButton:_button);
         float knobX=enabled?rect.xMax-38:rect.x+6;
         GUI.DrawTexture(HoverChildRect(rect,new Rect(knobX,rect.y+4,32,32),offset),_slimeKnob);
         HoverText(HoverChildRect(rect,new Rect(enabled?rect.x+6:rect.x+40,rect.y-2,58,44),offset),enabled?"ВКЛ":"ВЫКЛ",_iconTab,offset);
@@ -1220,33 +1250,41 @@ internal sealed partial class ToolkitUi
         try
         {
             float col=(area.width-24)/2;
-            GUI.Label(new Rect(0,0,area.width-220,36),"Игрок · защита, движение, быстрые действия",_heading);
-            if(Button(new Rect(area.width-192,0,192,36),DetailedHelp?"Скрыть подсказки":"Подсказки",_button))DetailedHelp=!DetailedHelp;
+            L.Label(new Rect(0,0,area.width-220,36),"Игрок · защита, движение, строительство",_heading);
+            if(Button(new Rect(area.width-192,0,192,36),DetailedHelp?"Скрыть подсказки":"Подсказки",DetailedHelp?_selectedButton:_button))DetailedHelp=!DetailedHelp;
             AllocationMark(10,ref allocationStamp);
             var p=_app.Player;
-            p.GodMode=Toggle(new Rect(0,52,col,82),"Бессмертие",p.GodMode,"Поддерживать максимум здоровья.");
-            p.InfiniteEnergy=Toggle(new Rect(0,146,col,82),"Бесконечная энергия",p.InfiniteEnergy,"Спринт и способности без расхода.");
+            // 0.8.0: six compact rows; the builder switches are the same ones as in «Спавн → Гаджеты».
+            const float rowH=56,stride=61,top=52;
+            p.GodMode=Toggle(new Rect(0,top,col,rowH),"Бессмертие",p.GodMode,"Поддерживать максимум здоровья.");
+            p.InfiniteEnergy=Toggle(new Rect(0,top+stride,col,rowH),"Бесконечная энергия",p.InfiniteEnergy,"Спринт и способности без расхода.");
             AllocationMark(11,ref allocationStamp);
-            bool fly=Toggle(new Rect(0,240,col,82),"Полёт / NoClip",p.Flight,"WASD · Space вверх · Shift вниз.");
+            bool fly=Toggle(new Rect(0,top+2*stride,col,rowH),"Полёт / NoClip",p.Flight,"WASD · Space вверх · Shift вниз.");
             if(fly!=p.Flight)QueuePlayerFlight(fly);
             AllocationMark(12,ref allocationStamp);
-            p.InfiniteItems=Toggle(new Rect(0,334,col,82),"Бесконечный инвентарь",p.InfiniteItems,"Не тратить предметы из непустых слотов.");
+            p.InfiniteItems=Toggle(new Rect(0,top+3*stride,col,rowH),"Бесконечный инвентарь",p.InfiniteItems,"Не тратить предметы из непустых слотов.");
+            var gadgets=_app.Gadgets;bool infinite=gadgets!=null&&gadgets.InfiniteBuilder;
+            bool builder=Toggle(new Rect(0,top+4*stride,col,rowH),"Бесконечный режим строителя",infinite,"Гаджеты и декор ×999 · установка без расхода.");
+            if(gadgets!=null&&builder!=infinite)QueueInfiniteBuilder(builder);
+            var placement=_app.FreePlacement;bool free=placement!=null&&placement.Enabled;
+            bool freeNext=Toggle(new Rect(0,top+5*stride,col,rowH),"Свободная установка",free,"Без проверок пересечений и уклона · дальше.");
+            if(placement!=null&&freeNext!=free)QueueFreePlacement(freeNext);
             float x=col+24;
-            GUI.Box(new Rect(x,52,col,190),GUIContent.none,_card);
-            GUI.Label(new Rect(x+20,70,col-40,42),SpeedReadouts[Mathf.Clamp(Mathf.RoundToInt(p.SpeedMultiplier*100)-100,0,SpeedReadouts.Length-1)],_heading);
+            L.Box(new Rect(x,52,col,190),GUIContent.none,_card);
+            L.Label(new Rect(x+20,70,col-40,42),SpeedReadouts[Mathf.Clamp(Mathf.RoundToInt(p.SpeedMultiplier*100)-100,0,SpeedReadouts.Length-1)],_heading);
             p.SpeedMultiplier=SafetyPolicy.Speed(Slider(1,new Rect(x+20,129,col-40,32),p.SpeedMultiplier,1,10));
             float bw=(col-56)/5;
             for(int i=0;i<PlayerSpeeds.Length;i++)if(Button(new Rect(x+20+i*(bw+4),183,bw,44),PlayerSpeedNames[i],Math.Abs(p.SpeedMultiplier-PlayerSpeeds[i])<.01f?_selectedButton:_button))p.SpeedMultiplier=PlayerSpeeds[i];
             AllocationMark(13,ref allocationStamp);
-            GUI.Box(new Rect(x,254,col,162),GUIContent.none,_card);
-            GUI.Label(new Rect(x+20,266,col-154,32),"Высокий прыжок",_tableHeading);
+            L.Box(new Rect(x,254,col,162),GUIContent.none,_card);
+            L.Label(new Rect(x+20,266,col-154,32),"Высокий прыжок",_tableHeading);
             if(SlimeSwitch(new Rect(x+col-124,263,104,44),p.HighJump))p.HighJump=!p.HighJump;
-            GUI.Label(new Rect(x+20,308,col-40,30),JumpReadouts[Mathf.Clamp(Mathf.RoundToInt(p.JumpHeightMultiplier*10)-10,0,JumpReadouts.Length-1)],_muted);
+            L.Label(new Rect(x+20,308,col-40,30),JumpReadouts[Mathf.Clamp(Mathf.RoundToInt(p.JumpHeightMultiplier*10)-10,0,JumpReadouts.Length-1)],_muted);
             p.JumpHeightMultiplier=PlayerMovementPolicy.JumpHeight(Slider(2,new Rect(x+20,350,col-40,28),p.JumpHeightMultiplier,1,5));
             AllocationMark(14,ref allocationStamp);
-            GUI.Box(new Rect(0,432,area.width,64),GUIContent.none,_card);
-            GUI.Label(new Rect(20,439,col-30,30),_healthReadout,_label);
-            GUI.Label(new Rect(x+20,439,col-30,30),_energyReadout,_label);
+            L.Box(new Rect(0,432,area.width,64),GUIContent.none,_card);
+            L.Label(new Rect(20,439,col-30,30),_healthReadout,_label);
+            L.Label(new Rect(x+20,439,col-30,30),_energyReadout,_label);
             Fill(new Rect(20,480,col-40,4),new Color(.30f,.30f,.30f));
             Fill(new Rect(20,480,(col-40)*Mathf.Clamp01((float)_health/Math.Max(1,_maxHealth)),4),new Color(.91f,.45f,.40f));
             Fill(new Rect(x+20,480,col-40,4),new Color(.30f,.30f,.30f));
@@ -1259,7 +1297,9 @@ internal sealed partial class ToolkitUi
             if(Button(new Rect(2*(quick+10),510,quick,44),"К точке возврата",_button))_app.Queue("recall checkpoint",p.RecallCheckpoint);
             GUI.enabled=canReturn;
             if(Button(new Rect(3*(quick+10),510,quick,44),"Сбросить эффекты",_button))_app.Queue("reset player",ResetPlayerEffects);
-            GUI.Label(new Rect(0,566,area.width,30),p.CheckpointStatus,_small);
+            string starlight=StarlightBridge.PlayerNote;
+            if(starlight.Length==0)L.Label(new Rect(0,566,area.width,30),p.CheckpointStatus,_small);
+            else{L.Label(new Rect(0,566,col,30),p.CheckpointStatus,_small);L.Label(new Rect(x,566,col,30),starlight,_small);}
             AllocationMark(19,ref allocationStamp);
         }
         finally{EndGroup();}
@@ -1350,7 +1390,7 @@ internal sealed partial class ToolkitUi
             if(entry.IsRadiant)
             {
                 var radiantIcon=entry.Icon;
-                if(radiantIcon==null||radiantIcon.WasCollected||radiantIcon.texture==null)GUI.Label(rect,"—",_badge);
+                if(radiantIcon==null||radiantIcon.WasCollected||radiantIcon.texture==null)L.Label(rect,"—",_badge);
                 else DrawSprite(rect,radiantIcon);
                 return;
             }
@@ -1358,8 +1398,8 @@ internal sealed partial class ToolkitUi
             {
                 Color saved=GUI.color;GUI.color=entry.Prototype=="rad"?new Color(.45f,1f,.32f):new Color(.65f,.80f,1f);
                 try{DrawSprite(rect,entry.Icon??entry.Type?.Icon);}finally{GUI.color=saved;}
-                Rect badge=new(rect.xMax-18,rect.yMax-20,20,20);GUI.Box(badge,GUIContent.none,_selectedButton);
-                GUI.Label(badge,entry.Prototype=="rad"?"Р":"М",_badge);
+                Rect badge=new(rect.xMax-18,rect.yMax-20,20,20);L.Box(badge,GUIContent.none,_selectedButton);
+                L.Label(badge,entry.Prototype=="rad"?"Р":"М",_badge);
                 return;
             }
             var slime = entry.Type?.TryCast<Il2Cpp.SlimeDefinition>();
@@ -1368,13 +1408,13 @@ internal sealed partial class ToolkitUi
                 // Largo badges combine the two real parent icons instead of
                 // reusing a misleading single-species icon or leaving a blank.
                 var bases = slime.BaseSlimes;
-                GUI.Box(rect, GUIContent.none, _selectedButton);
+                L.Box(rect, GUIContent.none, _selectedButton);
                 if (bases != null && bases.Length >= 2)
                 {
                     DrawSprite(new Rect(rect.x + 1, rect.y + 1, rect.width * .73f, rect.height * .73f), bases[0]?.Icon ?? bases[0]?.icon);
                     DrawSprite(new Rect(rect.x + rect.width * .27f, rect.y + rect.height * .27f, rect.width * .73f, rect.height * .73f), bases[1]?.Icon ?? bases[1]?.icon);
                 }
-                else GUI.Label(rect, "Л", _label);
+                else L.Label(rect, "Л", _label);
                 return;
             }
             var sprite=entry.Icon??entry.Type?.Icon??entry.Type?.icon;
@@ -1412,7 +1452,7 @@ internal sealed partial class ToolkitUi
             selection=!string.IsNullOrEmpty(selectedKey)?entries.Find(e=>string.Equals(e.CatalogKey,selectedKey,StringComparison.Ordinal)):null;
             if(selection==null)selection=entries.Count>0?entries[0]:null;
         }
-        GUI.Box(rect,GUIContent.none,_card);
+        L.Box(rect,GUIContent.none,_card);
         const float row=48;
         // Reserve the footer hint as well as the top/bottom inset. Shorter
         // inventory lists must not draw their final row underneath the hint.
@@ -1433,10 +1473,10 @@ internal sealed partial class ToolkitUi
                 string caption=e.IsRadiant?e.Name+" · нативный"+(e.Icon==null?" · нет иконки":""):e.Name;
                 HoverText(HoverChildRect(b,new Rect(52,y+1,b.width-65,row-6),offset),caption,_label,offset);
             }
-            if(entries.Count==0)GUI.Label(new Rect(18,18,viewport.width-44,100),"Ничего не найдено.\nИзмените название или категорию.",_muted);
+            if(entries.Count==0)L.Label(new Rect(18,18,viewport.width-44,100),"Ничего не найдено.\nИзмените название или категорию.",_muted);
         }
         finally{EndGroup();}
-        GUI.Label(new Rect(rect.x + 12, rect.yMax - 38, rect.width - 24, 26), "ЛКМ — перетаскивание полоски · колесо — прокрутка", _muted);
+        Hint(new Rect(rect.x + 12, rect.yMax - 38, rect.width - 24, 26), "ЛКМ — перетаскивание полоски · колесо — прокрутка", _muted);
     }
 
     private void SpawnPage(Rect area)
@@ -1444,13 +1484,13 @@ internal sealed partial class ToolkitUi
         BeginGroup(area);
         try
         {
-            GUI.Label(new Rect(0,0,area.width-470,36),"Создание · каталог игры",_heading);
+            L.Label(new Rect(0,0,area.width-470,36),"Создание · каталог игры",_heading);
             CreationNavigation(area.width);
             _search=TextBox("spawn-search",new Rect(0,48,area.width-148,38),_search);
             if(Button(new Rect(area.width-136,48,136,38),"Обновить",_button))_app.Queue("catalog",_app.Actors.RefreshCatalog);
             const float top=102,sidebar=168,gap=14;
             float rightW=322,x=area.width-rightW,listX=sidebar+gap,listW=x-gap-listX,height=area.height-top;
-            GUI.Box(new Rect(0,top,sidebar,height),GUIContent.none,_card);
+            L.Box(new Rect(0,top,sidebar,height),GUIContent.none,_card);
             for(int i=0;i<_categories.Length;i++)
                 if(Button(new Rect(10,top+12+i*53,sidebar-20,43),_categories[i],i==_category?_selectedButton:_button))
                 {_category=i;_family="Все";_catalogScroll=Vector2.zero;_selected=null;ClearInteraction();}
@@ -1465,19 +1505,19 @@ internal sealed partial class ToolkitUi
                     {_family=families[i];_catalogScroll=Vector2.zero;_selected=null;}
             }
             SpawnTiles(new Rect(listX,top+filterHeight,listW,height-filterHeight),Filter(_search,_categories[_category],false,_family));
-            GUI.Box(new Rect(x,top,rightW,height),GUIContent.none,_card);
+            L.Box(new Rect(x,top,rightW,height),GUIContent.none,_card);
             SpritePreview(new Rect(x+18,top+18,60,60),_selected);
-            GUI.Label(new Rect(x+92,top+18,rightW-110,60),_selected?.Category??"Выберите объект",_tableHeading);
-            GUI.Label(new Rect(x+18,top+94,rightW-36,66),_selected?.Name??"Нажмите карточку слева",_wrap);
+            L.Label(new Rect(x+92,top+18,rightW-110,60),_selected?.Category??"Выберите объект",_tableHeading);
+            L.Label(new Rect(x+18,top+94,rightW-36,66),_selected?.Name??"Нажмите карточку слева",_wrap);
             bool gordo=_selected?.Category=="Гордо";
             if(gordo)
             {
-                GUI.Label(new Rect(x+18,top+170,rightW-36,112),"1. Выберите вид Гордо.\n2. Наведите камеру на свободную землю в 9 м перед собой.\n3. Нажмите «Разместить Гордо».",_atlasDetail);
-                GUI.Label(new Rect(x+18,top+284,rightW-36,38),"Один Гордо на нативной ловушке",_small);
+                L.Label(new Rect(x+18,top+170,rightW-36,112),DetailedHelp?"1. Выберите вид Гордо.\n2. Наведите камеру на свободную землю в 9 м перед собой.\n3. Нажмите «Разместить Гордо».":"Наведите камеру на свободную землю в 9 м перед собой.",_atlasDetail);
+                Hint(new Rect(x+18,top+284,rightW-36,38),"Один Гордо на нативной ловушке",_small);
             }
             else
             {
-                GUI.Label(new Rect(x+18,top+174,rightW-36,28),"Количество · "+_quantity,_label);
+                L.Label(new Rect(x+18,top+174,rightW-36,28),"Количество · "+_quantity,_label);
                 _quantity=SafetyPolicy.SpawnCount(Mathf.RoundToInt(Slider(2,new Rect(x+18,top+215,rightW-36,30),_quantity,1,25)));
                 int[] counts={1,5,10,25};float width=(rightW-36-18)/4;
                 for(int i=0;i<counts.Length;i++)if(Button(new Rect(x+18+i*(width+6),top+258,width,40),counts[i].ToString(),_quantity==counts[i]?_selectedButton:_button))_quantity=counts[i];
@@ -1488,8 +1528,8 @@ internal sealed partial class ToolkitUi
             GUI.enabled=enabled&&!_app.Actors.GordoSpawnPending;
             if(Button(new Rect(x+18,top+388,rightW-36,42),"Очистить созданное ("+_app.Actors.OwnedCount+")",_button))_app.Queue("cleanup owned",_app.Actors.Cleanup);
             GUI.enabled=enabled;
-            string hint=gordo?_app.Actors.GordoSpawnStatus:_selected?.CanSpawn==false?_selected.UnavailableReason:_selected?.IsPrototype==true?"Только визуальный Pink-прототип, без уникальных способностей.":_selected?.IsRadiant==true?"Нативный лучистый вариант. Вакпак не поддерживается.":"В 2,5 м перед камерой. Очистка удаляет только созданное этим модом.";
-            GUI.Label(new Rect(x+18,top+442,rightW-36,Mathf.Max(40,height-448)),hint,_atlasDetail);
+            string hint=gordo?_app.Actors.GordoSpawnStatus:_selected?.CanSpawn==false?_selected.UnavailableReason:_selected?.IsPrototype==true?"Только визуальный Pink-прототип, без уникальных способностей.":_selected?.IsRadiant==true?"Нативный лучистый вариант. Вакпак не поддерживается.":DetailedHelp?"В 2,5 м перед камерой. Очистка удаляет только созданное этим модом.":"";
+            L.Label(new Rect(x+18,top+442,rightW-36,Mathf.Max(40,height-448)),hint,_atlasDetail);
         }
         finally{EndGroup();}
     }
@@ -1497,7 +1537,7 @@ internal sealed partial class ToolkitUi
     private void SpawnTiles(Rect rect,List<ActorTools.Entry> entries)
     {
         if(_selected==null||!entries.Contains(_selected))_selected=entries.Count>0?entries[0]:null;
-        GUI.Box(rect,GUIContent.none,_card);
+        L.Box(rect,GUIContent.none,_card);
         const float row=104;float width=(rect.width-90)/2;
         var viewport=new Rect(rect.x+10,rect.y+10,rect.width-20,rect.height-48);
         _catalogScroll=BeginScroll(10,viewport,_catalogScroll,((entries.Count+1)/2)*row);
@@ -1511,13 +1551,13 @@ internal sealed partial class ToolkitUi
                 Rect tile=new(tx,ty,width,row-10);
                 if(Button(tile,GUIContent.none,entry==_selected?_selectedButton:_button))_selected=entry;
                 SpritePreview(new Rect(tx+10,ty+14,44,44),entry);
-                GUI.Label(new Rect(tx+64,ty+8,width-76,54),entry.Name,_atlasDetail);
-                GUI.Label(new Rect(tx+12,ty+65,width-24,22),entry.IsPrototype?"Визуальный прототип":entry.CanSpawn?(entry.IsRadiant?"Лучистый · нативный":"Нативный объект"):"Недоступен в этой версии",_small);
+                L.Label(new Rect(tx+64,ty+8,width-76,54),entry.Name,_atlasDetail);
+                L.Label(new Rect(tx+12,ty+65,width-24,22),entry.IsPrototype?"Визуальный прототип":entry.CanSpawn?(entry.IsRadiant?"Лучистый · нативный":"Нативный объект"):"Недоступен в этой версии",_small);
             }
-            if(entries.Count==0)GUI.Label(new Rect(12,18,viewport.width-48,96),"Ничего не найдено. Измените поиск или категорию.",_muted);
+            if(entries.Count==0)L.Label(new Rect(12,18,viewport.width-48,96),"Ничего не найдено. Измените поиск или категорию.",_muted);
         }
         finally{EndGroup();}
-        GUI.Label(new Rect(rect.x+12,rect.yMax-30,rect.width-24,24),"Выберите карточку · колесо — прокрутка",_small);
+        Hint(new Rect(rect.x+12,rect.yMax-30,rect.width-24,24),"Выберите карточку · колесо — прокрутка",_small);
     }
 
     private void CurrencyPage(Rect area)
@@ -1525,13 +1565,13 @@ internal sealed partial class ToolkitUi
         BeginGroup(area);
         try
         {
-            GUI.Label(new Rect(0, 0, area.width, 35), "Нью-баксы: " + _app.Actors.Currency().ToString("N0"), _heading);
+            L.Label(new Rect(0, 0, area.width, 35), "Нью-баксы: " + _app.Actors.Currency().ToString("N0"), _heading);
             float bw = (area.width - 20) / 3;
             if (Button(new Rect(0, 49, bw, 42), "+10 000", _button)) _app.Queue("currency 10000", () => _app.Actors.AddCurrency(10000));
             if (Button(new Rect(bw + 10, 49, bw, 42), "+100 000", _button)) _app.Queue("currency 100000", () => _app.Actors.AddCurrency(100000));
             if (Button(new Rect(2 * (bw + 10), 49, bw, 42), "Максимум денег", _accentButton)) _app.Queue("currency max", () => _app.Actors.AddCurrency(0, true));
-            GUI.Label(new Rect(0, 99, area.width, 24), "Деньги и вакпак сохраняются игрой.", _muted);
-            GUI.Label(new Rect(0, 137, area.width, 32), "Заполнить выбранный слот вакпака", _heading);
+            Hint(new Rect(0, 99, area.width, 24), "Деньги и вакпак сохраняются игрой.", _muted);
+            L.Label(new Rect(0, 137, area.width, 32), "Заполнить выбранный слот вакпака", _heading);
             var ammo = _app.Context.PlayerState.Ammo;
             float sw = (area.width - (ammo.Slots.Length - 1) * 6) / Math.Max(1, ammo.Slots.Length);
             for (int i = 0; i < ammo.Slots.Length; i++)
@@ -1548,13 +1588,13 @@ internal sealed partial class ToolkitUi
             float panelHeight = area.height - panelTop;
             Catalog(new Rect(0, panelTop, leftW, panelHeight), Filter(_ammoSearch, "Все", true), ref _ammoScroll, ref _ammoSelected);
             float x = leftW + 16, w = area.width - x;
-            GUI.Box(new Rect(x, panelTop, w, panelHeight), GUIContent.none, _card);
+            L.Box(new Rect(x, panelTop, w, panelHeight), GUIContent.none, _card);
             SpritePreview(new Rect(x + 16, panelTop + 16, 54, 54), _ammoSelected);
-            GUI.Label(new Rect(x + 86, panelTop + 16, w - 102, 72), _ammoSelected != null ? _ammoSelected.Name : "Выберите совместимый ресурс", _wrap);
+            L.Label(new Rect(x + 86, panelTop + 16, w - 102, 72), _ammoSelected != null ? _ammoSelected.Name : "Выберите совместимый ресурс", _wrap);
             bool allow = GUI.enabled; GUI.enabled = allow && _ammoSelected != null;
             if (Button(new Rect(x + 16, panelTop + 116, w - 32, 48), "Заполнить " + ModInterop.FillText, _accentButton)) { var entry = _ammoSelected; _app.Actors.RequestAmmo(entry); }
             GUI.enabled = allow;
-            GUI.Label(new Rect(x + 16, panelTop + 190, w - 32, 106), (ModInterop.CustomVacLimits ? "Замена — с подтверждением. Лимит слота задаёт мод вакпака." : "Замена — с подтверждением. 100 шт. могут превысить ёмкость."), _muted);
+            L.Label(new Rect(x + 16, panelTop + 190, w - 32, 106), (ModInterop.CustomVacLimits ? "Замена — с подтверждением. Лимит слота задаёт мод вакпака." : "Замена — с подтверждением. 100 шт. могут превысить ёмкость."), _muted);
         }
         finally { EndGroup(); }
     }
@@ -1566,9 +1606,9 @@ internal sealed partial class ToolkitUi
         {
             var world=_app.World;float left=area.width*.40f,rightX=left+20,right=area.width-rightX;
             int minutes=(int)(world.Hour()*60f)%1440;
-            GUI.Box(new Rect(0,0,left,460),GUIContent.none,_card);
-            GUI.Box(new Rect(rightX,0,right,460),GUIContent.none,_card);
-            GUI.Label(new Rect(18,14,left-36,38),"Время · "+(minutes/60).ToString("00")+":"+(minutes%60).ToString("00"),_heading);
+            L.Box(new Rect(0,0,left,460),GUIContent.none,_card);
+            L.Box(new Rect(rightX,0,right,460),GUIContent.none,_card);
+            L.Label(new Rect(18,14,left-36,38),"Время · "+(minutes/60).ToString("00")+":"+(minutes%60).ToString("00"),_heading);
             float half=(left-44)/2;
             if(Button(new Rect(18,66,half,40),"+1 час",_button))_app.Queue("time +1",()=>world.AdvanceHours(1));
             if(Button(new Rect(26+half,66,half,40),"+6 часов",_button))_app.Queue("time +6",()=>world.AdvanceHours(6));
@@ -1580,9 +1620,9 @@ internal sealed partial class ToolkitUi
             string[] times={"Утро · 06:00","День · 12:00","Закат · 18:00","Ночь · 00:00"};float[] hours={6,12,18,0};
             for(int i=0;i<4;i++)if(Button(new Rect(18+(i%2)*(half+8),280+(i/2)*52,half,42),times[i],_button))
             {_hour=hours[i];float h=_hour;_app.Queue("set time",()=>world.SetHour(h));}
-            GUI.Label(new Rect(18,396,left-36,44),"Только вперёд · таймеры сохраняются",_small);
-            GUI.Label(new Rect(rightX+18,14,right-36,38),"Погода",_heading);
-            GUI.Label(new Rect(rightX+18,56,right-36,42),world.ZoneName,_muted);
+            Hint(new Rect(18,396,left-36,44),"Только вперёд · таймеры сохраняются",_small);
+            L.Label(new Rect(rightX+18,14,right-36,38),"Погода",_heading);
+            L.Label(new Rect(rightX+18,56,right-36,42),world.ZoneName,_muted);
             string[] ids={"clear","rain","thunder","slime","pollen","wind","lava","solar"};
             string[] roles={"WeatherClear","WeatherRain","WeatherThunder","WeatherSlime","WeatherPollen","WeatherWind","WeatherLava","WeatherSolar"};
             float bw=(right-44)/2;
@@ -1595,7 +1635,7 @@ internal sealed partial class ToolkitUi
                 {if(i==0)_app.Queue("clear weather",world.ClearWeather);else{var c=choice;_app.Queue("weather",()=>world.SetWeather(c));}}
                 GUI.enabled=enabled;
             }
-            GUI.Label(new Rect(rightX+18,306,right-36,28),"Нативные варианты",_small);
+            L.Label(new Rect(rightX+18,306,right-36,28),"Нативные варианты",_small);
             Rect view=new(rightX+18,340,right-36,98);
             _weatherScroll=BeginScroll(12,view,_weatherScroll,world.Weather.Count*44f,44f);
             try{for(int i=0;i<world.Weather.Count;i++){float y=i*44-_weatherScroll.y;if(y+40<=0||y>=view.height)continue;
@@ -1622,32 +1662,36 @@ internal sealed partial class ToolkitUi
             if(Button(new Rect(area.width-250,27,250,40),"Камера и запись…",_accentButton)){_capturePage=true;ClearInteraction();return;}
             bool hidden = Toggle(new Rect(0, 0, area.width-266, 94), "Чистый кадр / скрыть HUD", cinema.HideHud, "Убирает игровой интерфейс и вакпак. Меню остаётся доступно по Insert.");
             if (hidden != cinema.HideHud) _app.Queue("hide HUD", () => cinema.SetHideHud(hidden));
-            GUI.Label(new Rect(0, 116, area.width-266, 35), "Точки телепортации · " + cinema.Waypoints.Count + " / 5", _heading);
+            L.Label(new Rect(0, 116, area.width-266, 35), "Точки телепортации · " + cinema.Waypoints.Count + " / 5", _heading);
             _waypointName = TextBox("waypoint-name", new Rect(0, 165, area.width - 234, 38), _waypointName, 40, "Название новой точки…");
             bool previous = GUI.enabled; GUI.enabled = previous && cinema.Waypoints.Count < SafetyPolicy.MaxWaypoints;
             if (Button(new Rect(area.width - 218, 165, 218, 38), "Сохранить позицию", _accentButton)) { string name = _waypointName; _app.Queue("save waypoint", () => cinema.SaveWaypoint(name)); _waypointName = ""; }
             GUI.enabled = previous;
             if(cinema.Waypoints.Count==0)
             {
-                GUI.Box(new Rect(0,225,area.width,114),GUIContent.none,_card);
-                GUI.Label(new Rect(20,244,area.width-40,34),"Первая точка — ваш быстрый возврат",_label);
-                GUI.Label(new Rect(20,285,area.width-40,38),"Введите название и сохраните текущую позицию. Можно держать до пяти точек.",_muted);
+                L.Box(new Rect(0,225,area.width,114),GUIContent.none,_card);
+                L.Label(new Rect(20,244,area.width-40,34),"Первая точка — ваш быстрый возврат",_label);
+                Hint(new Rect(20,285,area.width-40,38),"Введите название и сохраните текущую позицию. Можно держать до пяти точек.");
             }
             for (int i = 0; i < cinema.Waypoints.Count; i++)
             {
                 var point = cinema.Waypoints[i]; float y = 225 + i * 62;
-                GUI.Box(new Rect(0, y, area.width, 54), GUIContent.none, _card);
-                GUI.Label(new Rect(15, y + 7, area.width - 300, 40), point.Name + "   " + point.Position.ToString("F1"), _label);
+                L.Box(new Rect(0, y, area.width, 54), GUIContent.none, _card);
+                L.Label(new Rect(15, y + 7, area.width - 300, 40), point.Name + "   " + point.Position.ToString("F1"), _label);
                 if (Button(new Rect(area.width - 269, y + 10, 186, 34), "Телепортироваться", _button)) _app.Queue("teleport waypoint", () => cinema.Teleport(point));
                 if (Button(new Rect(area.width - 72, y + 10, 57, 34), "×", _button)) { var remove = point; _app.Queue("delete waypoint", () => cinema.Waypoints.Remove(remove)); }
             }
-            GUI.Label(new Rect(0, 551, area.width-246, 40), "Точки хранятся в текущем сеансе и не переносятся между сейвами.", _muted);
+            Hint(new Rect(0, 551, area.width-246, 40), "Точки хранятся в текущем сеансе и не переносятся между сейвами.", _muted);
             if(Button(new Rect(area.width-232,551,232,40),"Нативные феномены",_violetButton))
             {_phenomenaPage=true;_app.Queue("native phenomena census",()=>_app.Phenomena.SetInspect(true));}
         }
         finally { EndGroup(); }
     }
 
+    // 0.8.0: «Ферма…» (moved from «Карта»), FPS counter next to the info HUD, hints only with «?».
+    private bool _farmPage;
+    private static readonly string[] FpsCornerArrows={"↖","↗","↙","↘"};
+    internal void ShowFarmForTest(){ShowTabForTest(7);_farmPage=true;}
     private void ConveniencePage(Rect area)
     {
         if(_optimizationPage){OptimizationPage(area);return;}
@@ -1656,56 +1700,80 @@ internal sealed partial class ToolkitUi
         BeginGroup(area);
         try
         {
+            if(_farmPage)
+            {
+                L.Label(new Rect(0,0,area.width-220,38),"Фермерский помощник · установленные устройства",_heading);
+                if(Button(new Rect(area.width-200,0,200,40),"Назад",_button)){_farmPage=false;ClearInteraction();return;}
+                FarmPage(area.width,56);
+                return;
+            }
             var tools=_app.Convenience;
             float col=(area.width-24)/2,x=col+24,bw=(col-48)/2;
-            GUI.Label(new Rect(0,0,area.width,36),"Профили, исследование и автоматизация",_heading);
-            GUI.Label(new Rect(0,42,area.width,28),"Все новые функции выключены по умолчанию. Включайте только то, что нужно сейчас.",_muted);
-            GUI.Box(new Rect(0,80,col,224),GUIContent.none,_card);
-            GUI.Label(new Rect(20,92,col-40,34),"Профили · "+tools.ProfileName,_heading);
+            const float top=66,cardH=206,row2=top+cardH+14;
+            L.Label(new Rect(0,0,area.width,36),"Удобство · профили, HUD и автоматизация",_heading);
+            Hint(new Rect(0,38,area.width,26),"Все новые функции выключены по умолчанию. Включайте только то, что нужно сейчас.",_small);
+            L.Box(new Rect(0,top,col,cardH),GUIContent.none,_card);
+            L.Label(new Rect(20,top+12,col-40,34),"Профили · "+tools.ProfileName,_heading);
             bool enabled=GUI.enabled;GUI.enabled=enabled&&!_app.Map.Busy;
-            if(Button(new Rect(20,136,bw,44),"Исследователь",tools.Profile==1?_selectedButton:_button))
+            if(Button(new Rect(20,top+54,bw,44),"Исследователь",tools.Profile==1?_selectedButton:_button))
                 _app.Queue("explorer profile",()=>tools.SetProfile(1));
-            if(Button(new Rect(28+bw,136,bw,44),"Кадр",tools.Profile==2?_selectedButton:_button))
+            if(Button(new Rect(28+bw,top+54,bw,44),"Кадр",tools.Profile==2?_selectedButton:_button))
                 _app.Queue("frame profile",()=>tools.SetProfile(2));
-            if(DetailedHelp)GUI.Label(new Rect(20,190,col-40,48),"Исследователь: защита, энергия, ×2.\nКадр: полёт, пауза, без HUD.",_muted);
+            Hint(new Rect(20,top+104,col-40,46),"Исследователь: защита, энергия, ×2.\nКадр: полёт, пауза, без HUD.");
             GUI.enabled=enabled&&tools.Profile!=0&&!_app.Map.Busy;
-            if(Button(new Rect(20,244,col-40,44),"Восстановить прежние настройки",_button))
+            if(Button(new Rect(20,top+152,col-40,44),"Восстановить прежние настройки",_button))
                 _app.Queue("restore profile",()=>tools.SetProfile(0));
             GUI.enabled=enabled;
 
-            GUI.Box(new Rect(x,80,col,224),GUIContent.none,_card);
-            GUI.Label(new Rect(x+20,92,col-40,34),"Исследование и SOS",_heading);
-            if(Button(new Rect(x+20,136,bw,44),tools.TrackSafe?"SOS: запись ВКЛ":"SOS: запись ВЫКЛ",tools.TrackSafe?_selectedButton:_button))
+            L.Box(new Rect(x,top,col,cardH),GUIContent.none,_card);
+            L.Label(new Rect(x+20,top+12,col-40,34),"Исследование и SOS",_heading);
+            if(Button(new Rect(x+20,top+54,bw,44),tools.TrackSafe?"SOS: запись ВКЛ":"SOS: запись ВЫКЛ",tools.TrackSafe?_selectedButton:_button))
             {bool track=!tools.TrackSafe;_app.Queue("safe position tracking",()=>tools.SetSafeTracking(track));}
             GUI.enabled=enabled&&tools.HasSafe&&!_app.Map.Busy;
-            if(Button(new Rect(x+28+bw,136,bw,44),"Вернуться · Ctrl + Home",_button))
+            if(Button(new Rect(x+28+bw,top+54,bw,44),"Вернуться · Ctrl + Home",_button))
                 _app.Queue("SOS rescue",tools.Rescue);
             GUI.enabled=enabled;
-            GUI.Label(new Rect(x+20,190,col-40,40),tools.TrackSafe?tools.SafeStatus:"Записываются только проверенные наземные точки.",_muted);
-            if(Button(new Rect(x+20,236,col-40,44),"Найти неоткрытую капсулу · без автосбора",_accentButton))
+            if(tools.TrackSafe)L.Label(new Rect(x+20,top+104,col-40,44),tools.SafeStatus,_muted);
+            else Hint(new Rect(x+20,top+104,col-40,44),"Записываются только проверенные наземные точки.");
+            if(Button(new Rect(x+20,top+152,col-40,44),"Найти неоткрытую капсулу · без автосбора",_accentButton))
                 _app.Queue("nearest unopened capsule",tools.OpenNearestCapsule);
 
-            GUI.Box(new Rect(0,328,col,216),GUIContent.none,_card);
-            GUI.Label(new Rect(20,340,col-40,34),"Автопополнение вакпака",_heading);
-            GUI.Label(new Rect(20,378,col-40,38),tools.RefillStatus,_muted);
-            if(Button(new Rect(20,422,col-40,44),tools.Refilling?"Отключить автопополнение":"Включить для выбранного слота…",tools.Refilling?_selectedButton:_button))
+            L.Box(new Rect(0,row2,col,cardH),GUIContent.none,_card);
+            L.Label(new Rect(20,row2+12,col-40,34),"Автопополнение вакпака",_heading);
+            L.Label(new Rect(20,row2+50,col-40,40),tools.RefillStatus,_muted);
+            if(Button(new Rect(20,row2+94,col-40,44),tools.Refilling?"Отключить автопополнение":"Включить для выбранного слота…",tools.Refilling?_selectedButton:_button))
                 _app.Queue("auto refill request",tools.RequestRefill);
-            GUI.Label(new Rect(20,478,col-40,54),ModInterop.RefillText + " · сохраняется игрой.\nПустой или другой слот — стоп.",_muted);
+            L.Label(new Rect(20,row2+146,col-40,24),"Порог: "+ModInterop.RefillText,_small);
+            Hint(new Rect(20,row2+172,col-40,24),"Сохраняется игрой · пустой или другой слот — стоп.",_small);
 
-            GUI.Box(new Rect(x,328,col,216),GUIContent.none,_card);
-            GUI.Label(new Rect(x+20,340,col-40,34),"Компактный инфо-HUD",_heading);
-            if(Button(new Rect(x+20,382,col-40,44),tools.ShowHud?"Инфо-HUD: ВКЛ":"Инфо-HUD: ВЫКЛ",tools.ShowHud?_selectedButton:_button))
+            // Info HUD and the FPS counter: two on-screen readouts, one card.
+            var cap=_app.Capture;
+            L.Box(new Rect(x,row2,col,cardH),GUIContent.none,_card);
+            L.Label(new Rect(x+20,row2+12,col-40,34),"Инфо-HUD и счётчик FPS",_heading);
+            float tw=Mathf.Round((col-40)*.46f),cx=x+20+tw+10,cw=col-40-tw-10;
+            if(Button(new Rect(x+20,row2+54,tw,44),tools.ShowHud?"Инфо-HUD: ВКЛ":"Инфо-HUD: ВЫКЛ",tools.ShowHud?_selectedButton:_button))
             {bool show=!tools.ShowHud;_app.Queue("info HUD",()=>tools.SetHud(show));}
-            string[] places={"Справа","Слева","Внизу"};float pw=(col-56)/3;
+            string[] places={"Справа","Слева","Внизу"};float pw=(cw-16)/3;
             for(int i=0;i<places.Length;i++)
-                if(Button(new Rect(x+20+i*(pw+8),434,pw,44),places[i],tools.HudPlacement==i?_selectedButton:_button))tools.HudPlacement=i;
-            GUI.Label(new Rect(x+20,490,col-40,44),"Зона, XYZ, время и активные эффекты.\nНе мешает карте и режиму чистого кадра.",_muted);
-            GUI.Label(new Rect(0,558,area.width-794,32),"SOS и инфо-HUD — на сеанс.",_muted);
-            if(Button(new Rect(area.width-778,551,226,42),"Имя сейва…",_accentButton))OpenSaveNameUi();
-            if(Button(new Rect(area.width-536,551,234,42),"Консоль / Инфо",_button))
+                if(Button(new Rect(cx+i*(pw+8),row2+54,pw,44),places[i],tools.HudPlacement==i?_selectedButton:_button))tools.HudPlacement=i;
+            if(cap!=null)
+            {
+                if(Button(new Rect(x+20,row2+106,tw,44),cap.ShowFps?"Счётчик FPS: ВКЛ":"Счётчик FPS: ВЫКЛ",cap.ShowFps?_selectedButton:_button))
+                    cap.SetShowFps(!cap.ShowFps);
+                int corner=NavigationChoice(new Rect(cx,row2+106,cw,44),FpsCornerArrows,cap.FpsCorner);
+                if(corner>=0&&corner!=cap.FpsCorner)cap.SetFpsCorner(corner);
+                if(cap.ShowFps)L.Label(new Rect(x+20,row2+158,col-40,40),cap.FpsText+" · виден и в меню игры",_muted);
+            }
+            if(cap==null||!cap.ShowFps)Hint(new Rect(x+20,row2+158,col-40,44),"Зона, XYZ, время и эффекты · FPS и время кадра в выбранном углу.",_muted);
+
+            float qb=(area.width-36)/4,qy=row2+cardH+16;
+            if(Button(new Rect(0,qy,qb,44),"Ферма…",_button)){_farmPage=true;ClearInteraction();}
+            if(Button(new Rect(qb+12,qy,qb,44),"Имя сейва…",_accentButton))OpenSaveNameUi();
+            if(Button(new Rect(2*(qb+12),qy,qb,44),"Консоль / Инфо",_button))
             {_infoPage=true;ClearInteraction();}
-            if(Button(new Rect(area.width-286,551,286,42),"Оптимизация / Potato Mode",_goldButton))
+            if(Button(new Rect(3*(qb+12),qy,qb,44),"Оптимизация / Potato Mode",_goldButton))
                 OpenOptimizationUi();
+            Hint(new Rect(0,qy+50,area.width,28),"SOS и инфо-HUD — на сеанс · счётчик FPS сохраняется в capture.cfg.",_small);
         }
         finally {EndGroup();}
     }
@@ -1720,9 +1788,9 @@ internal sealed partial class ToolkitUi
             _scale=1;_groupOrigin=Vector2.zero;_groupOrigins.Clear();_groupRects.Clear();
             GUI.matrix=Matrix4x4.identity;GUI.color=Color.white;GUI.enabled=true;
             float width=Mathf.Min(660,Screen.width-32);Rect rect=new((Screen.width-width)/2,24,width,146);
-            GUI.Box(rect,GUIContent.none,_hudFrame);Icon(new Rect(rect.x+16,rect.y+18,42,42),2);
-            GUI.Label(new Rect(rect.x+70,rect.y+10,width-86,36),"Безопасная телепортация",_label);
-            GUI.Label(new Rect(rect.x+16,rect.y+52,width-32,40),_app.Map.TeleportStatus,_muted);
+            L.Box(rect,GUIContent.none,_hudFrame);Icon(new Rect(rect.x+16,rect.y+18,42,42),2);
+            L.Label(new Rect(rect.x+70,rect.y+10,width-86,36),"Безопасная телепортация",_label);
+            L.Label(new Rect(rect.x+16,rect.y+52,width-32,40),_app.Map.TeleportStatus,_muted);
             if(Button(new Rect(rect.x+16,rect.y+96,width-32,40),"Отменить переход / повторить возврат",_button))
                 _app.Queue("safe transit return",_app.Map.AbortTeleport);
         }
@@ -1742,12 +1810,12 @@ internal sealed partial class ToolkitUi
             float width=Mathf.Min(420,Screen.width-32),height=144;
             float x=tools.HudPlacement==1?24:tools.HudPlacement==2?(Screen.width-width)/2:Screen.width-width-24;
             float y=tools.HudPlacement==2?Mathf.Max(24,Screen.height-Mathf.Max(380,Screen.height*.36f)):72;
-            GUI.Box(new Rect(x,y,width,height),GUIContent.none,_hudFrame);
+            L.Box(new Rect(x,y,width,height),GUIContent.none,_hudFrame);
             Icon(new Rect(x+12,y+12,28,28),15);
-            GUI.Label(new Rect(x+50,y+8,width-136,30),tools.HudShortZone,_hudLabel);
-            GUI.Label(new Rect(x+width-74,y+8,62,30),tools.HudTime,_hudLabel);
-            GUI.Label(new Rect(x+16,y+40,width-32,30),tools.HudCoordinates,_hudLabel);
-            GUI.Label(new Rect(x+16,y+78,width-32,54),tools.HudEffects,_hudEffects);
+            L.Label(new Rect(x+50,y+8,width-136,30),tools.HudShortZone,_hudLabel);
+            L.Label(new Rect(x+width-74,y+8,62,30),tools.HudTime,_hudLabel);
+            L.Label(new Rect(x+16,y+40,width-32,30),tools.HudCoordinates,_hudLabel);
+            L.Label(new Rect(x+16,y+78,width-32,54),tools.HudEffects,_hudEffects);
         }
         finally {GUI.matrix=matrix;GUI.color=color;GUI.contentColor=content;GUI.backgroundColor=background;}
     }
@@ -1758,29 +1826,20 @@ internal sealed partial class ToolkitUi
         try
         {
             var map=_app.Map;
-            GUI.Label(new Rect(0,0,area.width,36),"Карта и исследование мира",_heading);
+            L.Label(new Rect(0,0,area.width,36),"Карта и исследование мира",_heading);
             ExplorerNavigation(area.width);
             if(_explorerSection!=0){ExplorerPage(area.width);return;}
-            float third=(area.width-36)/4;
-            if(Button(new Rect(0,100,third,44),"Открыть атлас",_accentButton))_app.Queue("open atlas",map.Open);
-            var terrain=_app.MiniMapTerrain;bool terrainMap=map.ShowMiniMap&&terrain!=null&&terrain.Enabled;
-            // M27: off -> real terrain crop -> classic radar -> off.
-            if(Button(new Rect(3*(third+12),100,third,44),!map.ShowMiniMap?"Мини-карта: ВЫКЛ":terrainMap?"Мини-карта: рельеф":"Мини-карта: радар",map.ShowMiniMap?_selectedButton:_button))
-            {
-                if(!map.ShowMiniMap){map.ShowMiniMap=true;terrain?.SetEnabled(true);}
-                else if(terrainMap)terrain.SetEnabled(false);
-                else{map.ShowMiniMap=false;terrain?.SetEnabled(false);}
-            }
-            if(Button(new Rect(third+12,100,third,44),"Открыть всю карту…",_button))
-                _app.Confirm("Открыть весь атлас?","Будут открыты нативные зоны, ноды, подписи и туман всех страниц карты. Это постоянное изменение текущего сейва.",_app.Unlocks.Map);
+            // 0.8.0: «Открыть всю карту» lives in «Открытия» (the same confirmed unlock card) and the
+            // minimap switch in «Навигация» (its «Режим» row); the freed row makes the list taller.
+            if(Button(new Rect(0,100,206,40),"Открыть атлас",_accentButton))_app.Queue("open atlas",map.Open);
             bool enabled=GUI.enabled;GUI.enabled=enabled&&map.HasReturn&&!map.Busy;
-            if(Button(new Rect(2*(third+12),100,third,44),"Вернуться до телепорта",_button))_app.Queue("atlas return",map.Return);
+            if(Button(new Rect(214,100,244,40),"Вернуться до телепорта",_button))_app.Queue("atlas return",map.Return);
             GUI.enabled=enabled;
             // M29: an explicit clear button beside the search; own markers stay on the map.
-            string search=TextBox("atlas-search",new Rect(0,160,area.width-52,40),map.Search,80,"Поиск капсулы, ресурса, имени или ID…");
+            string search=TextBox("atlas-search",new Rect(470,100,area.width-470-52,40),map.Search,80,"Поиск капсулы, ресурса, имени или ID…");
             if(search!=map.Search){map.Search=search;_atlasScroll.y=0;}
             bool clearEnabled=GUI.enabled;GUI.enabled=clearEnabled&&M29AtlasSearchPolicy.Active(map.Search);
-            if(Button(new Rect(area.width-44,160,44,40),"×",_button))ClearAtlasSearch();
+            if(Button(new Rect(area.width-44,100,44,40),"×",_button))ClearAtlasSearch();
             GUI.enabled=clearEnabled;
             float filterX=0;
             var filterLayers=MapLayerOrder.Sorted(MapTools.Categories);
@@ -1791,28 +1850,28 @@ internal sealed partial class ToolkitUi
                 if(i%filterColumns==0)filterX=0;
                 float filterW=MapLayerOrder.FilterWidth(area.width,filterLayers.Length);
                 string category=filterLayers[i];bool active=map.Visible.Contains(category);
-                if(Button(new Rect(filterX,212+(i/filterColumns)*44,filterW,40),category,active?_selectedButton:_button))
+                if(Button(new Rect(filterX,152+(i/filterColumns)*44,filterW,40),category,active?_selectedButton:_button))
                 {if(active)map.Visible.Remove(category);else map.Visible.Add(category);_atlasScroll.y=0;}
                 filterX+=filterW+8f;
             }
             var points=map.Filter();
             bool sourcesShown=map.Visible.Contains("Горшочки")||map.Visible.Contains("Спавнеры");
             if(sourcesShown)
-                if(Button(new Rect(area.width-484,304,238,40),map.SourcesActualOnly?"Только существующие":"Места появления тоже",map.SourcesActualOnly?_selectedButton:_button))map.SourcesActualOnly=!map.SourcesActualOnly;
+                if(Button(new Rect(area.width-484,248,238,40),map.SourcesActualOnly?"Только существующие":"Места появления тоже",map.SourcesActualOnly?_selectedButton:_button))map.SourcesActualOnly=!map.SourcesActualOnly;
             float nearestX=area.width-(sourcesShown?730:484),sortX=nearestX-206;
-            if(Button(new Rect(sortX,304,198,40),map.SortByDistance?"Сорт.: ближе":"Сорт.: имя",map.SortByDistance?_selectedButton:_button)){map.SortByDistance=!map.SortByDistance;_atlasScroll.y=0;}
-            if(Button(new Rect(nearestX,304,238,40),"Ближайшая непройденная",_button))
+            if(Button(new Rect(sortX,248,198,40),map.SortByDistance?"Сорт.: ближе":"Сорт.: имя",map.SortByDistance?_selectedButton:_button)){map.SortByDistance=!map.SortByDistance;_atlasScroll.y=0;}
+            if(Button(new Rect(nearestX,248,238,40),"Ближайшая непройденная",_button))
             {
                 var nearest=map.NearestInFilter();
                 if(nearest==null)_app.Notify(map.HasPlayerPosition?"В текущем фильтре нет непройденных меток.":"Позиция игрока ещё неизвестна.");
                 else{map.Selected=nearest;int index=points.IndexOf(nearest);if(index>=0)_atlasScroll.y=Mathf.Max(0,index*48-80);}
             }
-            RowStatus(new Rect(0,306,sortX-8,32),"Найдено: "+points.Count,M29AtlasSearchPolicy.Active(map.Search)?M29AtlasSearchPolicy.PageHint(map.Search):
+            RowStatus(new Rect(0,250,sortX-8,32),"Найдено: "+points.Count,M29AtlasSearchPolicy.Active(map.Search)?M29AtlasSearchPolicy.PageHint(map.Search):
                 sourcesShown?"только загруженные сцены":map.IndexStatus);
-            if(Button(new Rect(area.width-238,304,238,40),map.HideOpened?"Пройденное скрыто":"Пройденное видно",map.HideOpened?_selectedButton:_button)){map.HideOpened=!map.HideOpened;_atlasScroll.y=0;}
+            if(Button(new Rect(area.width-238,248,238,40),map.HideOpened?"Пройденное скрыто":"Пройденное видно",map.HideOpened?_selectedButton:_button)){map.HideOpened=!map.HideOpened;_atlasScroll.y=0;}
             float leftW=Mathf.Round((area.width-16)*.60f),rightX=leftW+16,rightW=area.width-rightX;
-            Rect view=new(0,350,leftW,206);
-            GUI.Box(view,GUIContent.none,_card);
+            Rect view=new(0,294,leftW,262);
+            L.Box(view,GUIContent.none,_card);
             _atlasScroll=BeginScroll(13,view,_atlasScroll,points.Count*48f);
             try
             {
@@ -1820,8 +1879,9 @@ internal sealed partial class ToolkitUi
                 {
                     float y=i*48-_atlasScroll.y;if(y+44<=0||y>=view.height)continue;
                     var point=points[i];
-                    string label=(map.Opened(point)?"+ ":"")+point.Category+" · "+map.DisplayName(point);
-                    string distance=MapTools.DistanceText(map.Distance(point));
+                    // 0.8.0: translate before the length cut, or the table never sees a whole phrase.
+                    string label=Loc.T((map.Opened(point)?"+ ":"")+point.Category+" · "+map.DisplayName(point));
+                    string distance=Loc.T(MapTools.DistanceText(map.Distance(point)));
                     int room=distance.Length>0?42-distance.Length:45;
                     if(label.Length>room)label=label.Substring(0,room-3)+"…";
                     if(distance.Length>0)label+=" · "+distance;
@@ -1843,55 +1903,56 @@ internal sealed partial class ToolkitUi
                     else if(!CanonIcon(iconRect,canonCell)&&!FandomIcon(iconRect,FandomMapMarkers.IconFor(point)))
                     {
                         var nativeRow=canonCell<0?null:map.Icons.Point(point);
-                        if(nativeRow!=null)DrawSprite(iconRect,nativeRow);else GUI.Label(iconRect,"—",_badge);
+                        if(nativeRow!=null)DrawSprite(iconRect,nativeRow);else L.Label(iconRect,"—",_badge);
                     }
                     HoverText(HoverChildRect(rowRect,new Rect(56,y+2,rowRect.width-60,38),offset),label,_label,offset);
                 }
-                if(points.Count==0)GUI.Label(new Rect(16,10,leftW-70,70),"Ничего не найдено. Измените поиск или включите нужный слой.",_muted);
+                if(points.Count==0)L.Label(new Rect(16,10,leftW-70,70),"Ничего не найдено. Измените поиск или включите нужный слой.",_muted);
             }
             finally{EndGroup();}
             if(map.Selected!=null&&!points.Contains(map.Selected))map.Selected=null;
             var selected=map.Selected;
-            if(selected?.Category=="Капсулы")CapsuleCard(new Rect(rightX,350,rightW,206),selected,true);
+            const float cy=294,ch=262;
+            if(selected?.Category=="Капсулы")CapsuleCard(new Rect(rightX,cy,rightW,ch),selected,true);
             else
             {
-                GUI.Box(new Rect(rightX,350,rightW,206),GUIContent.none,_card);
-                Rect detailIcon=new(rightX+16,364,38,38);
+                L.Box(new Rect(rightX,cy,rightW,ch),GUIContent.none,_card);
+                Rect detailIcon=new(rightX+16,cy+14,38,38);
                 if(!CanonIcon(detailIcon,CanonMapIconPolicy.Cell(selected?.Category,selected?.Id,selected?.Name)))
                 {
                     var nativeIcon=map.Icons.Point(selected);
                     if(nativeIcon!=null)DrawSprite(detailIcon,nativeIcon);
                     else FandomIcon(detailIcon,FandomMapMarkers.IconFor(selected));
                 }
-                GUI.Label(new Rect(rightX+66,360,rightW-82,56),selected?.Name??"Выберите метку",_wrap);
+                L.Label(new Rect(rightX+66,cy+10,rightW-82,56),selected?.Name??"Выберите метку",_wrap);
                 string scrollDetail=selected==null?null:selected.SourceObservation||FandomMapMarkers.IsFandom(selected.Category)?selected.Detail:
                     selected.WikiHint!=null?selected.Category+" · "+selected.GroupName+"\nВики: "+selected.WikiHint:null;
                 if(scrollDetail!=null)
                 {
                     if(_sourceDetailId!=selected.Id){_sourceDetailId=selected.Id;_sourceDetailScroll=Vector2.zero;}
-                    Rect detailView=new(rightX+12,418,rightW-24,48);
+                    Rect detailView=new(rightX+12,cy+68,rightW-24,100);
                     float detailHeight=Mathf.Max(detailView.height,_atlasDetail.CalcHeight(ButtonContent(scrollDetail),detailView.width-56)+12);
                     _sourceDetailScroll=BeginScroll(32,detailView,_sourceDetailScroll,detailHeight,24);
-                    try{GUI.Label(new Rect(4,4-_sourceDetailScroll.y,detailView.width-56,detailHeight),scrollDetail,_atlasDetail);}
+                    try{L.Label(new Rect(4,4-_sourceDetailScroll.y,detailView.width-56,detailHeight),scrollDetail,_atlasDetail);}
                     finally{EndGroup();}
                 }
-                else GUI.Label(new Rect(rightX+16,418,rightW-32,48),selected==null?"Выберите метку.":selected.Category+" · "+selected.GroupName+"\n"+(selected.Category=="Гордо"?map.GordoStateLabel(selected):selected.Position.ToString("F1")),_muted);
+                else L.Label(new Rect(rightX+16,cy+68,rightW-32,100),selected==null?"Выберите метку.":selected.Category+" · "+selected.GroupName+"\n"+(selected.Category=="Гордо"?map.GordoStateLabel(selected):selected.Position.ToString("F1")),_muted);
                 GUI.enabled=enabled&&selected!=null&&(!selected.SourceObservation||map.MapForPoint(selected)!=null);
                 float half=(rightW-40)/2;
-                if(Button(new Rect(rightX+16,470,half,44),"Показать на карте",_accentButton)){var point=selected;_app.Queue("atlas point",()=>map.OpenAt(point));}
+                if(Button(new Rect(rightX+16,cy+176,half,44),"Показать на карте",_accentButton)){var point=selected;_app.Queue("atlas point",()=>map.OpenAt(point));}
                 GUI.enabled=enabled&&map.CanMark(selected);
-                if(Button(new Rect(rightX+24+half,470,half,44),selected!=null&&map.Marked(selected)?"Снять отметку":"Отметить: собрано",selected!=null&&map.Marked(selected)?_selectedButton:_button))
+                if(Button(new Rect(rightX+24+half,cy+176,half,44),selected!=null&&map.Marked(selected)?"Снять отметку":"Отметить: собрано",selected!=null&&map.Marked(selected)?_selectedButton:_button))
                 {var point=selected;_app.Queue("toggle map mark",()=>map.ToggleMark(point));}
                 GUI.enabled=enabled;
                 if(selected!=null)
                 {
                     string state=map.ProgressLabel(selected),distance=MapTools.DistanceText(map.Distance(selected));
                     string line=(state.Length>0?state:"")+(distance.Length>0?(state.Length>0?" · ":"")+"до метки "+distance:"");
-                    if(line.Length>0)GUI.Label(new Rect(rightX+16,518,rightW-32,30),line,_muted);
+                    if(line.Length>0)L.Label(new Rect(rightX+16,cy+224,rightW-32,30),line,_muted);
                 }
             }
             GUI.enabled=enabled;
-            GUI.Label(new Rect(0,566,area.width,28),"Прогресс: "+map.ProgressSummary()+(DetailedHelp?" · Телепорт — через режим ЛКМ в атласе.":""),_muted);
+            L.Label(new Rect(0,566,area.width,28),"Прогресс: "+map.ProgressSummary()+(DetailedHelp?" · Телепорт — через режим ЛКМ в атласе.":""),_muted);
         }
         finally{EndGroup();}
     }
@@ -1901,19 +1962,19 @@ internal sealed partial class ToolkitUi
         var map=_app.Map;var view=map.Capsules.Get(point.Id);
         var rewards=view.Mismatch&&view.NativeObserved?view.NativeRewards:view.Rewards;
         if(_capsuleId!=point.Id){_capsuleId=point.Id;_capsuleScroll=Vector2.zero;}
-        GUI.Box(rect,GUIContent.none,_frame);
+        L.Box(rect,GUIContent.none,_frame);
         Rect podRect=new(rect.x+12,rect.y+12,38,38);
         if(!CanonIcon(podRect,CanonMapIconPolicy.TreasurePod))
         {
             var podIcon=map.Icons.Category("Капсулы");
             if(podIcon!=null)DrawSprite(podRect,podIcon);
         }
-        GUI.Label(new Rect(rect.x+60,rect.y+8,rect.width-(openMap?76:120),42),view.Title,_label);
+        L.Label(new Rect(rect.x+60,rect.y+8,rect.width-(openMap?76:120),42),view.Title,_label);
         if(!openMap&&Button(new Rect(rect.xMax-54,rect.y+8,44,44),"×",_button))
         {map.Selected=null;_hoverCapsule=null;_capsuleId="";return;}
-        GUI.Label(new Rect(rect.x+16,rect.y+54,rect.width-32,20),map.CapsuleStateLabel(point),_small);
+        L.Label(new Rect(rect.x+16,rect.y+54,rect.width-32,20),map.CapsuleStateLabel(point),_small);
         string truth=view.Mismatch?"Расхождение · ниже нативные награды":view.Verification==CapsuleTruthPolicy.RewardStatus.Unverifiable?"Native-сверка неполная · награды базы":view.NativeVerified?"Награды сверены с загруженной капсулой":view.Baked?"База совпавшей версии · native-сверки нет":"Награды неизвестны";
-        GUI.Label(new Rect(rect.x+16,rect.y+74,rect.width-32,18),truth,_small);
+        L.Label(new Rect(rect.x+16,rect.y+74,rect.width-32,18),truth,_small);
         float footer=openMap?100:40;
         Rect viewport=new(rect.x+12,rect.y+94,rect.width-24,Mathf.Max(44,rect.height-94-footer));
         // Cached by managed view identity and viewport width. No repeated
@@ -1945,7 +2006,7 @@ internal sealed partial class ToolkitUi
             float y=8-_capsuleScroll.y;
             if(evidenceHeight>0)
             {
-                GUI.Label(new Rect(4,y,viewport.width-56,evidenceHeight-8),view.ValidationMessage,_atlasDetail);
+                L.Label(new Rect(4,y,viewport.width-56,evidenceHeight-8),view.ValidationMessage,_atlasDetail);
                 y+=evidenceHeight;
             }
             for(int i=0;i<rewards.Count;i++)
@@ -1953,16 +2014,16 @@ internal sealed partial class ToolkitUi
                 var reward=rewards[i];var h=heights[i];
                 var icon=map.Icons.Reward(reward.Key);
                 if(icon!=null)DrawSprite(new Rect(4,y+4,48,48),icon);
-                GUI.Label(new Rect(64,y,textWidth,h.Title),reward.Title,_wrap);
-                GUI.Label(new Rect(64,y+h.Title+2,textWidth,24),reward.Kind+(reward.Kind=="Предмет"?" · × "+reward.Count:""),_small);
-                if(h.Detail>0)GUI.Label(new Rect(64,y+h.Title+30,textWidth,h.Detail),reward.Detail,_atlasDetail);
-                if(icon==null)GUI.Label(new Rect(4,y+52,54,20),map.Icons.RewardInfo(reward.Key).Availability==NativeIconPolicy.Availability.Ambiguous?"конфликт":"нет иконки",_small);
+                L.Label(new Rect(64,y,textWidth,h.Title),reward.Title,_wrap);
+                L.Label(new Rect(64,y+h.Title+2,textWidth,24),reward.Kind+(reward.Kind=="Предмет"?" · × "+reward.Count:""),_small);
+                if(h.Detail>0)L.Label(new Rect(64,y+h.Title+30,textWidth,h.Detail),reward.Detail,_atlasDetail);
+                if(icon==null)L.Label(new Rect(4,y+52,54,20),map.Icons.RewardInfo(reward.Key).Availability==NativeIconPolicy.Availability.Ambiguous?"конфликт":"нет иконки",_small);
                 y+=h.Row+12;
             }
-            if(rewards.Count==0)GUI.Label(new Rect(4,y,viewport.width-56,descriptionHeight),view.Description,_atlasDetail);
+            if(rewards.Count==0)L.Label(new Rect(4,y,viewport.width-56,descriptionHeight),view.Description,_atlasDetail);
         }
         finally {EndGroup();}
-        GUI.Label(new Rect(rect.x+16,rect.yMax-footer+6,rect.width-32,24),"ID: "+point.Id,_small);
+        L.Label(new Rect(rect.x+16,rect.yMax-footer+6,rect.width-32,24),"ID: "+point.Id,_small);
         if(openMap&&Button(new Rect(rect.x+16,rect.yMax-58,rect.width-32,44),"Показать на карте",_accentButton))
             _app.Queue("capsule on atlas",()=>map.OpenAt(point));
     }
@@ -1998,10 +2059,10 @@ internal sealed partial class ToolkitUi
     {
         DrawRoundedSurface(chip,_selectedButton.normal.background,Mathf.Min(20f,chip.height*.5f));
         float textW=chip.width-58;
-        GUI.Label(new Rect(chip.x+12,chip.y+3,textW,18),ButtonContent(M29AtlasSearchPolicy.ChipHead(map.SearchHitsOnPage())),_atlasChipHead);
+        L.Label(new Rect(chip.x+12,chip.y+3,textW,18),ButtonContent(M29AtlasSearchPolicy.ChipHead(map.SearchHitsOnPage())),_atlasChipHead);
         if(!ReferenceEquals(map.Search,_atlasChipSource))
         {_atlasChipSource=map.Search;_atlasChipText=Ellipsize(M29AtlasSearchPolicy.ChipQuery(map.Search),textW,_atlasChip);}
-        GUI.Label(new Rect(chip.x+12,chip.y+19,textW,22),ButtonContent(_atlasChipText),_atlasChip);
+        L.Label(new Rect(chip.x+12,chip.y+19,textW,22),ButtonContent(_atlasChipText),_atlasChip);
         if(Button(new Rect(chip.xMax-42,chip.y+5,38,34),"×",_button))ClearAtlasSearch();
     }
     // One clear path for the menu field, the native-map chip and ct-atlas-search clear.
@@ -2184,7 +2245,7 @@ internal sealed partial class ToolkitUi
                             {
                                 Rect label=new(Mathf.Clamp(at.x-145+horizontal*156,16,sw-306),at.y-24+offset*56,290,48);
                                 if(label.y<80||label.yMax>sh-100||panelBounds.Overlaps(label)||hadCapsule&&capsuleBounds.Overlaps(label)||nativeChrome.Any(r=>r.Overlaps(label))||labelBoxes.Any(r=>r.Overlaps(label))||markerBoxes.Any(r=>r.Overlaps(label)))continue;
-                                GUI.Label(label,zone.Name,_zoneLabel);labelBoxes.Add(label);
+                                L.Label(label,zone.Name,_zoneLabel);labelBoxes.Add(label);
                                 MapZoneLabelRects.Add(new Rect(label.x*_scale,label.y*_scale,label.width*_scale,label.height*_scale));
                                 placed=true;break;
                             }
@@ -2205,8 +2266,8 @@ internal sealed partial class ToolkitUi
                         Rect below=new(tipX,Mathf.Clamp(capsuleBounds.yMax+8,90,sh-150),420,76);
                         tip=!capsuleBounds.Overlaps(left)?left:!capsuleBounds.Overlaps(above)?above:below;
                     }
-                    GUI.Box(tip,GUIContent.none,_frame);
-                    GUI.Label(new Rect(tip.x+12,tip.y+8,396,60),hover,_muted);
+                    L.Box(tip,GUIContent.none,_frame);
+                    L.Label(new Rect(tip.x+12,tip.y+8,396,60),hover,_muted);
                 }
                 // Keep a hover card interactive while the pointer enters its
                 // scroll area. A click selects the capsule for persistent view.
@@ -2223,7 +2284,7 @@ internal sealed partial class ToolkitUi
                 else CapsuleCard(capsuleBounds,capsule,false);
             }
             Rect panel=panelBounds;
-            GUI.Box(panel,GUIContent.none,_frame);
+            L.Box(panel,GUIContent.none,_frame);
             if(repaint)map.OverlayCardRects.Add(new Rect(panel.x*_scale,panel.y*_scale,panel.width*_scale,panel.height*_scale));
             BeginGroup(panel);
             try
@@ -2231,7 +2292,7 @@ internal sealed partial class ToolkitUi
                 DrawSprite(new Rect(12,12,32,32),map.Icons.Role("Atlas"));
                 // M29: an active search is an explicit chip (hits on this page, query, clear).
                 if(M29AtlasSearchPolicy.Active(map.Search))AtlasSearchChip(new Rect(52,6,212,44),map);
-                else GUI.Label(new Rect(52,6,212,44),"АТЛАС СОЗДАТЕЛЯ",_iconTab);
+                else L.Label(new Rect(52,6,212,44),"АТЛАС СОЗДАТЕЛЯ",_iconTab);
                 if(Button(new Rect(268,6,44,44),map.PanelExpanded?"−":"+",_button))map.PanelExpanded=!map.PanelExpanded;
                 if(map.PanelExpanded)
                 {
@@ -2246,7 +2307,7 @@ internal sealed partial class ToolkitUi
                 }
                 // Icon size is the player's, not the layer's: one slider sets the
                 // largest icon the atlas may draw and it never moves a marker.
-                GUI.Label(new Rect(16,116,292,18),"РАЗМЕР ЗНАЧКОВ · "+Mathf.RoundToInt(map.MarkerSize)+" px",_atlasHelp);
+                L.Label(new Rect(16,116,292,18),"РАЗМЕР ЗНАЧКОВ · "+Mathf.RoundToInt(map.MarkerSize)+" px",_atlasHelp);
                 map.MarkerSize=Mathf.RoundToInt(Slider(4,new Rect(16,134,292,28),map.MarkerSize,
                     MapOverlayLayout.MinSize,MapOverlayLayout.MaxSize));
                 // Only the caption inside the narrow column is shortened;
@@ -2256,7 +2317,7 @@ internal sealed partial class ToolkitUi
                 {
                     int from=group==0?0:MapLayerOrder.Objects;
                     int to=group==0?Mathf.Min(MapLayerOrder.Objects,layers.Length):layers.Length;
-                    GUI.Label(new Rect(16,layerY-20,292,18),group==0?"ОБЪЕКТЫ":"НАХОДКИ И СПАВНЫ",_atlasHelp);
+                    L.Label(new Rect(16,layerY-20,292,18),group==0?"ОБЪЕКТЫ":"НАХОДКИ И СПАВНЫ",_atlasHelp);
                     for(int i=from;i<to;i++)
                     {
                         string category=layers[i];bool active=map.Visible.Contains(category);
@@ -2268,7 +2329,7 @@ internal sealed partial class ToolkitUi
                 }
                 if(Button(new Rect(16,controlsY,292,42),map.HideOpened?"Пройденное скрыто":"Пройденное видно",map.HideOpened?_selectedButton:_button))map.HideOpened=!map.HideOpened;
                 string selectedDistance=map.Selected==null?"":MapTools.DistanceText(map.Distance(map.Selected));
-                GUI.Label(new Rect(16,controlsY+48,292,46),map.Selected==null?"Выберите метку на карте.\n"+map.ProgressSummary():
+                L.Label(new Rect(16,controlsY+48,292,46),map.Selected==null?"Выберите метку на карте.\n"+map.ProgressSummary():
                     (selectedDistance.Length>0?selectedDistance+" · ":"")+(FandomSummary(map.Selected) is string wiki?map.DisplayName(map.Selected)+": "+wiki:map.Selected.Category+" · "+map.DisplayName(map.Selected)),_atlasDetail);
                 if(!map.CustomPointMode&&!map.ClickTeleport&&map.Selected!=null&&map.CanMark(map.Selected))
                 {
@@ -2285,7 +2346,7 @@ internal sealed partial class ToolkitUi
                         else{map.Selected=nearest;Vector2 c=new(nearest.Position.x,nearest.Position.z);_app.Queue("center nearest marker",()=>map.Ui._viewModel.CenterOnWorldPosition(c));}
                     }
                 }
-                else GUI.Label(new Rect(16,controlsY+100,292,42),map.CustomPointMode?"Своя метка: "+_app.Custom.DraftName:
+                else L.Label(new Rect(16,controlsY+100,292,42),map.CustomPointMode?"Своя метка: "+_app.Custom.DraftName:
                     map.ClickTeleport?"Посадка — на свободной суше.\nМоре и препятствия — отказ.":"Значки стоят точно на своих\nместах и не смещаются.",_atlasHelp);
                 bool activeGui=GUI.enabled;
                 GUI.enabled=activeGui&&map.Selected?.Group!=null&&map.Selected?.SourceObservation!=true&&!map.Busy;
@@ -2321,13 +2382,13 @@ internal sealed partial class ToolkitUi
         if (!ReferenceEquals(description, _confirmText) || _confirmFont != _wrap.fontSize)
         {
             _confirmText = description; _confirmFont = _wrap.fontSize;
-            _confirmTextHeight = _wrap.CalcHeight(new GUIContent(description), 652);
+            _confirmTextHeight = _wrap.CalcHeight(new GUIContent(Loc.T(description)), 652);
         }
         float dialogHeight = Mathf.Clamp(_confirmTextHeight + 200, 360, Mathf.Max(360, height - 40));
         Rect dialog = new((width - 700) / 2, (height - dialogHeight) / 2, 700, dialogHeight);
-        GUI.Box(dialog, GUIContent.none, _card);
-        GUI.Label(new Rect(dialog.x + 24, dialog.y + 20, dialog.width - 48, 58), _app.Pending.Title, _heading);
-        GUI.Label(new Rect(dialog.x + 24, dialog.y + 90, dialog.width - 48, dialogHeight - 190), description, _wrap);
+        L.Box(dialog, GUIContent.none, _card);
+        L.Label(new Rect(dialog.x + 24, dialog.y + 20, dialog.width - 48, 58), _app.Pending.Title, _heading);
+        L.Label(new Rect(dialog.x + 24, dialog.y + 90, dialog.width - 48, dialogHeight - 190), description, _wrap);
         if (Button(new Rect(dialog.x + 24, dialog.yMax - 74, 315, 48), "Подтвердить", _accentButton)) _app.AcceptConfirmation();
         if (Button(new Rect(dialog.x + 360, dialog.yMax - 74, 315, 48), "Отмена", _button)) _app.Pending = null;
     }

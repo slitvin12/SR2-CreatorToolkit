@@ -1,0 +1,1886 @@
+# Creator Toolkit UI: Russian source -> English. key<TAB>value, \n \t \\ escaped. Generated.
+Ожидание Слаймопедии	Waiting for the Slimepedia
+Гордо создаются по одному через нативную ловушку	Gordos are created one at a time through the native snare
+Фрукты	Fruits
+Овощи	Veggies
+Мясо	Meat
+Прочее питание	Other food
+Материалы	Materials
+Прочее	Other
+Гордо	Gordo
+Плорты	Plorts
+Ларго	Largos
+Слаймы	Slimes
+Еда	Food
+Ресурсы	Resources
+У типа нет нативного префаба.	This type has no native prefab.
+Тип не зарегистрирован в нативном каталоге этой версии.	This type is not registered in the native catalog of this game version.
+Незавершённый глитч-варр: нативный актор не принимает модель в этой версии.	Unfinished glitch tarr: the native actor does not accept the model in this version.
+ · неготовый	 · not ready
+Радиоактивный слайм · прототип	Radioactive slime · prototype
+rad radioactive радиоактивный	rad radioactive
+Мозаичный слайм · прототип	Mosaic slime · prototype
+mosaic мозаичный	mosaic
+Эксперименты	Experiments
+Визуальный прототип	Visual prototype
+Порядок Слаймопедии · 	Slimepedia order · 
+ типов	 types
+Порядок Слаймопедии недоступен · непроверенные типы по ID	Slimepedia order unavailable · unverified types by ID
+Каталог: 	Catalog: 
+ записей, включая явно помеченные прототипы и неготовые типы.	 entries, including explicitly marked prototypes and unfinished types.
+Нативный каталог ещё не готов.	The native catalog is not ready yet.
+Лучистый · 	Radiant · 
+Лучистые	Radiant
+Нативный лучистый вариант недоступен: 	Native radiant variant unavailable: 
+Лучистая запись устарела или отсутствует в текущем каталоге.	The radiant entry is outdated or missing from the current catalog.
+Нативная идентичность лучистого вида изменилась; обновите каталог.	The native identity of the radiant species changed; refresh the catalog.
+Игровая модель недоступна.	Game model unavailable.
+Не удалось создать лучистый ActorModel.	Could not create the radiant ActorModel.
+Не удалось создать лучистый актор.	Could not create the radiant actor.
+Созданный актор не содержит единственный SlimeRadiant.	The created actor does not contain exactly one SlimeRadiant.
+Нативный актор не подтвердил точный лучистый вариант.	The native actor did not confirm the exact radiant variant.
+Создано: 	Created: 
+. Только эти объекты доступны для очистки.	. Only these objects can be cleaned up.
+ В коопе друзья видят обычный вариант: сияние не синхронизируется.	 In co-op your friends see the regular variant: the glow is not synchronized.
+Лучистый спавн отменён; нативный rollback сообщил ошибки.	Radiant spawn cancelled; the native rollback reported errors.
+Нативный лучистый тип недоступен.	Native radiant type unavailable.
+ Создание отключено.	 Spawning disabled.
+Выберите объект в каталоге.	Pick an object in the catalog.
+ Создание отключено для защиты сейва.	 Spawning disabled to protect the save.
+Кооп: Гордо создаются через нативную ловушку, которую 	Co-op: Gordos are created through the native snare, which 
+ не синхронизирует. Доступно в одиночной игре.	 does not synchronize. Available in single player.
+Декорации требуют штатного размещения GadgetModel и не поддерживаются акторным спавнером.	Decorations need the regular GadgetModel placement and are not supported by the actor spawner.
+Дрон требует своей модели и станции; этот каталог создаёт слаймов, еду, плорты и ресурсы.	A drone needs its own model and station; this catalog spawns slimes, food, plorts and resources.
+Тип префаба отличается от записи каталога. Выберите основную запись этого предмета.	The prefab type differs from the catalog entry. Pick the main entry of this item.
+Этот тип привязан к нативной сцене и не является свободно создаваемым актором.	This type is bound to a native scene and is not a freely spawnable actor.
+Игровая камера недоступна.	Game camera unavailable.
+Группа сцены игрока недоступна.	The player's scene group is unavailable.
+Невалидное смещение спавна.	Invalid spawn offset.
+Не удалось создать ActorModel: 	Could not create the ActorModel: 
+Не удалось создать актор: 	Could not create the actor: 
+ Настройки прототипа видны только вам.	 Prototype settings are visible only to you.
+Гордо уже создаётся. Дождитесь завершения.	A Gordo is already being created. Wait until it finishes.
+Запись Гордо устарела или мир загружается.	The Gordo entry is outdated or the world is loading.
+Игровая сцена недоступна.	Game scene unavailable.
+Нативный тип ловушки Гордо не найден.	Native Gordo snare type not found.
+Перед игроком нет подтверждённой земли для Гордо.	There is no confirmed ground in front of the player for a Gordo.
+Другой Гордо слишком близко; выберите свободное место.	Another Gordo is too close; pick a free spot.
+Нативная ловушка не создала SnareModel.	The native snare did not create a SnareModel.
+Подготовка Гордо · 1 экземпляр	Preparing Gordo · 1 instance
+Подготовка Гордо прервана или истёк срок ожидания.	Gordo preparation was interrupted or timed out.
+Модель ловушки ещё не готова.	The snare model is not ready yet.
+Нативная ловушка не подтвердила точный тип Гордо.	The native snare did not confirm the exact Gordo type.
+Создан Гордо · 	Gordo created · 
+ · на нативной ловушке	 · on a native snare
+Создание Гордо отменено: 	Gordo creation cancelled: 
+Дождитесь завершения создания Гордо.	Wait until the Gordo is created.
+Игровая модель недоступна для очистки оставшейся лучистой модели.	Game model unavailable to clean up the remaining radiant model.
+Удалено созданных модом объектов: 	Removed objects created by the mod: 
+. Нативные объекты мира не затронуты.	. Native world objects were not touched.
+ Не удалось удалить: 	 Could not remove: 
+ (моделей без объекта: 	 (models without an object: 
+); можно повторить очистку.	); you can repeat the cleanup.
+Список валют недоступен.	Currency list unavailable.
+Нью-баксы не найдены.	Newbucks not found.
+Нью-баксы: 	Newbucks: 
+Выберите ресурс.	Pick a resource.
+Лучистый вариант пока нельзя выдавать в вакпак без нативной metadata.	The radiant variant cannot be put into the vacpack yet without native metadata.
+Вакпак ещё не инициализирован.	The vacpack is not initialized yet.
+Выберите доступный слот вакпака.	Pick an available vacpack slot.
+Выбранный слот ещё закрыт.	The selected slot is still locked.
+Этот ресурс несовместим с выбранным слотом.	This resource is not compatible with the selected slot.
+Заменить содержимое слота?	Replace the slot contents?
+Содержимое выбранного слота будет заменено на 	The contents of the selected slot will be replaced with 
+» до лимита слота	» up to the slot limit
+100 шт. «	100 × «
+. Изменение попадёт в сейв.	. The change goes into the save.
+Выдача лучистого варианта в вакпак отключена: metadata не реализована.	Putting the radiant variant into the vacpack is disabled: metadata is not implemented.
+Слот больше не существует.	The slot no longer exists.
+Слот закрыт.	The slot is locked.
+Этот ресурс несовместим с выбранным слотом. Содержимое не изменено.	This resource is not compatible with the selected slot. Contents unchanged.
+Этот тип нельзя хранить в выбранном слоте.	This type cannot be stored in the selected slot.
+Нативный слот не принял 	The native slot did not accept 
+ шт.	 pcs.
+Слот 	Slot 
+ (лимит слота).	 (slot limit).
+ (может превышать штатную ёмкость).	 (may exceed the regular capacity).
+Доказательства подтверждены; запись основного сейва остаётся заблокированной до выхода.	Proofs confirmed; writing the main save stays blocked until you exit.
+Капсулы	Treasure pods
+Ноды карты	Map nodes
+Дроны	Drones
+Капсула с сокровищами	Treasure pod
+Узел карты	Map node
+Поисковый дрон	Research drone
+Призрачный дрон	Ghostly drone
+Название награды временно недоступно	Reward name temporarily unavailable
+База содержимого ещё не загружена	Contents database not loaded yet
+Чертёж	Blueprint
+Компонент улучшения	Upgrade component
+Предмет	Item
+Теневой тайник	Shadow cache
+Награды сверены с загруженной капсулой: вид, имя asset и количество.	Rewards match the loaded pod: kind, asset name and amount.
+Расхождение с загруженной капсулой. Ниже отдельно база и нативный снимок; база не исправлялась.	Mismatch with the loaded pod. The database and the native snapshot are listed separately below; the database was not corrected.
+Нативная сверка не подтверждена. 	Native check not confirmed. 
+Данные базы для совпавшей версии; нативная капсула ещё не сверена.	Database data for the matching version; the native pod has not been checked yet.
+Нативный снимок прочитан; сопоставление базы для этого ID отсутствует.	Native snapshot read; there is no database mapping for this ID.
+Для точного ID содержимое неизвестно.	Contents are unknown for the exact ID.
+\n\nБаза:\n	\n\nDatabase:\n
+Статические награды не указаны.	No static rewards listed.
+\n\nНативный снимок:\n	\n\nNative snapshot:\n
+Поддерживаемые награды не указаны.	No supported rewards listed.
+\n\nОписание наград базы:\n	\n\nDatabase reward description:\n
+Награды расходятся с базой	Rewards differ from the database
+Точный ID не указан.	Exact ID not specified.
+Загруженная капсула недоступна.	Loaded pod unavailable.
+Точный нативный ID не совпадает; награды к этому ID не привязаны.	The exact native ID does not match; no rewards are bound to this ID.
+Чтение нативных наград недоступно: 	Reading native rewards unavailable: 
+Есть неподдерживаемые appearance-награды, null-элементы или неполные данные; полное совпадение не заявляется.	There are unsupported appearance rewards, null entries or incomplete data; a full match is not claimed.
+Вид, имя asset или количество наград расходятся с базой.	Reward kind, asset name or amount differ from the database.
+Совпал multiset нативных наград; это не состояние открытия.	The native reward multiset matched; this is not the opened state.
+Для точного ID нет version-gated baked-сопоставления.	No version-gated baked mapping for the exact ID.
+Загруженный тайник недоступен.	Loaded cache unavailable.
+База 	Database 
+ капсул · версия совпала · нативных названий 	 pods · version matched · native names 
+ · сверено 	 · checked 
+ · расхождений 	 · mismatches 
+Version-gated база недоступна; награды не подтверждены	Version-gated database unavailable; rewards not confirmed
+СКМ	MMB
+Слева сверху	Top left
+Справа сверху	Top right
+Слева снизу	Bottom left
+Справа снизу	Bottom right
+ мс	 ms
+ · пик 	 · peak 
+Свободная установка: ВКЛ	Free placement: ON
+Свободная установка: ВЫКЛ	Free placement: OFF
+Камера и запись: все функции выключены	Camera & capture: all features off
+# Creator Toolkit: камера и запись\n	# Creator Toolkit: camera & capture\n
+Угол обзора мода: 	Mod field of view: 
+Угол обзора: как в настройках игры	Field of view: as in game settings
+Плавный зум: держите 	Smooth zoom: hold 
+Плавный зум выключен	Smooth zoom off
+Клавиша зума: 	Zoom key: 
+Счётчик FPS включён	FPS counter on
+Счётчик FPS выключен	FPS counter off
+Счётчик FPS: 	FPS counter: 
+Ограничение FPS в фоне: 	Background FPS limit: 
+Ограничение FPS в фоне выключено	Background FPS limit off
+FPS в фоне: 	Background FPS: 
+Перехватчик актёров не установлен: 	Actor hook not installed: 
+Плавная физика: интерполяция слаймов и предметов включена	Smooth physics: slime and item interpolation on
+Плавная физика выключена, интерполяция возвращена	Smooth physics off, interpolation restored
+↖ Слева	↖ Left
+↗ Справа	↗ Right
+↙ Слева	↙ Left
+↘ Справа	↘ Right
+Камера и запись	Camera & capture
+Назад	Back
+Всё выключено по умолчанию; выбор сохраняется в capture.cfg.	Everything is off by default; your choice is saved in capture.cfg.
+Угол обзора (FOV)	Field of view (FOV)
+Свой угол обзора: ВКЛ	Custom FOV: ON
+Свой угол обзора: ВЫКЛ	Custom FOV: OFF
+Камера: 	Camera: 
+ · зум и эффекты игры считаются от вашего угла.	 · zoom and game effects are based on your angle.
+Выкл — угол из настроек игры. Включите, чтобы задать 30–120°.	Off — the angle from game settings. Turn on to set 30–120°.
+Плавный зум	Smooth zoom
+Плавный зум: ВКЛ	Smooth zoom: ON
+Плавный зум: ВЫКЛ	Smooth zoom: OFF
+Клавиша	Key
+Зум ×	Zoom ×
+M4 — боковая кнопка мыши. Держите — приближение.	M4 is the side mouse button. Hold to zoom in.
+Держите клавишу — приближение, отпустите — назад.	Hold the key to zoom in, release to zoom back.
+Счётчик FPS	FPS counter
+Счётчик FPS: ВКЛ	FPS counter: ON
+Счётчик FPS: ВЫКЛ	FPS counter: OFF
+ · виден и в меню игры	 · also visible in the game menu
+Кадры в секунду и время кадра в углу экрана.	Frames per second and frame time in a screen corner.
+FPS в фоне	Background FPS
+Ограничение в фоне: ВКЛ	Background limit: ON
+Ограничение в фоне: ВЫКЛ	Background limit: OFF
+Сейчас ограничено: 	Currently limited: 
+Alt+Tab — меньше нагрузки; в игре — как было.	Alt+Tab — less load; in game — as before.
+Плавная физика	Smooth physics
+Интерполяция включена · тел: 	Interpolation on · bodies: 
+. Слаймы и предметы не дрожат при высоком FPS.	. Slimes and items do not jitter at high FPS.
+Интерполяция Rigidbody у слаймов и предметов: плавнее движение при FPS выше частоты физики.	Rigidbody interpolation for slimes and items: smoother motion when FPS is above the physics rate.
+Плавная физика: ВКЛ	Smooth physics: ON
+Плавная физика: ВЫКЛ	Smooth physics: OFF
+Каталог	Catalog
+Забота	Care
+Гаджеты	Gadgets
+Забота о слаймах · до 25 м	Slime care · up to 25 m
+Штатные гаджеты и декорации	Regular gadgets and decorations
+Инспектор: ВКЛ	Inspector: ON
+Инспектор: ВЫКЛ	Inspector: OFF
+Обновить рядом	Refresh nearby
+Накормить вокруг…	Feed around…
+Любимая еда берётся из выбранного слота: до 8 порций, одна на голодного слайма. 	The favorite food is taken from the selected slot: up to 8 portions, one per hungry slime. 
+Штатные сон, сытость и препятствия учитываются; новая еда не выдаётся.	Regular sleep, fullness and obstacles are respected; no new food is given.
+Слайм / дистанция	Slime / distance
+Любимая еда	Favorite food
+Голод / возбуждение	Hunger / agitation
+ м	 m
+Голоден	Hungry
+Сыт	Fed
+Поблизости нет загруженных слаймов с нативными эмоциями.	No loaded slimes with native emotions nearby.
+Включите инспектор или обновите список вручную.	Turn on the inspector or refresh the list manually.
+Обновить чертежи	Refresh blueprints
+Нет полученных чертежей по этому запросу.\nОбновите каталог; скрытые чертежи мод не открывает.	No obtained blueprints match this query.\nRefresh the catalog; the mod does not unlock hidden blueprints.
+Выберите гаджет	Pick a gadget
+Неподвижная земля перед игроком, нормаль поверхности, полный контакт и отсутствие пересечений. 	Still ground in front of the player, surface normal, full contact and no intersections. 
+Связанные порталы подчиняются ограничениям игры.	Linked portals follow the game's restrictions.
+Разместить 1 экземпляр…	Place 1 item…
+Бесконечный режим: экземпляр не списывается, Преобразователь не трогается. 	Infinite mode: the item is not consumed and the Fabricator is untouched. 
+Свободная установка: без проверки пересечений и уклона.	Free placement: no intersection or slope checks.
+Лимиты и проверки места — штатные.	Limits and placement checks are the regular ones.
+Нужен изготовленный экземпляр. Размещение — с подтверждением; удаление и возврат — через штатное строительство.	Needs a fabricated item. Placement asks for confirmation; removal and return go through regular building.
+Ресурсы Преобразователя…	Fabricator resources…
+Нативная настройка HUD недоступна.	Native HUD setting unavailable.
+HUD и модель вакпака скрыты. Меню Creator Toolkit остаётся доступно.	HUD and vacpack model hidden. The Creator Toolkit menu stays available.
+Нативный HUD восстановлен.	Native HUD restored.
+Лимит — 5 точек. Удалите ненужную точку.	The limit is 5 points. Delete a point you don't need.
+Мотор игрока ещё не готов.	The player motor is not ready yet.
+Невалидные координаты точки.	Invalid point coordinates.
+Точка 	Point 
+Сохранена точка «	Point saved «
+Точка относится к другому сейву.	The point belongs to another save.
+Невалидные координаты точки; телепортация отменена.	Invalid point coordinates; teleport cancelled.
+Телепортация недоступна.	Teleport unavailable.
+Подготовка точки «	Preparing point «
+» с проверкой безопасной посадки.	» with a safe landing check.
+Скорость времени: штатная	Time speed: normal
+Ускорить симуляцию в 5 раз?	Speed up the simulation 5×?
+Ускоряются физика и игровые события. Это не оптимизация FPS. Прогресс мира может сохраниться; тестируйте на копии сейва. Нативная пауза или загрузка отключает режим.	Physics and game events speed up. This is not an FPS optimization. World progress may be saved; test on a copy of your save. A native pause or loading switches the mode off.
+Завершите загрузку, нативное меню, ускоренную перемотку или замер FPS.	Finish loading, the native menu, fast-forward or the FPS benchmark.
+Скорость уже изменена игрой; сначала восстановите режим.	The game has already changed the speed; restore the mode first.
+Игра не в обычном темпе. Пауза и сторонние изменения не переопределяются.	The game is not at its normal pace. Pause and third-party changes are not overridden.
+Скорость симуляции ×	Simulation speed ×
+ · временно	 · temporary
+Режим времени отключён: приоритет нативной паузы, загрузки или внешнего изменения	Time mode off: native pause, loading or an external change takes priority
+Скорость времени: штатная; внешняя пауза не снимается	Time speed: normal; an external pause is not lifted
+Кинематограф · скорость времени	Cinematics · time speed
+Замедление для кадров и ускорение симуляции. Выключено по умолчанию; это Unity TimeScale, не скрытая способность разработчиков.	Slow motion for shots and faster simulation. Off by default; this is Unity TimeScale, not a hidden developer ability.
+×1 · Восстановить	×1 · Restore
+×5 · Ускорить…	×5 · Speed up…
+Пауза игры имеет приоритет. При нативном меню, карте, загрузке или смене сейва режим отключается и сам не возобновляется. ×5 повышает нагрузку и влияет на игровой прогресс. fixedDeltaTime не изменяется.	The game pause takes priority. On a native menu, map, loading or save change the mode turns off and does not resume by itself. ×5 increases load and affects game progress. fixedDeltaTime is not changed.
+Бессмертие	God mode
+Бесконечная энергия	Infinite energy
+Заморозка времени	Freeze time
+Заморозка слаймов	Freeze slimes
+Управление меню Creator Toolkit	Creator Toolkit menu controls
+Бесконечный инвентарь	Infinite inventory
+Плавная загрузка	Smooth loading
+Бесконечный режим строителя	Infinite builder mode
+Функция Creator Toolkit	Creator Toolkit feature
+Совместимость: «	Compatibility: «
+» отключена — её перехватчик сбоил рядом с другим модом. Убран только перехватчик Creator Toolkit, чужие моды не затронуты.	» is disabled — its hook failed next to another mod. Only the Creator Toolkit hook was removed; other mods are untouched.
+Исследователь	Explorer
+Кадр	Shot
+Нет	None
+Все читы выключены	All cheats off
+Автопополнение выключено	Auto-refill off
+Безопасная точка: 	Safe point: 
+Встаньте на безопасную поверхность	Stand on a safe surface
+Дождитесь загрузки сцены или завершения телепортации.	Wait for the scene to load or the teleport to finish.
+Профиль выключен. Предыдущие настройки восстановлены.	Profile off. Previous settings restored.
+Профиль «	Profile «
+» включён. Повторное нажатие восстановит прежние настройки.	» on. Press again to restore the previous settings.
+SOS включён: записываются только проверенные наземные позиции. Ctrl + Home — возврат.	SOS on: only verified ground positions are recorded. Ctrl + Home to return.
+SOS выключен. Наземная точка очищена.	SOS off. Ground point cleared.
+SOS — наземная точка	SOS — ground point
+Наземная точка ещё не записана в этом сейве.	No ground point recorded in this save yet.
+Телепорты	Teleporters
+Доступная неоткрытая капсула не найдена. Проверьте индекс версии карты.	No reachable unopened pod found. Check the map version index.
+Ближайшая капсула: 	Nearest pod: 
+. На карте можно выбрать безопасный телепорт. Автосбор не выполняется.	. You can pick a safe teleporter on the map. Nothing is collected automatically.
+Выберите открытый непустой слот.	Pick an unlocked non-empty slot.
+Сначала поместите ресурс в выбранный слот.	Put a resource into the selected slot first.
+Включить автопополнение?	Turn on auto-refill?
+ будет пополняться 	 will be refilled 
+до лимита слота (его задаёт мод вакпака), когда останется четверть или меньше	up to the slot limit (set by the vacpack mod) when a quarter or less is left
+до 100 шт., когда останется 25 или меньше	up to 100 when 25 or fewer are left
+. Количество сохраняется игрой. При смене выбранного слота, ресурса или опустошении чит отключится.	. The amount is saved by the game. If the selected slot or resource changes, or the slot empties, the cheat turns off.
+Выбранный слот изменился; автопополнение не включено.	The selected slot changed; auto-refill not turned on.
+Слот закрыт, пуст или его ресурс изменился; автопополнение не включено.	The slot is locked, empty or its resource changed; auto-refill not turned on.
+: порог 25 → 100	: threshold 25 → 100
+Автопополнение включено только для выбранного ресурса. Смена слота отключит чит.	Auto-refill is on only for the selected resource. Changing the slot turns the cheat off.
+Отключено: выбранный слот или сейв изменился	Off: the selected slot or save changed
+Отключено: слот пуст, закрыт или ресурс изменился	Off: the slot is empty, locked or the resource changed
+Слот не принял пополнение.	The slot did not accept the refill.
+Отключено: ошибка нативного пополнения	Off: native refill error
+Неизвестная зона	Unknown zone
+Энергия ∞	Energy ∞
+Полёт	Flight
+Автослот	Auto-slot
+Время ❚❚	Time ❚❚
+Слаймы ❚❚	Slimes ❚❚
+Без варров	No tarrs
+Включить автокормление загонов?	Turn on corral auto-feeding?
+Голодные слаймы в загонах прогруженной зоны (до 300 м) получают по одной порции еды из своего рациона: 	Hungry slimes in corrals of the loaded zone (up to 300 m) get one portion of food from their diet: 
+сначала любимую, иначе обычную. Еда создаётся бесплатно (режим создателя), не более 4 порций в секунду; 	the favorite first, otherwise a regular one. Food is created for free (creator mode), at most 4 portions per second; 
+пережёвывание, сытость и плорты — штатные. Плорты и превращающая еда (ларго, тарр) не выдаются. 	chewing, fullness and plorts are regular. Plorts and transforming food (largos, tarrs) are not given. 
+При смене мира автокормление выключается.	Auto-feeding turns off when the world changes.
+Дождитесь загрузки мира и завершения перехода.	Wait for the world to load and the transition to finish.
+Автокормление включено · поиск загонов…	Auto-feeding on · looking for corrals…
+Автокормление остановлено из-за ошибки: 	Auto-feeding stopped because of an error: 
+Автокормление включено · игрок ещё не готов	Auto-feeding on · the player is not ready yet
+Порция не получила нативную модель.	The portion did not get a native model.
+Порция не получила нативный объект.	The portion did not get a native object.
+Нативная порция не идентифицируется как выбранная еда.	The native portion is not identified as the selected food.
+Мои метки	My markers
+Метка	Marker
+Метки хранятся отдельно для каждого сейва	Markers are stored separately for each save
+Файл меток слишком велик.	The marker file is too large.
+Мои метки: 	My markers: 
+ · отдельно от игрового сейва	 · separate from the game save
+Файл меток не принят. Исходный файл не перезаписан: 	The marker file was not accepted. The original file was not overwritten: 
+Метки недоступны во время смены мира или ошибки их файла.	Markers are unavailable while the world changes or their file has an error.
+ · сохранены	 · saved
+Метка 	Marker 
+Проверьте имя, цвет, игровую зону и лимит 32 меток.	Check the name, color, game zone and the limit of 32 markers.
+Сохраните точку, стоя на проверенной свободной земле, без NoClip.	Save the point while standing on verified free ground, without NoClip.
+Пользовательская метка	Custom marker
+Метка удалена.	Marker deleted.
+Имя до 48 символов; выберите один из шести цветов.	Name up to 48 characters; pick one of six colors.
+Выберите свою метку.	Pick your marker.
+ · другой остров	 · another island
+Атлас	Atlas
+Радар	Radar
+Навигация	Navigation
+Розовый	Pink
+Бирюза	Turquoise
+Золото	Gold
+Лаванда	Lavender
+Лайм	Lime
+Голубой	Sky blue
+Свои цветные метки · 	Your colored markers · 
+Название новой метки…	New marker name…
+Сохранить у игрока	Save at player
+Поставить на карте	Place on the map
+Пока нет своих меток.\nСохраните позицию на земле или нажмите ЛКМ на карте.	No markers yet.\nSave a position on the ground or left-click the map.
+Пока нет своих меток.	No markers yet.
+Выберите свою метку.\nИмя и цвет можно изменить; удаление требует подтверждения.	Pick your marker.\nYou can change the name and color; deleting asks for confirmation.
+Название метки…	Marker name…
+Сохранить имя и цвет	Save name and color
+Зона этой метки сейчас недоступна. Телепорт отключён.	This marker's zone is unavailable right now. Teleport disabled.
+Маяк + компас · проверенная наземная высота	Beacon + compass · verified ground height
+Компас · высота посадки будет проверена при телепорте	Compass · landing height will be checked on teleport
+На карте	On the map
+Телепорт	Teleport
+Выбрать этот маяк / компас	Select this beacon / compass
+Маяк / компас к метке	Beacon / compass to marker
+Скрыть маяк	Hide beacon
+Удалить…	Delete…
+Удалить свою метку?	Delete your marker?
+Будет удалена только выбранная пользовательская метка. Капсулы и другие объекты игры не затрагиваются.	Only the selected custom marker will be deleted. Pods and other game objects are not affected.
+Любимая еда и редкие материалы · до 100 м	Favorite food and rare materials · up to 100 m
+Любимая еда:\n	Favorite food:\n
+Любимая еда: ВКЛ	Favorite food: ON
+Любимая еда: ВЫКЛ	Favorite food: OFF
+Редкие материалы: ВКЛ	Rare materials: ON
+Редкие материалы: ВЫКЛ	Rare materials: OFF
+Метки на компасе: ВКЛ	Compass markers: ON
+Метки на компасе: ВЫКЛ	Compass markers: OFF
+Ближайшая цель · обновление раз в секунду · только загруженная зона; скрытые залежи не угадываются.	Nearest target · updated once a second · loaded zone only; hidden deposits are not guessed.
+Настройки навигации недоступны	Navigation settings unavailable
+Мини-карта и компас · сохраняется сразу	Minimap & compass · saved instantly
+Мини-карта	Minimap
+Режим	Mode
+Размер	Size
+Масштаб 	Zoom 
+Угол	Corner
+Прозр. 	Opacity 
+Ориентация	Orientation
+По взгляду	Follow view
+Север сверху	North up
+ · фон 	 · background 
+ · север сверху	 · north up
+ · по взгляду	 · follow view
+ · масштаб 	 · zoom 
+Слои мини-карты — включённые слои атласа.	Minimap layers are the enabled atlas layers.
+Компас	Compass
+Дальн. 	Range 
+Меток	Markers
+ из 	 of 
+Фантомы	Ghosts
+Ближайший фантомный дрон зоны с наградой — всегда, без предела дальности.	The nearest ghostly drone of the zone with a reward — always, no range limit.
+Фантомные дроны раньше других слоёв, как свои метки.	Ghostly drones before other layers, like your own markers.
+Фантомные дроны — наравне с другими дронами.	Ghostly drones — on par with other drones.
+Сбросить вид и пределы	Reset view and limits
+Компас недоступен	Compass unavailable
+\nСначала по одной метке на каждый слой.	\nOne marker per layer first.
+Сбор плортов	Plort collection
+Купленный сборщик загона · до 30 м.	Purchased corral collector · up to 30 m.
+Автосбор: ВКЛ · отключить	Auto-collect: ON · turn off
+Автосбор: ВЫКЛ · включить…	Auto-collect: OFF · turn on…
+Пополнение кормушек	Feeder refill
+Из выбранного слота в кормушку · до 4 шт./с.	From the selected slot into the feeder · up to 4/s.
+Кормушки: ВКЛ · отключить	Feeders: ON · turn off
+Кормушки: ВЫКЛ · включить…	Feeders: OFF · turn on…
+Автокормление загонов	Corral auto-feeding
+Голодным слаймам в загонах — по порции из их рациона (сначала любимая) · до 300 м.	Hungry slimes in corrals get a portion from their diet (favorite first) · up to 300 m.
+Автокорм: ВКЛ · отключить	Auto-feed: ON · turn off
+Автокорм: ВЫКЛ · включить…	Auto-feed: OFF · turn on…
+Изменяет инвентарь · включение с подтверждением.	Changes the inventory · turning on asks for confirmation.
+нет\nиконки	no\nicon
+Своя метка · 	Custom marker · 
+Наземный маяк и компас	Ground beacon and compass
+Компас; высота земли проверится при переходе	Compass; ground height is checked on travel
+Телепорт — через безопасную прогрузку зоны.	Teleport goes through a safe zone preload.
+Маяк / компас к этой метке	Beacon / compass to this marker
+Безопасный телепорт	Safe teleport
+Изменить имя / цвет / удалить…	Change name / color / delete…
+Метка хранится отдельно\nот игрового сейва.	The marker is stored separately\nfrom the game save.
+Ресурсы: ценные	Valuables
+Редкое	Rare
+Источник: интерактивная карта Fandom-вики. Координаты пересчитаны с картинки, точность ≈5–10 м; высота неизвестна.	Source: the Fandom wiki interactive map. Coordinates recalculated from the image, accuracy ≈5–10 m; height unknown.
+Координаты X/Y/Z взяты из данных игры (точно до метра).	X/Y/Z coordinates come from game data (accurate to a metre).
+не загружено	not loaded
+встроенный файл меток вики не найден	built-in wiki marker file not found
+доп. метки: 	extra markers: 
+, подсказки вики: 	, wiki hints: 
+ошибка чтения меток вики: 	wiki marker read error: 
+Странный алмаз	Strange Diamond
+Врата плортов	Plort doors
+Фермерский помощник выключен	Farm assistant off
+Включить фермерского помощника?	Turn on the farm assistant?
+В радиусе 30 м будут использоваться только уже установленные нативные сборщики плортов и кормушки загонов. 	Within 30 m only already installed native plort collectors and corral feeders will be used. 
+Еда перекладывается из выбранного слота вакпака, максимум 4 шт./с, без создания предметов и превышения ёмкости. 	Food is moved from the selected vacpack slot, at most 4/s, without creating items or exceeding capacity. 
+Инвентарь и содержимое устройств сохраняются игрой. При смене мира помощник выключается.	The inventory and device contents are saved by the game. The assistant turns off when the world changes.
+Вакпак не подтвердил снятие одной порции.	The vacpack did not confirm removing one portion.
+Нативная передача не сохранила общее количество еды.	The native transfer did not keep the total amount of food.
+Устройств в радиусе 30 м: сборщики 	Devices within 30 m: collectors 
+ / кормушки 	 / feeders 
+ · переложено 	 · moved 
+ шт. · запусков сбора 	 pcs · collection runs 
+Сначала загрузите мир.	Load a world first.
+Настройки штатного строительства недоступны.	Regular building settings unavailable.
+ · без проверки пересечений и уклона, дальность 	 · no intersection or slope checks, range 
+ · штатные проверки места	 · regular placement checks
+Каталог гаджетов ещё не открыт	The gadget catalog has not been opened yet
+Найдено несколько владельцев инструмента этого игрока; размещение отменено.	Several tool owners found for this player; placement cancelled.
+Дождитесь завершения уже подтверждённого размещения.	Wait for the already confirmed placement to finish.
+Нативные перехватчики режима не установлены: 	Native mode hooks not installed: 
+ · известные гаджеты и декор: 999; при установке экземпляр и Преобразователь не тратятся	 · known gadgets and decor: 999; placing does not consume the item or the Fabricator
+ · обычный расход изготовленных экземпляров	 · regular use of fabricated items
+Штатный владелец инструмента не найден.	Regular tool owner not found.
+Штатный режим строительства: 	Regular build mode: 
+ВКЛ	ON
+ВЫКЛ	OFF
+Сначала включите штатный режим строительства.	Turn on the regular build mode first.
+Штатный GadgetItem недоступен.	Regular GadgetItem unavailable.
+Нативный GadgetDirector ещё не готов	The native GadgetDirector is not ready yet
+Известных гаджетов и декора: 	Known gadgets and decor: 
+Полученных чертежей: 	Obtained blueprints: 
+ · бесконечный режим: экземпляры не тратятся	 · infinite mode: items are not consumed
+ · размещаются только изготовленные экземпляры	 · only fabricated items are placed
+Мир сменился или ещё загружается; обновите каталог.	The world changed or is still loading; refresh the catalog.
+Выберите гаджет из текущего каталога.	Pick a gadget from the current catalog.
+Гаджет ещё не известен: нужен чертёж, запись в Слаймопедии или установленный экземпляр.	The gadget is not known yet: it needs a blueprint, a Slimepedia entry or a placed item.
+Нужен полученный чертёж и изготовленный экземпляр в нативном инвентаре.	Needs an obtained blueprint and a fabricated item in the native inventory.
+Завершите штатное строительство или уберите удерживаемый гаджет.	Finish regular building or put away the held gadget.
+Штатное строительство заблокировано в текущем состоянии игрока.	Regular building is blocked in the player's current state.
+Мир ещё не готов	The world is not ready yet
+Игровая камера / GadgetItem недоступны	Game camera / GadgetItem unavailable
+Нативная дистанция размещения недоступна	Native placement distance unavailable
+Перед игроком нет твёрдой поверхности	No solid surface in front of the player
+Поверхность слишком близко к камере	The surface is too close to the camera
+Между камерой и найденной землёй есть препятствие	There is an obstacle between the camera and the found ground
+Нужна неподвижная земля в нативной дистанции и допустимом уклоне	Needs still ground within the native distance and an allowed slope
+Вода, море слаймов и лава не подходят	Water, the slime sea and lava are not suitable
+Не удалось определить направление на поверхности	Could not determine the direction on the surface
+Разместить «	Place «
+Бесконечный режим строителя: экземпляр не списывается, Преобразователь не трогается. 	Infinite builder mode: the item is not consumed and the Fabricator is untouched. 
+Один изготовленный экземпляр из нативного инвентаря. 	One fabricated item from the native inventory. 
+Земля, уклон, полный контакт, 	Ground, slope, full contact, 
+пересечения и ограничения связанных порталов проверяются заново. Позиция: 	intersections and linked portal restrictions are checked again. Position: 
+. Гаджет будет сохраняться игрой; убирается штатным режимом строительства.	. The gadget is saved by the game; remove it with the regular build mode.
+Игрок или точка размещения сдвинулись; подтвердите новую позицию.	The player or the placement point moved; confirm the new position.
+Нативный инвентарь отказался выбрать изготовленный гаджет.	The native inventory refused to select the fabricated gadget.
+Штатный контроллер отказался включить строительство.	The regular controller refused to turn on building.
+Подтверждение принято; ожидаю штатную готовность инструмента (до 2 с)	Confirmation accepted; waiting for the regular tool to be ready (up to 2 s)
+Мир изменился во время размещения; нативное событие не повторяется	The world changed during placement; the native event is not repeated
+Нативный реестр и инвентарь не подтвердили один гаджет за 1 с. 	The native registry and inventory did not confirm one gadget within 1 s. 
+Повтор и возврат экземпляра не выполнены; проверьте штатное строительство.	No retry and no item refund were done; check regular building.
+Нативный инструмент или сцена изменились; повтор размещения не выполнен.	The native tool or scene changed; placement was not retried.
+Штатный инструмент не завершил инициализацию за 2 с; размещение отменено.	The regular tool did not finish initializing within 2 s; placement cancelled.
+Изготовленный экземпляр или чертёж больше недоступен.	The fabricated item or blueprint is no longer available.
+Штатный предпросмотр не создан; размещение отменено.	The regular preview was not created; placement cancelled.
+Штатный предпросмотр не подготовил поверхность за 2 с; размещение отменено.	The regular preview did not prepare the surface within 2 s; placement cancelled.
+Точка изменилась после подтверждения: 	The point changed after confirmation: 
+Штатный предпросмотр гаджета не создан; размещение отменено.	The regular gadget preview was not created; placement cancelled.
+Поверхность принадлежит незарегистрированному предпросмотру; размещение отменено.	The surface belongs to an unregistered preview; placement cancelled.
+Штатный прицел отверг поверхность: наведите камеру на открытую землю в допустимой дистанции. Экземпляр не потрачен.	The regular reticle rejected the surface: aim the camera at open ground within the allowed distance. The item was not consumed.
+Нативная проверка отвергла место: контакт, пересечение, лимит или дальность портала. Экземпляр не потрачен.	The native check rejected the spot: contact, intersection, limit or portal range. The item was not consumed.
+Размещение не завершено:	Placement not finished:
+Нативная модель создана, но положение/нормаль не совпадают с подтверждённой землёй. Повтор не выполнен.	The native model was created, but its position/normal do not match the confirmed ground. Not retried.
+Размещено бесплатно: 	Placed for free: 
+ · 1 зарегистрированный GadgetModel · инвентарь не изменён (	 · 1 registered GadgetModel · inventory unchanged (
+Размещено: 	Placed: 
+ · 1 зарегистрированный GadgetModel · остаток 	 · 1 registered GadgetModel · remaining 
+Геометрия LOD: выключено; API ещё не проверен в игре	LOD geometry: off; the API has not been verified in game yet
+Некорректный lodBias: ожидается конечное положительное значение.	Invalid lodBias: a finite positive value is expected.
+Сначала завершите восстановление геометрии LOD.	Finish restoring the LOD geometry first.
+lodBias изменён извне; изменение не перезаписано.	lodBias was changed externally; the change was not overwritten.
+Геометрия LOD: снижение уже применено	LOD geometry: reduction already applied
+Геометрия LOD: исходное значение уже минимально; без изменений	LOD geometry: the original value is already minimal; no change
+lodBias: запись не подтверждена чтением.	lodBias: the write was not confirmed by a read.
+Геометрия LOD: 0.75 × исходного lodBias; детализация вдали ниже	LOD geometry: 0.75 × the original lodBias; less detail in the distance
+Геометрия LOD: ошибка	LOD geometry: error
+; восстановление требуется	; restore required
+; без владения	; not owned
+Геометрия LOD: стороннее изменение; автоматическая запись запрещена	LOD geometry: third-party change; automatic writing is not allowed
+Геометрия LOD: чтение недоступно; владение сохранено · 	LOD geometry: reading unavailable; ownership kept · 
+Геометрия LOD: исходное значение подтверждено	LOD geometry: original value confirmed
+Геометрия LOD: стороннее значение сохранено; восстановление пропущено	LOD geometry: third-party value kept; restore skipped
+Исходный lodBias не подтверждён чтением.	The original lodBias was not confirmed by a read.
+Геометрия LOD: исходное значение восстановлено	LOD geometry: original value restored
+Геометрия LOD: восстановление не завершено; владение сохранено · 	LOD geometry: restore not finished; ownership kept · 
+перехватчики отключены ради совместимости с другими модами	hooks disabled for compatibility with other mods
+Нативные перехватчики режима не установлены	Native mode hooks not installed
+Нативный GadgetDirector ещё не готов.	The native GadgetDirector is not ready yet.
+ · сейв сменился	 · the save changed
+Бесконечный режим строителя: ВКЛ	Infinite builder mode: ON
+Бесконечный режим строителя: ВЫКЛ	Infinite builder mode: OFF
+Консоль / Инфо	Console / Info
+Назад к удобствам	Back to convenience
+Мир: 	World: 
+подготовка безопасного перехода	preparing a safe transition
+загружен	loaded
+не загружен	not loaded
+\nОткрыть меню: Insert · закрыть: Esc	\nOpen menu: Insert · close: Esc
+\nF1 не открывает мод	\nF1 does not open the mod
+\nНативных обработчиков: 	\nNative handlers: 
+Оформление и ресурсы	Look & resources
+Шрифт: 	Font: 
+\nИсточник: 	\nSource: 
+игровой ресурс	game resource
+\nКириллица: 	\nCyrillic: 
+проверена	verified
+недоступна	unavailable
+\nИконки вкладок: 	\nTab icons: 
+ / 8 · игровые спрайты	 / 8 · game sprites
+Состояние	Status
+Последних ошибок нет.	No recent errors.
+Последняя ошибка: 	Last error: 
+Временные эффекты сбрасываются при смене сейва. Полные диагностические сведения — в журнале мода.	Temporary effects are reset when the save changes. Full diagnostics are in the mod log.
+Сначала загрузите сейв.	Load a save first.
+Игрок сейчас заморожен или игра на паузе.	The player is frozen right now or the game is paused.
+Нативные карты управления восстановлены.	Native control maps restored.
+Горшочки	Pots
+Спавнеры	Spawners
+\nНаграда дрона: 	\nDrone reward: 
+Фантом · место появления	Ghost · spawn point
+ghost phantom фантом дрон компонент 	ghost phantom drone component 
+Начало нативного маршрута, не текущее положение дрона. Условия появления и получение награды пока неизвестны.	The start of the native route, not the drone's current position. Spawn conditions and reward collection are not known yet.
+Фантом · награда получена	Ghost · reward collected
+Награда уже получена (капсула дрона открыта). 	The reward has already been collected (the drone pod is open). 
+Начало нативного маршрута, не текущий дрон. Условия появления не подтверждены.	The start of the native route, not the current drone. Spawn conditions are not confirmed.
+Точка возврата не задана · хранится только до смены сейва	No return point set · kept only until the save changes
+Дождитесь загрузки мира.	Wait for the world to load.
+Здоровье и энергия восстановлены.	Health and energy restored.
+Для точки возврата встаньте на землю и выключите полёт.	For a return point, stand on the ground and turn off flight.
+Безопасная поверхность точки не подтверждена.	The point's safe surface is not confirmed.
+Точка возврата · 	Return point · 
+ · текущий остров	 · current island
+Нет точки возврата текущей сессии.	No return point in the current session.
+Точка на другом острове. Используйте безопасный переход через карту.	The point is on another island. Use a safe transition through the map.
+Место точки занято или земля больше не подтверждена.	The point's spot is occupied or the ground is no longer confirmed.
+Возврат к временной точке.	Returning to the temporary point.
+Максимум FPS выключен	Max FPS off
+Максимум FPS	Max FPS
+Своя графика	Custom graphics
+ · тени: 	 · shadows: 
+ · декор: 	 · decor: 
+ · эффекты: 	 · effects: 
+% · дальность 	% · range 
+игры	game
+Максимум FPS выключен · конфликты восстановления: 	Max FPS off · restore conflicts: 
+Текстуры · 	Textures · 
+Частицы декора · 	Decor particles · 
+Только декоративные; опасные эффекты сохранены	Decorative only; hazardous effects are kept
+Недоступно в этой сборке игры	Unavailable in this game build
+Фоновая загрузка	Background loading
+Щадящие бюджеты работы за кадр	Gentle per-frame work budgets
+Щадящие бюджеты: ВКЛ	Gentle budgets: ON
+Щадящие бюджеты: ВЫКЛ	Gentle budgets: OFF
+Защита изображения	Image protection
+Интерфейс и шрифты не размываются.\nМасштаб рендера и запись HDRP-структур отключены.\nТекстуры и частицы — после отпускания.	UI and fonts are not blurred.\nRender scale and HDRP structure writes are disabled.\nTextures and particles apply after release.
+Игра	Game
+90 м	90 m
+180 м	180 m
+300 м	300 m
+600 м	600 m
+SSAO · объёмные тени	SSAO · volumetric shadows
+SSR · отражения	SSR · reflections
+SSGI · непрямой свет	SSGI · indirect light
+Объёмные облака	Volumetric clouds
+Контактные тени	Contact shadows
+Микротени	Micro shadows
+Размытие движения	Motion blur
+Глубина резкости	Depth of field
+Bloom · свечение	Bloom · glow
+Детализация LOD · 	LOD detail · 
+Доля исходного LOD · ниже = проще вдали	Share of the original LOD · lower = simpler in the distance
+Дальность · 	Range · 
+Дальность · настройка игры	Range · game setting
+40–1000 м · не выше исходной дальности	40–1000 m · not above the original range
+Инстанс-декор	Instanced decor
+Только отрисовка декора; предметы и коллизии сохранены	Decor rendering only; items and collisions are kept
+Тени источников	Light shadows
+Контактные и микротени настраиваются отдельно	Contact and micro shadows are set separately
+«Игра» = исходное состояние. «ВЫКЛ» = отключить только этот эффект.	«Game» = the original state. «OFF» = turn off only this effect.
+Если эффект отсутствует в текущей зоне, запрос сохранён до его появления. Небо, туман и экспозиция не меняются.	If the effect is missing in the current zone, the request is kept until it appears. Sky, fog and exposure do not change.
+не проверен	not verified
+Runtime FPS: настройки игры	Runtime FPS: game settings
+ · тени 	 · shadows 
+ м · декор 	 m · decor 
+ м · raycasts ≤	 m · raycasts ≤
+ · сон 	 · sleep 
+ · Недоступно: 	 · Unavailable: 
+Runtime FPS: настройки игры восстановлены	Runtime FPS: game settings restored
+Тени · 	Shadows · 
+Мелкий декор / трава	Small decor / grass
+Игра · LOD Bias — вкладка «Дальность и декор»	Game · LOD Bias — «Range & decor» tab
+ м · батчи декора и Terrain, не предметы/слаймы	 m · decor and Terrain batches, not items/slimes
+0 = исходный бюджет · никогда не повышается	0 = the original budget · never raised
+ / система	 / system
+Только безопасные декоративные частицы, не VFX Graph	Only safe decorative particles, not VFX Graph
+Сон слаймов: ВКЛ	Slime sleep: ON
+Сон слаймов: ВЫКЛ	Slime sleep: OFF
+Осторожный сон: почти неподвижные, за кадром, дальше 40 м.\nИИ/коллизии сохранены; видимые просыпаются. Меняет симуляцию · по умолчанию ВЫКЛ.	Careful sleep: almost still, off-screen, beyond 40 m.\nAI/collisions are kept; visible ones wake up. Changes the simulation · OFF by default.
+Контрольная строка M26 · очень длинное имя слайма для проверки переноса текста	M26 test line · a very long slime name to check text wrapping
+Контрольная еда: Морковь, Пряная груша, Хряцеребрый лук, Медовая тыква, Призрачная репа	Test food: Carrot, Spicy Tofu, Odd Onion, Honey Squash, Ghostly Turnip
+Контрольная строка M26 №	M26 test line No.
+Контрольная еда	Test food
+Метки на компасе: ожидание мира	Compass markers: waiting for the world
+значки: ожидание	icons: waiting
+Метки на компасе выключены	Compass markers off
+Метки на компасе включены	Compass markers on
+значки: 	icons: 
+Метки на компасе отключены из-за ошибки: 	Compass markers disabled because of an error: 
+Метки на компасе: игрок не готов	Compass markers: the player is not ready
+Метки на компасе: 	Compass markers: 
+ · до 	 · up to 
+ м · кандидатов 	 m · candidates 
+ · слоёв 	 · layers 
+ · без места: 	 · no room: 
+ · значков 	 · icons 
+Двери	Doors
+Компас игры не принимает метки — функция отключена	The game compass does not accept markers — feature disabled
+значки: компас игры не найден	icons: game compass not found
+ · компас ещё не создал 	 · the compass has not created yet 
+Панель дронов не открыта	The drone panel is not open
+Панель дронов недоступна	The drone panel is unavailable
+Игра сама переставляет панель дронов — сдвиг отключён до следующего открытия карты	The game rearranges the drone panel itself — the shift is off until the map is opened again
+Панель дронов: RectTransform недоступен, сдвиг не применяется	Drone panel: RectTransform unavailable, shift not applied
+Панель дронов: размеры не определены, сдвиг не применяется	Drone panel: size unknown, shift not applied
+Панель дронов не пересекает атлас	The drone panel does not overlap the atlas
+Панель дронов сдвинута вниз на 	Drone panel shifted down by 
+Панель дронов на месте	Drone panel in place
+ · атлас свёрнут, пока открыта панель дронов	 · the atlas is collapsed while the drone panel is open
+ · экран слишком низкий: перекрытие уменьшено, но не устранено	 · the screen is too short: the overlap is reduced but not removed
+Стили слаймов: открыто 	Slime styles: unlocked 
+ · уже было 	 · already had 
+ · секретных стилей обнаружено 	 · secret styles found 
+ · видов 	 · species 
+ · ошибок 	 · errors 
+ (подробности в логе)	 (details in the log)
+. Сохраняется в сейве.	. Saved in the save.
+Чертежи гаджетов: открыто 	Gadget blueprints: unlocked 
+ · проверено 	 · checked 
+ · недоступно для чертежа 	 · unavailable as a blueprint 
+Все	All
+Открытые	Opened
+Неоткрытые	Unopened
+Лопнувшие	Popped
+Живые	Alive
+Закрытые	Closed
+Заперта	Locked
+Открыта	Open
+Закрыта	Closed
+Состояние неизвестно	State unknown
+ · состояние неизвестно 	 · state unknown 
+Капсулы: всего 	Pods: total 
+ · открыто 	 · opened 
+ · не открыто 	 · not opened 
+Гордо: всего 	Gordos: total 
+ · лопнуло 	 · popped 
+ · живых 	 · alive 
+Двери (AccessDoor сейва): всего 	Doors (save AccessDoor): total 
+ · закрыто 	 · closed 
+Точки телепортации атласа: 	Atlas teleport points: 
+Автокормление выключено	Auto-feeding off
+Автокормление включено · загонов в прогруженной зоне нет	Auto-feeding on · no corrals in the loaded zone
+Загонов 	Corrals 
+ · слаймов 	 · slimes 
+ · голодных 	 · hungry 
+ · за такт 	 · per tick 
+ · всего порций 	 · total portions 
+Недопустимые буферы мини-карты.	Invalid minimap buffers.
+Кнопка дронов: карта не открыта	Drone button: the map is not open
+Кнопка дронов: ошибка поиска — 	Drone button: search error — 
+ · поиск 	 · search 
+Игра сама переставляет кнопку дронов — сдвиг отключён до следующего открытия карты	The game rearranges the drone button itself — the shift is off until the map is opened again
+Кнопка дронов: размеры не определены	Drone button: size unknown
+ · режим: 	 · mode: 
+ ур.)	 lvl)
+Метка игрока: откройте карту игры один раз — значок будет скопирован	Player marker: open the game map once — the icon will be copied
+ошибка: 	error: 
+Метка игрока: не удалось скопировать с карты игры — 	Player marker: could not copy from the game map — 
+ (показана прежняя копия)	 (showing the previous copy)
+Метка игрока: копия удалена — откройте карту игры, чтобы снять заново	Player marker: copy deleted — open the game map to capture it again
+на этой странице карты нет маркера игрока	there is no player marker on this map page
+не удалось определить направление игрока на карте	could not determine the player's direction on the map
+: больше 	: more than 
+ частей; 	 parts; 
+ошибка чтения: 	read error: 
+у маркера нет видимых картинок	the marker has no visible images
+ частей	 parts
+; пропущено: 	; skipped: 
+Метка игрока: 	Player marker: 
+ частей скопировано с карты игры 	 parts copied from the game map 
+ и сохранено	 and saved
+: без спрайта	: no sprite
+: спрайт без текстуры	: sprite without a texture
+ (9-slice/tile растянут целиком)	 (9-slice/tile stretched as a whole)
+: RawImage без текстуры	: RawImage without a texture
+ не копируется	 is not copied
+: пустой спрайт	: empty sprite
+ уменьшено до 	 reduced to 
+ не применён	 not applied
+неполные пиксели	incomplete pixels
+другой формат	different format
+строка части: 	part line: 
+нет частей	no parts
+ частей загружено (копия с карты игры 	 parts loaded (copy from the game map 
+Метка игрока: сохранённая копия не прочитана (	Player marker: the saved copy could not be read (
+) — откройте карту игры	) — open the game map
+Кнопка дронов на карте не найдена — положение не меняется	Drone button not found on the map — position unchanged
+Кнопка дронов не пересекает атлас	The drone button does not overlap the atlas
+Кнопка дронов опущена под атлас на 	Drone button moved below the atlas by 
+Кнопка дронов сдвинута левее атласа на 	Drone button moved left of the atlas by 
+ · экран слишком мал: перекрытие уменьшено, но не устранено	 · the screen is too small: the overlap is reduced but not removed
+под атласом	below the atlas
+левее атласа	left of the atlas
+не двигать	don't move
+авто	auto
+замена спрайта	sprite replacement
+звёзды игры	game stars
+значок поверх	icon on top
+Не открыта · участок ещё не загружался	Not opened · the area has not been loaded yet
+Не лопнул · участок ещё не загружался	Not popped · the area has not been loaded yet
+ (из них 	 (of them 
+ в ещё не загружавшихся участках)	 in areas not loaded yet)
+Стили вакпака: открыто 	Vacpack styles: unlocked 
+ · всего 	 · total 
+ · записей Слаймопедии 	 · Slimepedia entries 
+магазин · таблица 	shop · table 
+ (фикс.)	 (fixed)
+ (случайн.)	 (random)
+киоск наград · 	reward kiosk · 
+ · взнос 	 · contribution 
+ · всего с начала трека 	 · total since the start of the track 
+нет в загруженных таблицах магазина и треках киоска	not in the loaded shop tables or kiosk tracks
+ ньюбаксов	 newbucks
+компонент 	component 
+бесплатно	free
+Выкл	Off
+Рельеф	Terrain
+Малая	Small
+Средняя	Medium
+Большая	Large
+справа сверху	top right
+слева сверху	top left
+справа снизу	bottom right
+слева снизу	bottom left
+Обычный	Normal
+Высокий	High
+Всегда	Always
+Фантомные дроны	Ghostly drones
+Навигация: настройки ещё не загружены	Navigation: settings not loaded yet
+Навигация: загружено из 	Navigation: loaded from 
+ · ключей 	 · keys 
+ · пропущено 	 · skipped 
+Навигация: настройки по умолчанию (файл появится после первого изменения)	Navigation: default settings (the file appears after the first change)
+Навигация: файл не прочитан (	Navigation: file not read (
+) · настройки по умолчанию	) · default settings
+Навигация: сохранено в 	Navigation: saved to 
+Навигация: не сохранено (	Navigation: not saved (
+PNG: файл слишком короткий	PNG: file too short
+PNG: нет сигнатуры	PNG: no signature
+PNG: обрезанный блок	PNG: truncated chunk
+PNG: короткий IHDR	PNG: short IHDR
+PNG: размер 	PNG: size 
+PNG: нужен 8-битный без чересстрочности	PNG: needs 8-bit without interlacing
+PNG: тип цвета 	PNG: color type 
+PNG: IDAT до IHDR	PNG: IDAT before IHDR
+PNG: нет данных изображения	PNG: no image data
+PNG: данных меньше, чем строк	PNG: less data than rows
+PNG: фильтр строки 	PNG: row filter 
+ПОИСК · 	SEARCH · 
+ НА КАРТЕ	 ON THE MAP
+ПОИСК · НЕТ НА КАРТЕ	SEARCH · NOT ON THE MAP
+поиск 	search 
+ · свои метки на карте видны всегда	 · your own markers are always visible on the map
+зона по сцене маршрута	zone from the route scene
+зона по справочнику карты	zone from the map reference
+зона по индексу маршрутов	zone from the route index
+зона по единственной группе сцены	zone from the only scene group
+зона по живому дрону	zone from the live drone
+зона не определена	zone not determined
+ км	 km
+Состояние Гордо неизвестно	Gordo state unknown
+Лопнул	Popped
+Накормлен · 	Fed · 
+Не лопнул · 	Not popped · 
+Не лопнул · цель кормления неизвестна	Not popped · feeding goal unknown
+Состояние неизвестно · модель не загружена или конфликт ID	State unknown · model not loaded or ID conflict
+Механизмы	Mechanisms
+Ноды	Nodes
+Ценные	Valuable
+Отметки «собрано» ещё не загружены	«Collected» marks not loaded yet
+файл отметок слишком велик	the marks file is too large
+неверная версия или сейв	wrong version or save
+Отметки «собрано»: 	«Collected» marks: 
+ · отдельно для сейва	 · per save
+Файл отметок не принят и не перезаписан: 	The marks file was not accepted and not overwritten: 
+Эту метку нельзя отметить.	This marker cannot be marked.
+Отметки недоступны: 	Marks unavailable: 
+Слишком много отметок.	Too many marks.
+Отмечено вами: собрано	Marked by you: collected
+Пройдено (по сейву)	Completed (per save)
+Не пройдено (по сейву)	Not completed (per save)
+Врата	Gates
+Статуи	Statues
+Статуя для плорта	Plort statue
+Мои отметки 	My marks 
+Прогресс появится после загрузки сейва	Progress appears after the save loads
+Теневые врата	Shadow doors
+Сборщик теневых плортов	Shadow plort collector
+Приёмник плортов	Plort depositor
+Лучистый слайм	Radiant slime
+Золотой слайм	Gold slime
+Слайм удачи	Lucky slime
+Декор	Decor
+Лучистая руда	Radiant Ore
+Желейный камень	Jelly Stone
+Жужжащий воск	Buzz Wax
+Дикий мёд	Wild Honey
+Насыщенный солевой раствор	Deep Brine
+Нектар лунной росы	Moondew Nectar
+Солнечный сок	Sun Sap
+Место возможного появления еды, не подтверждённый живой предмет.	A possible food spawn spot, not a confirmed live item.
+Зона слаймов, дающих этот плорт (данные игры), не подтверждённый живой предмет.	The zone of slimes that produce this plort (game data), not a confirmed live item.
+Место возможного появления ресурса, не подтверждённый живой предмет.	A possible resource spawn spot, not a confirmed live item.
+Индекс ещё не загружен	Index not loaded yet
+ЛКМ ставит обычную метку	Left click places a regular marker
+Выберите метку.	Pick a marker.
+Страница карты для этого источника не подтверждена.	The map page for this source is not confirmed.
+Индекс совпадает с версией игры	The index matches the game version
+Версия игры изменилась: статические метки отключены	The game version changed: static markers disabled
+Статический индекс недоступен	Static index unavailable
+\nТип: 	\nType: 
+Капсула	Pod
+Загруженная активная капсула; точная группа сцены	Loaded active pod; exact scene group
+Загруженная капсула; группа сцены не подтверждена	Loaded pod; scene group not confirmed
+Версия игры изменилась: точные доп. слои отключены (	The game version changed: exact extra layers disabled (
+Открыта · состояние текущего сохранения	Open · state of the current save
+Закрыта · состояние текущего сохранения	Closed · state of the current save
+Состояние неизвестно · отсутствует модель/state или конфликт ID	State unknown · missing model/state or ID conflict
+Выберите метку	Pick a marker
+ · состояние неизвестно	 · state unknown
+Горшочек	Pot
+Появление · 	Spawn · 
+Появление слаймов · видов: 	Slime spawn · species: 
+Место появления горшочков	Pot spawn point
+Горшочек существует сейчас.	The pot exists right now.
+Место появления, не живой объект. Условия появления не вычислялись.	A spawn point, not a live object. Spawn conditions were not computed.
+Сцена: 	Scene: 
+ · радиус 	 · radius 
+\nВремя: 	\nTime: 
+\nИсточник сейчас неактивен.	\nThe source is inactive right now.
+\nЧасть источников ещё не проверена.	\nSome sources have not been checked yet.
+Исследовательский дрон	Research drone
+Запись прочитана	Entry read
+Запись ещё не прочитана	Entry not read yet
+Статическая точка исследовательского дрона; состояние неизвестно	Static research drone point; state unknown
+Фантом · награда не получена	Ghost · reward not collected
+. Позиция начала маршрута; состояние нативной модели.	. Route start position; native model state.
+Награда уже получена	Reward already collected
+Награда ещё не получена	Reward not collected yet
+. Текущее положение загруженного дрона; маршрут 	. Current position of the loaded drone; route 
+Дрон-компонент · фантом	Drone component · ghost
+\nДвижущийся нативный объект · маршрут 	\nMoving native object · route 
+ghost phantom компонент фантом 	ghost phantom component 
+Телепорт отменён: выберите сушу внутри известной зоны.	Teleport cancelled: pick land inside a known zone.
+Для этой области не найдена игровая сцена. Телепорт отменён.	No game scene found for this area. Teleport cancelled.
+Точка карты	Map point
+Телепорт недоступен: нет целевой игровой сцены или переход уже выполняется.	Teleport unavailable: no target game scene or a transition is already running.
+Невалидные координаты карты.	Invalid map coordinates.
+Игрок ещё не готов к телепортации.	The player is not ready to teleport yet.
+Исходная сцена ещё не готова к безопасному возврату: 	The source scene is not ready for a safe return yet: 
+До телепорта по карте	Before the map teleport
+У исходной позиции нет подтверждённой безопасной земли для возврата.	The original position has no confirmed safe ground to return to.
+Подготовка острова… Физика игрока удерживается.	Preparing the island… Player physics is held.
+Повторная проверка земли после загрузки…	Checking the ground again after loading…
+Цель небезопасна. Игрок возвращён на проверенную землю.	The target is unsafe. The player was returned to verified ground.
+Остров готов. Безопасная посадка подтверждена; доступен возврат.	Island ready. Safe landing confirmed; return is available.
+Возврат ещё небезопасен. Физика и автосохранение удерживаются; повторите возврат.	Returning is not safe yet. Physics and autosave are held; try returning again.
+Время подготовки земли истекло.	Ground preparation timed out.
+Проверка коллизий земли · 	Checking ground collisions · 
+ / 0,75 с	 / 0.75 s
+Подготовка сцены и безопасного сектора…	Preparing the scene and a safe sector…
+Посадка подтверждена. Стабилизация физики…	Landing confirmed. Stabilizing physics…
+Проверка перехода завершилась ошибкой.	The transition check failed.
+Переход остановлен безопасно; требуется повторить возврат.	The transition stopped safely; you need to return again.
+ Физика удерживается до безопасного возврата.	 Physics is held until a safe return.
+ Возвращаемся на проверенную землю.	 Returning to verified ground.
+Отмена запрошена. Дождитесь окончания нативной загрузки.	Cancel requested. Wait for the native loading to finish.
+Переход отменён.	Transition cancelled.
+Нет точки возврата текущего сейва.	No return point for the current save.
+Возврат к позиции до телепорта.	Returning to the position before the teleport.
+Рельеф мини-карты выключен	Minimap terrain off
+Рельеф мини-карты включён	Minimap terrain on
+Рельеф: у этой зоны нет страницы атласа	Terrain: this zone has no atlas page
+Рельеф: откройте карту игры один раз, чтобы определить страницу	Terrain: open the game map once to detect the page
+Рельеф: откройте карту игры на этой странице один раз для калибровки	Terrain: open the game map on this page once for calibration
+Рельеф: страница «	Terrain: page «
+» откалибрована по карте игры · слоёв 	» calibrated from the game map · layers 
+Рельеф: здесь на странице «	Terrain: on page «
+» нет рисунка	» there is no picture here
+» · слоёв 	» · layers 
+ · сборка 	 · build 
+ · слой «	 · layer «
+» не загружен — откройте карту игры	» not loaded — open the game map
+Рельеф: страница изменилась, откройте карту для повторной калибровки	Terrain: the page changed, open the map to calibrate again
+Рельеф: не удалось прочитать слой карты: 	Terrain: could not read the map layer: 
+пустая текстура	empty texture
+неполные пиксели страницы	incomplete page pixels
+С	N
+ · слоёв атласа: 	 · atlas layers: 
+ · север	 · north
+рельеф: откройте карту игры в этой зоне	terrain: open the game map in this zone
+до лимита слота	up to the slot limit
+¼ лимита → лимит слота	¼ of the limit → slot limit
+Кооп завершён — все функции Creator Toolkit снова доступны.	Co-op ended — all Creator Toolkit features are available again.
+Кооп (	Co-op (
+): вы 	): you are the 
+хост	host
+гость	guest
+, читы сервера разрешены.	, server cheats allowed.
+, читы сервера выключены — читы CT тоже.	, server cheats off — CT cheats too.
+ Заморозка времени/мобов и ускорение недоступны.	 Freezing time/mobs and speed-up are unavailable.
+Кооп: автопополнение выключено	Co-op: auto-refill off
+): заморозка времени, мобов и ускорение симуляции выключены — они не синхронизируются.	): freezing time, mobs and simulation speed-up are off — they are not synchronized.
+Дождаться твёрдой фазы Aurora?	Wait for the Aurora solid phase?
+Открыть дверь?	Open the door?
+Заполнить Преобразователь?	Fill the Fabricator?
+Добавить ресурсы Преобразователя?	Add Fabricator resources?
+Накормить голодных слаймов вокруг?	Feed hungry slimes around?
+Открыть весь атлас?	Open the whole atlas?
+Открыть всю Слаймопедию	Unlock the whole Slimepedia
+Открыть карту и ноды	Unlock the map and nodes
+Применить все улучшения	Apply all upgrades
+Открыть все двери	Open all doors
+Открыть все стили слаймов	Unlock all slime styles
+Открыть все чертежи гаджетов	Unlock all gadget blueprints
+Открыть все стили вакпака	Unlock all vacpack styles
+): заморозка времени, мобов и ускорение симуляции не синхронизируются — доступно только в одиночной игре.	): freezing time, mobs and simulation speed-up are not synchronized — available in single player only.
+Кооп: погодой и временем управляет хост — попросите его.	Co-op: the host controls weather and time — ask them.
+Кооп: читы на сервере выключены. Включите «Allow Cheats» в настройках 	Co-op: cheats are off on the server. Turn on «Allow Cheats» in the settings of 
+ и перезапустите сервер.	 and restart the server.
+Кооп: хост не разрешил читы (	Co-op: the host did not allow cheats (
+Кооп · хост · читы вкл	Co-op · host · cheats on
+Кооп · хост · без читов	Co-op · host · no cheats
+Кооп · гость · читы вкл	Co-op · guest · cheats on
+Кооп · гость · без читов	Co-op · guest · no cheats
+Лимонная метка	Lemon marker
+Фантом	Ghost
+Оригинальные игровые иконки ещё не прочитаны	Original game icons not read yet
+CATEGORY Ноды карты = Fandom atlas cell 	CATEGORY Map nodes = Fandom atlas cell 
+Игрок	Player
+Спавн	Spawn
+Мир	World
+Открытия	Unlocks
+Съёмка	Capture
+Карта	Map
+Удобство	Utility
+Нативный каталог иконок превысил ограничение.	The native icon catalog exceeded its limit.
+Игровые спрайты: вкладки 	Game sprites: tabs 
+ / 8 · категории 	 / 8 · categories 
+ · награды 	 · rewards 
+ · находки 	 · finds 
+-гордо	Gordo
+Нативная клавиатура или безопасный формат текстовых событий недоступны.	Native keyboard or a safe text event format is unavailable.
+Розовый слайм Ёё Йй 0123456789	Pink slime Ёё Йй 0123456789
+Не проверено	Not verified
+Подлинный источник Pedia: 	Genuine Pedia source: 
+ · округлый	 · rounded
+ · кириллическая локализация; не Mikado	 · Cyrillic localization; not Mikado
+TMP-шрифты Pedia прочитаны; пригодный Unity Font с кириллицей не экспортирован. Подмена не выполнялась.	Pedia TMP fonts read; no usable Unity Font with Cyrillic was exported. No substitution was done.
+Полный размер	Full size
+½ исходного размера	½ of the original size
+¼ исходного размера	¼ of the original size
+⅛ исходного размера	⅛ of the original size
+1/16 исходного размера	1/16 of the original size
+Полная дальность 3D	Full 3D range
+Проверяется перед изменением	Checked before changing
+Недоступно: запись HDRP-структур через IL2CPP отключена после аварии 0xc0000005.	Unavailable: writing HDRP structures via IL2CPP is disabled after crash 0xc0000005.
+Недоступно: detour DrawDecoMeshes отключён после NaN в отрисовке.	Unavailable: the DrawDecoMeshes detour is disabled after NaN in rendering.
+Выключено · настройки игры не изменены	Off · game settings unchanged
+Настройки не менялись	Settings were not changed
+Дождитесь завершения загрузки или телепортации.	Wait for loading or the teleport to finish.
+Дождитесь завершения защитного возврата из проверочной копии.	Wait for the protective return from the test copy to finish.
+Картофельный режим включён · текстуры, LOD, загрузка и доступные частицы	Potato mode on · textures, LOD, loading and available particles
+Картофельный режим · LOD и загрузка; текстуры сохранены ради UI	Potato mode · LOD and loading; textures kept for the UI
+Текстуры: 	Textures: 
+ · частицы: 	 · particles: 
+ · фоновая загрузка	 · background loading
+ · текстуры сохранены ради UI	 · textures kept for the UI
+Лимит защиты UI достигнут; снижение текстур отменено.	The UI protection limit was reached; texture reduction cancelled.
+Нечитаемая UI-текстура: 	Unreadable UI texture: 
+. Исходный mip-уровень сохранён.	. The original mip level is kept.
+Нативное исключение UI-текстуры не подтвердилось.	The native UI texture exception was not confirmed.
+Используемые UI-текстуры защищены; без чтения пикселей и GPU-копий.	UI textures in use are protected; no pixel reads or GPU copies.
+Растительность: без изменений · частицы декора: 	Vegetation: unchanged · decor particles: 
+ (ограничено 	 (limited to 
+VFX Graph и опасные эффекты не меняются.	VFX Graph and hazardous effects are not changed.
+Проверка частиц недоступна: они не меняются.	Particle check unavailable: they are not changed.
+Mip-уровень восстановлен ради нового UI. 	Mip level restored for the new UI. 
+Игровая камера недоступна	Game camera unavailable
+Некорректная дальность камеры	Invalid camera range
+Камера не приняла дальность	The camera did not accept the range
+3D до 	3D up to 
+ м · дальние объекты обрезаются	 m · distant objects are clipped
+Не все настройки восстановлены: 	Not all settings were restored: 
+Восстановлено; сторонние изменения не перезаписаны: 	Restored; third-party changes were not overwritten: 
+Исходные настройки восстановлены · модуль выключен	Original settings restored · module off
+Полные	Full
+Графика и производительность	Graphics & performance
+Текстуры и загрузка	Textures & loading
+Дальность и декор	Range & decor
+Постэффекты	Post effects
+Применить своё	Apply custom
+Сбалансированный	Balanced
+Восстановить всё	Restore all
+Применение…	Applying…
+Есть изменения · нажмите «Применить своё»	There are changes · press «Apply custom»
+Настройки временные · «Игра» возвращает исходное состояние	Settings are temporary · «Game» returns the original state
+Исследование феноменов выключено	Phenomena research off
+Дождитесь окончания загрузки сцены	Wait for the scene to finish loading
+Локальная антигравитация	Local anti-gravity
+Работает	Active
+Выключена	Off
+В загруженной сцене нативные Aurora / ReverseGravityZone не обнаружены	No native Aurora / ReverseGravityZone found in the loaded scene
+Нативных объектов: 	Native objects: 
+ · исследование не включает и не создаёт эффекты	 · research does not turn on or create effects
+Феномен относится к другой сцене; обновите исследование.	The phenomenon belongs to another scene; refresh the research.
+Нативное окно Aurora больше недоступно.	The native Aurora window is no longer available.
+Игровое время продвинется только вперёд к 	Game time will only move forward to 
+ ч. 	 h. 
+Игра сама управляет своим переходом, звуком и коллизиями. Объекты, шейдеры и локальная гравитация вручную не меняются.	The game itself controls its transition, sound and collisions. Objects, shaders and local gravity are not changed manually.
+Локальный объём больше не загружен.	The local volume is no longer loaded.
+Группа этой сцены недоступна.	This scene's group is unavailable.
+Феномены	Phenomena
+Обсерватория нативных феноменов	Native phenomena observatory
+Назад к съёмке	Back to capture
+Aurora: настоящие суточные окна и состояние. Антигравитация: только существующие локальные объёмы. 	Aurora: real daily windows and state. Anti-gravity: only existing local volumes. 
+Исследование не создаёт неиспользуемые префабы и не меняет физику мира.	Research does not create unused prefabs and does not change world physics.
+Исследование: ВКЛ	Research: ON
+Исследование: ВЫКЛ	Research: OFF
+Обновить сцену	Refresh scene
+\nТвёрдая фаза 	\nSolid phase 
+ ч	 h
+Безопасно к месту…	Safely to the spot…
+Дождаться штатной фазы…	Wait for the regular phase…
+Ожидание полёта	Waiting for flight
+Невалидные координаты полёта; перемещение отменено.	Invalid flight coordinates; movement cancelled.
+Остров загружен: 	Island loaded: 
+Прогрузка не подтверждена; повторная попытка через 5 с	Loading not confirmed; retrying in 5 s
+Зона полёта не определена; чужая сцена не подставляется	Flight zone not determined; another scene is not substituted
+Прогрузка текущего острова: 	Loading the current island: 
+Загрузка острова в полёте: 	Loading the island in flight: 
+Сначала восстановите коллизии NoClip перед безопасным переходом.	Restore NoClip collisions before a safe transition first.
+Физика игрока ещё недоступна.	Player physics unavailable yet.
+Параметры нативного контроллера пока недоступны.	Native controller parameters unavailable yet.
+Нативная способность прыжка ещё не инициализирована.	The native jump ability is not initialized yet.
+Живая нативная способность прыжка не найдена.	Live native jump ability not found.
+Нативные параметры прыжка невалидны.	Native jump parameters are invalid.
+Массив личных способностей недоступен.	Personal abilities array unavailable.
+Безопасный переход удерживает физику. Дождитесь посадки или возврата.	A safe transition is holding physics. Wait for the landing or return.
+Включён NoClip Starlight — выключите его в меню читов Starlight.	Starlight NoClip is on — turn it off in the Starlight cheat menu.
+Полёт выключен; коллизии и гравитация восстановлены.	Flight off; collisions and gravity restored.
+Нативный контроллер игрока недоступен.	Native player controller unavailable.
+Мотор игрока имеет невалидные координаты; полёт запрещён.	The player motor has invalid coordinates; flight is not allowed.
+Полёт / NoClip включён. Закройте меню: WASD, Space вверх, Shift вниз.	Flight / NoClip on. Close the menu: WASD, Space up, Shift down.
+Место посадки занято.	The landing spot is occupied.
+Не найден материал тела для визуального прототипа.	No body material found for the visual prototype.
+Выберите слайма	Pick a slime
+Любимая еда ещё не выбрана	No favorite food chosen yet
+Радар выключен	Radar off
+Выберите нативного слайма.	Pick a native slime.
+Название любимой еды недоступно	Favorite food name unavailable
+У этого слайма нет нативной любимой еды	This slime has no native favorite food
+Ищем только в текущей нативной зоне · до 100 м	Searching only in the current native zone · up to 100 m
+Текущая зона ещё не определена	The current zone is not determined yet
+Нативный индекс предметов ещё не готов	The native item index is not ready yet
+Найдено в текущей зоне: 	Found in the current zone: 
+ · любимая еда / редкие материалы	 · favorite food / rare materials
+Радар · цели поблизости не найдены	Radar · no targets nearby
+лучист лучистый radiant shimmering glowing 	radiant shimmering glowing 
+Хлопковый	Cotton
+Мяуровый	Tabby
+Фосфорный	Phosphor
+Удильщик	Angler
+Скалистый	Rock
+Нетопырёк	Batty
+Порхающий	Flutter
+Кольцехвостый	Ringtail
+Бум	Boom
+Медовый	Honey
+Лужица	Puddle
+Кристальный	Crystal
+Охотник	Hunter
+Огненный	Fire
+Саблезубый	Saber
+Вьюнок	Tangle
+Дервиш	Dervish
+Слайм-желток	Yolky
+Дремотный	Sloomber
+Сиамский	Twin
+Гиперслайм	Hyper slime
+Нативный базовый тип не зарегистрирован в этой версии.	The native base type is not registered in this version.
+Неоднозначный нативный базовый тип; создание отключено.	Ambiguous native base type; spawning disabled.
+Нативная регистрация не совпадает с точным базовым типом.	The native registration does not match the exact base type.
+Лучистый каталог принимает только базовый вид, не ларго.	The radiant catalog accepts only a base species, not largos.
+У базового вида отсутствует нативный RadiantBase appearance.	The base species lacks the native RadiantBase appearance.
+У базового вида отсутствует нативный префаб.	The base species lacks a native prefab.
+В нативном префабе отсутствует SlimeRadiant.	The native prefab lacks SlimeRadiant.
+Неоднозначный SlimeRadiant в нативном префабе.	Ambiguous SlimeRadiant in the native prefab.
+Откройте каталог Преобразователя	Open the Fabricator catalog
+Мир загружается или выполняется защитный возврат.	The world is loading or a protective return is running.
+Нативное хранилище Преобразователя недоступно.	The native Fabricator storage is unavailable.
+Непредвиденный размер каталога Преобразователя.	Unexpected Fabricator catalog size.
+Нативных ресурсов: 	Native resources: 
+ · лимит 	 · limit 
+ · значения из GadgetDirector	 · values from GadgetDirector
+Ресурс больше не доступен.	The resource is no longer available.
+Все зарегистрированные ресурсы	All registered resources
+: довести до 	: bring up to 
+: добавить до 100 шт. к текущему количеству.	: add up to 100 to the current amount.
+ Изменение реальное и сохранится игрой. Предметы вакпака и изготовленные гаджеты не меняются. Отмены нет.	 The change is real and will be saved by the game. Vacpack items and fabricated gadgets are not changed. There is no undo.
+Сеанс изменился: пополнение отменено.	The session changed: refill cancelled.
+Ресурс отсутствует в новом каталоге.	The resource is missing from the new catalog.
+Недопустимый ресурс.	Invalid resource.
+Количество ресурса изменилось во время операции.	The resource amount changed during the operation.
+Нативное чтение после AddItem не подтвердило количество: 	The native read after AddItem did not confirm the amount: 
+Операция остановлена; подтверждено ресурсов: 	Operation stopped; resources confirmed: 
+, единиц: 	, units: 
+. Текущий ресурс мог измениться частично. Автоотката нет: 	. The current resource may have changed partially. No automatic rollback: 
+Преобразователь: изменено ресурсов 	Fabricator: resources changed 
+, добавлено 	, added 
+ шт. · проверено нативным GetItemCount	 pcs · verified by native GetItemCount
+Ресурсы Преобразователя	Fabricator resources
+Назад к гаджетам	Back to gadgets
+Настоящее хранилище Лаборатории. Каждое пополнение требует подтверждения и сохраняется игрой.	The real Lab storage. Every refill asks for confirmation and is saved by the game.
++100 ко всем ресурсам…	+100 to all resources…
+Заполнить все до 	Fill all up to 
+Точечное пополнение · выберите ресурс	Targeted refill · pick a resource
+Выберите ресурс ▾	Pick a resource ▾
++100 выбранному…	+100 to selected…
+Выбранный до 	Selected up to 
+Обновить количества	Refresh amounts
+Не уменьшает запасы выше лимита. Не добавляет слаймов, гаджеты или неизвестные ID. Нативные ограничения ёмкости сохранены.	Does not reduce stocks above the limit. Does not add slimes, gadgets or unknown IDs. Native capacity limits are kept.
+Имя видно в главном меню вместо «Файл N»	The name is shown in the main menu instead of «File N»
+Имя текущего сейва недоступно.	The current save's name is unavailable.
+Имя убрано: в меню снова «Файл 	Name removed: the menu shows «File 
+Сейв «	Save «
+» · так он будет подписан в главном меню	» · this is how it will be labeled in the main menu
+Имя сейва	Save name
+Текущий сейв: «Файл 	Current save: «File 
+ · сейчас «	 · now «
+ · без имени	 · no name
+Текущий сейв не определён — загрузите мир.	The current save is not determined — load a world.
+Например: Ферма на Радужных полях	For example: Farm in the Rainbow Fields
+Сохранить имя	Save name
+Убрать имя	Remove name
+В главном меню («Файлы сохранений») вместо «Файл 	In the main menu («Save files») instead of «File 
+» будет это имя. До 	» this name will be shown. Up to 
+ символов. Сами сейвы не меняются: имена хранятся в UserData\\CreatorToolkit\\save-names.cfg, удаление мода вернёт обычные подписи.	 characters. The saves themselves are not changed: names are stored in UserData\\CreatorToolkit\\save-names.cfg; removing the mod brings back the regular labels.
+Инспектор выключен	Inspector off
+Нет любимой еды	No favorite food
+Нативный индекс слаймов ещё не готов	The native slime index is not ready yet
+Слаймов до 25 м: 	Slimes within 25 m: 
+ · ближайшие 	 · nearest 
+ · достигнут предел просмотра индекса	 · the index view limit was reached
+Только любимая еда из выбранного слота вакпака, до 8 порций за нажатие и одна на слайма до 25 м. 	Only favorite food from the selected vacpack slot, up to 8 portions per press and one per slime within 25 m. 
+Без еды, при сытости, сне или препятствии ничего не расходуется. Кормление и получение плортов выполняет сама игра.	Nothing is spent without food, when full, asleep or behind an obstacle. The game itself does the feeding and plort production.
+Мир не готов к кормлению.	The world is not ready for feeding.
+Подождите 2 секунды между кормлениями	Wait 2 seconds between feedings
+Выберите слот с любимой едой; пустой слот не расходуется	Pick a slot with favorite food; an empty slot is not used
+Вакпак не подтвердил расход ровно одной порции.	The vacpack did not confirm using exactly one portion.
+Передано любимых порций: 	Favorite portions given: 
+ · штатное пережёвывание и плорты	 · regular chewing and plorts
+Подходящих голодных слаймов в прямой видимости не найдено; еда не потрачена	No suitable hungry slimes in direct line of sight; no food spent
+Starlight: уже включено — 	Starlight: already on — 
+бессмертие	god mode
+бесконечная энергия	infinite energy
+сохранение инвентаря	keep inventory
+карта без тумана	map without fog
+Полёт Creator Toolkit выключен: включён NoClip Starlight.	Creator Toolkit flight off: Starlight NoClip is on.
+Creator & quality-of-life toolkit: player cheats, spawning, atlas with markers, minimap, camera tools, FPS counter and graphics optimization. Open the menu with Insert.\nНабор создателя: читы игрока, спавн, атлас и метки, миникарта, камера, счётчик FPS и оптимизация графики. Меню — клавиша Insert.	Creator & quality-of-life toolkit: player cheats, spawning, atlas with markers, minimap, camera tools, FPS counter and graphics optimization. Open the menu with Insert.
+Insert — открыть меню	Insert — open menu
+Сейв загружен. Временные эффекты сброшены.	Save loaded. Temporary effects were reset.
+Дождитесь завершения безопасной телепортации перед выходом.	Wait for the safe teleport to finish before exiting.
+Сохранение не подтверждено: выход из игры отменён.	Saving not confirmed: quitting the game cancelled.
+Сейв изменился: операция отменена.	The save changed: operation cancelled.
+Сейв изменился: подтверждение отменено.	The save changed: confirmation cancelled.
+Ошибка: 	Error: 
+Скорость  × 	Speed  × 
+Усиление × 	Boost × 
+Здоровье	Health
+Энергия	Energy
+Здоровье  	Health  
+Энергия  	Energy  
+Эффекты игрока сброшены.	Player effects reset.
+Ясно	Clear
+Дождь	Rain
+Гроза	Thunderstorm
+Слаймодождь	Slime rain
+Пыльца	Pollen
+Ветер	Wind
+Лава	Lava
+Блики	Sparkles
+Поиск · метки · настройки	Search · markers · settings
+Не найден игровой или округлый шрифт с кириллицей.	No game or rounded font with Cyrillic found.
+Вики: 	Wiki: 
+ · нет иконки	 · no icon
+Закрыть	Close
+Безопасный переход между островами	Safe transition between islands
+Гравитация удерживается. Посадка — только после прогрузки и повторных проверок коллизий.	Gravity is held. Landing happens only after loading and repeated collision checks.
+Отменить / повторить возврат	Cancel / retry return
+Сначала загрузите игровой мир	Load a game world first
+Функции станут доступны после загрузки игрока и нативных компонентов игры.	Features become available after the player and the game's native components load.
+Поиск по названию или ID…	Search by name or ID…
+Игрок · защита, движение, строительство	Player · protection, movement, building
+Скрыть подсказки	Hide hints
+Подсказки	Hints
+Поддерживать максимум здоровья.	Keep health at maximum.
+Спринт и способности без расхода.	Sprint and abilities without cost.
+Полёт / NoClip	Flight / NoClip
+WASD · Space вверх · Shift вниз.	WASD · Space up · Shift down.
+Не тратить предметы из непустых слотов.	Don't use up items from non-empty slots.
+Гаджеты и декор ×999 · установка без расхода.	Gadgets and decor ×999 · placing costs nothing.
+Свободная установка	Free placement
+Без проверок пересечений и уклона · дальше.	No intersection or slope checks · longer reach.
+Высокий прыжок	High jump
+Восстановить силы	Restore vitals
+Запомнить место	Remember spot
+К точке возврата	To return point
+Сбросить эффекты	Reset effects
+Р	R
+М	M
+Л	R
+ · нативный	 · native
+Ничего не найдено.\nИзмените название или категорию.	Nothing found.\nChange the name or category.
+ЛКМ — перетаскивание полоски · колесо — прокрутка	Left click drags the bar · wheel scrolls
+Создание · каталог игры	Spawning · game catalog
+Обновить	Refresh
+Выберите объект	Pick an object
+Нажмите карточку слева	Click a card on the left
+1. Выберите вид Гордо.\n2. Наведите камеру на свободную землю в 9 м перед собой.\n3. Нажмите «Разместить Гордо».	1. Pick a Gordo species.\n2. Aim the camera at free ground 9 m ahead.\n3. Press «Place Gordo».
+Наведите камеру на свободную землю в 9 м перед собой.	Aim the camera at free ground 9 m ahead.
+Один Гордо на нативной ловушке	One Gordo on a native snare
+Количество · 	Amount · 
+Разместить Гордо	Place Gordo
+Создать перед камерой	Spawn in front of the camera
+Очистить созданное (	Clear spawned (
+Только визуальный Pink-прототип, без уникальных способностей.	A visual Pink prototype only, without unique abilities.
+Нативный лучистый вариант. Вакпак не поддерживается.	Native radiant variant. The vacpack is not supported.
+В 2,5 м перед камерой. Очистка удаляет только созданное этим модом.	2.5 m in front of the camera. Cleanup removes only what this mod created.
+Лучистый · нативный	Radiant · native
+Нативный объект	Native object
+Недоступен в этой версии	Unavailable in this version
+Ничего не найдено. Измените поиск или категорию.	Nothing found. Change the search or category.
+Выберите карточку · колесо — прокрутка	Pick a card · wheel scrolls
+Максимум денег	Max money
+Деньги и вакпак сохраняются игрой.	Money and the vacpack are saved by the game.
+Заполнить выбранный слот вакпака	Fill the selected vacpack slot
+Выберите совместимый ресурс	Pick a compatible resource
+Заполнить 	Fill 
+Замена — с подтверждением. Лимит слота задаёт мод вакпака.	Replacing asks for confirmation. The slot limit is set by the vacpack mod.
+Замена — с подтверждением. 100 шт. могут превысить ёмкость.	Replacing asks for confirmation. 100 pcs may exceed the capacity.
+Время · 	Time · 
++1 час	+1 hour
++6 часов	+6 hours
+Продолжить время	Resume time
+Остановить время	Stop time
+Перемотать к 	Skip to 
+Утро · 06:00	Morning · 06:00
+День · 12:00	Day · 12:00
+Закат · 18:00	Sunset · 18:00
+Ночь · 00:00	Night · 00:00
+Только вперёд · таймеры сохраняются	Forward only · timers are kept
+Погода	Weather
+Нативные варианты	Native variants
+Отключить Варров	Disable Tarrs
+Запрет появления; существующие Варры не удаляются.	Blocks spawning; existing Tarrs are not removed.
+Заморозить слаймов	Freeze slimes
+Эффект обратим; только загруженные слаймы.	Reversible; loaded slimes only.
+Скорость времени…	Time speed…
+Камера и запись…	Camera & capture…
+Чистый кадр / скрыть HUD	Clean shot / hide HUD
+Убирает игровой интерфейс и вакпак. Меню остаётся доступно по Insert.	Removes the game UI and the vacpack. The menu stays available via Insert.
+Точки телепортации · 	Teleport points · 
+Название новой точки…	New point name…
+Сохранить позицию	Save position
+Первая точка — ваш быстрый возврат	The first point is your quick return
+Введите название и сохраните текущую позицию. Можно держать до пяти точек.	Enter a name and save the current position. You can keep up to five points.
+Телепортироваться	Teleport
+Точки хранятся в текущем сеансе и не переносятся между сейвами.	Points are kept in the current session and are not carried between saves.
+Нативные феномены	Native phenomena
+Фермерский помощник · установленные устройства	Farm assistant · installed devices
+Удобство · профили, HUD и автоматизация	Utility · profiles, HUD and automation
+Все новые функции выключены по умолчанию. Включайте только то, что нужно сейчас.	All new features are off by default. Turn on only what you need right now.
+Профили · 	Profiles · 
+Исследователь: защита, энергия, ×2.\nКадр: полёт, пауза, без HUD.	Explorer: protection, energy, ×2.\nShot: flight, pause, no HUD.
+Восстановить прежние настройки	Restore previous settings
+Исследование и SOS	Exploration & SOS
+SOS: запись ВКЛ	SOS: recording ON
+SOS: запись ВЫКЛ	SOS: recording OFF
+Вернуться · Ctrl + Home	Return · Ctrl + Home
+Записываются только проверенные наземные точки.	Only verified ground points are recorded.
+Найти неоткрытую капсулу · без автосбора	Find an unopened pod · no auto-collect
+Автопополнение вакпака	Vacpack auto-refill
+Отключить автопополнение	Turn off auto-refill
+Включить для выбранного слота…	Turn on for the selected slot…
+Порог: 	Threshold: 
+Сохраняется игрой · пустой или другой слот — стоп.	Saved by the game · empty or other slot — stop.
+Инфо-HUD и счётчик FPS	Info HUD & FPS counter
+Инфо-HUD: ВКЛ	Info HUD: ON
+Инфо-HUD: ВЫКЛ	Info HUD: OFF
+Справа	Right
+Слева	Left
+Внизу	Bottom
+Зона, XYZ, время и эффекты · FPS и время кадра в выбранном углу.	Zone, XYZ, time and effects · FPS and frame time in the chosen corner.
+Ферма…	Farm…
+Имя сейва…	Save name…
+Оптимизация / Potato Mode	Optimization / Potato Mode
+SOS и инфо-HUD — на сеанс · счётчик FPS сохраняется в capture.cfg.	SOS and info HUD are per session · the FPS counter is saved in capture.cfg.
+Безопасная телепортация	Safe teleport
+Отменить переход / повторить возврат	Cancel transition / retry return
+Карта и исследование мира	Map & world exploration
+Открыть атлас	Open atlas
+Вернуться до телепорта	Return to pre-teleport spot
+Поиск капсулы, ресурса, имени или ID…	Search for a pod, resource, name or ID…
+Только существующие	Existing only
+Места появления тоже	Spawn points too
+Сорт.: ближе	Sort: nearest
+Сорт.: имя	Sort: name
+Ближайшая непройденная	Nearest unfinished
+В текущем фильтре нет непройденных меток.	No unfinished markers in the current filter.
+Позиция игрока ещё неизвестна.	The player's position is not known yet.
+Найдено: 	Found: 
+только загруженные сцены	loaded scenes only
+Пройденное скрыто	Completed hidden
+Пройденное видно	Completed shown
+Ничего не найдено. Измените поиск или включите нужный слой.	Nothing found. Change the search or turn on the needed layer.
+\nВики: 	\nWiki: 
+Показать на карте	Show on map
+Снять отметку	Unmark
+Отметить: собрано	Mark: collected
+до метки 	to marker 
+Прогресс: 	Progress: 
+ · Телепорт — через режим ЛКМ в атласе.	 · Teleport via the left-click mode in the atlas.
+Расхождение · ниже нативные награды	Mismatch · native rewards below
+Native-сверка неполная · награды базы	Native check incomplete · database rewards
+Награды сверены с загруженной капсулой	Rewards match the loaded pod
+База совпавшей версии · native-сверки нет	Database of the matching version · no native check
+Награды неизвестны	Rewards unknown
+конфликт	conflict
+нет иконки	no icon
+расстояние неизвестно	distance unknown
+АТЛАС СОЗДАТЕЛЯ	CREATOR ATLAS
+ЛКМ: моя цветная метка	Left click: my colored marker
+ЛКМ: телепорт	Left click: teleport
+ЛКМ: обычная метка	Left click: regular marker
+Нажмите ЛКМ по суше: сохранится своя метка	Left-click on land: your marker is saved
+Нажмите ЛКМ по суше на карте	Left-click on land on the map
+РАЗМЕР ЗНАЧКОВ · 	ICON SIZE · 
+ОБЪЕКТЫ	OBJECTS
+НАХОДКИ И СПАВНЫ	FINDS & SPAWNS
+Выберите метку на карте.\n	Pick a marker on the map.\n
+Снять отметку «собрано»	Remove the «collected» mark
+Отметить «собрано»	Mark «collected»
+Среди включённых слоёв нет непройденных меток.	No unfinished markers among the enabled layers.
+Своя метка: 	Custom marker: 
+Посадка — на свободной суше.\nМоре и препятствия — отказ.	Landing only on free land.\nSea and obstacles are refused.
+Значки стоят точно на своих\nместах и не смещаются.	Icons sit exactly in their\nplaces and do not shift.
+К метке	To marker
+Вернуться	Return
+Подтвердить	Confirm
+Отмена	Cancel
+Каталог стилей слаймов ещё не загружен	The slime style catalog is not loaded yet
+Каталог стилей вакпака ещё не загружен	The vacpack style catalog is not loaded yet
+Слаймопедия: открыто новых записей — 	Slimepedia: new entries unlocked — 
+. Изменение сохраняется в сейве.	. The change is saved in the save.
+Все нативные улучшения применены. Изменено типов: 	All native upgrades applied. Types changed: 
+Открыто зарегистрированных в сейве дверей: 	Doors registered in the save opened: 
+. Сюжетные ограничения могут быть изменены.	. Story restrictions may be changed.
+Открывается игровая карта для регистрации нативных событий тумана…	Opening the game map to register native fog events…
+Карта не загрузилась: 	The map did not load: 
+Нативные данные карты не готовы: 	Native map data not ready: 
+Атлас открыт: зон — 	Atlas unlocked: zones — 
+, событий тумана — 	, fog events — 
+. Подписи локаций и все нативные страницы карты доступны.	. Location labels and all native map pages are available.
+Разблокировка	Unlocks
+Трекинг мира	World tracking
+Все зарегистрированные записи, включая редких слаймов.	All registered entries, including rare slimes.
+Открытие карты, нод и тумана. Будет показана игровая карта.	Unlocks the map, nodes and fog. The game map will be shown.
+Все зарегистрированные улучшения вакпака и персонажа.	All registered vacpack and character upgrades.
+Все модели AccessDoor в текущем сейве, включая незагруженные двери.	All AccessDoor models in the current save, including unloaded doors.
+Классические и секретные стили всех видов слаймов; секретные отмечаются обнаруженными.	Classic and secret styles of all slime species; secret ones are marked as discovered.
+Все чертежи гаджетов и декора с префабом; уже полученные пропускаются.	All gadget and decor blueprints with a prefab; already obtained ones are skipped.
+Все раскраски вакпака (VacPalette) из каталога игры; уже полученные пропускаются.	All vacpack colorings (VacPalette) from the game catalog; already obtained ones are skipped.
+Все записи, включая редких слаймов.	All entries, including rare slimes.
+Карта, ноды и туман; откроется игровая карта.	Map, nodes and fog; the game map will open.
+Все улучшения вакпака и персонажа.	All vacpack and character upgrades.
+Все двери сейва, даже незагруженные.	All doors of the save, even unloaded ones.
+Классические и секретные стили всех слаймов.	Classic and secret styles of all slimes.
+Чертежи гаджетов и декора; полученные пропускаются.	Gadget and decor blueprints; obtained ones are skipped.
+Все раскраски вакпака; полученные пропускаются.	All vacpack colorings; obtained ones are skipped.
+Постоянные изменения сейва · каждое действие с подтверждением	Permanent save changes · every action asks for confirmation
+Разблокировать…	Unlock…
+\nЭто постоянное изменение текущего сейва. Автоматического отката нет. Подтвердите намерение.	\nThis is a permanent change to the current save. There is no automatic rollback. Confirm your intention.
+Поиск по названию, зоне или ID…	Search by name, zone or ID…
+ · в фильтре 	 · in filter 
+Отметки — из сейва; расстояние — от игрока	Marks come from the save; distance is from the player
+В этом фильтре ничего нет.	Nothing in this filter.
+Показать на атласе	Show on atlas
+Открыть дверь…	Open door…
+Дверь 	Door 
+ будет открыта в модели сейва (AccessDoor). 	 will be opened in the save model (AccessDoor). 
+Это постоянное изменение текущего сейва; автоматического отката нет.	This is a permanent change to the current save; there is no automatic rollback.
+Выберите строку списка.	Pick a row in the list.
+Место этой записи на карте неизвестно.	This entry's place on the map is unknown.
+Группа сцены не подтверждена — телепорт отключён.	Scene group not confirmed — teleport disabled.
+Наблюдения отсутствуют; отсутствие объектов не установлено.	No observations; the absence of objects is not established.
+Превышен срок census; старые actual/potential observations сняты.	Census time exceeded; old actual/potential observations removed.
+Native census прерван: 	Native census interrupted: 
+Загруженные сцены · реальные горшочки отдельно от мест появления	Loaded scenes · real pots separately from spawn points
+Registered-type census недоступен или превышает лимит.	Registered-type census unavailable or over the limit.
+Неканоничная registered gold identity: 	Non-canonical registered gold identity: 
+Registered-type registry изменился во время census.	The registered-type registry changed during the census.
+Конфликт native identities	Native identities conflict
+Неоднозначный gold type: 	Ambiguous gold type: 
+Отсутствует registered type	Registered type missing
+Gold type не зарегистрирован: 	Gold type not registered: 
+Prefab identity не подтверждена	Prefab identity not confirmed
+Gold prefab identity не подтверждена: 	Gold prefab identity not confirmed: 
+Native model index недоступен.	Native model index unavailable.
+Gold registration изменилась.	Gold registration changed.
+Actual model/row budget исчерпан.	Actual model/row budget exhausted.
+Gold model list изменился во время census.	The gold model list changed during the census.
+Live container census budget исчерпан.	Live container census budget exhausted.
+Model/type identity не подтверждена.	Model/type identity not confirmed.
+Live GO type identity не подтверждена.	Live GO type identity not confirmed.
+ActorId collision: actual observation снято.	ActorId collision: actual observation removed.
+Loaded ZoneDirector registry недоступен.	Loaded ZoneDirector registry unavailable.
+ZoneDirector list отсутствует.	ZoneDirector list missing.
+ZoneDirector budget исчерпан.	ZoneDirector budget exhausted.
+Zone identity не подтверждена.	Zone identity not confirmed.
+Crate source tables недоступны.	Crate source tables unavailable.
+Gold source budget исчерпан.	Gold source budget exhausted.
+Crate source owner не подтверждён.	Crate source owner not confirmed.
+Crate table обрезана budget.	Crate table cut by budget.
+Некорректный crate weight.	Invalid crate weight.
+Potential row budget исчерпан.	Potential row budget exhausted.
+Crate registry изменился.	Crate registry changed.
+ZoneDirector list изменился.	ZoneDirector list changed.
+Zone registry изменился.	Zone registry changed.
+Loaded CellDirector registry недоступен.	Loaded CellDirector registry unavailable.
+CellDirector budget исчерпан.	CellDirector budget exhausted.
+Slime spawner list отсутствует.	Slime spawner list missing.
+Slime source budget исчерпан.	Slime source budget exhausted.
+Slime constraints отсутствуют.	Slime constraints missing.
+Slime constraints обрезаны budget.	Slime constraints cut by budget.
+SlimeSet не готов; prefab conversion не вызывается.	SlimeSet not ready; prefab conversion is not called.
+SlimeSet members обрезаны budget.	SlimeSet members cut by budget.
+Exact registered slime member не подтверждён.	Exact registered slime member not confirmed.
+SpawnLocs обрезаны budget.	SpawnLocs cut by budget.
+Configured SpawnLoc не загружен.	Configured SpawnLoc not loaded.
+Slime source numeric metadata некорректны.	Slime source numeric metadata invalid.
+Slime spawner list изменился.	Slime spawner list changed.
+CellDirector registry изменился.	CellDirector registry changed.
+Активная погода ещё не прочитана	Active weather not read yet
+Модель мирового времени недоступна.	World time model unavailable.
+Мировое время заморожено. Физика и интерфейс продолжают работать.	World time frozen. Physics and the UI keep working.
+Мировое время восстановлено.	World time restored.
+Время вперёд на 	Time forward by 
+ ч.	 h.
+Установлено ближайшее время суток: 	Set to the nearest time of day: 
+Нативная настройка Варров недоступна.	Native Tarr setting unavailable.
+Появление Варров отключено. Уже существующие Варры не удаляются.	Tarr spawning disabled. Existing Tarrs are not removed.
+Нативная настройка Варров восстановлена.	Native Tarr setting restored.
+ИИ и физика загруженных слаймов заморожены.	AI and physics of loaded slimes frozen.
+ИИ и физика слаймов восстановлены.	Slime AI and physics restored.
+В этой зоне погодные режимы недоступны	Weather modes are unavailable in this zone
+Погодный директор текущей зоны недоступен	The current zone's weather director is unavailable
+ · уровень 	 · level 
+Сейчас: ясно · активных нативных явлений нет	Now: clear · no active native phenomena
+Завершение погоды · нативных эффектов ещё активно: 	Weather ending · native effects still active: 
+Сейчас: 	Now: 
+слайм	slime
+дожд	rain
+гроза	storm
+пыльц	pollen
+ветер	wind
+лав	lava
+солнеч	sun
+Такой режим не зарегистрирован для текущей зоны. Выберите нативный режим ниже.	This mode is not registered for the current zone. Pick a native mode below.
+Зона изменилась. Обновите погодный каталог и выберите режим заново.	The zone changed. Refresh the weather catalog and pick the mode again.
+Погода: 	Weather: 
+Текущая погода очищена. Будущие нативные прогнозы сохранены.	Current weather cleared. Future native forecasts are kept.
+Нативная погода завершается. Будущие прогнозы сохранены.	Native weather is ending. Future forecasts are kept.
+Погода в текущей зоне недоступна.	Weather is unavailable in the current zone.
+Списки обновляются, пока открыт раздел «Трекинг мира»	Lists refresh while the «World tracking» section is open
+Дождитесь загрузки мира	Wait for the world to load
+Обновлено: точек атласа 	Refreshed: atlas points 
+ · дверей сейва 	 · save doors 
+ · позиция игрока неизвестна	 · player position unknown
+ · названия зон появятся после открытия карты игры	 · zone names appear after opening the game map
+Зона неизвестна	Unknown zone
+Статичный узел	Static node
+Точка телепортации	Teleport point
+Дверь	Door
+ · место на карте не найдено	 · place on the map not found
+Дверь · 	Door · 
+Загруженная дверь AccessDoor; группа сцены не подтверждена	Loaded AccessDoor; scene group not confirmed
+ · в сейве: телепортеров 	 · in the save: teleporters 
+ · узлов 	 · nodes 
+Выберите дверь.	Pick a door.
+ не найдена в сейве.	 not found in the save.
+Дверь уже открыта	The door is already open
+Дверь открыта: 	Door opened: 
+ · сцена обновлена	 · scene updated
+Может появиться прямо перед входом в пещеру у статуи медового слайма.	May appear right in front of the cave entrance by the honey slime statue.
+Может появиться в пещере напротив капсулы с сокровищами.	May appear in the cave opposite the treasure pod.
+Может появиться в пещере возле фонаря.	May appear in the cave near the lantern.
+Может появиться в пещере за вратами рядом с квадратным камнем.	May appear in the cave behind the doors next to the square stone.
+Может появиться в пещере открываемой скалистым плортом.	May appear in the cave opened with a rock plort.
+Может появиться в пещере за открывающимися скалистым плортом вратами. Находится в конце заваленного тоннеля.	May appear in the cave behind the doors opened with a rock plort. It is at the end of the blocked tunnel.
+Может появиться на короткой тупой ветке у подножия дерева.	May appear on a short blunt branch at the foot of the tree.
+Может появиться на ближайшем к поваленному стволу дереве.	May appear on the tree closest to the fallen trunk.
+На дереве. Вокруг ещё 4	On a tree. 4 more around
+На корнях у основания камня	On the roots at the base of the rock
+Может появиться на одном из камней разрушенного моста, недалеко от корней дерева.	May appear on one of the stones of the ruined bridge, not far from the tree roots.
+Может появиться на небольшом корне торчащем из скалы прямо над табличкой предупреждающей об одичавших слаймах.	May appear on a small root sticking out of the cliff right above the sign warning about feral slimes.
+Может появиться на арке из гигантского корня недалеко от таблички предупреждающей об одичавших слаймах.	May appear on the arch of a giant root not far from the sign warning about feral slimes.
+Может появиться на короткой тупой ветке растущей из корня проходящего из одной скалы в другую.	May appear on a short blunt branch growing from a root that runs from one cliff to another.
+Может появиться в пещере с корнями на высоком уступе.	May appear in the cave with roots on a high ledge.
+Может появиться в пещере с корнями и грибами под деревом.	May appear in the cave with roots and mushrooms under the tree.
+Может появиться на выходе из пещеры.	May appear at the cave exit.
+Может появиться на короткой тупой ветке на вершине арки созданной гигантским корнем дерева.	May appear on a short blunt branch at the top of the arch formed by a giant tree root.
+Может появиться на стволе поваленного дерева, которое расположено над другим поваленным стволом.	May appear on the trunk of a fallen tree lying above another fallen trunk.
+Может появиться на камне над корнями вросшими в землю.	May appear on the stone above roots grown into the ground.
+Может появиться на небольшом корешке свисающем сверху прямо перед пропастью.	May appear on a small root hanging from above right before the chasm.
+Может появиться на арке из корня дерева.	May appear on the arch of a tree root.
+Может появиться на высокой горе, рядом с капсулой.	May appear on a high mountain, next to the pod.
+На скале перед пропастью	On the cliff before the chasm
+У основания дерева на возвышенности	At the base of the tree on the hill
+На дереве у подъёма к арке	On the tree at the climb to the arch
+На скале у кубники	On the cliff by the cuberry
+На возвышенности у капсулы	On the hill by the pod
+На дереве у арки	On the tree by the arch
+На колонне перед кольцехвостым гордо	On the column in front of the Ringtail Gordo
+На скале слева от кольцехвостого гордо	On the cliff left of the Ringtail Gordo
+На дереве рядом с кубникой	On the tree next to the cuberry
+На дереве на возвышенности у основания арки	On the tree on the hill at the base of the arch
+На скале под деревом	On the cliff under the tree
+На скале у лианы	On the cliff by the vine
+На дереве под аркой	On the tree under the arch
+На скале с лианой	On the cliff with the vine
+На дереве прямо под каменной аркой	On the tree right under the stone arch
+На скале у водопада	On the cliff by the waterfall
+На дереве у статуй	On the tree by the statues
+На центральной статуе	On the central statue
+На дереве на третьей ступени	On the tree on the third step
+На дереве у порхающего гордо	On the tree by the Flutter Gordo
+В пещере с капсулах с сокровищами находятся два странных алмаза	There are two strange diamonds in the cave with treasure pods
+Может появиться за углом у входа в пещеру, после портала.	May appear around the corner at the cave entrance, after the portal.
+Центральная ель перед камнем	The central fir in front of the rock
+На накренённой над краем ели	On the fir leaning over the edge
+На вершине высокой ели. С земли почти незаметен, легче заметить забравшись выше	At the top of a tall fir. Almost invisible from the ground, easier to spot after climbing higher
+На высокой ели	On a tall fir
+На высоком дереве	On a tall tree
+На стволе поваленного дерева	On the trunk of a fallen tree
+На ближайшем дереве к поваленному. Оно самое высокое на этом островке	On the tree closest to the fallen one. It is the tallest on this islet
+Вблизи ледяного кубика	Near the ice cube
+Под сосулькой. На самом высоком дереве Сыпучих обрывов. Дерево почти голое и хорошо заметно среди более пышных	Under an icicle. On the tallest tree of the Powderfall Bluffs. The tree is almost bare and stands out among the lusher ones
+Центральное дерево рядом с кубиком льда	The central tree next to the ice cube
+На высоком толстом дереве	On a tall thick tree
+Ближайшее дерево к кубику льда	The tree closest to the ice cube
+У двух пальм и куста	By two palms and a bush
+Над маленькой пальмой. Вблизи саблезубого гордо	Above a small palm. Near the Saber Gordo
+На пальме на возвышенности	On the palm on the hill
+Под листьями маленькой пальмы под статуей слайма. Легче разглядеть со стороны пропасти вниз, где лицевая часть статуи	Under the leaves of a small palm under a slime statue. Easier to see from the chasm side below, where the statue's face is
+На сталактите под потолком. Мост появляется ночью	On a stalactite under the ceiling. The bridge appears at night
+На сталагмите перед 2 цветками	On a stalagmite in front of 2 flowers
+У основания огненного цветка	At the base of the fire flower
+В конце призрачного моста. Под входом	At the end of the ghostly bridge. Under the entrance
+Может появиться прямо перед телепортом в центре круга	May appear right in front of the teleporter in the middle of the circle
+Находится на куче статуй слаймов в пещере рядом с лужей	On a pile of slime statues in the cave next to the pool
+Над входом в расколе на голове слаймовой статуи	Above the entrance in a crack on the head of a slime statue
+Может появиться рядом капсулой внутри руинной колонны.	May appear next to the pod inside a ruined column.
+Может появиться на уступе ,рядом с капсулой, на который можно подняться с гейзера под скалистым гордо.	May appear on a ledge next to the pod, reachable from the geyser under the Rock Gordo.
+В углу, под спуском к лавовым озерам	In the corner, below the descent to the lava lakes
+Может появиться в пещере на выступе напротив капсулы.	May appear in the cave on a ledge opposite the pod.
+Может появиться на стене неподалёку от капсулы. Хорошо заметен если идти по пути у стены.	May appear on the wall not far from the pod. Easy to spot when walking along the wall.
+Может появиться на левом выступе напротив нетопырька-гордо.	May appear on the left ledge opposite the Batty Gordo.
+Может появиться в пещерке рядом с капсулой	May appear in a small cave next to the pod
+Снизу у опоры "моста" на стене и на выступе могут появиться залежи лучистой руды. Ещё одни можно найти среди жар-цветов на самом мосту. Все 3 возможных места находятся почти в одной точке, но на разных высотах.	Radiant ore deposits may appear at the bottom of the «bridge» support on the wall and on the ledge. Another one can be found among the fire flowers on the bridge itself. All 3 possible spots are almost in one point, but at different heights.
+Может появиться у рыжего куста среди каменных руин служащих переправой наверх	May appear by the orange bush among the stone ruins that serve as a way up
+Может появиться почти на самой вершине скалы	May appear almost at the very top of the cliff
+Может появиться на краю обрыва.	May appear at the edge of the cliff.
+Может появиться у края обрыва перед пещерой в лабораторию.	May appear at the cliff edge in front of the cave to the lab.
+Может появиться на краю обрыва рядом с пещерой в лабораторию.	May appear at the cliff edge next to the cave to the lab.
+Может появиться у обрыва прямо перед входом в пещеру.	May appear at the cliff right in front of the cave entrance.
+Может появиться перед пещерой в лабораторию.	May appear in front of the cave to the lab.
+Может появиться на скале между телепортом и пещерой в лабораторию.	May appear on the cliff between the teleporter and the cave to the lab.
+Может появиться на стене напротив дерева.	May appear on the wall opposite the tree.
+Может появиться на скале перед входом в пещеру.	May appear on the cliff in front of the cave entrance.
+Может появиться над гирляндой и диванами в лаборатории.	May appear above the garland and the sofas in the lab.
+Может появиться на выходе из лаборатории.	May appear at the lab exit.
+Может появиться на каменной колонне п середине длинного коридора с трубами, который ведёт из лаборатории наружу.	May appear on a stone column in the middle of the long corridor with pipes that leads from the lab outside.
+Может появиться на краю скалы перед слаймовым морем.	May appear at the cliff edge in front of the slime sea.
+Может появиться в подземной пещере напротив капсулы с сокровищами.	May appear in the underground cave opposite the treasure pod.
+В подземной пещере, прямо напротив мяуровой статуи.	In the underground cave, right opposite the tabby statue.
+Может появиться у обрыва.	May appear at the cliff.
+Может появиться на скале под погофруктовым деревом.	May appear on the cliff under the pogofruit tree.
+Может появиться перед обрывом.	May appear in front of the cliff.
+Может появиться в пещере под хлопковым гордо.	May appear in the cave under the Cotton Gordo.
+Может появиться рядом рядом с капсулой с сокровищами.	May appear next to the treasure pod.
+Может появиться над водой напротив капсулы с сокровищами.	May appear above the water opposite the treasure pod.
+Может появиться в глубине маленькой пещеры, которая расположена перед капсулой с сокровищами.	May appear deep in the small cave located in front of the treasure pod.
+Может появиться у скалы.	May appear by the cliff.
+Может появиться между пещерами в пропасти слаймового моря.	May appear between the caves in the slime sea chasm.
+Может появиться между стеной и землёй на повороте к выходу из пещеры.	May appear between the wall and the ground at the turn to the cave exit.
+Может появиться напротив телепорта.	May appear opposite the teleporter.
+Может появиться между стеной и землёй перед телепортом.	May appear between the wall and the ground in front of the teleporter.
+Может появиться рядом с капсулой с сокровищами.	May appear next to the treasure pod.
+Может появиться рядом с одной из колонн перед телепортом.	May appear next to one of the columns in front of the teleporter.
+Между двумя входами в пещере	Between two entrances in the cave
+Может появиться радом с капсулой с сокровищами	May appear next to the treasure pod
+Под каменной аркой	Under the stone arch
+Гарантированно появляется в этом месте, но только один раз.	Guaranteed to appear in this spot, but only once.
+Находятся внутри пещеры фосфорного гордо. Для открытия нужно в статую мяурового слайма вложить плорт.	Inside the Phosphor Gordo cave. To open, put a plort into the tabby slime statue.
+Находятся рядом с древним телепортом. Для открытия нужно в расположенную с другой стороны статую охотник-слайма вложить плорт.	Next to the ancient teleporter. To open, put a plort into the hunter slime statue on the other side.
+Находятся в голубой части, откуда идёт ручей. Для открытия нужно в статую медового слайма вложить плорт.	In the blue part, where the stream starts. To open, put a plort into the honey slime statue.
+Находятся в розовой части, куда идёт ручей. Для открытия нужно в статую скалистого слайма вложить плорт.	In the pink part, where the stream flows. To open, put a plort into the rock slime statue.
+Находятся под большим проходом. Для открытия нужно в статую охотник-слайма вложить плорт.	Under the big passage. To open, put a plort into the hunter slime statue.
+Находятся в пещере. Для открытия нужно сначала открыть врата статуи скалистого слайма, а затем в статую охотник-слайма вложить плорт.	In the cave. To open, first open the rock slime statue doors, then put a plort into the hunter slime statue.
+Находятся в конце тропинки, под руинными арками. Для открытия нужно в статую скалистого слайма вложить плорт.	At the end of the path, under the ruined arches. To open, put a plort into the rock slime statue.
+Находятся посреди узкого прохода. Для открытия нужно вложить плорт в статую фосфорного слайма, расположенную в пещере медового гордо.	In the middle of a narrow passage. To open, put a plort into the phosphor slime statue located in the Honey Gordo cave.
+Находятся в скале на возвышенности. Для открытия нужно в статую порхающего слайма вложить плорт.	In the cliff on the hill. To open, put a plort into the flutter slime statue.
+Находятся недалеко от медового гордо. Для открытия нужно вложить плорт в статую фосфорного слайма, расположенную в пещере медового гордо.	Not far from the Honey Gordo. To open, put a plort into the phosphor slime statue located in the Honey Gordo cave.
+Находятся в пещере за водопадом. Для открытия нужно в статую удильщик-слайма вложить плорт.	In the cave behind the waterfall. To open, put a plort into the angler slime statue.
+Находятся недалеко от двуцветного дерева. Для открытия нужно в статую розового слайма вложить плорт.	Not far from the two-colored tree. To open, put a plort into the pink slime statue.
+Находятся в углублении рядом с огромной руинной окружностью. Для открытия нужно в статую порхающего слайма вложить плорт.	In a hollow next to the huge ruined circle. To open, put a plort into the flutter slime statue.
+Гарантированно появляется в этом месте, но только один раз. Находится в пещере одичавших саблезубых слаймов.	Guaranteed to appear in this spot, but only once. It is in the cave of feral saber slimes.
+Находятся под порталом. Для открытия нужно в статую нетопырька-слайма вложить плорт.	Under the portal. To open, put a plort into the batty slime statue.
+Находятся под мостом для открытия нужен плорт удильщика-слайма. Сама статуя находиться слева за углом от врат у моря.	Under the bridge; opening needs an angler slime plort. The statue itself is to the left around the corner from the doors by the sea.
+Находятся в пещере за каменистым гордо. Для открытия нужны бум-плорты 3х.	In the cave behind the Rock Gordo. Opening needs 3 boom plorts.
+Открывают путь к телепорту в Сыпучие обрывы.   Требуется:   - бум-плорт   - мяуровый плорт   - плорт нетопырька   Слаймов, которые дают этот плорт можно найти на территории Тлеющей долины	Open the way to the teleporter to the Powderfall Bluffs.   Requires:   - boom plort   - tabby plort   - batty plort   Slimes that give this plort can be found in the Ember Valley
+Может выпрыгнуть на поле из точки на стене вместе с другими слаймами.	May jump out onto the field from a spot on the wall together with other slimes.
+Может появиться у камня в центре зоны.	May appear by the stone in the middle of the zone.
+Может появиться на пустыре между пальмами и входом в пещеру.	May appear on the wasteland between the palms and the cave entrance.
+Может появиться в воде	May appear in the water
+Может выпрыгнуть из скалы.	May jump out of the cliff.
+Может появиться возле шайбообразного камня перед телепортом.	May appear near the puck-shaped stone in front of the teleporter.
+Cкамейка из оранжереи	A bench from the Conservatory
+Среднее красное пепельное дерево	A medium red ash tree
+Розовый гордо. Находится в конце тропинки, к которой можно попасть через низкую арку недалеко от древнего телепорта.	Pink Gordo. At the end of the path reachable through the low arch near the ancient teleporter.
+Фосфорный гордо. Находится внутри пещеры с левой стороны от главного выхода из оранжереи.	Phosphor Gordo. Inside the cave to the left of the main Conservatory exit.
+Хлопковый гордо. Находится на вершине подъёма на Радужных полях.	Cotton Gordo. At the top of the climb in the Rainbow Fields.
+Медовый гордо. Находится на розовой стороне побережья Звёздного Света, в зоне за пещерой, закрытой с обеих сторон слаймовыми статуями.	Honey Gordo. On the pink side of the Starlight Strand coast, in the area behind the cave closed on both sides by slime statues.
+Кольцехвостый гордо. Находится на розовой стороне побережья Звёздного Света, в основной зоне прорастания нектара лунной росы.	Ringtail Gordo. On the pink side of the Starlight Strand coast, in the main Moondew Nectar growing area.
+Удильщик-гордо. Находится на розовой стороне побережья Звёздного Света, внутри пещеры, вход в которую находится неподалёку от телепорта кольцехвостого гордо.	Angler Gordo. On the pink side of the Starlight Strand coast, inside a cave whose entrance is near the Ringtail Gordo teleporter.
+Порхающий гордо. Находится в конце побережья Звёздного Света, на возвышенности, между синей и розовой сторонами.	Flutter Gordo. At the end of the Starlight Strand coast, on a hill between the blue and pink sides.
+Нетопырёк-гордо. Находится в нижней части сети пещер в Тлеющей долине.	Batty Gordo. In the lower part of the cave network in the Ember Valley.
+Скалистый гордо. Находится в Тлеющей долине, в северо-восточной пещере с несколькими входами. Для удобства необходимо вставить в статуи трёх бум-слаймов их плорты, в ином случае придётся активно использовать реактивный ранец.	Rock Gordo. In the Ember Valley, in the north-eastern cave with several entrances. For convenience put boom plorts into the three boom slime statues, otherwise you will have to use the jetpack a lot.
+Кристальный гордо. Находится в Тлеющей долине, в конце подъёма на зелёную сторону локации.	Crystal Gordo. In the Ember Valley, at the end of the climb to the green side of the area.
+Саблезубый гордо. Находится в тропической части Сыпучих обрывов, над пещерой за водопадом, гейзером в котором можно воспользоваться чтобы добраться до гордо.	Saber Gordo. In the tropical part of the Powderfall Bluffs, above the cave behind the waterfall; its geyser can take you up to the gordo.
+Ведёт на побережье Звёздного Света. Доступ открывается переключателем на противоположном берегу.	Leads to the Starlight Strand. Access opens with a switch on the opposite shore.
+Площадка телепорта изначально закрыта.	The teleporter platform is closed at first.
+Ведёт в Тлеющую долину. Доступ открывается переключателем на возвышенности неподалёку.	Leads to the Ember Valley. Access opens with a switch on a hill nearby.
+Телепорт на Радужные поля. Открыт изначально.	Teleporter to the Rainbow Fields. Open from the start.
+Телепорт в Радужные поля. Открыт изначально	Teleporter to the Rainbow Fields. Open from the start
+Ведёт в сыпучие обрывы. Изначально не работает.	Leads to the Powderfall Bluffs. Does not work at first.
+Изначально не работает. Ведёт в Тлеющую долину.	Does not work at first. Leads to the Ember Valley.
+Изначально не работает. Ведёт в побережье Звёздного света.	Does not work at first. Leads to the Starlight Strand.
+Работает только на выход.	Works only as an exit.
+Находится в северной части зоны красных деревьев.	In the northern part of the red trees area.
+Находится недалеко от кристального гордо.	Not far from the Crystal Gordo.
+В тропической зоне, недалеко от входа в пещеру.	In the tropical area, not far from the cave entrance.
+Находится недалеко от поискового дрона в открытой зоне с гейзерами.	Not far from the research drone in the open area with geysers.
+Находится на возвышенности, рядом с тропинкой с арками, ведущей к телепорту в Тлеющую долину.	On a hill next to the arched path leading to the teleporter to the Ember Valley.
+Находится между проходом к хлопковому гордо и скалой розовых бонсаев.	Between the passage to the Cotton Gordo and the pink bonsai cliff.
+Находится недалеко от дальнего острова в приливных бассейнах.	Not far from the far island in the tide pools.
+Находится в зоне двухуровневого водопада.	In the two-level waterfall area.
+У входа в ущелье диких саблезубых ларго	At the entrance to the feral saber largo gorge
+За колонной в пещере огненных цветов	Behind a column in the fire flower cave
+Недалеко от древнего телепорта	Not far from the ancient teleporter
+На коралловом острове	On the coral island
+Рядом с коллектором преобразователя	Next to the Fabricator collector
+Недалеко от скалы розовых бонсаев	Not far from the pink bonsai cliff
+В убежище	In the hideout
+На арочной террасе	On the arched terrace
+В приливных бассейнах	In the tide pools
+В овраге	In the ravine
+Над входом в овраг	Above the ravine entrance
+В конце первой зоны	At the end of the first area
+По другую сторону от медового гордо	On the other side from the Honey Gordo
+Неподалёку от двуцветного дерева	Near the two-colored tree
+В стороне от дорожки с несколькими бассейнами	Off the path with several pools
+В центре зоны огромных грибов	In the middle of the giant mushroom area
+В пещере порхающего гордо	In the Flutter Gordo cave
+Находится на выступе за островком, туда можно попасть с помощью призрачной дорожки вечером, начало которой находится над аркой в виде наклонённого ствола дерева. Содержит: Три древицы	On a ledge behind the islet, reachable in the evening by the ghostly path that starts above the arch shaped like a leaning tree trunk. Contains: Three Treelings
+Пройдя из горячих источников на север, к спуску вниз, нужно дойти до снежной арки и обойти её справа. Капсула находится в углу обрыва. Содержит: Королевская снежинка	Going north from the hot springs to the descent, walk to the snow arch and go around it on the right. The pod is in the corner of the cliff. Contains: Royal Snowflake
+Находится в нижней части ледяной колонны, до которой можно дойти с помощью призрачной дорожки из вершины леса красных деревьев. Содержит: Снежный шар	At the bottom of the ice column, reachable by the ghostly path from the top of the red tree forest. Contains: Snow Globe
+Используя гейзер в пещере, подняться на площадку с телепортом саблезубого гордо, и отправиться к водопаду. Капсула находится ниже, на скале слева от водопада. Содержит: Накопительный элемент	Use the geyser in the cave to get up to the Saber Gordo teleporter platform and head to the waterfall. The pod is lower, on the cliff left of the waterfall. Contains: Storage Cell
+Пройдя из пещеры огненных цветов в пещеру с гейзером, нужно пройти в сторону выхода за водопадом, а затем, приблизившись, обернуться назад. Капсула будет легка видна у ледяной скалы слева. Содержит: Гидродуш	Going from the fire flower cave to the geyser cave, head towards the exit behind the waterfall, then look back when you get close. The pod is easy to see by the ice cliff on the left. Contains: Hydro Shower
+Будучи на распутье пещер, нужно пройти в сторону северной пещеры, вечером к ней также ведёт призрачный мост. Капсула находится в углублении у перехода в пещеру огненных цветов. Содержит: Машина для снежков	At the cave crossroads, head towards the northern cave; in the evening a ghostly bridge also leads there. The pod is in a hollow at the passage to the fire flower cave. Contains: Snowball Machine
+Находится за вулканической скалой в бассейне рядом с входами в пещеры с гейзерами и огненными цветами. Содержит: Замёрзшее пламя	Behind the volcanic rock in the pool next to the entrances to the geyser and fire flower caves. Contains: Frozen Flame
+Находится под мостом в виде упавшего ствола дерева между островами красных деревьев, также к нему ведёт дорожка из камней в море между теми же островами. Содержит: Заснеженный куст	Under the bridge shaped like a fallen tree trunk between the red tree islands; a stone path across the sea between the same islands also leads there. Contains: Snowy Bush
+Находится на высоком выступе в конце ущелья диких саблезубых ларго: к поисковому дрону, а затем пролететь к капсуле вниз, либо пройдя по призрачному мосту, начало которого находится у спуска из ущелья. Содержит: Северносияющая сосна	On a high ledge at the end of the feral saber largo gorge: go to the research drone, then fly down to the pod, or walk the ghostly bridge that starts at the descent from the gorge. Contains: Aurora Pine
+Пройдя назад от горячего источника, можно увидеть выступ к одному из входов в пещеру огненных цветов. Взобравшись и пройдя по красной траве, нужно подняться на высокий выступ справа от входа в пещеру огненных цветов. Содержит: Заснеженная скамейка	Walking back from the hot spring you can see a ledge to one of the fire flower cave entrances. Climb up, walk over the red grass and get onto the high ledge right of the fire flower cave entrance. Contains: Snowy Bench
+Пройдя из ущелья диких саблезубых ларго наверх к поисковому дрону, нужно сделать пролёт к подъёму напротив. Далее вверх по выступам с куриными гнёздами. Капсула находится на вершине горы вокруг мерцающих кусков льда. Содержит: Модуль меткого выстрела	From the feral saber largo gorge go up to the research drone, then fly across to the climb opposite. Then go up the ledges with chicken nests. The pod is at the top of the mountain among glittering chunks of ice. Contains: Power Shot Module
+Обойдя гору, можно увидеть маленькую щель в пещеру диких саблезубых ларго. Войдя в пещеру, нужно просто идти до первой призрачной пальмы слева, а затем повернуться налево к выступу с капсулой. Содержит: Снежный телепорт	Going around the mountain you can see a small crack into the feral saber largo cave. Inside, just walk to the first ghostly palm on the left, then turn left towards the ledge with the pod. Contains: Snowy Teleporter
+На высоком выступе в пещере огненных цветов, до которого добраться можно лишь двумя способами: пролетев со стороны входа в пещеру с гейзером, либо пройдя по призрачному мосту, начало которого находится у той же пещеры. Содержит: Портал на Сыпучие обрывы	On a high ledge in the fire flower cave, reachable only two ways: by flying from the geyser cave entrance, or by walking the ghostly bridge that starts at the same cave. Contains: Portal to the Powderfall Bluffs
+Находится на вершине ледяного куба, на который можно легко взобраться с помощью ледяных глыб и скал вокруг. Содержит: Ледяной куб	On top of the ice cube, easy to climb using the ice blocks and rocks around it. Contains: Ice Cube
+Обойдя ледяной куб по тропинке красной травы, можно увидеть крутой спуск вниз к капсуле. Содержит: Кучка снежных слаймов	Going around the ice cube along the red grass path you can see a steep descent to the pod. Contains: Snow Slime Pile
+Будучи на распутье пещер, нужно пролететь в сторону западной пещеры. Капсула находится в конце неё, на другой стороне обрыва. Содержит: Замерзшая раковина	At the cave crossroads, fly towards the western cave. The pod is at its end, on the other side of the cliff. Contains: Frozen Shell
+Находится на ледяной колонне рядом с поисковым дроном. Туда легко взобраться с помощью розовых кораллов. Содержит: Силовой чип	On the ice column next to the research drone. Easy to climb using the pink corals. Contains: Power Chip
+Пройдя в нижнюю часть острова кораллов, нужно пройти до обрыва рядом с камнем, на котором 2 коралловых растения, и аккуратно опуститься вниз к выступу с капсулой. Содержит: Ледяная лампа	Go to the lower part of the coral island, walk to the cliff next to the rock with 2 coral plants and carefully drop down to the ledge with the pod. Contains: Ice Lamp
+Спустившись в пещеру справа от портала, нужно взобраться вверх, а затем идти влево до прохода к спуску, пройти путь вниз, пройти к тропинке слева, в конце которой капсула в углу. Содержит: Кристаллы	Go down into the cave right of the portal, climb up, then go left to the passage to the descent, go down, take the path on the left; the pod is in the corner at its end. Contains: Crystals
+Пройдя мимо портала в пещере в сторону прохода наружу и пролетев за скалу с двумя кубами справа от неё, капсулу легко будет обнаружить у подножья скалы. Содержит: Ледниковый кристалл	Walk past the portal in the cave towards the way out and fly behind the rock with two cubes on its right; the pod is easy to find at the foot of the rock. Contains: Glacial Crystal
+Двигаясь со стороны гейзера кристального гордо вперёд, можно увидеть путь к колонне с порталом. Долетев до неё, нужно спуститься, чтобы увидеть в углу кирпичный куб, одна из сторон которого не закрыта. Содержит: Синее варп-хранилище	Moving forward from the Crystal Gordo geyser you can see the way to the column with the portal. Fly to it and go down to see a brick cube in the corner with one open side. Contains: Blue Warp Depot
+Выйдя из зоны горячих источников, можно увидеть небольшой спуск вниз, который приведёт в открытое пространство. Дальше нужно просто забраться на возвышенность, покрытой листьями, и двигаться вправо в сторону капсулы. Содержит: Бампер для пинбола	Leaving the hot springs area you can see a small descent leading to an open space. Then just climb the leaf-covered hill and move right towards the pod. Contains: Pinball Bumper
+Выйдя из пещеры скалистого гордо и постоянно двигаясь вперёд и смотря при этом вправо, то можно дойти до обрыва, внизу которого находится небольшой выступ. Содержит: Розовая лампа в полоску	Leaving the Rock Gordo cave and moving forward while looking right, you reach a cliff with a small ledge at the bottom. Contains: Pink Striped Lamp
+Пройдя к подъёму в зону гейзера кристального гордо, нужно подойти к обрыву и посмотреть, тем самым увидев небольшой выступ на другой стороне, с помощью которого можно добраться до пещеры с капсулой. Содержит: Счастливая статуя	Go to the climb into the Crystal Gordo geyser area, walk up to the cliff and look: you will see a small ledge on the other side that gets you to the cave with the pod. Contains: Happy Statue
+Пройдя мимо гейзера кристального гордо, можно увидеть широкую арку, а рядом с ней - спуск к капсуле. Содержит: Сердечный элемент	Walking past the Crystal Gordo geyser you can see a wide arch, and next to it the descent to the pod. Contains: Heart Cell
+Под кристальным гордо, есть гейзер, поднимитесь на нём на равнину выше. Там будет небольшой подъём справа, который ведёт к горячим источникам. Там, можно увидеть два водопада, за одним из которых и находится капсула. Содержит: Золотая статуя удильщика	Under the Crystal Gordo there is a geyser; ride it up to the plain above. There is a small climb on the right leading to the hot springs. There you can see two waterfalls; the pod is behind one of them. Contains: Gold Angler Statue
+Нужно использовать гейзеры, чтобы подняться на платформу с капсулой. Содержит: Колокольчики	Use the geysers to get up onto the platform with the pod. Contains: Wind Chimes
+Выйдя из маленькой пещеры у моря, нужно передвигаться по выступам, пока не будет видна капсула в углу. Содержит: Лампа в оранжерею	Leaving the small cave by the sea, move along the ledges until you see the pod in the corner. Contains: Conservatory Lamp
+Лопнув скалистого гордо в пещере, появляется гейзер, используя который можно выбраться на поверхность и найти капсулу. Содержит: Привод реактивного ранца	After popping the Rock Gordo in the cave a geyser appears; use it to get to the surface and find the pod. Contains: Jetpack Drive
+Войдя в скрытый проход, нужно взобраться наверх с помощью булыжников перед входом в пещеру и невысоких кипарисов. Содержит: Каменная лампа «Яйцо»	Entering the hidden passage, climb up using the boulders in front of the cave entrance and the low cypresses. Contains: «Egg» Stone Lamp
+Обойдя портал на Радужные поля, можно увидеть спуск к каменной двери, требующей плорт нетопырька. После вставки плорта в статую открывается путь к пещере, в центре которой за колонной находится капсула. Содержит: Накопительный элемент	Going around the portal to the Rainbow Fields you can see a descent to a stone door that needs a batty plort. After putting the plort into the statue the way to a cave opens; the pod is behind a column in its middle. Contains: Storage Cell
+Войдя со стороны телепорта в приливные бассейны, нужно залезть на холм у входа, чтобы добраться до разрушенной колонны с капсулой внутри. Содержит: Приманка для плотоядных слаймов	Coming from the teleporter to the tide pools, climb the hill at the entrance to reach the ruined column with the pod inside. Contains: Meat-eater Slime Bait
+Пройдя до гейзера в центре полукруга неподалёку от поискового дрона, выше можно заметить высокую колонну, внутри которой и находится капсула. Содержит: Рывковая площадка	Walk to the geyser in the middle of the semicircle near the research drone; above you can see a tall column with the pod inside. Contains: Dash Pad
+Выйдя из разрушенной колонны и повернув в сторону кубничного дерева, можно увидеть прямой путь к капсуле в углу. Содержит: Группа янтарных кипарисов	Leaving the ruined column and turning towards the cuberry tree you can see a straight way to the pod in the corner. Contains: Amber Cypress Group
+Увидев табличку с предупреждением об опасности, нужно залезть на возвышенность слева от неё, чтобы увидеть капсулу за розовым кораллом. Содержит: Огромная чашка	When you see the danger warning sign, climb the hill on its left to see the pod behind the pink coral. Contains: Giant Cup
+Обойдя высокую арку из голубого коралла, можно увидеть обрыв, под которым находится небольшое углубление с капсулой, куда также ведёт спуск. Содержит: Тачка	Going around the tall blue coral arch you can see a cliff with a small hollow with the pod below it; a descent also leads there. Contains: Wheelbarrow
+Осмотревшись вокруг бассейна с светящейся травой, можно увидеть тропинку за водопадом, пройдя по которой можно попасть в пещеру с гейзером, ведущую к бассейну с капсулой в дальнем углу. Содержит: Вакотсек	Looking around the pool with glowing grass you can see a path behind the waterfall leading to a geyser cave and on to the pool with the pod in the far corner. Contains: Vac Tank
+За вратами удильщика-слайма Содержит: Модуль меткого выстрела	Behind the angler slime doors Contains: Power Shot Module
+Недалеко от входа в пещеру есть башенка из бассейнов с магмой, забравшись на которую можно увидеть капсулу. Содержит: Серое варп-хранилище	Not far from the cave entrance there is a little tower of magma pools; climb it to see the pod. Contains: Grey Warp Depot
+Двигаясь по тропинке со стороны пещеры с пальмами, можно наткнуться на небольшой мост, ведущий к проходу за заросшей листвой наверху. Содержит: Приманка для фруктоядных слаймов	Following the path from the palm cave you come across a small bridge leading to a passage behind the overgrown foliage above. Contains: Fruit-eater Slime Bait
+Двигаясь вперёд со стороны пещеры бум-гордо, можно наткнуться на скалу с пальмой, используя которую можно подняться на выступ с капсулой. Содержит: Средняя пальма	Moving forward from the Boom Gordo cave you come across a cliff with a palm; use it to get onto the ledge with the pod. Contains: Medium Palm
+Двигаясь по реке лавы со стороны лавопада, можно увидеть развилку, которую разделяет скала, на которой есть выступ с капсулой. Содержит: Крупный сгусток магмы	Moving along the lava river from the lavafall you can see a fork split by a rock with a ledge holding the pod. Contains: Large Magma Clump
+Двигаясь в сторону лавопада и спустившись к реке лавы, рядом с гейзером можно увидеть платформу с капсулой. Содержит: Бассейн с магмой	Moving towards the lavafall and going down to the lava river, you can see a platform with the pod next to the geyser. Contains: Magma Pool
+Спустившись с руин в сторону вулканической зоны, можно сразу увидеть обрыв. Содержит: Цветы в горшках	Going down from the ruins towards the volcanic area you can see the cliff right away. Contains: Potted Flowers
+Используя выступы вокруг пещеры в конце приливных бассейнов, можно подняться к руинам с телепортом в Сыпучие обрывы. Поднявшись, можно использовать стены и колонны руин, чтобы добраться до возвышенности с капсулой в углу. Содержит: Золотая статуя курицы	Use the ledges around the cave at the end of the tide pools to get up to the ruins with the teleporter to the Powderfall Bluffs. Up there, use the walls and columns of the ruins to reach the hill with the pod in the corner. Contains: Gold Chicken Statue
+Пройдясь по длинному мосту со стороны портала на побережье Звёздного Света и спустившись вниз, справа можно увидеть небольшую пещеру. Содержит: Изумрудный кипарис	Walk across the long bridge from the portal to the Starlight Strand and go down; on the right you can see a small cave. Contains: Emerald Cypress
+Отойдя влево от входа в пещеру и посмотрев вниз, можно увидеть песчаную дорожку, ведущую в пещеру с капсулой. Содержит: Силовой чип	Step left from the cave entrance and look down to see a sandy path leading into the cave with the pod. Contains: Power Chip
+Поднимаясь вверх по листве деревьев можно взобраться на вершину скалы и оттуда посмотреть на наличие выступа с капсулой под розовым бонсаем. Содержит: Почётное место слайма № 1	Climbing up the tree foliage you can get to the top of the cliff and look from there for a ledge with the pod under the pink bonsai. Contains: Slime of Honor No. 1
+Перемещаясь вверх по холму с дикими мяуровыми хлопковыми ларго, можно почти на вершине залезть на большой булыжник. Содержит: Небольшой валун	Moving up the hill with feral tabby cotton largos, you can climb a big boulder almost at the top. Contains: Small Boulder
+Проходя по протоптанной дорожке со стороны пещеры, слева можно заметить небольшую ямку, окружённую скалами. Содержит: Сердечный элемент	Walking along the trodden path from the cave, on the left you can notice a small pit surrounded by rocks. Contains: Heart Cell
+Пройдя путь по песку в сторону пещеры с порталом, можно увидеть у подножья капсулу. Содержит: Гидротурель	Following the sand towards the cave with the portal you can see the pod at the foot. Contains: Hydro Turret
+Выйдя из пещеры, можно заметить высокую платформу слева. Содержит: Скамейка в оранжерею	Leaving the cave you can notice a high platform on the left. Contains: Conservatory Bench
+Спускаясь в пещеру со стороны таблички, предупреждающей об опасности, нужно сделать пролёт влево. Содержит: Розовое варп-хранилище	Going down into the cave from the danger warning sign, fly to the left. Contains: Pink Warp Depot
+Пройдя мимо портала, можно увидеть недалеко от берега высокую колонну, подлетев к которой понадобится немного пройтись по каменной дорожке. Содержит: Пляжный зонтик	Walking past the portal you can see a tall column not far from the shore; after flying to it you need to walk a bit along the stone path. Contains: Beach Umbrella
+Выйдя из длинной пещеры и свернув направо, можно заметить выступ слева, взобравшись на который можно дойти до капсулы. Содержит: Флажок «Овощи»	Leaving the long cave and turning right you can notice a ledge on the left; climb it and walk to the pod. Contains: «Veggies» Flag
+В конце арочной террасы есть разрушенная конструкция с треугольным отверстием в центре, на вершине которой можно приметить капсулу. Содержит: Флажок «Фрукты»	At the end of the arched terrace there is a ruined structure with a triangular hole in the middle; the pod is on top of it. Contains: «Fruits» Flag
+Выйдя из пещеры со стороны оранжереи и повернув налево, можно увидеть высокую скалу, один из выступов которой зарос бордовой листвой. Содержит: Флажок «Мясо»	Leaving the cave from the Conservatory side and turning left you can see a tall cliff with one ledge overgrown with maroon foliage. Contains: «Meat» Flag
+Спустившись вниз и осмотрев пространство под порталом, можно заметить углубление, в котором и находится капсула. Содержит: Качели	Go down and look around the space under the portal to notice a hollow with the pod. Contains: Swing
+Дойдя в конце приливных бассейнов до подъёма к синим кораллам, можно увидеть справа от неё узкую тропинку вниз. Пройдя до конца тропинки, нужно повернуть налево и войти в небольшое отверстие к капсуле. Содержит: Садовая арка	At the end of the tide pools, at the climb to the blue corals, you can see a narrow path down on the right. Walk to its end, turn left and enter the small opening to the pod. Contains: Garden Arch
+Пролетев из зоны синих кораллов на остров, нужно пройти через арку до первой скалы справа, а затем обойти её. Содержит: Пляжная лампа	Fly from the blue coral area to the island, walk through the arch to the first cliff on the right and go around it. Contains: Beach Lamp
+Пройдя вперёд со стороны ущелья с трещиной в земле, можно увидеть развилку в большую зону синих кораллов и небольшую с красными, а между ними широкая скала, за которой находится капсула. Содержит: Каменная колонна с берега	Moving forward from the gorge with a crack in the ground you can see a fork into a big blue coral area and a small red one, with a wide rock between them; the pod is behind it. Contains: Shore Stone Column
+Пролетев с острова обратно, нужно идти вперёд и всё время смотреть вправо, пока не появится подъём из блоков с лазурной травой. Дальше нужно просто идти по ним, пока не появится телепорт, а затем повернуться вправо к капсуле. Содержит: Радостная статуя	Flying back from the island, walk forward looking right until you see a climb of blocks with azure grass. Walk along them until the teleporter appears, then turn right to the pod. Contains: Joyful Statue
+Двигаясь со стороны портала на Радужные поля влево, заметен высокий заросший выступ. Забравшись на него, следует повернуться направо и двигаться вперёд до небольшой платформы с древесной аркой, за которой находится капсула. Содержит: Фиолетовое варп-хранилище	Moving left from the portal to the Rainbow Fields you notice a tall overgrown ledge. Climb it, turn right and move forward to a small platform with a wooden arch; the pod is behind it. Contains: Purple Warp Depot
+Попав на лазурную сторону побережья и увидев огромный вход из кубов с круглым отверстием в центре, нужно повернуть направо, чтобы увидеть рядом с источником воды тропинку, которая заворачивает за скалу в сторону капсулы. Содержит: Обычный вентилятор	On the azure side of the coast, when you see the huge entrance of cubes with a round hole in the middle, turn right to see a path by the water source that turns behind the rock towards the pod. Contains: Regular Fan
+Пройдя мимо пещеры медового гордо в сторону приливных бассейнов, сделайте поворот влево и идите до трещины в земле. Справа, рядом с погофруктовым деревом, находится скала, на которой расположена капсула. Содержит: Приманка для овощеядных слаймов	Walk past the Honey Gordo cave towards the tide pools, turn left and walk to the crack in the ground. On the right, next to the pogofruit tree, is a rock with the pod on it. Contains: Veggie-eater Slime Bait
+Пройдя обратно до выхода из пещеры, можно увидеть руинный выступ на скале. Запрыгнув на него, нужно посмотреть в обратную сторону и вниз, чтобы увидеть платформу у моря. Попав на неё, можно увидеть капсулу в кораллах. Содержит: Обшивка для отсеков	Walking back to the cave exit you can see a ruined ledge on the cliff. Jump onto it and look back and down to see a platform by the sea. Get onto it to see the pod in the corals. Contains: Tank Liner
+Лопнув медового гордо, появляется проход вниз. Войдя в него, нужно повернуть направо и пройти до фосфорной статуи. Содержит: Высокие розовые коралловые колонны	After popping the Honey Gordo a passage down appears. Enter it, turn right and walk to the phosphor statue. Contains: Tall Pink Coral Columns
+Пройдя мимо пещеры медового гордо в сторону приливных бассейнов, сделайте поворот в сторону арки из скал. Добравшись берега, пролетите к дальней части арки, а затем поднимайтесь вверх, пока не будет видна капсула. Содержит: Мшистая статуя курицы	Walk past the Honey Gordo cave towards the tide pools and turn towards the rock arch. Reaching the shore, fly to the far part of the arch, then climb up until you see the pod. Contains: Mossy Chicken Statue
+Войдя в пещеру двуцветного дерева, нужно двигаться вперёд, пока не появиться выход с левой стороны. На противоположной стороне от выхода находится небольшой выступ, на котором и расположена капсула. Содержит: Переплетение корней	Entering the two-colored tree cave, move forward until an exit appears on the left. Opposite the exit there is a small ledge with the pod. Contains: Root Tangle
+Увидев огромное двуцветное дерево, нужно обойти его с розовой стороны, чтобы увидеть капсулу у дыры в пещеру. Содержит: Модуль сапог-скороходов	When you see the huge two-colored tree, go around it on the pink side to see the pod by the hole into the cave. Contains: Dash Boot Module
+Проходя по розовой стороне между двуцветным деревом и концом побережья, можно увидеть холм, на вершине которого расположен небольшой бассейн с капсулой в углу. Содержит: Золотая статуя порхающего слайма	Walking on the pink side between the two-colored tree and the end of the coast, you can see a hill with a small pool on top and the pod in the corner. Contains: Gold Flutter Slime Statue
+Вставив плорт охотника в статую на огромном входе, внизу открывается дверь в комнату с капсулой. Содержит: Ловушка на гордо для начинающих	Putting a hunter plort into the statue at the huge entrance opens a door below into the room with the pod. Contains: Beginner's Gordo Snare
+Пройдя огромный вход, нужно повернуться направо, подняться вверх и дойти до дерева на краю обрыва. Дойдя до него, можно заметить слева заросшую листву над выступом с капсулой. Содержит: Золотая статуя хлопкового слайма	Walk through the huge entrance, turn right, go up and walk to the tree at the cliff edge. There you can notice overgrown foliage on the left above the ledge with the pod. Contains: Gold Cotton Slime Statue
+Спустившись к приливным бассейнам в конце лазурной стороны побережья, сверните на тропинку с гейзером и дойдите до двери. Войдя поверните направо и поднимитесь на колонну посреди пещеры. Содержит: Высокий фиолетовый витой гриб	Going down to the tide pools at the end of the azure side of the coast, take the path with the geyser and walk to the door. Inside, turn right and climb the column in the middle of the cave. Contains: Tall Purple Twisted Mushroom
+Выйдя из пещеры сбоку от кольца, можно сразу же увидеть маленькую дорожку из блоков вверх, в конце которой нужно спуститься к капсуле. Содержит: Лазурный мангр	Leaving the cave beside the ring you can immediately see a small path of blocks going up; at its end go down to the pod. Contains: Azure Mangrove
+Вернувшись к приливным бассейнам лазурной стороны побережья, нужно обойти слева двойную арку из синего коралла, чтобы увидеть подъём к капсуле на выступе между кораллами. Содержит: Силовой чип	Back at the tide pools of the azure side of the coast, go around the double blue coral arch on the left to see the climb to the pod on the ledge between the corals. Contains: Power Chip
+Пройдя вправо со стороны входа в пещеру порхающего гордо, можно увидеть возвышенность, на которой расположена огромная слаймовая статуя, сзади которой находится вход в пещеру вниз. В конце пещеры расположена капсула. Содержит: Пружинная площадка	Going right from the Flutter Gordo cave entrance you can see a hill with a huge slime statue; behind it is a cave entrance going down. The pod is at the end of the cave. Contains: Bounce Pad
+Пройдя вперёд со стороны входа в пещеру порхающего гордо, можно увидеть большой проход из блоков, пройдя который можно увидеть возвышенность с капсулой в углу. Содержит: Звездоцветы	Moving forward from the Flutter Gordo cave entrance you can see a big passage of blocks; go through it to see a hill with the pod in the corner. Contains: Starblooms
+Проходя со стороны холма к порталу кольцехвостого гордо, можно увидеть большую дыру вниз, в пещеру с удильщик-гордо. Спустившись в неё, нужно пройти влево, пока не будет видна капсула за колонной. Содержит: Грибница	Coming from the hill to the Ringtail Gordo portal you can see a big hole down into the Angler Gordo cave. Go down, then left until you see the pod behind a column. Contains: Mushroom Patch
+Пройдя мимо портала кольцехвостого гордо направо, нужно пройти мимо небольшой руинной арки и до самого холма в конце, рядом с ним находится источник воды. Добравшись до холма, взобраться на вершину. Содержит: Обшивка для отсеков	Walk past the Ringtail Gordo portal to the right, past a small ruined arch, all the way to the hill at the end with a water source next to it. Reach the hill and climb to the top. Contains: Tank Liner
+Лопнув фосфорного гордо, открывается путь к пещере. Содержит: Камень с берега	Popping the Phosphor Gordo opens the way to the cave. Contains: Shore Stone
+Выйдя из пещеры с порталом, можно увидеть зону, в конце которой находятся сложенные друг на друга скалы. Содержит: Бумбокс	Leaving the cave with the portal you can see an area with rocks stacked on top of each other at the end. Contains: Boombox
+Находится в конце нижней дорожки за большим огненным цветком. Рядом с капсулой растёт огненный цветок. Содержит: Огненный цветок	At the end of the lower path behind the big fire flower. A fire flower grows next to the pod. Contains: Fire Flower
+Находится в углублении под островком, к которому можно попасть с помощью призрачной дорожки вечером, начало которой находится на острове красных деревьев. Содержит: Северносияющие цветы	In a hollow under the islet reachable in the evening by the ghostly path that starts on the red tree island. Contains: Aurora Flowers
+Войдя в комнату с вратами к телепорту в Сыпучие обрывы, справа от них можно увидеть капсулу. Содержит: Высокий янтарный кипарис	Entering the room with the doors to the Powderfall Bluffs teleporter, you can see the pod on their right. Contains: Tall Amber Cypress
+Пройдя на юг от бассейна со светящейся травой и пролетев за скалу, можно увидеть капсулу. Содержит: Ускоритель	Go south from the glowing grass pool and fly behind the rock to see the pod. Contains: Accelerator
+Обойдя телепорт внутри руинной колонны, за ним можно увидеть круглую платформу с деревом и кустами внизу. Внутри неё капсула. Содержит: Стеклянный шкаф	Going around the teleporter inside the ruined column you can see a round platform behind it with a tree and bushes below. The pod is inside it. Contains: Glass Cabinet
+Пройдя по тропинке из розово-красной травы от руин с телепортом в Сыпучие руины, внизу можно увидеть огромный руинный купол, за которым находится капсула. Содержит: Карусель	Following the pink-red grass path from the ruins with the Powderfall teleporter, below you can see a huge ruined dome; the pod is behind it. Contains: Carousel
+Двигаясь на юго-запад от развилки реки лавы, можно увидеть зону с очередной рекой лавы, в начале которой и спрятана капсула. Содержит: Золотая статуя дервиша	Moving south-west from the lava river fork you can see an area with another lava river; the pod is hidden at its beginning. Contains: Gold Dervish Statue
+Пройдя зону с двойной аркой, можно увидеть руинное побережье. Если двигаться всё время у стены, то можно попасть в пещеру с капсулой. Содержит: Пушка для трюков	After the area with the double arch you can see the ruined coast. Keep moving along the wall to get into the cave with the pod. Contains: Stunt Cannon
+Пролетев мимо арки со стороны руинного берега, можно увидеть руины. Если подняться по стене, то в конце пути можно увидеть капсулу. Содержит: Колесо обозрения	Flying past the arch from the ruined shore you can see ruins. Climb up the wall and you will see the pod at the end of the way. Contains: Ferris Wheel
+Пролетев на юг с кораллового острова, можно попасть на небольшой остров, на вершине которого расположена капсула. Содержит: Золотая статуя вьюнка	Flying south from the coral island you reach a small island with the pod on top. Contains: Gold Tangle Statue
+Поднявшись по арке в виде наклонённого ствола дерева, нужно повернуть направо и спуститься вниз, к капсуле. Содержит: Солнечный сок ×3	Climb the arch shaped like a leaning tree trunk, turn right and go down to the pod. Contains: Sun Sap ×3
+Находится прямо возле телепорта под крупным сталактитом.(Появляется после активации портала) Содержит: странный алмаз, 3 желейных камня, 2 насыщенных солевых раствора	Right by the teleporter under a big stalactite. (Appears after the portal is activated) Contains: strange diamond, 3 jelly stones, 2 deep brines
+Находится прямо перед телепортом в побережье Звёздного Света. (Появляется после активации портала) Содержит: странный алмаз, 3 желейных камня, 2 насыщенных солевых раствора	Right in front of the teleporter to the Starlight Strand. (Appears after the portal is activated) Contains: strange diamond, 3 jelly stones, 2 deep brines
+После взрыва кристального гордо на гейзере подлететь на гору. Содержит: Странный алмаз х1; Шелковистый песок х2; Лучистая руда х3	After popping the Crystal Gordo, fly up the mountain on the geyser. Contains: Strange Diamond ×1; Silky Sand ×2; Radiant Ore ×3
+Сразу за гордо нетопырька-слайма. Содержит: Странный алмаз 1х; Пранефть 3х; Лавовый пепел 2х	Right behind the Batty Gordo. Contains: Strange Diamond ×1; Primordy Oil ×3; Lava Dust ×2
+Открывает доступ к телепорту на побережье Звёздного Света	Opens access to the teleporter to the Starlight Strand
+Открывает доступ к телепорту в Тлеющую долину.	Opens access to the teleporter to the Ember Valley.
+Точка из данных игры: 	Point from game data: 
+. Ресурс появляется не всегда.	. The resource does not always appear.
+ Вики: 	 Wiki: 
+Окаменелость слайма	Slime Fossil
+Оловянный лепесток	Tin Petal
+мяуровый	tabby
+скалистый	rock
+бум	boom
+удильщик	angler
+нетопырь	batty
+двойняшка	twin
+теневой	shadow
+сламбер	sloomber
+охотник	hunter
+медовый	honey
+фосфорный	phosphor
+розовый	pink
+порхающий	flutter
+Точка появления только лучистых слаймов (данные игры). Появление не гарантировано.	Spawn point of radiant slimes only (game data). Spawning is not guaranteed.
+Вложите 	Insert a 
+ плорт. Открывает: врата плортов в 	 plort. Opens: plort doors at 
+ плорт.	 plort.
+Нужно 	Needs 
+ плортов. Открывает: теневые врата в 	 plorts. Opens: shadow doors at 
+ плортов. Открывает: сборщик теневых плортов в 	 plorts. Opens: shadow plort collector at 
+Теневые врата (точка из данных игры). Нужно: приёмник ×	Shadow doors (point from game data). Needs: depositor ×
+Сборщик теневых плортов (точка из данных игры). Нужно: приёмник ×	Shadow plort collector (point from game data). Needs: depositor ×
+Врата плортов (точка из данных игры). Нужно: статуя «	Plort doors (point from game data). Needs: statue «
+Врата плортов (точка из данных игры). Нужно: нет данных.	Plort doors (point from game data). Needs: no data.
+» в 	» at 
+ м; статуя «	 m; statue «
+ в 	 at 
+ м.	 m.
+Ближайшая к отметке вики точка появления слаймов из данных игры (	The game-data slime spawn point closest to the wiki mark (
+ м от отметки).	 m from the mark).
+Примерно, по картинке вики.	Approximate, from the wiki picture.
+Механизм	Mechanism
+Нода карты	Map node
+Телепорт · 	Teleporter · 
+Капсула · 	Pod · 

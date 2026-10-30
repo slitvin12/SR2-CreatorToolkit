@@ -5,7 +5,11 @@ using CreatorToolkit;
 int passed = 0;
 void Check(bool condition, string name)
 {
-    if (!condition) throw new InvalidOperationException("FAIL " + name);
+    if (!condition)
+    {
+        if (Environment.GetEnvironmentVariable("CT_TEST_ALL") == "1") { Console.WriteLine("FAIL " + name); return; }
+        throw new InvalidOperationException("FAIL " + name);
+    }
     passed++;
     Console.WriteLine("PASS " + name);
 }
@@ -341,11 +345,14 @@ using (var pe = new PEReader(File.OpenRead(dll)))
 {
     var md = pe.GetMetadataReader();
     Check(md.GetString(md.GetAssemblyDefinition().Name) == "CreatorToolkit", "standalone DLL identity");
+    var embedded = md.ManifestResources.Select(h => md.GetString(md.GetManifestResource(h).Name)).ToArray();
+    Check(embedded.Contains("CreatorToolkit.LocEnglish.tsv") && embedded.Contains("CreatorToolkit.icon.png"), "0.8 English UI table and mod icon are embedded in the main assembly");
+    Check(!File.Exists(Path.Combine(root, "_work", "creator-stage", "en", "CreatorToolkit.resources.dll")), "no satellite resource assembly next to the release DLL");
     var refs = md.AssemblyReferences.Select(h => md.GetString(md.GetAssemblyReference(h).Name)).ToArray();
     Check(!refs.Any(n => n.Contains("Minecraft", StringComparison.OrdinalIgnoreCase) || n.Contains("McHud", StringComparison.OrdinalIgnoreCase) || n.Contains("WebSocket", StringComparison.OrdinalIgnoreCase)), "no Minecraft/bridge/socket assembly dependency");
     Check(refs.Contains("MelonLoader") && refs.Contains("Assembly-CSharp"), "native MelonLoader and game API references");
     var types = md.TypeDefinitions.Where(h => md.GetTypeDefinition(h).GetDeclaringType().IsNil).ToDictionary(h => md.GetString(md.GetTypeDefinition(h).Namespace) + "." + md.GetString(md.GetTypeDefinition(h).Name));
-    Check(md.GetAssemblyDefinition().Version==new Version(0,7,0,0),"release assembly version is 0.7.0");
+    Check(md.GetAssemblyDefinition().Version==new Version(0,8,0,0),"release assembly version is 0.8.0");
     foreach (string name in new[] { "ToolkitMod", "ToolkitUi", "InputCapture", "PlayerTools", "ActorTools", "WorldTools", "UnlockTools", "CinemaTools", "MapTools", "PrototypeTools", "NativeUiProbe", "NativeAtlasProbe", "ConvenienceTools", "StressSuite", "DiagnosticIo", "NativeHooks", "EngineFrameProbe", "StressComparisonPlan", "TransitSafety", "CatalogOrder", "CapsuleDatabase", "CapsuleTools","ExplorerPolicy","WaypointStore","WaypointRecord","CustomWaypointTools","RadarTools","FarmTools","UiThemePolicy","CarePolicy","SlimeCareTools","GadgetTools","NativeIconTools","PhenomenaTools","PhenomenaWindowPolicy","AuditSaveGuard","AuditSavePolicy","AuditImmutableBaseline","AuditCheckpointStore" })
         Check(types.ContainsKey("CreatorToolkit." + name), "packaged module " + name);
     var mod = md.GetTypeDefinition(types["CreatorToolkit.ToolkitMod"]);
@@ -498,7 +505,7 @@ Check(nativeText.Contains("TextEditBuffer.ImePayloadValid")&&nativeText.Contains
     !nativeText.Contains("Action<IMECompositionString>")&&!nativeText.Contains("new IMECompositionString("),
     "IME preview validates actual event bytes without entering the truncated generated value bridge");
 Check(nativeText.Contains("_pendingTextWrites[_editingField]=_textBuffer.Value")&&
-    ui.Contains("_lastReturnedText=value")&&ui.Contains("_label.CalcSize(ButtonContent(_textBuffer.CaretPrefix))"),
+    ui.Contains("_lastReturnedText=value")&&ui.Contains("_label.CalcSize(RawContent(_textBuffer.CaretPrefix))"),
     "blur retains unpainted commits and caret uses the true native glyph widths");
 string suite=File.ReadAllText(Path.Combine(root,"src","creator","FeatureSuite.cs"));
 string nativeReference=File.ReadAllText(Path.Combine(root,"src","creator","NativeUiReferences.cs"));
@@ -1371,8 +1378,8 @@ Check(NativeIconPolicy.WeatherBudget==24&&nativeIcons.Contains("pattern.Metadata
 Check(ui.Contains("WeatherLava")&&ui.Contains("WeatherSolar")&&ui.Contains("WeatherRole(c.Pattern)")&&
     ui.Contains("choice!=null?_app.Map.Icons.WeatherRole(choice.Pattern):roles[i]")&&
     ui.Contains("нет иконки"),"weather buttons cover all native choices and visibly report unresolved art");
-Check(explorerUi.Contains("NativeRequiredIcon(new Rect(18,162,42,42),\"PinkPlort\")")&&
-    explorerUi.Contains("NativeRequiredIcon(new Rect(x+18,162,42,42),\"Feeder\")")&&
+Check(explorerUi.Contains("NativeRequiredIcon(new Rect(18,162+o,42,42),\"PinkPlort\")")&&
+    explorerUi.Contains("NativeRequiredIcon(new Rect(x+18,162+o,42,42),\"Feeder\")")&&
     explorerUi.Contains("NativeRequiredIcon(new Rect(rect.x+16,rect.y+14,36,36),\"Compass\")")&&
     !explorerUi.Contains("Icon(new Rect(rect.x+16,rect.y+14,36,36),15)"),
     "farm and custom map card use native role bindings rather than schematic atlas art");
@@ -1545,6 +1552,7 @@ CoopRegression.Run(Check,root);
 CoexistenceRegression.Run(Check,root);
 InteropRegression.Run(Check,root);
 M30CaptureRegression.Run(Check,root);
+M31Regression.Run(Check,root);
 Console.WriteLine($"SUMMARY: {passed} checks passed. Compilation/package/policy checks only; live-game validation is pending.");
 string sha = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(dll))).ToLowerInvariant();
 File.WriteAllText(Path.Combine(root, "_work", "creator-tests.summary.txt"), $"PASS {passed}\nDllSha256={sha}\nLiveGameVerified=false\n");

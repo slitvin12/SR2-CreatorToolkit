@@ -211,7 +211,10 @@ internal sealed class CaptureTools
     private int _frames; private float _elapsed, _worst;
     internal string FpsText { get; private set; } = "FPS —";
     internal float FpsValue { get; private set; }
-    private void ResetFpsWindow() { _frames = 0; _elapsed = _worst = 0f; FpsText = "FPS —"; FpsValue = 0f; }
+    // 0.8.0: the themed counter draws value, frame time and spike separately.
+    internal float FpsFrameMs { get; private set; }
+    internal float FpsPeakMs { get; private set; }
+    private void ResetFpsWindow() { _frames = 0; _elapsed = _worst = 0f; FpsText = "FPS —"; FpsValue = FpsFrameMs = FpsPeakMs = 0f; }
     private M25ScalarLease<int> _rateLease, _vsyncLease;
     private bool _limited;
     internal bool Limiting => _limited;
@@ -245,7 +248,12 @@ internal sealed class CaptureTools
         {
             float dt = Time.unscaledDeltaTime;
             if (float.IsFinite(dt) && dt > 0f) { _frames++; _elapsed += dt; if (dt > _worst) _worst = dt; }
-            if (_elapsed >= CapturePolicy.FpsWindow) { FpsText = CapturePolicy.FpsLabel(_frames, _elapsed, _worst); FpsValue = _frames / _elapsed; _frames = 0; _elapsed = _worst = 0f; }
+            if (_elapsed >= CapturePolicy.FpsWindow)
+            {
+                FpsText = CapturePolicy.FpsLabel(_frames, _elapsed, _worst); FpsValue = _frames / _elapsed;
+                FpsFrameMs = _elapsed * 1000f / _frames; FpsPeakMs = _worst * 1000f > FpsFrameMs * 1.5f ? _worst * 1000f : 0f;
+                _frames = 0; _elapsed = _worst = 0f;
+            }
         }
         bool want = CapturePolicy.LimitBackground(BackgroundLimit, WindowFocused(), _app.Benchmark?.Active == true);
         if (want && !_limited) ApplyLimit();

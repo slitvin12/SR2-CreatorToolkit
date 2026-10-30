@@ -10,10 +10,14 @@ using MelonLoader.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "Creator Toolkit", "0.7.0", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
+[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "Creator Toolkit", "0.8.0", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: MelonGame("MonomiPark", "SlimeRancher2")]
-[assembly: AssemblyVersion("0.7.0.0")]
-[assembly: AssemblyFileVersion("0.7.0.0")]
+[assembly: AssemblyVersion("0.8.0.0")]
+[assembly: AssemblyFileVersion("0.8.0.0")]
+// Starlight mod menu (StarlightPackageManager): description, links and the embedded CreatorToolkit.icon.png.
+[assembly: AssemblyDescription("Creator & quality-of-life toolkit: player cheats, spawning, atlas with markers, minimap, camera tools, FPS counter and graphics optimization. Open the menu with Insert.\nНабор создателя: читы игрока, спавн, атлас и метки, миникарта, камера, счётчик FPS и оптимизация графики. Меню — клавиша Insert.")]
+[assembly: AssemblyMetadata("display_version", "0.8.0")]
+[assembly: AssemblyMetadata("source_code", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 // SR2 Mod Manager: hooks shared with these mods were checked together (co-op via Ranching Together).
 [assembly: AssemblyMetadata("SR2ModManager.CompatibleWith", "SR2MP;Starlight;InfiniteHealth")]
 // SR2 Mod Manager: every Harmony hook is cooperative - Priority.Last, no transpilers/finalizers, cancelling prefixes only
@@ -25,7 +29,7 @@ namespace CreatorToolkit;
 public sealed class ToolkitMod : MelonMod
 {
     internal static ToolkitMod I;
-    internal const string Version = "0.7.0";
+    internal const string Version = "0.8.0";
     internal readonly InputCapture Input = new();
     internal PlayerTools Player;
     internal MultiplayerBridge Coop; // Ranching Together (SR2MP) co-op rules; inert without the mod.
@@ -129,6 +133,7 @@ public sealed class ToolkitMod : MelonMod
         _diagnosticIo=new DiagnosticIo(DataDirectory);
         HookCoexistence.Configure(HarmonyInstance,this); // Before any hook install: tracks our patches so faults withdraw only them.
         ModInterop.Configure(this); // Known third-party mods (by name, reflection only) and slot-limit mods.
+        StarlightBridge.Configure(this); // 0.8.0: Starlight menus/cheats/pause button, reflection only.
         AuditSaveGuard.Configure(DataDirectory);
         int saveHooks=AuditSaveGuard.Install(HarmonyInstance); // Before audit recovery or any opt-in boot.
         Coop = new MultiplayerBridge(this);
@@ -176,8 +181,8 @@ public sealed class ToolkitMod : MelonMod
             ("gadget placement",Gadgets.Tick),("native phenomena",Phenomena.Tick),("graphics optimization",Optimization.Tick),
             ("corral autofeed",AutoFeed.Tick),("compass markers",Compass.Tick)};
         _alwaysTicks=new (string,Action)[]{("cinematic rate",CinematicRate.Tick),("navigation settings",Navigation.Tick),("atlas",Map.Tick),("minimap terrain",MiniMapTerrain.Tick),("selftest",Tests.Tick),("native atlas probe",MapProbe.Tick),
-            ("native UI probe",UiProbe.Tick),("M15 slider probe",SliderProbe.Tick),("functional suite",Audit.Tick),("hook coexistence",HookCoexistence.Tick),("mod interop",ModInterop.Tick)};
-        _m30Ticks=new (string,Action)[]{("capture",Capture.Tick),("save names",SaveNames.Tick)}; // every frame, main menu too
+            ("native UI probe",UiProbe.Tick),("M15 slider probe",SliderProbe.Tick),("functional suite",Audit.Tick),("hook coexistence",HookCoexistence.Tick),("mod interop",ModInterop.Tick),("starlight bridge",StarlightBridge.Tick)};
+        _m30Ticks=new (string,Action)[]{("capture",Capture.Tick),("save names",SaveNames.Tick),("ui language",Loc.Tick)}; // every frame, main menu too
         _lateTicks=new (string,Action)[]{("drone panel layout",DronePanels.LateTick)};
         _m30LateTicks=new (string,Action)[]{("camera fov",Capture.LateTick)};
         _m28LateTicks=new (string,Action)[]{("drone toggle",DroneToggle.LateTick),("compass icons",Compass.LateTick),("player marker",PlayerMarker.LateTick)};
@@ -280,10 +285,17 @@ public sealed class ToolkitMod : MelonMod
     private void DrawGui()
     {
         if (_ui == null) return;
+        _ui.SyncLanguage();
         if(MenuOpen&&NativeUiPriority.HasNativeFocus)YieldToNativeUi();
         if(Ready&&_ui.OwnedTextureCount==0&&Event.current?.type==EventType.Repaint)
         {
             try{_ui.InitializeReadyGui();}catch(Exception e){Fail("UI initialization",e);return;}
+        }
+        if (!MenuOpen&&StarlightBridge.MenuOpen)
+        {
+            // A Starlight menu is on screen: our overlays step aside, only the FPS counter stays.
+            try { _ui.DrawFpsCounter(); } catch(Exception e) { Fail("FPS counter",e); }
+            return;
         }
         if (!MenuOpen)
         {
@@ -295,6 +307,8 @@ public sealed class ToolkitMod : MelonMod
         catch (Exception e) { Tests?.GuiFailed(e); Fail("GUI", e); CloseMenu(); }
         try { _ui.DrawFpsCounter(); } catch(Exception e) { Fail("FPS counter",e); }
     }
+
+    public override void OnSceneWasLoaded(int buildIndex,string sceneName)=>Loc.SceneLoaded(sceneName);
 
     public override void OnSceneWasUnloaded(int buildIndex,string sceneName)
     {
@@ -693,6 +707,10 @@ public sealed class ToolkitMod : MelonMod
                     case "atlasrefresh": if(Ready) Map.RefreshIndex(); break;
                     case "atlasreturn": if(Ready) Map.Return(); break;
                     case "capture": ScreenCapture.CaptureScreenshot(Path.Combine(DataDirectory,"capture.png")); break;
+                    case "lang-en": Loc.SetOverride("en"); break;
+                    case "lang-ru": Loc.SetOverride("ru"); break;
+                    case "lang-auto": Loc.SetOverride(null); break;
+                    case "loc-misses": Notify("Loc: " + Loc.MissCount + " → " + Loc.DumpMisses(Path.Combine(DataDirectory,"loc-misses.txt"))); break;
                     default:
                         if(command.StartsWith("menu-tab ",StringComparison.Ordinal)&&int.TryParse(command.Substring(9),out int menuTab)&&menuTab>=0&&menuTab<ToolkitUi.TabCount)
                         {NavigateMenu(command,()=>_ui.ShowPage(menuTab));break;}
@@ -742,6 +760,7 @@ public sealed class ToolkitMod : MelonMod
         details.Append(NativeUiPriority.Diagnostics());
         details.Append(InfiniteBuildHooks.Diagnostics());
         details.Append(Capture.Diagnostics());details.Append(FreePlacement.Diagnostics());details.Append(SaveNames.Diagnostics());
+        details.Append(StarlightBridge.Diagnostics());details.Append("UiLanguage: ").Append(Loc.English?"en":"ru").Append(" locale=").Append(Loc.LocaleCode).Append(" override=").Append(Loc.Override??"-").Append(" strings=").Append(Loc.TableSize).Append(" misses=").Append(Loc.MissCount).Append('\n');
         details.Append(M26AcceptanceCore.Diagnostics(this,_ui));details.Append(M26AcceptanceIpc.Diagnostics(this,_ui));
         details.Append(M27AcceptanceIpc.Diagnostics(this,_ui));
         details.Append(M28TestIpc.Diagnostics(this));

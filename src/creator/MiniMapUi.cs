@@ -120,7 +120,7 @@ internal sealed partial class ToolkitUi
             Vector2 Project(float dx,float dz)=>new(center.x+(dx*cos-dz*sin)*scale,center.y-(dx*sin+dz*cos)*scale);
             // North marker on the rim.
             var north=Project(0,range);
-            GUI.Label(new Rect(north.x-14,north.y-14,28,28),"С",_badge);
+            L.Label(new Rect(north.x-14,north.y-14,28,28),"С",_badge);
             // M28: the native player marker's view cone sits under the point icons, as on the atlas.
             var playerMarker=_app.PlayerMarker;
             playerMarker?.Draw(center,radius,true,turn);
@@ -138,7 +138,7 @@ internal sealed partial class ToolkitUi
                     else if(!FandomIcon(icon,FandomMapMarkers.IconFor(point)))Fill(new Rect(at.x-3,at.y-3,6,6),new Color(.8f,1f,.94f,.9f));
                 }
                 if(point.ExactHeight&&Math.Abs(point.Position.y-player.y)>6f)
-                    GUI.Label(new Rect(at.x+6,at.y-14,16,16),point.Position.y>player.y?"↑":"↓",_badge);
+                    L.Label(new Rect(at.x+6,at.y-14,16,16),point.Position.y>player.y?"↑":"↓",_badge);
             }
             // Player: the copied native marker (portrait, ring, pin) or, before the first copy, an arrow along the view.
             if(playerMarker==null||!playerMarker.Draw(center,radius,false,turn))
@@ -148,7 +148,7 @@ internal sealed partial class ToolkitUi
                     M27MiniMapPolicy.PivotTranslation(center.x,center.y,turn,out double ax,out double ay);
                     GUI.matrix=Matrix4x4.TRS(new Vector3((float)ax,(float)ay,0f),Quaternion.Euler(0f,0f,turn),Vector3.one);
                 }
-                GUI.Label(new Rect(center.x-14,center.y-16,28,28),"↑",_badge);
+                L.Label(new Rect(center.x-14,center.y-16,28,28),"↑",_badge);
                 GUI.matrix=Matrix4x4.identity;
             }
             // M29: captions sit on a parchment chip (the HUD panel surface), centred under the map and kept
@@ -159,7 +159,7 @@ internal sealed partial class ToolkitUi
                 float chipWidth=Mathf.Min(_muted.CalcSize(caption).x+24f,Screen.width-16f);
                 float chipX=Mathf.Clamp(center.x-chipWidth/2f,8f,Mathf.Max(8f,Screen.width-8f-chipWidth));
                 DrawRoundedSurface(new Rect(chipX,y,chipWidth,26f),_hudFrame.normal.background,12f);
-                GUI.Label(new Rect(chipX+12f,y+1f,chipWidth-16f,24f),caption,_muted);
+                L.Label(new Rect(chipX+12f,y+1f,chipWidth-16f,24f),caption,_muted);
                 return y+30f;
             }
             float below=Caption(M29NavigationSettings.Metres(range)+" · слоёв атласа: "+map.Visible.Count+(look.NorthUp?" · север":""),box.yMax);

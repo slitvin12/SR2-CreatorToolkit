@@ -52,7 +52,7 @@ internal static class ModInteropPolicy
         K("Dynamic HUD", 123, Role.Hud, false, "DynamicHud"),
         K("Cube Slimes", 14, Role.Time, false, "CubeSlimes"),
         K("Ranching Together", 118, Role.Multiplayer, false, "SR2MP", "Multiplayer - Ranching Together"),
-        K("Starlight", 60, Role.Framework, false, "SR2E", "Starlight (formerly SR2E)"),
+        K("Starlight", 60, Role.Framework, false, "SR2E", "Starlight (formerly SR2E)", "Starlight Core Essentials"),
     };
 
     /// «Vacuum Modifications», «VacuumModifications» and «vacuum-modifications» are the same key.

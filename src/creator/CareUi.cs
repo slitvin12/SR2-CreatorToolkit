@@ -47,7 +47,7 @@ internal sealed partial class ToolkitUi
         try
         {
             if(_refineryPage){RefineryPage(area);return;}
-            GUI.Label(new Rect(0, 0, area.width - 480, 34),
+            L.Label(new Rect(0, 0, area.width - 480, 34),
                 _creationSection == 1 ? "Забота о слаймах · до 25 м" : "Штатные гаджеты и декорации", _heading);
             CreationNavigation(area.width);
             if (_creationSection == 1) CarePage(area.width);
@@ -64,14 +64,14 @@ internal sealed partial class ToolkitUi
             _app.Queue("slime inspector", () => tools.SetInspect(!tools.Inspect));
         if (Button(new Rect(careButtonWidth+12, 52, careButtonWidth, 42), "Обновить рядом", _button)) _app.Queue("slime inspection", tools.ScanNow);
         if (Button(new Rect(2*(careButtonWidth+12), 52, careButtonWidth, 42), "Накормить вокруг…", _accentButton)) tools.RequestFeed();
-        GUI.Label(new Rect(0, 108, width, 46),
+        L.Label(new Rect(0, 108, width, 46),
             "Любимая еда берётся из выбранного слота: до 8 порций, одна на голодного слайма. "+
             "Штатные сон, сытость и препятствия учитываются; новая еда не выдаётся.", _muted);
-        GUI.Label(new Rect(0, 165, width * .34f, 34), "Слайм / дистанция", _tableHeading);
-        GUI.Label(new Rect(width * .35f, 165, width * .37f, 34), "Любимая еда", _tableHeading);
-        GUI.Label(new Rect(width * .74f, 165, width * .25f, 34), "Голод / возбуждение", _tableHeading);
+        L.Label(new Rect(0, 165, width * .34f, 34), "Слайм / дистанция", _tableHeading);
+        L.Label(new Rect(width * .35f, 165, width * .37f, 34), "Любимая еда", _tableHeading);
+        L.Label(new Rect(width * .74f, 165, width * .25f, 34), "Голод / возбуждение", _tableHeading);
         Rect view = new(0, 207, width, 300);
-        GUI.Box(view, GUIContent.none, _card);
+        L.Box(view, GUIContent.none, _card);
         float careRow=82;
         foreach(var hit in tools.Hits)
         {
@@ -87,20 +87,20 @@ internal sealed partial class ToolkitUi
                 var hit = tools.Hits[i]; float y = i * careRow - _careScroll.y;
                 if (y+careRow<=0 || y>=280) continue;
                 CatalogArt(new Rect(10,y+12,40,40),hit.Reference);
-                GUI.Label(new Rect(60, y + 4, width * .32f - 72, careRow-16), hit.Name + "\n" + hit.Distance.ToString("F1") + " м", _wrap);
+                L.Label(new Rect(60, y + 4, width * .32f - 72, careRow-16), hit.Name + "\n" + hit.Distance.ToString("F1") + " м", _wrap);
                 CatalogArt(new Rect(width*.35f-10,y+12,40,40),hit.FavoriteReference);
                 float foodArt=string.IsNullOrEmpty(hit.FavoriteReference)?0:48;
-                GUI.Label(new Rect(width * .35f - 10+foodArt, y + 4, width * .36f - 20-foodArt, careRow-16), hit.Favorite, _muted);
-                GUI.Label(new Rect(width * .74f - 10, y + 4, width * .22f, careRow-16),
+                L.Label(new Rect(width * .35f - 10+foodArt, y + 4, width * .36f - 20-foodArt, careRow-16), hit.Favorite, _muted);
+                L.Label(new Rect(width * .74f - 10, y + 4, width * .22f, careRow-16),
                     (hit.Hunger * 100).ToString("F0") + "% / " + (hit.Agitation * 100).ToString("F0") +
                     "%\n" + (hit.Hungry ? "Голоден" : "Сыт"), _wrap);
                 Fill(new Rect(12, y + careRow-5, width - 72, 1), new Color(.15f, .85f, .78f, .20f));
             }
-            if (tools.Hits.Count == 0) GUI.Label(new Rect(16, 12, width - 96, 80),
+            if (tools.Hits.Count == 0) L.Label(new Rect(16, 12, width - 96, 80),
                 tools.Inspect ? "Поблизости нет загруженных слаймов с нативными эмоциями." : "Включите инспектор или обновите список вручную.", _muted);
         }
         finally { EndGroup(); }
-        GUI.Label(new Rect(0, 524, width, 60), tools.Status, _muted);
+        L.Label(new Rect(0, 524, width, 60), tools.Status, _muted);
     }
     private void GadgetPage(float width)
     {
@@ -114,7 +114,7 @@ internal sealed partial class ToolkitUi
             _app.Queue("gadget catalog", () => { tools.RefreshCatalog(); _gadgetSelection = null; });
         float left = (width - 18) * .56f, x = left + 18, right = width - x;
         var entries = tools.Catalog.Where(e => e.Search.Contains(_gadgetSearch.Trim().ToLowerInvariant())).ToList();
-        GUI.Box(new Rect(0, 110, left, 402), GUIContent.none, _card);
+        L.Box(new Rect(0, 110, left, 402), GUIContent.none, _card);
         _gadgetScroll = BeginScroll(62, new Rect(10, 120, left - 20, 382), _gadgetScroll, entries.Count * 62, 62);
         try
         {
@@ -126,25 +126,25 @@ internal sealed partial class ToolkitUi
                     _gadgetSelection == entry ? _selectedButton : _button)) _gadgetSelection = entry;
                 if(entry.Definition?.Icon!=null)DrawSprite(new Rect(8,y+7,40,40),entry.Definition.Icon);
                 string count=tools.DisplayCount(entry);
-                GUI.Label(new Rect(58,y,left-138,52),ButtonContent(entry.Name+"  ·  "+count),
+                L.Label(new Rect(58,y,left-138,52),ButtonContent(entry.Name+"  ·  "+count),
                     ButtonTextStyle(ButtonContent(entry.Name+"  ·  "+count),left-138));
             }
-            if (entries.Count == 0) GUI.Label(new Rect(12, 12, left - 80, 110),
+            if (entries.Count == 0) L.Label(new Rect(12, 12, left - 80, 110),
                 "Нет полученных чертежей по этому запросу.\nОбновите каталог; скрытые чертежи мод не открывает.", _muted);
         }
         finally { EndGroup(); }
-        GUI.Box(new Rect(x, 110, right, 402), GUIContent.none, _card);
+        L.Box(new Rect(x, 110, right, 402), GUIContent.none, _card);
         if(_gadgetSelection?.Definition?.Icon!=null)DrawSprite(new Rect(x+18,128,64,64),_gadgetSelection.Definition.Icon);
         float art=_gadgetSelection?.Definition?.Icon!=null?80:0;
-        GUI.Label(new Rect(x + 18+art, 128, right - 36-art, 74), _gadgetSelection?.Name ?? "Выберите гаджет", _heading);
-        GUI.Label(new Rect(x + 18, 214, right - 36, 110),
+        L.Label(new Rect(x + 18+art, 128, right - 36-art, 74), _gadgetSelection?.Name ?? "Выберите гаджет", _heading);
+        Hint(new Rect(x + 18, 214, right - 36, 110),
             "Неподвижная земля перед игроком, нормаль поверхности, полный контакт и отсутствие пересечений. "+
-            "Связанные порталы подчиняются ограничениям игры.", _muted);
+            "Связанные порталы подчиняются ограничениям игры.");
         bool enabled = GUI.enabled; GUI.enabled = enabled && tools.CanPlace(_gadgetSelection);
         if (Button(new Rect(x + 18, 342, right - 36, 52), "Разместить 1 экземпляр…", _accentButton))
             tools.RequestPlace(_gadgetSelection);
         GUI.enabled = enabled;
-        GUI.Label(new Rect(x + 18, 411, right - 36, 83),
+        Hint(new Rect(x + 18, 411, right - 36, 83),
             infinite ? "Бесконечный режим: экземпляр не списывается, Преобразователь не трогается. "+(_app.FreePlacement.Enabled?"Свободная установка: без проверки пересечений и уклона.":"Лимиты и проверки места — штатные.") :
             "Нужен изготовленный экземпляр. Размещение — с подтверждением; удаление и возврат — через штатное строительство.", _muted);
         // Bottom row, outside the detail card: the card has no spare height for a third text block plus a button.
@@ -154,6 +154,6 @@ internal sealed partial class ToolkitUi
         bool free=_app.FreePlacement.Enabled;
         if(Button(new Rect(width-616,522,300,42),CapturePolicy.FreePlacementLabel(free),free?_selectedButton:_button))
             _app.Queue("free placement",()=>_app.FreePlacement.Set(!_app.FreePlacement.Enabled));
-        GUI.Label(new Rect(0, 529, width-632, 60), free?_app.FreePlacement.Status:tools.Status, _muted);
+        L.Label(new Rect(0, 529, width-632, 60), free?_app.FreePlacement.Status:tools.Status, _muted);
     }
 }
