@@ -9,7 +9,7 @@ internal static class M14FollowupRegression
         string Read(string name)=>string.Concat(File.ReadAllText(Path.Combine(root,"src","creator",name)).Where(c=>!char.IsWhiteSpace(c)));
         string ui=Read("ToolkitUi.cs"),host=Read("ToolkitMod.cs"),capsules=Read("CapsuleTools.cs");
         Check(ui.Contains("privateboolCanHover(Rectrect)=>InputEnabled&&PointerWithinGroups()&&rect.Contains(Pointer())"),"hover respects all ancestor clips not just row hitbox");
-        Check(ui.Contains("boolhovered=CanHover(rect)")&&ui.Contains("boolhovered=CanHover(rowRect)"),"buttons and atlas hover use fixed clipped hitboxes");
+        Check(ui.Contains("boolhovered=CanHover(rect)")&&Read("AtlasUi.cs").Contains("hovered=CanHover(row);"),"buttons and atlas hover use fixed clipped hitboxes");
         Check(ui.Contains("InputEnabled&&PointerWithinGroups()&&e!=null&&e.type==EventType.ScrollWheel"),"wheel cannot consume outside an ancestor clip");
         Check(ui.Contains("!ReferenceEquals(_capsuleLayout.View,view)||_capsuleLayout.Width!=viewport.width"),"capsule text layout rebuilds on changed view or width");
         Check(ui.Contains("layout.Extent+=layout.DescriptionHeight;_capsuleLayout=layout;")&&ui.Contains("varheights=_capsuleLayout.Rows;"),"cached content extent includes empty rewards description");

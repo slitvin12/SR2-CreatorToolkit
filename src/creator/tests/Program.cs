@@ -352,7 +352,7 @@ using (var pe = new PEReader(File.OpenRead(dll)))
     Check(!refs.Any(n => n.Contains("Minecraft", StringComparison.OrdinalIgnoreCase) || n.Contains("McHud", StringComparison.OrdinalIgnoreCase) || n.Contains("WebSocket", StringComparison.OrdinalIgnoreCase)), "no Minecraft/bridge/socket assembly dependency");
     Check(refs.Contains("MelonLoader") && refs.Contains("Assembly-CSharp"), "native MelonLoader and game API references");
     var types = md.TypeDefinitions.Where(h => md.GetTypeDefinition(h).GetDeclaringType().IsNil).ToDictionary(h => md.GetString(md.GetTypeDefinition(h).Namespace) + "." + md.GetString(md.GetTypeDefinition(h).Name));
-    Check(md.GetAssemblyDefinition().Version==new Version(0,8,0,0),"release assembly version is 0.8.0");
+    Check(md.GetAssemblyDefinition().Version==new Version(0,8,1,0),"release assembly version is 0.8.1");
     foreach (string name in new[] { "ToolkitMod", "ToolkitUi", "InputCapture", "PlayerTools", "ActorTools", "WorldTools", "UnlockTools", "CinemaTools", "MapTools", "PrototypeTools", "NativeUiProbe", "NativeAtlasProbe", "ConvenienceTools", "StressSuite", "DiagnosticIo", "NativeHooks", "EngineFrameProbe", "StressComparisonPlan", "TransitSafety", "CatalogOrder", "CapsuleDatabase", "CapsuleTools","ExplorerPolicy","WaypointStore","WaypointRecord","CustomWaypointTools","RadarTools","FarmTools","UiThemePolicy","CarePolicy","SlimeCareTools","GadgetTools","NativeIconTools","PhenomenaTools","PhenomenaWindowPolicy","AuditSaveGuard","AuditSavePolicy","AuditImmutableBaseline","AuditCheckpointStore" })
         Check(types.ContainsKey("CreatorToolkit." + name), "packaged module " + name);
     var mod = md.GetTypeDefinition(types["CreatorToolkit.ToolkitMod"]);
@@ -486,9 +486,9 @@ Check(!ui.Contains("GUI.BeginScrollView("), "no stripped native scrollbar path")
 Check(!ui.Contains("GUI.TextField("), "no stripped GUIStateObjects text-editor path");
 Check(!ui.Contains("GUI.FocusControl("), "no stripped focus path on tab/slider interaction");
 Check(!ui.Contains("GUI.DrawTextureWithTexCoords("), "no crashing managed texture-argument wrapper; atlas sprites use native DrawTexture plus clipping");
-Check(!toolkit.Contains("kb.f1Key.wasPressedThisFrame")&&toolkit.Contains("if (kb.insertKey.wasPressedThisFrame)")&&
-    ui.Contains("\"Insert  ·  Esc\"")&&!ui.Contains("\"МИР ЗАГРУЖЕН\"")&&
-    !ui.Contains("SLIME RANCHER 2  ·  мастерская создателя"),"LO header cleanup and Insert-only hotkey are explicit");
+Check(!toolkit.Contains("kb.f1Key.wasPressedThisFrame")&&toolkit.Contains("else if (Hotkey.Pressed(kb)")&&
+    ui.Contains("_app.Hotkey?.Footer??\"Insert  ·  Esc\"")&&!ui.Contains("\"МИР ЗАГРУЖЕН\"")&&
+    !ui.Contains("SLIME RANCHER 2  ·  мастерская создателя"),"LO header cleanup and the configurable (Insert) hotkey are explicit");
 Check(ui.Contains("ammo.GetSlotCount(i)")&&ui.Contains("179, sw, 44")&&
     ui.Contains("DrawRoundedSurface(new Rect(x+14")&&!ui.Contains("_tabIcons"),
     "slot row uses non-overlapping forty-pixel faces and scrollbar uses a scaled capsule, not an egg");
@@ -620,21 +620,22 @@ Check(atlas.Contains("LastTransitSucceeded=false;")&&atlas.Contains("LastTransit
 Check(ui.Contains("(rect.height - 52) / row"),"catalog row viewport reserves its footer hint");
 Check(ui.Contains("MapOverlayLayout.Place(projected,map.MarkerSize)")&&ui.Contains("markerBoxes.Any(r=>r.Overlaps(label))"),"map zone labels avoid exact marker bounds");
 string layerOrderSource=File.ReadAllText(Path.Combine(root,"src","creator","MapLayerOrder.cs"));
+string mapChromeUi=File.ReadAllText(Path.Combine(root,"src","creator","MapChromeUi.cs"));
 Check(layerOrderSource.Contains("internal const int Objects = 7;")&&
-    ui.Contains("var layers=MapLayerOrder.Sorted(MapTools.Categories)")&&
-    ui.Contains("group==0?\"ОБЪЕКТЫ\":\"НАХОДКИ И СПАВНЫ\"")&&
-    ui.Contains("string caption=MapLayerOrder.Short(category)"),
-    "atlas layer panel groups objects before finds and keeps every caption inside the two-column grid");
-Check(ui.Contains("Slider(4,new Rect(16,134,292,28),map.MarkerSize")&&
-    ui.Contains("MapOverlayLayout.MinSize,MapOverlayLayout.MaxSize")&&ui.Contains("map.PanelExpanded?MapLayerOrder.PanelHeight(layers.Length):56"),
-    "atlas exposes one player-facing icon-size slider inside a panel tall enough for every control");
+    mapChromeUi.Contains("MapGroupRow(new Rect(0,y,rowW,46),map,g)")&&mapChromeUi.Contains("MapChipRow(new Rect(0,y,rowW,42),map,chip)")&&
+    mapChromeUi.Contains("_mapLayersScroll=BeginScroll(33,list,_mapLayersScroll,content,44f)"),
+    "«Слои карты» lists the atlas groups, one expanded with its chips, in a scroll list");
+Check(mapChromeUi.Contains("Segmented(new Rect(w-200,sy,182,40),MapSizeTitles,MapChromePolicy.SizeIndex(map.MarkerSize))")&&
+    mapChromeUi.Contains("map.MarkerSize=MapChromePolicy.Sizes[size]")&&
+    MapChromePolicy.Sizes.All(v=>v>=MapOverlayLayout.MinSize&&v<=MapOverlayLayout.MaxSize),
+    "atlas exposes one player-facing icon size S/M/L inside the layout's size range");
 string fandomSource=File.ReadAllText(Path.Combine(root,"src","creator","FandomMapMarkers.cs"));
 Check(fandomSource.Contains("GatherCategory=\"Ресурсы: ценные\";")&&fandomSource.Contains("RareCategory=\"Редкое\";")&&
     layerOrderSource.Contains("FandomGather = \"Ресурсы: ценные\"")&&layerOrderSource.Contains("FandomRare = \"Редкое\""),
     "atlas layer order mirrors the fandom category names instead of drifting from them");
 Check(File.ReadAllText(Path.Combine(root,"src","creator","MapTools.cs")).Contains("Categories={\"Капсулы\",\"Гордо\",\"Телепорты\",\"Ноды карты\",\"Дроны\",\"Ресурсы\",\"Двери\",\"Механизмы\",\"Горшочки\",\"Спавнеры\",FandomMapMarkers.GatherCategory,FandomMapMarkers.RareCategory,MapResourceLayerPolicy.Food,MapResourceLayerPolicy.Plorts}"),
     "offline layer fixtures mirror the fourteen production map categories");
-Check(ui.Contains("markerExclusion.Contains(p)")&&ui.Contains("markers.FindIndex(m=>m.Item==map.Selected)"),"atlas excludes panel margins and draws the selected object above stacked markers");
+Check(ui.Contains("overlayExclusions.Any(r=>r.Contains(p))")&&ui.Contains("markers.FindIndex(m=>m.Item==map.Selected)"),"atlas excludes toolbar margins and draws the selected object above stacked markers");
 Check(ui.Contains("nativeMarkerExclusions.Any(r=>r.Contains(p))")&&ui.Contains("nativeChrome.Any(r=>r.Overlaps(label))"),"atlas marker and label layout reserves native zone titles, counters and zoom controls");
 Check(atlas.Contains("NativeChromeRects.Any(r=>r.Contains(p))")&&!atlas.Contains("rects.AddRange(NativeChromeRects)"),"native map controls exclude teleport gestures without raycast shields that would block their clicks");
 string stress=File.ReadAllText(Path.Combine(root,"src","creator","StressSuite.cs"));
@@ -717,9 +718,9 @@ Check(explorerTests.Contains("Radar / indexed native definitions and loaded acto
     explorerTests.Contains("Farm / indexed loaded native corral device discovery")&&explorerTests.Contains("_app.Radar.QueryDefinitionCount==0"),
     "native fixture tests cover indexed discovery and zero query/device caches after disabling the features");
 string atlasProbe=File.ReadAllText(Path.Combine(root,"src","creator","NativeAtlasProbe.cs"));
-Check(explorerUi.Contains("_radarSelection=slimes.FirstOrDefault(e=>e.Type.ReferenceId==tools.SlimeReference)"),
-    "opening radar settings preserves the actual native selected slime");
-Check(ui.Contains("map.DisplayName(point)")&&ui.Contains("map.DisplayName(map.Selected)")&&
+Check(explorerUi.Contains("var target=tools.Tracked(entry.Type.ReferenceId);")&&explorerUi.Contains("tools.Toggle(chosen)"),
+    "radar tiles show the actual saved targets and toggle them through the radar tools");
+Check(mapChromeUi.Contains("_mapTipTitleText=Loc.T(map.DisplayName(point));")&&mapChromeUi.Contains("string title=map.DisplayName(point);")&&
     atlas.Contains("return view.Baked?view.RewardSummary:view.Title;")&&
     File.ReadAllText(Path.Combine(root,"src","creator","CapsuleTools.cs")).Contains("view.Confirmed=CapsuleTruthPolicy.Confirmed(view.Verification);"),
     "capsule map/sidebar labels use localized version-gated rewards without falsely claiming native verification");
@@ -737,8 +738,8 @@ Check(explorerUi.Contains("y=ExplorerPolicy.NavigationHudTop")&&explorerUi.Conta
     "native directional HUD uses the tested nonoverlapping vertical layout");
 Check(explorerUi.Contains("rect.width-32,104)")&&explorerUi.Contains("Телепорт — через безопасную прогрузку зоны.\",_atlasDetail"),
     "custom marker details use top-aligned readable map text with enough wrapped height");
-Check(ui.Contains("if(hover.Length>0)")&&!ui.Contains("hoveredCapsule==null")&&
-    ui.Contains("!capsuleBounds.Overlaps(left)?left:!capsuleBounds.Overlaps(above)?above:below"),
+Check(ui.Contains("if(hoverPoint!=null)")&&!ui.Contains("hoveredCapsule==null")&&
+    ui.Contains("MapChromePolicy.TipPlace(hoverPos.x,hoverPos.y,_mapTipWidth"),
     "generic map hover tooltips are never suppressed and move clear of a selected capsule or custom-marker card");
 Check(explorerTests.Contains("ExplorerSectionVisibleForTest(3)")&&explorerTests.Contains("Farm proof requires its actual visible settings panel."),
     "native farm screenshot test verifies a visible panel instead of passing a world-only capture");
@@ -793,7 +794,7 @@ Check(suite.Contains("BeginStressMenuReload(bool saveCheckpoint=true,bool armOpt
     "control reloads reuse the owned native checkpoint without explicit save churn");
 Check(stress.Contains("StressCheckpointFingerprint()==_comparisonCheckpointHash")&&suite.Contains("return Hash(Path.Combine(storage.savePath,leaf+\".sav\"))"),
     "control reloads verify immutable owned-checkpoint bytes before and after every native load");
-Check(ui.Contains("_atlasHelp.wordWrap=false")&&ui.Contains("_atlasDetail.fontSize=16")&&ui.Contains("Море и препятствия — отказ."),
+Check(ui.Contains("_atlasHelp.wordWrap=false")&&ui.Contains("_atlasDetail.fontSize=16")&&mapChromeUi.Contains("map.ClickTeleport?\"ЛКМ по суше — телепорт\""),
     "atlas safety help uses two short unwrapped lines instead of a clipped three-line paragraph");
 Check(UiThemePolicy.TextureBudget==16,"native parchment jelly theme has an exact sixteen-texture shared budget");
 double PaletteLuminance(uint rgb,double shade=1)
@@ -1170,7 +1171,7 @@ foreach(var pills in new[]{
     Check(widths.All(w=>float.IsFinite(w)&&w>120f)&&Math.Abs(widths.Sum()+gap*(pills.Length-1)-1100f)<.001f,
         "weighted native pill row stays inside its full container with positive padded widths: "+pills[0]);
 }
-Check(ui.Contains("filterX+=filterW+8f")&&ui.Contains("108+(i/2)*48")&&
+Check(File.ReadAllText(Path.Combine(root,"src","creator","AtlasUi.cs")).Contains("AtlasTextWidth(AtlasGroupPolicy.Groups[index].Title,_atlasGroupText)")&&ui.Contains("108+(i/2)*48")&&
     ui.Contains("sidebar=168")&&ui.Contains("SpawnTiles(")&&suite.Contains("ButtonLabelFitDiagnosticsForTest"),
     "longer native filter labels receive real layout width and each native measured failure names its exact font, padding and face width");
 string nativePriority=File.ReadAllText(Path.Combine(root,"src","creator","NativeUiPriority.cs"));
@@ -1266,7 +1267,7 @@ Check(nativeIcons.Contains("Resources.FindObjectsOfTypeAll<MapMarkerDefinition>(
     "map and reward art borrows original game sprites rather than copying assets or geometric substitutes");
 Check(ui.Contains("Rect iconRect=HoverChildRect(hit,new Rect(p2.x-half,p2.y-half,icon,icon),markerOffset)")&&
     ui.Contains("if(nativeIcon!=null)DrawSprite(iconRect,nativeIcon)")&&
-    ui.Contains("NativeCategoryButton(")&&!ui.Contains("Icon(new Rect(hit.x+4,hit.y+4,36,36),MapIcon"),
+    mapChromeUi.Contains("AtlasChipIcon(new Rect(row.x+30,row.y+5,32,32),chip)")&&!ui.Contains("Icon(new Rect(hit.x+4,hit.y+4,36,36),MapIcon"),
     "native map markers and category filters no longer display handmade pictograms");
 Check(ui.Contains("map.Icons.Reward(reward.Key)")&&ui.Contains("_wrap.CalcHeight(ButtonContent(reward.Title),viewport.width-92)")&&
     ui.Contains("view.Rewards"),"capsule reward cards combine original icons, native titles, counts and measured Cyrillic wrapping");
@@ -1473,7 +1474,7 @@ Check(overlayDraw.IndexOf("map.BeginMapOverlayFrame()",StringComparison.Ordinal)
     overlayDraw.Contains("if(repaint)map.SyncRaycastShields()")&&overlayDraw.Contains("map.SuspendRaycastShields();")&&
     !overlayDraw.Contains("finally{try{if(Event.current"),
     "map shields retire before visibility gates and publish only completed Repaint geometry");
-Check(overlayDraw.Contains("if(repaint)map.OverlayCardRects.Add(new Rect(panel.x*")&&
+Check(overlayDraw.Contains("if(repaint)map.OverlayCardRects.Add(new Rect(toolbar.x*")&&overlayDraw.Contains("if(repaint)map.OverlayCardRects.Add(new Rect(layersRect.x*")&&
     overlayDraw.Contains("if(repaint)map.MarkerHitRects.Add"),
     "shield sources are only actually rendered panel/card/marker hit rectangles");
 
@@ -1553,6 +1554,9 @@ CoexistenceRegression.Run(Check,root);
 InteropRegression.Run(Check,root);
 M30CaptureRegression.Run(Check,root);
 M31Regression.Run(Check,root);
+AtlasGroupRegression.Run(Check,root);
+MapExplorerRegression.Run(Check,root);
+MenuHotkeyRegression.Run(Check,root);
 Console.WriteLine($"SUMMARY: {passed} checks passed. Compilation/package/policy checks only; live-game validation is pending.");
 string sha = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(dll))).ToLowerInvariant();
 File.WriteAllText(Path.Combine(root, "_work", "creator-tests.summary.txt"), $"PASS {passed}\nDllSha256={sha}\nLiveGameVerified=false\n");

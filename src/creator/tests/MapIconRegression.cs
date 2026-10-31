@@ -18,7 +18,9 @@ internal static class MapIconRegression
         C(progress.Contains("MapDistanceText.Format"),"distance text is delegated to the pure policy");
         // Find kinds resolve to real game art instead of a baked atlas cell.
         C(MapRareIcons.Names("Лучистый слайм")[0]=="iconRadiantPedia_small","radiant slime finds use radiant art");
-        C(MapRareIcons.Names("Статуя для плорта · мяуровый 2")[0]=="iconDecorCheerfulStatue_small","plort statues use statue art");
+        C(MapRareIcons.Names("Статуя для плорта · мяуровый 2")[0]=="iconDecorGoldenStatueTabby_small"&&
+          MapRareIcons.StatuePlort("Статуя для плорта · мяуровый 2")=="iconPlortTabby_small"&&
+          MapRareIcons.Names("Статуя для плорта ?")[0]=="iconDecorGoldenStatuePink_small"&&MapRareIcons.StatuePlort("Статуя для плорта")==null,"plort statues use the golden statue of their species plus its plort");
         C(MapRareIcons.Names("Теневые врата")[0]=="iconMapShadowPlortDoor"&&
           MapRareIcons.Names("Сборщик теневых плортов")[0]=="iconMapShadowPlortDoor","shadow gates keep their own art");
         C(MapRareIcons.Names("Врата плортов")[0]=="iconMapPlortDoor","plort gates use gate art");
@@ -30,7 +32,7 @@ internal static class MapIconRegression
         C(MapRareIcons.Names("Неизвестная находка").Length==0&&MapRareIcons.Names(null).Length==0&&
           MapRareIcons.Names("").Length==0,"unknown kinds borrow nothing");
         C(MapRareIcons.Names("Декор")[0]=="iconDecorSimpleFlag_small","decor finds use decor art");
-        bool bounded=MapRareIcons.AllNames.Count<=24;
+        bool bounded=MapRareIcons.AllNames.Count<=64;
         foreach(var name in MapRareIcons.AllNames)
             bounded&=name.Length>4&&name.StartsWith("icon",StringComparison.Ordinal);
         C(bounded,"find-kind artwork stays inside the borrowed-asset budget");
@@ -52,10 +54,12 @@ internal static class MapIconRegression
           !NativeIconPolicy.GhostDrone(null,null),"only phantom route drones use explorer art");
         // Plaque: the distance line is always drawn and always states metres.
         var ui=File.ReadAllText(Path.Combine(root,"src/creator/ToolkitUi.cs"));
-        C(ui.Contains("if(hover.Length>0)")&&!ui.Contains("hoveredCapsule==null"),
+        var chrome=File.ReadAllText(Path.Combine(root,"src/creator/MapChromeUi.cs"));
+        C(ui.Contains("if(hoverPoint!=null)")&&ui.Contains("MapTipDraw(tip,hoverPoint);")&&!ui.Contains("hoveredCapsule==null"),
           "the distance plaque is never suppressed");
-        C(ui.Contains("расстояние неизвестно"),"unknown player position is stated instead of dropping the plaque");
-        C(ui.Contains("!capsuleBounds.Overlaps(left)?left:"),"the plaque moves instead of disappearing behind a capsule card");
+        C(chrome.Contains("if(distance.Length==0)distance=\"расстояние неизвестно\";"),"unknown player position is stated instead of dropping the plaque");
+        C(ui.Contains("Rect tip=R(MapChromePolicy.TipPlace(hoverPos.x,hoverPos.y,_mapTipWidth,MapChromePolicy.TipHeight,sw,sh,_mapTipObstacles));")&&
+          ui.Contains("if(hadCapsule)_mapTipObstacles.Add("),"the plaque moves instead of disappearing behind a card");
         C(!ui.Contains("\\nДо метки: "),"the distance is no longer a second tooltip line that can be cut off");
     }
 }

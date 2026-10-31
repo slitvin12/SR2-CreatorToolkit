@@ -36,7 +36,7 @@ internal static class M16Regression
         string ui=Read("ToolkitUi.cs"),input=Read("InputCapture.cs"),sources=Read("WorldSourceObservations.cs"),map=Read("MapTools.cs"),opt=Read("OptimizationUi.cs"),tools=Read("OptimizationTools.cs");
         Check(ui.Contains("DrawRoundedSurface(track,_sliderTrackPaint")&&ui.Contains("DrawRoundedSurface(filled,_sliderFillPaint")&&!ui.Contains("GUI.Box(track,GUIContent.none,_trackStyle)"),"thin slider uses non-overlapping capsule slices instead of oversized 20px native borders");
         Check(input.Contains("BeginOpenAnimation()")&&ui.Contains("24f*(1f-entrance)")&&ui.Contains("OpeningProgress>=1f"),"every real Insert/open path animates fixed window geometry and gates input until settled");
-        Check(ui.Contains("152+(i/filterColumns)*44")&&ui.Contains("MapLayerOrder.FilterWidth(area.width,filterLayers.Length)"),"every native map layer label (incl. food and plort layers) fits two filter rows");
+        Check(Read("AtlasUi.cs").Contains("map.ToggleChip(chip)")&&Read("AtlasUi.cs").Contains("AtlasCarousel("),"every atlas layer (incl. food and plort layers) is a chip in a scrolling carousel");
         {
             string fandom=Read("FandomMarkers.tsv"),index=Read("MapIndex.tsv"),progress=Read("MapProgress.cs"),mini=Read("MiniMapUi.cs");
             string catalog=index.Split('\n')[0].Trim();
@@ -48,7 +48,7 @@ internal static class M16Regression
             Check(map.Contains("if(entry.Exact&&!catalogMatches){skipped++;continue;}"),"a changed game build disables exact baked layers instead of showing stale positions");
             Check(progress.Contains("map-marks-")&&progress.Contains("File.Move(temporary,_marksFile,true)")&&!progress.Contains("SaveGame("),"done marks are atomic per-save files beside mod settings, never written into the game save");
             Check(progress.Contains("model.AllSlots()")&&progress.Contains("slot.filled")&&map.Contains("StateDone(point)"),"plort statue/door progress reads native puzzle slot state");
-            Check(mini.Contains("Event.current.type!=EventType.Repaint")&&mini.Contains("_nextMiniMap=Time.unscaledTime+.5f")&&mini.Contains("MiniMapPoints.Count>80"),"minimap is repaint-only, refreshed twice a second and bounded");
+            Check(mini.Contains("Event.current.type!=EventType.Repaint")&&mini.Contains("_nextMiniMap=Time.unscaledTime+.5f")&&mini.Contains("MiniMapPoints.Count>MiniMapMarkers"),"minimap is repaint-only, refreshed twice a second and bounded");
         }
         Check(ui.Contains("DetailedHelp?\"Скрыть подсказки\":\"Подсказки\"")||ui.Contains("Подсказки"),"explanatory player copy is user-expandable");
         Check(sources.Contains("type.prefab.GetComponent<BreakOnImpactBase>()")&&sources.Contains("containerTypes[type.ReferenceId]"),"regular pots come from exact native zone crate tables and container-prefab evidence");
@@ -58,7 +58,7 @@ internal static class M16Regression
         Check(sources.Contains("FindObjectsOfType<BreakOnImpactBase>()")&&sources.Contains("ReadActual(lookup,type,actorModel)"),"live canonical container components supplement exact actor model identities without inventing spawns");
         Check(Read("M15SliderProbe.cs").Contains("visible intermediate opening frame")&&Read("M15SliderProbe.cs").Contains("entrance produces intermediate frames"),"native probe verifies real menu-open animation before measuring sliders");
         Check(opt.Contains("_optRevision!=tools.UiRevision")&&tools.Contains("UiRevision++"),"Potato values refresh after external IPC apply/restore without overwriting an in-progress drag");
-        Check(ui.Contains("только загруженные сцены"),"source result count states its loaded-world scope rather than implying a global static census");
+        Check(Read("AtlasUi.cs").Contains("\"только загруженные сцены\""),"source result count states its loaded-world scope rather than implying a global static census");
         Check(!opt.Contains("Slider(71")&&!opt.Contains("Slider(72")&&opt.Contains("tools.GeometrySupported"),"unsupported HDRP and vegetation controls removed from main screen");
         Check(tools.Contains("Apply(OptimizationRequest.Potato with{ParticleMax=256});\n            ApplyGeometryLow();")&&tools.Contains("catch{Restore(false);throw;}"),"one-click potato includes verified scalar LOD with failure rollback");
     }

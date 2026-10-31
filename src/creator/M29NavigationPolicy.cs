@@ -167,6 +167,10 @@ internal static class M29MiniMapLayout
         float h=float.IsFinite(screenHeight)&&screenHeight>0?screenHeight:1080f;
         return size switch{0=>Math.Clamp(h*.16f,130f,200f),2=>Math.Clamp(h*.30f,220f,360f),_=>Math.Clamp(h*.22f,170f,260f)};
     }
+    // 0.8.1 «Навигация» preview: the disc keeps the HUD proportions of S/M/L — L fills the preview
+    // area, S and M shrink by the same ratio as on screen (never below half the area).
+    internal static float PreviewFraction(int size,float screenHeight)=>
+        Math.Clamp(Diameter(size,screenHeight)/Diameter(2,screenHeight),.5f,1f);
     internal static bool Right(int corner)=>corner is 0 or 2;
     internal static bool Bottom(int corner)=>corner is 2 or 3;
     // The info HUD (ConvenienceTools.HudPlacement 0 = top right, 1 = top left, 2 = bottom centre) is

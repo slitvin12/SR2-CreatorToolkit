@@ -81,6 +81,10 @@ internal static class M28TestIpc
             case "ct-atlas-search": return Run(app,a[0],()=>AtlasSearch(app,ui,Rest(1)));
             case "ct-atlas-state": return Run(app,a[0],()=>AtlasState(app,ui));
             case "ct-atlas-focus": return Run(app,a[0],()=>AtlasFocus(app,Arg(1),a.Length>2?Int(a[2],0,9999):0));
+            // 0.8.1 native map: fog mask (pieces, hidden markers), layer presets, the fog toggle.
+            case "ct-map-fog": return Run(app,a[0],()=>MapFogState(app));
+            case "ct-map-preset": return Run(app,a[0],()=>MapPreset(app,Int(Arg(1),0,AtlasGroupPolicy.Presets.Length-1)));
+            case "ct-map-fog-hide": return Run(app,a[0],()=>MapFogHide(app,Arg(1)));
             // M29 phantom drones: zone binding of the native routes (source, atlas page, compass group).
             case "ct-ghost-state": return Run(app,a[0],()=>GhostState(app));
             // M29 audits (read only): where the game grants the vacpack styles; layer -> list/compass coverage.
@@ -198,6 +202,25 @@ internal static class M28TestIpc
         if(text.Length==0)throw new ArgumentException("ct-atlas-search <text>|clear");
         ui.SetAtlasSearchForTest(text=="clear"?"":text);
         return AtlasState(app,ui);
+    }
+    private static string MapFogState(ToolkitMod app)
+    {
+        var map=app.Map??throw new InvalidOperationException("no map tools");
+        var page=map.Filter(true);
+        return Write(app,"ct-map-fog.txt",map.Fog.Describe())+" | "+map.Fog.Status+" | hideFogged="+(map.HideFogged?1:0)+
+            " hiddenOnPage="+map.FogHiddenOnPage+" page="+page.Count+" map="+map.NativeMapOpen;
+    }
+    private static string MapPreset(ToolkitMod app,int preset)
+    {
+        var map=app.Map??throw new InvalidOperationException("no map tools");
+        map.ApplyPreset(preset);
+        return "preset "+AtlasGroupPolicy.Presets[preset].Title+" matching="+map.MatchingPreset()+" page="+map.Filter(true).Count;
+    }
+    private static string MapFogHide(ToolkitMod app,string mode)
+    {
+        var map=app.Map??throw new InvalidOperationException("no map tools");
+        map.HideFogged=mode switch{"on"=>true,"off"=>false,"toggle"=>!map.HideFogged,_=>throw new ArgumentException("expected on|off|toggle")};
+        return "hideFogged="+(map.HideFogged?1:0)+" hiddenOnPage="+map.FogHiddenOnPage;
     }
     private static string AtlasState(ToolkitMod app,ToolkitUi ui)
     {

@@ -21,6 +21,9 @@ internal sealed class CustomWaypointTools
     internal string DraftName="Метка",Status="Метки хранятся отдельно для каждого сейва";
     internal int DraftColor;
     internal bool ShowCompass {get;private set;}
+    // 0.8.1 «Маяк в мире» (mockup 02): the floating flag over the goal; the compass goal stays when off.
+    internal bool Beacon {get;private set;}=true;
+    internal string LastAddedId {get;private set;}="";
     internal string Heading {get;private set;}="";
     internal string Direction {get;private set;}="↑";
     internal Vector2 BeaconScreen {get;private set;}
@@ -47,6 +50,7 @@ internal sealed class CustomWaypointTools
                 _store=WaypointStore.Read(File.ReadAllText(_file),_store.Save);
             }
             Status="Мои метки: "+_store.Points.Count+" / "+ExplorerPolicy.MaxCustomWaypoints+" · отдельно от игрового сейва";
+            if(DraftName=="Метка")DraftName="Метка "+(_store.Points.Count+1);
         }
         catch(Exception e)
         {
@@ -79,9 +83,11 @@ internal sealed class CustomWaypointTools
             color<0||color>=ExplorerPolicy.ColorCount||_store.Points.Count>=ExplorerPolicy.MaxCustomWaypoints)
             throw new InvalidOperationException("Проверьте имя, цвет, игровую зону и лимит 32 меток.");
         var record=new WaypointRecord{Id=Guid.NewGuid().ToString("N"),Name=name,Color=color,Group=point.Group.name,
-            X=point.Position.x,Y=point.Position.y,Z=point.Position.z,ExactHeight=point.ExactHeight};
+            X=point.Position.x,Y=point.Position.y,Z=point.Position.z,ExactHeight=point.ExactHeight,
+            Created=DateTimeOffset.UtcNow.ToUnixTimeSeconds()};
         _store.Points.Add(record);
         try{Commit();}catch{_store.Points.Remove(record);throw;}
+        LastAddedId=record.Id;DraftName="Метка "+(_store.Points.Count+1);
         _app.Map.Visible.Add(Category);_app.Map.Selected=FindPoint(record.Id);return record;
     }
     internal void SaveCurrent()
@@ -131,6 +137,11 @@ internal sealed class CustomWaypointTools
         _goal=id;ShowCompass=true;_nextHud=0;
     }
     internal void HideGoal(){ShowCompass=false;BeaconVisible=false;Heading="";_camera=null;}
+    internal void SetBeacon(string id,bool on)
+    {
+        if(on&&GoalId!=id)SetGoal(id);
+        Beacon=on;if(!on)BeaconVisible=false;_nextHud=0;
+    }
     internal void Tick()
     {
         EnsureLoaded();
@@ -149,6 +160,7 @@ internal sealed class CustomWaypointTools
         Heading=record.Name+" · "+delta.magnitude.ToString("0")+" м";
         // X/Z map clicks have no proven ground height. Show a compass but
         // never invent an underground 3D beacon for those markers.
+        if(!Beacon)return;
         if(_camera==null||!record.ExactHeight)return;
         var screen=_camera.WorldToScreenPoint(target+Vector3.up*1.5f);
         BeaconScreen=new Vector2(screen.x,Screen.height-screen.y);
@@ -169,6 +181,6 @@ internal sealed class CustomWaypointTools
     internal void Reset()
     {
         _session=IntPtr.Zero;_store=new();_file=_goal="";_writable=false;_camera=null;
-        ShowCompass=false;BeaconVisible=false;Heading="";_nextHud=0;
+        ShowCompass=false;BeaconVisible=false;Heading="";_nextHud=0;Beacon=true;LastAddedId="";
     }
 }

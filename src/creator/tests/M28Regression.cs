@@ -205,7 +205,7 @@ internal static class M28Regression
           marker.Contains("player-marker.txt")&&marker.Contains("HideFlags.HideAndDontSave")&&marker.Contains("GUI.DrawTexture(")&&
           !marker.Contains("DrawTextureWithTexCoords")&&!marker.Contains("BeginGroup")&&marker.Contains("RenderTexture.ReleaseTemporary(target)"),
           "player marker: copied once per map opening, drawn with the tested DrawTexture path only");
-        C(mini.Contains("playerMarker?.Draw(center,radius,true,turn);")&&mini.Contains("!playerMarker.Draw(center,radius,false,turn)")&&mini.Contains("\"↑\",_badge"),
+        C(mini.Contains("playerMarker?.Draw(center,radius,true,turn,clip);")&&mini.Contains("!playerMarker.Draw(center,radius,false,turn,clip)")&&mini.Contains("MapChromePolicy.Arrow,_accent"),
           "player marker: cone under the icons, portrait on top, arrow until the first copy");
         C(styles.Contains("_palettes")&&styles.Contains("SetOwned(")&&styles.Contains("VacPalette")&&styles.Contains("M28PalettePolicy.")&&
           unlockUi.Contains("Открыть все стили вакпака")&&unlockUi.Contains("_app.Unlocks.Palettes")&&unlockUi.Contains("M28UnlockLayout."),

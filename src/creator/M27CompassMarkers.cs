@@ -156,7 +156,8 @@ internal sealed class CompassMarkerTools
         if(selected!=null&&SameGroup(selected,group))
             Offer(Key(selected),0,selected.Position,origin,selected,null,selected.Category);
         var radar=_app.Radar;
-        if(radar!=null&&radar.Enabled)
+        // 0.8.1: «Показывать на компасе и мини-карте» on the radar page.
+        if(radar!=null&&radar.Enabled&&radar.ShowOnHud)
         {
             var hits=radar.Hits;
             for(int i=0;i<hits.Count&&i<MaxRadarHits;i++)
@@ -174,14 +175,14 @@ internal sealed class CompassMarkerTools
             float best=float.MaxValue;
             foreach(var point in map.Points)
             {
-                if(point==null||point==selected||point==goalPoint||!Ghost(point)||!map.Visible.Contains(point.Category)||!SameGroup(point,group)||map.Opened(point))continue;
+                if(point==null||point==selected||point==goalPoint||!Ghost(point)||!map.LayerVisible(point)||!SameGroup(point,group)||map.Opened(point))continue;
                 float gx=point.Position.x-origin.x,gz=point.Position.z-origin.z;
                 if(gx*gx+gz*gz<best){best=gx*gx+gz*gz;pinned=point;}
             }
         }
         foreach(var point in map.Points)
         {
-            if(point==null||point==selected||point==goalPoint||!map.Visible.Contains(point.Category)||!SameGroup(point,group))continue;
+            if(point==null||point==selected||point==goalPoint||!map.LayerVisible(point)||!SameGroup(point,group))continue;
             float dx=point.Position.x-origin.x,dz=point.Position.z-origin.z;
             if(dx*dx+dz*dz>range2&&point!=pinned||map.Opened(point))continue;
             // M29 task 5: the navigator list rule - potential sources stay hidden while "only existing" is on.

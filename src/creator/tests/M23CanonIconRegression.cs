@@ -54,13 +54,15 @@ internal static class M23CanonIconRegression
           fandom.Contains("HideFlags.HideAndDontSave"),"the wiki atlas builds its mip chain once so 14-32 px markers stay smooth");
         // Wiring: the wiki badge is drawn before borrowed art wherever it appears.
         var ui=File.ReadAllText(Path.Combine(root,"src/creator/ToolkitUi.cs"));
+        var atlasUiChips=File.ReadAllText(Path.Combine(root,"src/creator/AtlasUi.cs"));
         var mini=File.ReadAllText(Path.Combine(root,"src/creator/MiniMapUi.cs"));
         C(ui.Contains("bool drawn=FandomIcon(rect,index);")&&!ui.Contains("CanonMapIcons."),"canon badges draw through the wiki atlas path");
         C(ui.Contains("bool canonDrawn=CanonIcon(iconRect,canonMarker);"),"map markers draw the wiki badge first");
-        C(ui.Contains("CanonIcon(iconRect,CanonMapIconPolicy.CategoryCell(category))"),"layer buttons show the wiki badge");
+        C(atlasUiChips.Contains("int cell=CanonMapIconPolicy.Cell(chip.Layer,chip.Id==\"ghosts\"?\"component-route\":\"\",null);")&&atlasUiChips.Contains("if(CanonIcon(rect,cell))return;"),"layer chips show the wiki badge");
         C(ui.Contains("CanonIcon(podRect,CanonMapIconPolicy.TreasurePod)"),"capsule cards show the wiki pod badge");
-        C(ui.Contains("CanonIcon(detailIcon,CanonMapIconPolicy.Cell(selected?.Category,selected?.Id,selected?.Name))"),"atlas details show the wiki badge");
-        C(ui.Contains("!CanonIcon(iconRect,canonCell)"),"atlas list rows fall back to the wiki badge");
+        var atlasUi=File.ReadAllText(Path.Combine(root,"src/creator/AtlasUi.cs"));
+        C(atlasUi.Contains("int canonCell=CanonMapIconPolicy.Cell(point.Category,point.Id,point.Name);")&&atlasUi.Contains("AtlasPointIcon(new Rect(rect.x+18,rect.y+18,54,54),selected);"),"atlas details show the wiki badge");
+        C(atlasUi.Contains("!CanonIcon(rect,canonCell)"),"atlas list rows fall back to the wiki badge");
         C(mini.Contains("CanonIcon(icon,CanonMapIconPolicy.Cell(point.Category,point.Id,point.Name))"),"the minimap shows the wiki badge");
         var icons=File.ReadAllText(Path.Combine(root,"src/creator/NativeIconTools.cs"));
         C(!icons.Contains("iconMapDetector")&&icons.Contains("CanonMapIconPolicy.Source(CanonMapIconPolicy.MapNode)"),

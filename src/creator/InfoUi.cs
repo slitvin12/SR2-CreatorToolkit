@@ -23,7 +23,7 @@ internal sealed partial class ToolkitUi
             L.Label(new Rect(20,80,col-40,36),"Creator Toolkit · "+ToolkitMod.Version,_tableHeading);
             L.Label(new Rect(20,126,col-40,128),
                 "Мир: "+(_app.Map.Busy?"подготовка безопасного перехода":_app.Ready?"загружен":"не загружен")+
-                "\nОткрыть меню: Insert · закрыть: Esc"+
+                "\nОткрыть меню: "+(_app.Hotkey?.Display??"Insert")+" · закрыть: Esc"+
                 "\nF1 не открывает мод"+
                 "\nНативных обработчиков: "+_app.InstalledHooks,_muted);
             L.Box(new Rect(x,68,col,210),GUIContent.none,_card);

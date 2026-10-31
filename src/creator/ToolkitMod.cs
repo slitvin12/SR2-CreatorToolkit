@@ -10,13 +10,13 @@ using MelonLoader.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "Creator Toolkit", "0.8.0", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
+[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "Creator Toolkit", "0.8.1", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: MelonGame("MonomiPark", "SlimeRancher2")]
-[assembly: AssemblyVersion("0.8.0.0")]
-[assembly: AssemblyFileVersion("0.8.0.0")]
+[assembly: AssemblyVersion("0.8.1.0")]
+[assembly: AssemblyFileVersion("0.8.1.0")]
 // Starlight mod menu (StarlightPackageManager): description, links and the embedded CreatorToolkit.icon.png.
 [assembly: AssemblyDescription("Creator & quality-of-life toolkit: player cheats, spawning, atlas with markers, minimap, camera tools, FPS counter and graphics optimization. Open the menu with Insert.\nНабор создателя: читы игрока, спавн, атлас и метки, миникарта, камера, счётчик FPS и оптимизация графики. Меню — клавиша Insert.")]
-[assembly: AssemblyMetadata("display_version", "0.8.0")]
+[assembly: AssemblyMetadata("display_version", "0.8.1")]
 [assembly: AssemblyMetadata("source_code", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 // SR2 Mod Manager: hooks shared with these mods were checked together (co-op via Ranching Together).
 [assembly: AssemblyMetadata("SR2ModManager.CompatibleWith", "SR2MP;Starlight;InfiniteHealth")]
@@ -29,7 +29,7 @@ namespace CreatorToolkit;
 public sealed class ToolkitMod : MelonMod
 {
     internal static ToolkitMod I;
-    internal const string Version = "0.8.0";
+    internal const string Version = "0.8.1";
     internal readonly InputCapture Input = new();
     internal PlayerTools Player;
     internal MultiplayerBridge Coop; // Ranching Together (SR2MP) co-op rules; inert without the mod.
@@ -57,6 +57,7 @@ public sealed class ToolkitMod : MelonMod
     // M28: native drone-menu button kept clear of the atlas panel; minimap copy of the native player marker.
     internal DroneToggleTools DroneToggle;
     internal PlayerMarkerTools PlayerMarker;
+    internal MenuHotkey Hotkey;
     // M29 task 4: minimap / compass settings (navigation.cfg) and the smooth minimap zoom.
     internal NavigationTools Navigation;
     // 0.7.0: camera and capture (FOV, smooth zoom, FPS counter, background limit, smooth physics),
@@ -64,6 +65,7 @@ public sealed class ToolkitMod : MelonMod
     internal CaptureTools Capture;
     internal FreePlacementTools FreePlacement;
     internal SaveNameTools SaveNames;
+    internal GameIconExport IconExport;
     internal PassiveFrameBenchmark Benchmark;
     internal M20ModProfiler ModProfiler;
     internal bool BenchmarkPendingWork=>Pending!=null||_jobs.Count>0;
@@ -160,12 +162,16 @@ public sealed class ToolkitMod : MelonMod
         Compass = new CompassMarkerTools(this);
         DroneToggle = new DroneToggleTools(this);
         PlayerMarker = new PlayerMarkerTools(this);
+        Hotkey = new MenuHotkey(this);
+        Hotkey.EnsureLoaded();
+        Status = Hotkey.Display + " — открыть меню";
         Navigation = new NavigationTools(this);
         Navigation.Load();
         Capture = new CaptureTools(this);
         FreePlacement = new FreePlacementTools(this);
         SaveNames = new SaveNameTools(this);
         SaveNames.Load();
+        IconExport = new GameIconExport(this);
         _ui = new ToolkitUi(this);
         Tests = new SmokeTests(this);
         Audit = new FeatureSuite(this);
@@ -182,13 +188,13 @@ public sealed class ToolkitMod : MelonMod
             ("corral autofeed",AutoFeed.Tick),("compass markers",Compass.Tick)};
         _alwaysTicks=new (string,Action)[]{("cinematic rate",CinematicRate.Tick),("navigation settings",Navigation.Tick),("atlas",Map.Tick),("minimap terrain",MiniMapTerrain.Tick),("selftest",Tests.Tick),("native atlas probe",MapProbe.Tick),
             ("native UI probe",UiProbe.Tick),("M15 slider probe",SliderProbe.Tick),("functional suite",Audit.Tick),("hook coexistence",HookCoexistence.Tick),("mod interop",ModInterop.Tick),("starlight bridge",StarlightBridge.Tick)};
-        _m30Ticks=new (string,Action)[]{("capture",Capture.Tick),("save names",SaveNames.Tick),("ui language",Loc.Tick)}; // every frame, main menu too
+        _m30Ticks=new (string,Action)[]{("capture",Capture.Tick),("save names",SaveNames.Tick),("ui language",Loc.Tick),("icon export",IconExport.Tick)}; // every frame, main menu too
         _lateTicks=new (string,Action)[]{("drone panel layout",DronePanels.LateTick)};
         _m30LateTicks=new (string,Action)[]{("camera fov",Capture.LateTick)};
         _m28LateTicks=new (string,Action)[]{("drone toggle",DroneToggle.LateTick),("compass icons",Compass.LateTick),("player marker",PlayerMarker.LateTick)};
         InstalledHooks = saveHooks+NativeHooks.Install(HarmonyInstance);
         Capture.Load(); // After the hook count: a saved «Плавная физика» installs its hook here.
-        LoggerInstance.Msg("CreatorToolkit " + Version + " initialized; standalone MelonLoader/IL2CPP; Insert only.");
+        LoggerInstance.Msg("CreatorToolkit " + Version + " initialized; standalone MelonLoader/IL2CPP; menu key " + Hotkey.Key + ".");
     }
 
     public override void OnUpdate()
@@ -220,7 +226,14 @@ public sealed class ToolkitMod : MelonMod
             var kb = Keyboard.current;
             if (kb != null)
             {
-                if (kb.insertKey.wasPressedThisFrame)
+                // 0.8.1: the menu key is chosen on «Удобство» (Insert by default); while it is being
+                // chosen the next key goes to the capture, so neither it nor Esc toggles the menu.
+                // A key that also types does nothing while a mod text field has focus.
+                if (Hotkey.Capturing)
+                {
+                    if (MenuOpen) Hotkey.TickCapture(kb); else Hotkey.CancelCapture();
+                }
+                else if (Hotkey.Pressed(kb) && !(MenuOpen && Hotkey.Typing && (_ui?.TextFieldFocused ?? false)))
                 {
                     if (MenuOpen) CloseMenu(); else Input.Open();
                 }
@@ -504,6 +517,7 @@ public sealed class ToolkitMod : MelonMod
     internal void CloseMenu()
     {
         Pending = null;
+        Hotkey?.CancelCapture();
         _ui?.ClearInteraction();
         try { Input.Close(); } catch (Exception e) { Fail("restore input", e); }
     }
@@ -706,6 +720,8 @@ public sealed class ToolkitMod : MelonMod
                     case "atlas": if(Ready) Map.Open(); break;
                     case "atlasrefresh": if(Ready) Map.RefreshIndex(); break;
                     case "atlasreturn": if(Ready) Map.Return(); break;
+                    case "icons-export": IconExport.Start(false); break;
+                    case "icons-export-all": IconExport.Start(true); break;
                     case "capture": ScreenCapture.CaptureScreenshot(Path.Combine(DataDirectory,"capture.png")); break;
                     case "lang-en": Loc.SetOverride("en"); break;
                     case "lang-ru": Loc.SetOverride("ru"); break;
@@ -764,7 +780,7 @@ public sealed class ToolkitMod : MelonMod
         details.Append(M26AcceptanceCore.Diagnostics(this,_ui));details.Append(M26AcceptanceIpc.Diagnostics(this,_ui));
         details.Append(M27AcceptanceIpc.Diagnostics(this,_ui));
         details.Append(M28TestIpc.Diagnostics(this));
-        details.Append($"OpenMenuKey: Insert\nHighJump: {Player.HighJump}\nJumpHeight: {Player.JumpHeightMultiplier:F2}\nJumpPrivateAssetRoots: {Player.JumpAssetRoots}\nInfiniteVacpackItems: {Player.InfiniteItems}\nPreservedVacpackSpends: {Player.PreservedSpends}\nNativeTabIcons: {Map.Icons.TabCount}\nTextListenerRoots: {_ui.TextListenerRootsForTest}\nTextCommits: {_ui.TextCommitsForTest}\nImePreviews: {_ui.ImePreviewsForTest}\nRejectedImeEvents: {_ui.RejectedImeEventsForTest}\nLastTextCallbackMs: {_ui.LastTextCallbackMsForTest:F4}\n");
+        details.Append($"OpenMenuKey: {Hotkey?.Key ?? MenuHotkeyPolicy.Default}\nHighJump: {Player.HighJump}\nJumpHeight: {Player.JumpHeightMultiplier:F2}\nJumpPrivateAssetRoots: {Player.JumpAssetRoots}\nInfiniteVacpackItems: {Player.InfiniteItems}\nPreservedVacpackSpends: {Player.PreservedSpends}\nNativeTabIcons: {Map.Icons.TabCount}\nTextListenerRoots: {_ui.TextListenerRootsForTest}\nTextCommits: {_ui.TextCommitsForTest}\nImePreviews: {_ui.ImePreviewsForTest}\nRejectedImeEvents: {_ui.RejectedImeEventsForTest}\nLastTextCallbackMs: {_ui.LastTextCallbackMsForTest:F4}\n");
         try{details.Append("UnityGcMode: "+UnityEngine.Scripting.GarbageCollector.GetMode()+"\n");}
         catch(Exception e){details.Append("UnityGcModeError: "+e.Message+"\n");}
         if(Ready)try

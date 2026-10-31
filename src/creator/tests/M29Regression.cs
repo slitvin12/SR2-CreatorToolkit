@@ -197,22 +197,24 @@ internal static class M29Regression
           progress.Contains("if(currentPage&&PinnedOnly(point))continue;"),
           "wiring: own markers bypass search and layers only on the atlas page; not hits, not «ближайшая» targets");
         int place=ui.IndexOf("var markers=MapOverlayLayout.Place(projected,map.MarkerSize);",StringComparison.Ordinal);
-        int anchored=ui.IndexOf("capsuleBounds=MapCardRect(sw,sh,panelBounds,nativeChrome,cardShown,shownMarker==null?(Rect?)null:",StringComparison.Ordinal);
+        int anchored=ui.IndexOf("capsuleBounds=MapCardRect(sw,sh,cardPanel,cardChrome,cardShown,shownMarker==null?(Rect?)null:",StringComparison.Ordinal);
         int loop=ui.IndexOf("foreach(var marker in markers)",anchored<0?0:anchored,StringComparison.Ordinal);
         C(!ui.Contains("Rect capsuleBounds=new(Mathf.Max(16,panelBounds.x-436),136,420,414);")&&
-          ui.Contains("Rect capsuleBounds=MapCardRect(sw,sh,panelBounds,nativeChrome,cardShown,null,repaint&&map.ProjectionError>=20f);")&&
+          ui.Contains("Rect capsuleBounds=MapCardRect(sw,sh,cardPanel,cardChrome,cardShown,null,repaint&&map.ProjectionError>=20f);")&&
           place>0&&anchored>place&&loop>anchored&&ui.Contains("M29MapCardPolicy.Place(")&&
           ui.Contains("if(covered){if(point==cardShown)shownCovered++;continue;}"),
           "wiring: the card slot is chosen after the marker layout, before the marker loop");
-        C(ui.Contains("Rect panelBounds=new(sw-344,20,324,map.PanelExpanded?MapLayerOrder.PanelHeight(layers.Length):56);")&&
-          ui.Contains("CapsuleCard(capsuleBounds,capsule,false)")&&ui.Contains("CustomMapCard(capsuleBounds,custom)"),
-          "wiring: panel geometry and both cards unchanged");
-        C(ui.Contains("if(M29AtlasSearchPolicy.Active(map.Search))AtlasSearchChip(new Rect(52,6,212,44),map);")&&
+        C(ui.Contains("Rect cardPanel=layersOpen?layersRect:new Rect(sw,MapChromePolicy.Top,0,0);")&&
+          ui.Contains("CapsuleCard(capsuleBounds,capsule,false)")&&ui.Contains("CustomMapCard(capsuleBounds,custom)")&&
+          ui.Contains("else MapPointCard(capsuleBounds,map.Selected);"),
+          "wiring: the card sits beside «Слои карты» or under the toolbar line; pods, own markers and the rest");
+        string chrome=R("MapChromeUi.cs");
+        C(chrome.Contains("if(chip.width>120){AtlasSearchChip(chip,map);left=chip.x-8;}")&&
           ui.Contains("if(Button(new Rect(chip.xMax-42,chip.y+5,38,34),\"×\",_button))ClearAtlasSearch();")&&
           ui.Contains("M29AtlasSearchPolicy.ChipHead(map.SearchHitsOnPage())"),"wiring: the native-map header shows the active search with a clear button");
-        C(ui.Contains("TextBox(\"atlas-search\",new Rect(470,100,area.width-470-52,40)")&&
-          ui.Contains("if(Button(new Rect(area.width-44,100,44,40),\"×\",_button))ClearAtlasSearch();")&&
-          ui.Contains("M29AtlasSearchPolicy.PageHint(map.Search)"),"wiring: the atlas page has a clear button and the pinned-markers hint");
+        C(R("AtlasUi.cs").Contains("TextBox(\"atlas-search\",new Rect(0,AtlasTop,searchW,42)")&&
+          R("AtlasUi.cs").Contains("if(Button(new Rect(searchW+8,AtlasTop,clearW,42),\"×\",_button))ClearAtlasSearch();")&&
+          R("AtlasUi.cs").Contains("M29AtlasSearchPolicy.PageHint(map.Search)"),"wiring: the atlas page has a clear button and the pinned-markers hint");
         C(ui.Contains("if(_editingField==\"atlas-search\")BlurTextInput();")&&ui.Contains("_pendingTextWrites.Remove(\"atlas-search\");")&&
           ui.Contains("_mapCardShown=null;_mapCardSlot=null;"),"wiring: clearing survives a focused field; session reset forgets the card slot");
         int focus=relay.IndexOf("private static string AtlasFocus(",StringComparison.Ordinal);
@@ -313,7 +315,7 @@ internal static class M29Regression
           "wiring: with the atlas open the map reference settles ambiguous routes once");
         C(map.Contains("if(route!=null){BindGhostLive(route,drone.SceneGroup);")&&map.Contains("if(route!=null){route.Position=go.transform.position")&&
           ghost.Contains("M29GhostZonePolicy.WithLive("),"wiring: a native drone model binds its route to the model's scene group");
-        C(compass.Contains("!map.Visible.Contains(point.Category)||!SameGroup(point,group))continue;")&&
+        C(compass.Contains("!map.LayerVisible(point)||!SameGroup(point,group))continue;")&&
           map.Contains("MapForGroup(point?.Group)"),"wiring: compass and atlas pages read the route group the policy sets");
         int state=relay.IndexOf("private static string GhostState(",StringComparison.Ordinal);
         C(state>0&&relay.IndexOf("Write(app,\"ct-ghost.txt\"",state,StringComparison.Ordinal)>state&&

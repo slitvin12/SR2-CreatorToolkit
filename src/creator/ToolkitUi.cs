@@ -95,6 +95,7 @@ internal sealed partial class ToolkitUi
     private readonly Stack<Vector2> _groupOrigins = new();
     private readonly Stack<Rect> _groupRects=new();
     private string _editingField = "";
+    internal bool TextFieldFocused => _editingField.Length > 0; // 0.8.1: a typing menu key waits while a field has focus
     private ActorTools.Entry _selected, _ammoSelected;
     private GUIStyle _label, _muted, _heading, _title, _button, _accentButton, _selectedButton, _field, _card, _tabStyle, _wrap, _badge, _zoneLabel;
     private GUIStyle _hudFrame,_hudLabel,_hudEffects;
@@ -482,6 +483,7 @@ internal sealed partial class ToolkitUi
         _shadowBox=SurfaceStyle(shadow);_glowBox=SurfaceStyle(glow);
         _trackStyle=SurfaceStyle(track,20);_fillStyle=SurfaceStyle(fill,20);
         _sliderTrackPaint=track;_sliderFillPaint=fill;_sliderGlowPaint=glow;
+        AtlasStyles();
         _titleGradient=new GUIStyle[8];
         for(int i=0;i<_titleGradient.Length;i++)
         {
@@ -584,23 +586,6 @@ internal sealed partial class ToolkitUi
             text,IconTextStyle(text,visual.width-45),offset);
         return clicked;
     }
-    private bool NativeCategoryButton(Rect rect,string category,bool selected)
-    {
-        bool clicked=Button(rect,GUIContent.none,selected?_selectedButton:_button);
-        float offset=HoverOffset(rect,CanHover(rect),
-            InputEnabled&&Mouse.current!=null&&Mouse.current.leftButton.isPressed);
-        Rect iconRect=HoverChildRect(rect,new Rect(rect.x+6,rect.y+4,32,32),offset);
-        if(!CanonIcon(iconRect,CanonMapIconPolicy.CategoryCell(category)))
-        {
-            var sprite=_app.Map.Icons.Category(category);
-            if(sprite!=null)DrawSprite(iconRect,sprite);
-            else FandomIcon(iconRect,FandomMapMarkers.CategoryIcon(category));
-        }
-        string caption=MapLayerOrder.Short(category);
-        HoverText(HoverChildRect(rect,new Rect(rect.x+42,rect.y-2,rect.width-46,rect.height),offset),ButtonContent(caption),IconTextStyle(caption,rect.width-46),offset);
-        return clicked;
-    }
-
     private bool NativeRoleButton(Rect rect,string text,string role,bool selected=false)
     {
         bool clicked=Button(rect,GUIContent.none,selected?_selectedButton:_button);
@@ -1047,7 +1032,7 @@ internal sealed partial class ToolkitUi
                 if(status.Length>94)status=status.Substring(0,91)+"…";
                 bool coop=_app.Coop?.InSession==true; // Ranching Together: role and server cheat rule instead of the key hint.
                 L.Label(new Rect(30,height-46,width-(coop?370:250),38),status,_muted);
-                L.Label(coop?new Rect(width-330,height-46,300,38):new Rect(width-210,height-46,180,38),coop?_app.Coop.Footer:"Insert  ·  Esc",_muted);
+                L.Label(coop?new Rect(width-330,height-46,300,38):new Rect(width-210,height-46,180,38),coop?_app.Coop.Footer:_app.Hotkey?.Footer??"Insert  ·  Esc",_muted);
                 if(modal)DrawConfirmation(width,height);
                 AllocationMark(5,ref allocationStamp);
             }
@@ -1191,15 +1176,15 @@ internal sealed partial class ToolkitUi
     // Read-only content navigation: the same filter/selection state as Atlas UI.
     internal void ShowCapsules()
     {
-        ShowPage(6);_app.Map.Search="";_app.Map.Visible.Clear();_app.Map.Visible.Add("Капсулы");
+        ShowPage(6);_app.Map.Search="";_app.Map.HiddenChips.Clear();_app.Map.Visible.Clear();_app.Map.Visible.Add("Капсулы");_atlasGroup=0;
         _atlasScroll=Vector2.zero;_capsuleScroll=Vector2.zero;
         var points=_app.Map.Filter();
         _app.Map.Selected=points.FirstOrDefault(p=>_app.Map.Capsules.Get(p.Id).NativeVerified)??points.FirstOrDefault();
     }
     internal void ShowSources()
     {
-        ShowPage(6);_app.Map.Search="";_app.Map.Visible.Clear();
-        _app.Map.Visible.Add("Горшочки");_app.Map.Visible.Add("Спавнеры");
+        ShowPage(6);_app.Map.Search="";_app.Map.HiddenChips.Clear();_app.Map.Visible.Clear();
+        _app.Map.Visible.Add("Горшочки");_app.Map.Visible.Add("Спавнеры");_atlasGroup=4;
         _atlasScroll=Vector2.zero;_app.Map.Selected=_app.Map.Filter().FirstOrDefault();
     }
     // UI-only navigation for explicit file IPC; never creates actors or changes progression.
@@ -1660,7 +1645,7 @@ internal sealed partial class ToolkitUi
             var cinema = _app.Cinema;
             if(Button(new Rect(area.width-250,112,250,40),"Скорость времени…",_violetButton)){_timePage=true;ClearInteraction();return;}
             if(Button(new Rect(area.width-250,27,250,40),"Камера и запись…",_accentButton)){_capturePage=true;ClearInteraction();return;}
-            bool hidden = Toggle(new Rect(0, 0, area.width-266, 94), "Чистый кадр / скрыть HUD", cinema.HideHud, "Убирает игровой интерфейс и вакпак. Меню остаётся доступно по Insert.");
+            bool hidden = Toggle(new Rect(0, 0, area.width-266, 94), "Чистый кадр / скрыть HUD", cinema.HideHud, "Убирает игровой интерфейс и вакпак. Меню остаётся доступно по "+(_app.Hotkey?.Display??"Insert")+".");
             if (hidden != cinema.HideHud) _app.Queue("hide HUD", () => cinema.SetHideHud(hidden));
             L.Label(new Rect(0, 116, area.width-266, 35), "Точки телепортации · " + cinema.Waypoints.Count + " / 5", _heading);
             _waypointName = TextBox("waypoint-name", new Rect(0, 165, area.width - 234, 38), _waypointName, 40, "Название новой точки…");
@@ -1773,7 +1758,21 @@ internal sealed partial class ToolkitUi
             {_infoPage=true;ClearInteraction();}
             if(Button(new Rect(3*(qb+12),qy,qb,44),"Оптимизация / Potato Mode",_goldButton))
                 OpenOptimizationUi();
-            Hint(new Rect(0,qy+50,area.width,28),"SOS и инфо-HUD — на сеанс · счётчик FPS сохраняется в capture.cfg.",_small);
+            // 0.8.1: the menu key (Insert by default) — the button waits for the next key, Esc cancels.
+            var hotkey=_app.Hotkey;
+            if(hotkey!=null)
+            {
+                float hy=qy+52;
+                L.Label(new Rect(0,hy,160,34),"Клавиша меню",_label);
+                if(Button(new Rect(160,hy,230,34),hotkey.Capturing?"Нажмите клавишу…":hotkey.Display+"  ·  изменить…",hotkey.Capturing?_selectedButton:_button))
+                {if(hotkey.Capturing)hotkey.CancelCapture();else hotkey.StartCapture();}
+                GUI.enabled=enabled&&!hotkey.IsDefault&&!hotkey.Capturing;
+                if(Button(new Rect(402,hy,170,34),"Вернуть Insert",_button))hotkey.Reset();
+                GUI.enabled=enabled;
+                if(hotkey.Capturing)L.Label(new Rect(588,hy,area.width-588,34),"Esc — отмена · F1, Tab, Enter, пробел и стрелки не подходят",_small);
+                else Hint(new Rect(588,hy,area.width-588,34),"SOS и инфо-HUD — на сеанс · FPS и клавиша меню сохраняются.",_small);
+            }
+            else Hint(new Rect(0,qy+50,area.width,28),"SOS и инфо-HUD — на сеанс · счётчик FPS сохраняется в capture.cfg.",_small);
         }
         finally {EndGroup();}
     }
@@ -1820,143 +1819,6 @@ internal sealed partial class ToolkitUi
         finally {GUI.matrix=matrix;GUI.color=color;GUI.contentColor=content;GUI.backgroundColor=background;}
     }
 
-    private void AtlasPage(Rect area)
-    {
-        BeginGroup(area);
-        try
-        {
-            var map=_app.Map;
-            L.Label(new Rect(0,0,area.width,36),"Карта и исследование мира",_heading);
-            ExplorerNavigation(area.width);
-            if(_explorerSection!=0){ExplorerPage(area.width);return;}
-            // 0.8.0: «Открыть всю карту» lives in «Открытия» (the same confirmed unlock card) and the
-            // minimap switch in «Навигация» (its «Режим» row); the freed row makes the list taller.
-            if(Button(new Rect(0,100,206,40),"Открыть атлас",_accentButton))_app.Queue("open atlas",map.Open);
-            bool enabled=GUI.enabled;GUI.enabled=enabled&&map.HasReturn&&!map.Busy;
-            if(Button(new Rect(214,100,244,40),"Вернуться до телепорта",_button))_app.Queue("atlas return",map.Return);
-            GUI.enabled=enabled;
-            // M29: an explicit clear button beside the search; own markers stay on the map.
-            string search=TextBox("atlas-search",new Rect(470,100,area.width-470-52,40),map.Search,80,"Поиск капсулы, ресурса, имени или ID…");
-            if(search!=map.Search){map.Search=search;_atlasScroll.y=0;}
-            bool clearEnabled=GUI.enabled;GUI.enabled=clearEnabled&&M29AtlasSearchPolicy.Active(map.Search);
-            if(Button(new Rect(area.width-44,100,44,40),"×",_button))ClearAtlasSearch();
-            GUI.enabled=clearEnabled;
-            float filterX=0;
-            var filterLayers=MapLayerOrder.Sorted(MapTools.Categories);
-            // Two pill rows above the list controls for every layer count.
-            int filterColumns=MapLayerOrder.FilterColumns(filterLayers.Length);
-            for(int i=0;i<filterLayers.Length;i++)
-            {
-                if(i%filterColumns==0)filterX=0;
-                float filterW=MapLayerOrder.FilterWidth(area.width,filterLayers.Length);
-                string category=filterLayers[i];bool active=map.Visible.Contains(category);
-                if(Button(new Rect(filterX,152+(i/filterColumns)*44,filterW,40),category,active?_selectedButton:_button))
-                {if(active)map.Visible.Remove(category);else map.Visible.Add(category);_atlasScroll.y=0;}
-                filterX+=filterW+8f;
-            }
-            var points=map.Filter();
-            bool sourcesShown=map.Visible.Contains("Горшочки")||map.Visible.Contains("Спавнеры");
-            if(sourcesShown)
-                if(Button(new Rect(area.width-484,248,238,40),map.SourcesActualOnly?"Только существующие":"Места появления тоже",map.SourcesActualOnly?_selectedButton:_button))map.SourcesActualOnly=!map.SourcesActualOnly;
-            float nearestX=area.width-(sourcesShown?730:484),sortX=nearestX-206;
-            if(Button(new Rect(sortX,248,198,40),map.SortByDistance?"Сорт.: ближе":"Сорт.: имя",map.SortByDistance?_selectedButton:_button)){map.SortByDistance=!map.SortByDistance;_atlasScroll.y=0;}
-            if(Button(new Rect(nearestX,248,238,40),"Ближайшая непройденная",_button))
-            {
-                var nearest=map.NearestInFilter();
-                if(nearest==null)_app.Notify(map.HasPlayerPosition?"В текущем фильтре нет непройденных меток.":"Позиция игрока ещё неизвестна.");
-                else{map.Selected=nearest;int index=points.IndexOf(nearest);if(index>=0)_atlasScroll.y=Mathf.Max(0,index*48-80);}
-            }
-            RowStatus(new Rect(0,250,sortX-8,32),"Найдено: "+points.Count,M29AtlasSearchPolicy.Active(map.Search)?M29AtlasSearchPolicy.PageHint(map.Search):
-                sourcesShown?"только загруженные сцены":map.IndexStatus);
-            if(Button(new Rect(area.width-238,248,238,40),map.HideOpened?"Пройденное скрыто":"Пройденное видно",map.HideOpened?_selectedButton:_button)){map.HideOpened=!map.HideOpened;_atlasScroll.y=0;}
-            float leftW=Mathf.Round((area.width-16)*.60f),rightX=leftW+16,rightW=area.width-rightX;
-            Rect view=new(0,294,leftW,262);
-            L.Box(view,GUIContent.none,_card);
-            _atlasScroll=BeginScroll(13,view,_atlasScroll,points.Count*48f);
-            try
-            {
-                for(int i=0;i<points.Count;i++)
-                {
-                    float y=i*48-_atlasScroll.y;if(y+44<=0||y>=view.height)continue;
-                    var point=points[i];
-                    // 0.8.0: translate before the length cut, or the table never sees a whole phrase.
-                    string label=Loc.T((map.Opened(point)?"+ ":"")+point.Category+" · "+map.DisplayName(point));
-                    string distance=Loc.T(MapTools.DistanceText(map.Distance(point)));
-                    int room=distance.Length>0?42-distance.Length:45;
-                    if(label.Length>room)label=label.Substring(0,room-3)+"…";
-                    if(distance.Length>0)label+=" · "+distance;
-                    Rect rowRect=new(8,y,leftW-60,44);
-                    if(Button(rowRect,GUIContent.none,map.Selected==point?_selectedButton:_button))map.Selected=point;
-                    bool hovered=CanHover(rowRect);
-                    float offset=HoverOffset(rowRect,hovered,hovered&&Mouse.current!=null&&Mouse.current.leftButton.isPressed);
-                    Sprite icon=null;int canonCell=CanonMapIconPolicy.Cell(point.Category,point.Id,point.Name);
-                    if(point.Category=="Капсулы")
-                    {
-                        // The row still previews what the pod holds; the pod badge is the fallback.
-                        var capsuleView=map.Capsules.Get(point.Id);
-                        foreach(var reward in (capsuleView.Mismatch&&capsuleView.NativeObserved?capsuleView.NativeRewards:capsuleView.Rewards))
-                        { icon=map.Icons.Reward(reward.Key); if(icon!=null)break; }
-                    }
-                    else if(canonCell<0)icon=map.Icons.Point(point);
-                    Rect iconRect=HoverChildRect(rowRect,new Rect(16,y+5,32,32),offset);
-                    if(icon!=null)DrawSprite(iconRect,icon);
-                    else if(!CanonIcon(iconRect,canonCell)&&!FandomIcon(iconRect,FandomMapMarkers.IconFor(point)))
-                    {
-                        var nativeRow=canonCell<0?null:map.Icons.Point(point);
-                        if(nativeRow!=null)DrawSprite(iconRect,nativeRow);else L.Label(iconRect,"—",_badge);
-                    }
-                    HoverText(HoverChildRect(rowRect,new Rect(56,y+2,rowRect.width-60,38),offset),label,_label,offset);
-                }
-                if(points.Count==0)L.Label(new Rect(16,10,leftW-70,70),"Ничего не найдено. Измените поиск или включите нужный слой.",_muted);
-            }
-            finally{EndGroup();}
-            if(map.Selected!=null&&!points.Contains(map.Selected))map.Selected=null;
-            var selected=map.Selected;
-            const float cy=294,ch=262;
-            if(selected?.Category=="Капсулы")CapsuleCard(new Rect(rightX,cy,rightW,ch),selected,true);
-            else
-            {
-                L.Box(new Rect(rightX,cy,rightW,ch),GUIContent.none,_card);
-                Rect detailIcon=new(rightX+16,cy+14,38,38);
-                if(!CanonIcon(detailIcon,CanonMapIconPolicy.Cell(selected?.Category,selected?.Id,selected?.Name)))
-                {
-                    var nativeIcon=map.Icons.Point(selected);
-                    if(nativeIcon!=null)DrawSprite(detailIcon,nativeIcon);
-                    else FandomIcon(detailIcon,FandomMapMarkers.IconFor(selected));
-                }
-                L.Label(new Rect(rightX+66,cy+10,rightW-82,56),selected?.Name??"Выберите метку",_wrap);
-                string scrollDetail=selected==null?null:selected.SourceObservation||FandomMapMarkers.IsFandom(selected.Category)?selected.Detail:
-                    selected.WikiHint!=null?selected.Category+" · "+selected.GroupName+"\nВики: "+selected.WikiHint:null;
-                if(scrollDetail!=null)
-                {
-                    if(_sourceDetailId!=selected.Id){_sourceDetailId=selected.Id;_sourceDetailScroll=Vector2.zero;}
-                    Rect detailView=new(rightX+12,cy+68,rightW-24,100);
-                    float detailHeight=Mathf.Max(detailView.height,_atlasDetail.CalcHeight(ButtonContent(scrollDetail),detailView.width-56)+12);
-                    _sourceDetailScroll=BeginScroll(32,detailView,_sourceDetailScroll,detailHeight,24);
-                    try{L.Label(new Rect(4,4-_sourceDetailScroll.y,detailView.width-56,detailHeight),scrollDetail,_atlasDetail);}
-                    finally{EndGroup();}
-                }
-                else L.Label(new Rect(rightX+16,cy+68,rightW-32,100),selected==null?"Выберите метку.":selected.Category+" · "+selected.GroupName+"\n"+(selected.Category=="Гордо"?map.GordoStateLabel(selected):selected.Position.ToString("F1")),_muted);
-                GUI.enabled=enabled&&selected!=null&&(!selected.SourceObservation||map.MapForPoint(selected)!=null);
-                float half=(rightW-40)/2;
-                if(Button(new Rect(rightX+16,cy+176,half,44),"Показать на карте",_accentButton)){var point=selected;_app.Queue("atlas point",()=>map.OpenAt(point));}
-                GUI.enabled=enabled&&map.CanMark(selected);
-                if(Button(new Rect(rightX+24+half,cy+176,half,44),selected!=null&&map.Marked(selected)?"Снять отметку":"Отметить: собрано",selected!=null&&map.Marked(selected)?_selectedButton:_button))
-                {var point=selected;_app.Queue("toggle map mark",()=>map.ToggleMark(point));}
-                GUI.enabled=enabled;
-                if(selected!=null)
-                {
-                    string state=map.ProgressLabel(selected),distance=MapTools.DistanceText(map.Distance(selected));
-                    string line=(state.Length>0?state:"")+(distance.Length>0?(state.Length>0?" · ":"")+"до метки "+distance:"");
-                    if(line.Length>0)L.Label(new Rect(rightX+16,cy+224,rightW-32,30),line,_muted);
-                }
-            }
-            GUI.enabled=enabled;
-            L.Label(new Rect(0,566,area.width,28),"Прогресс: "+map.ProgressSummary()+(DetailedHelp?" · Телепорт — через режим ЛКМ в атласе.":""),_muted);
-        }
-        finally{EndGroup();}
-    }
-
     private void CapsuleCard(Rect rect,MapTools.Point point,bool openMap)
     {
         var map=_app.Map;var view=map.Capsules.Get(point.Id);
@@ -1975,7 +1837,8 @@ internal sealed partial class ToolkitUi
         L.Label(new Rect(rect.x+16,rect.y+54,rect.width-32,20),map.CapsuleStateLabel(point),_small);
         string truth=view.Mismatch?"Расхождение · ниже нативные награды":view.Verification==CapsuleTruthPolicy.RewardStatus.Unverifiable?"Native-сверка неполная · награды базы":view.NativeVerified?"Награды сверены с загруженной капсулой":view.Baked?"База совпавшей версии · native-сверки нет":"Награды неизвестны";
         L.Label(new Rect(rect.x+16,rect.y+74,rect.width-32,18),truth,_small);
-        float footer=openMap?100:40;
+        // Native map: the footer carries «Цель / Телепорт / Отметить» (mockup 05).
+        float footer=openMap?100:60;
         Rect viewport=new(rect.x+12,rect.y+94,rect.width-24,Mathf.Max(44,rect.height-94-footer));
         // Cached by managed view identity and viewport width. No repeated
         // text measurement/list allocation on each IMGUI event; native reads unchanged.
@@ -2023,7 +1886,8 @@ internal sealed partial class ToolkitUi
             if(rewards.Count==0)L.Label(new Rect(4,y,viewport.width-56,descriptionHeight),view.Description,_atlasDetail);
         }
         finally {EndGroup();}
-        L.Label(new Rect(rect.x+16,rect.yMax-footer+6,rect.width-32,24),"ID: "+point.Id,_small);
+        if(openMap)L.Label(new Rect(rect.x+16,rect.yMax-footer+6,rect.width-32,24),"ID: "+point.Id,_small);
+        else MapCardActions(new Rect(rect.x+12,rect.yMax-54,rect.width-24,42),point);
         if(openMap&&Button(new Rect(rect.x+16,rect.yMax-58,rect.width-32,44),"Показать на карте",_accentButton))
             _app.Queue("capsule on atlas",()=>map.OpenAt(point));
     }
@@ -2121,19 +1985,30 @@ internal sealed partial class ToolkitUi
             // BeginMapOverlayFrame owns rect publication; ScrollWheel may draw
             // a card but must not mutate the last successful Repaint's lease.
             MapZoneLabelRects.Clear();
-            // Layers stay grouped and sorted: unique physical objects first,
-            // then finds and spawn surfaces; the panel and its controls follow the grid.
-            var layers=MapLayerOrder.Sorted(MapTools.Categories);
-            float controlsY=MapLayerOrder.PanelControlsTop(layers.Length);
-            Rect panelBounds=new(sw-344,20,324,map.PanelExpanded?MapLayerOrder.PanelHeight(layers.Length):56);
-            Rect markerExclusion=new(panelBounds.x-28,panelBounds.y-28,panelBounds.width+56,panelBounds.height+56);
-            bool hadCapsule=map.Selected?.Category=="Капсулы"||map.Selected?.Category==CustomWaypointTools.Category||_hoverCapsule!=null;
+            // 0.8.1 (mockups 05/06): the atlas toolbar, the line under it and the «Слои карты»
+            // drop-down replace the old 324 px panel. Geometry: MapChromePolicy. The line keeps
+            // only what it drew on the previous frame, so markers left of the legend stay free.
+            bool layersOpen=map.PanelExpanded;
+            Rect toolbar=R(MapChromePolicy.Toolbar(sw));
+            Rect lineFull=R(MapChromePolicy.Line(sw));
+            Rect layersRect=layersOpen?R(MapChromePolicy.Layers(sw,sh)):default;
+            float lineUsed=Mathf.Clamp(_mapLineUsed,0,lineFull.width);
+            Rect lineRect=new(lineFull.xMax-lineUsed,lineFull.y,lineUsed,lineFull.height);
+            var overlayChrome=layersOpen?new[]{toolbar,layersRect}:new[]{toolbar,lineRect};
+            var overlayExclusions=new List<Rect>(overlayChrome.Length);
+            foreach(var r in overlayChrome)if(r.width>0)overlayExclusions.Add(new Rect(r.x-8,r.y-8,r.width+16,r.height+16));
+            // The card of the selected object; hovering only shows the plaque (mockup 05).
+            bool hadCapsule=map.Selected!=null;
             var nativeChrome=new[]{new Rect(0,0,720,112),new Rect(0,120,260,100),new Rect(0,sh-400,116,320)};
-            // M29: the card is no longer pinned beside the panel (on 4:3 it covered the map centre
-            // and hid the focused marker): a provisional slot here, re-checked against the shown
-            // object's own marker once the markers are laid out.
-            var cardShown=map.Selected?.Category=="Капсулы"||map.Selected?.Category==CustomWaypointTools.Category?map.Selected:_hoverCapsule;
-            Rect capsuleBounds=MapCardRect(sw,sh,panelBounds,nativeChrome,cardShown,null,repaint&&map.ProjectionError>=20f);
+            var cardChrome=new Rect[nativeChrome.Length+overlayChrome.Length];
+            nativeChrome.CopyTo(cardChrome,0);overlayChrome.CopyTo(cardChrome,nativeChrome.Length);
+            // With the drop-down closed the card has no panel to sit beside: an empty box at the
+            // right edge puts the «beside» slot under the toolbar line.
+            Rect cardPanel=layersOpen?layersRect:new Rect(sw,MapChromePolicy.Top,0,0);
+            // M29: a provisional slot here, re-checked against the shown object's own marker
+            // once the markers are laid out.
+            var cardShown=map.Selected;
+            Rect capsuleBounds=MapCardRect(sw,sh,cardPanel,cardChrome,cardShown,null,repaint&&map.ProjectionError>=20f);
             var nativeMarkerExclusions=new List<Rect>();
             if(repaint)map.NativeChromeRects.Clear();
             foreach(var chrome in nativeChrome)
@@ -2145,17 +2020,19 @@ internal sealed partial class ToolkitUi
             // Failed discovery disables mod actions, while native input stays free.
             map.PrepareNativeControlExclusions();
             _nativeMapPointerAllowed=Mouse.current!=null&&map.AllowsOverlayPointer(Mouse.current.position.ReadValue());
+            var pagePoints=map.Filter(true);
+            MapTools.Point hoverPoint=null;
             // Native projection is affine in world X/Z. Three native samples per
             // repaint avoid thousands of native calls for the resource layer.
             if(map.ProjectionError<20f)
             {
                 Vector2 origin=map.ScreenPoint(Vector3.zero),dx=(map.ScreenPoint(Vector3.right*100)-origin)/100,dz=(map.ScreenPoint(Vector3.forward*100)-origin)/100;
                 var projected=new List<(float X,float Y,MapTools.Point Item)>();
-                foreach(var point in map.Filter(true))
+                foreach(var point in pagePoints)
                 {
                     Vector2 pixel=origin+dx*point.Position.x+dz*point.Position.z;
                     Vector2 p=new(pixel.x/_scale,(Screen.height-pixel.y)/_scale);
-                    if(p.x<28||p.x>sw-28||p.y<100||p.y>sh-100||markerExclusion.Contains(p)||nativeMarkerExclusions.Any(r=>r.Contains(p)))continue;
+                    if(p.x<28||p.x>sw-28||p.y<100||p.y>sh-100||overlayExclusions.Any(r=>r.Contains(p))||nativeMarkerExclusions.Any(r=>r.Contains(p)))continue;
                     projected.Add((p.x,p.y,point));
                 }
                 // Every projected object keeps its own marker on its exact map
@@ -2170,11 +2047,11 @@ internal sealed partial class ToolkitUi
                 {var top=markers[selectedMarker];markers[selectedMarker]=markers[markers.Count-1];markers[markers.Count-1]=top;}
                 // M29: the card never covers the shown object's own marker.
                 var shownMarker=cardShown==null?null:markers.Find(m=>m.Item==cardShown);
-                capsuleBounds=MapCardRect(sw,sh,panelBounds,nativeChrome,cardShown,shownMarker==null?(Rect?)null:
+                capsuleBounds=MapCardRect(sw,sh,cardPanel,cardChrome,cardShown,shownMarker==null?(Rect?)null:
                     new Rect(shownMarker.X-shownMarker.HitBox*.5f,shownMarker.Y-shownMarker.HitBox*.5f,shownMarker.HitBox,shownMarker.HitBox),repaint);
                 int ownDrawn=0,shownCovered=0;
                 var markerBoxes=new List<Rect>();
-                string hover="";Vector2 hoverPos=default;MapTools.Point hoveredCapsule=null;
+                Vector2 hoverPos=default;MapTools.Point hoveredCapsule=null;
                 foreach(var marker in markers)
                 {
                     var point=marker.Item;
@@ -2219,12 +2096,8 @@ internal sealed partial class ToolkitUi
                         Fill(new Rect(iconRect.x+1,iconRect.y,Mathf.Max(2,icon*.12f),icon),MarkerColor(point.ColorIndex));
                     if(hit.Contains(Pointer()))
                     {
-                        // Distance stays on the first line: it must survive even
-                        // when the plaque has to be moved or shortened.
-                        string away=MapTools.DistanceText(map.Distance(point));
-                        hover=(map.Opened(point)?"+ ":"")+point.Category+" · "+map.DisplayName(point)+
-                            " · "+(away.Length>0?away:"расстояние неизвестно");
-                        hoverPos=p2;if(point.Category=="Капсулы")hoveredCapsule=point;
+                        hoverPoint=point;hoverPos=p2;
+                        if(point.Category=="Капсулы")hoveredCapsule=point;
                     }
                 }
                 if(repaint){MapOwnDrawnForTest=ownDrawn;MapShownCoveredForTest=shownCovered;}
@@ -2244,7 +2117,7 @@ internal sealed partial class ToolkitUi
                             foreach(int horizontal in new[]{0,-1,1})
                             {
                                 Rect label=new(Mathf.Clamp(at.x-145+horizontal*156,16,sw-306),at.y-24+offset*56,290,48);
-                                if(label.y<80||label.yMax>sh-100||panelBounds.Overlaps(label)||hadCapsule&&capsuleBounds.Overlaps(label)||nativeChrome.Any(r=>r.Overlaps(label))||labelBoxes.Any(r=>r.Overlaps(label))||markerBoxes.Any(r=>r.Overlaps(label)))continue;
+                                if(label.y<80||label.yMax>sh-100||overlayChrome.Any(r=>r.Overlaps(label))||hadCapsule&&capsuleBounds.Overlaps(label)||nativeChrome.Any(r=>r.Overlaps(label))||labelBoxes.Any(r=>r.Overlaps(label))||markerBoxes.Any(r=>r.Overlaps(label)))continue;
                                 L.Label(label,zone.Name,_zoneLabel);labelBoxes.Add(label);
                                 MapZoneLabelRects.Add(new Rect(label.x*_scale,label.y*_scale,label.width*_scale,label.height*_scale));
                                 placed=true;break;
@@ -2253,111 +2126,51 @@ internal sealed partial class ToolkitUi
                         }
                     }
                 }
-                // The plaque is always drawn. A selected capsule card may sit at
-                // the pointer, so the plaque moves away instead of disappearing.
-                if(hover.Length>0)
+                // The plaque is always drawn (an unknown player position is stated, not dropped)
+                // and moves clear of the selected card, the toolbar and the native chrome.
+                if(hoverPoint!=null)
                 {
-                    float tipX=Mathf.Clamp(hoverPos.x+28,16,sw-436),tipY=Mathf.Clamp(hoverPos.y-24,90,sh-150);
-                    Rect tip=new(tipX,tipY,420,76);
-                    if(hadCapsule&&capsuleBounds.Overlaps(tip))
-                    {
-                        Rect left=new(Mathf.Clamp(hoverPos.x-448,16,sw-436),tipY,420,76);
-                        Rect above=new(tipX,Mathf.Clamp(capsuleBounds.y-84,90,sh-150),420,76);
-                        Rect below=new(tipX,Mathf.Clamp(capsuleBounds.yMax+8,90,sh-150),420,76);
-                        tip=!capsuleBounds.Overlaps(left)?left:!capsuleBounds.Overlaps(above)?above:below;
-                    }
-                    L.Box(tip,GUIContent.none,_frame);
-                    L.Label(new Rect(tip.x+12,tip.y+8,396,60),hover,_muted);
+                    MapTipModel(hoverPoint);
+                    _mapTipObstacles.Clear();
+                    if(hadCapsule)_mapTipObstacles.Add(new MapShieldPolicy.Box(capsuleBounds.x,capsuleBounds.y,capsuleBounds.width,capsuleBounds.height));
+                    foreach(var r in overlayChrome)_mapTipObstacles.Add(new MapShieldPolicy.Box(r.x,r.y,r.width,r.height));
+                    foreach(var r in nativeChrome)_mapTipObstacles.Add(new MapShieldPolicy.Box(r.x,r.y,r.width,r.height));
+                    Rect tip=R(MapChromePolicy.TipPlace(hoverPos.x,hoverPos.y,_mapTipWidth,MapChromePolicy.TipHeight,sw,sh,_mapTipObstacles));
+                    MapTipDraw(tip,hoverPoint);
                 }
-                // Keep a hover card interactive while the pointer enters its
-                // scroll area. A click selects the capsule for persistent view.
-                if(hoveredCapsule!=null||!capsuleBounds.Contains(Pointer()))_hoverCapsule=hoveredCapsule;
+                _hoverCapsule=hoveredCapsule;
             }
-            if(map.HideOpened&&_hoverCapsule!=null&&map.Opened(_hoverCapsule))_hoverCapsule=null;
             if(map.HideOpened&&map.Selected?.Category=="Капсулы"&&map.Opened(map.Selected))map.Selected=null;
-            var capsule=map.Selected?.Category=="Капсулы"?map.Selected:_hoverCapsule;
+            var capsule=map.Selected?.Category=="Капсулы"?map.Selected:null;
             var custom=map.Selected?.Category==CustomWaypointTools.Category?map.Selected:null;
-            if(capsule!=null||custom!=null)
+            if(map.Selected!=null)
             {
                 if(repaint)map.OverlayCardRects.Add(new Rect(capsuleBounds.x*_scale,capsuleBounds.y*_scale,capsuleBounds.width*_scale,capsuleBounds.height*_scale));
                 if(custom!=null)CustomMapCard(capsuleBounds,custom);
-                else CapsuleCard(capsuleBounds,capsule,false);
+                else if(capsule!=null)CapsuleCard(capsuleBounds,capsule,false);
+                else MapPointCard(capsuleBounds,map.Selected);
             }
-            Rect panel=panelBounds;
-            L.Box(panel,GUIContent.none,_frame);
-            if(repaint)map.OverlayCardRects.Add(new Rect(panel.x*_scale,panel.y*_scale,panel.width*_scale,panel.height*_scale));
-            BeginGroup(panel);
-            try
+            // Toolbar and its line or drop-down draw last, above markers and cards; every drawn
+            // rectangle is a raycast shield (no click-through teleports or native waypoints).
+            _mapRoundTip=-1;
+            MapToolbar(toolbar,map);
+            if(repaint)map.OverlayCardRects.Add(new Rect(toolbar.x*_scale,toolbar.y*_scale,toolbar.width*_scale,toolbar.height*_scale));
+            if(layersOpen)
             {
-                DrawSprite(new Rect(12,12,32,32),map.Icons.Role("Atlas"));
-                // M29: an active search is an explicit chip (hits on this page, query, clear).
-                if(M29AtlasSearchPolicy.Active(map.Search))AtlasSearchChip(new Rect(52,6,212,44),map);
-                else L.Label(new Rect(52,6,212,44),"АТЛАС СОЗДАТЕЛЯ",_iconTab);
-                if(Button(new Rect(268,6,44,44),map.PanelExpanded?"−":"+",_button))map.PanelExpanded=!map.PanelExpanded;
-                if(map.PanelExpanded)
+                MapLayersPanel(layersRect,map);
+                if(repaint)map.OverlayCardRects.Add(new Rect(layersRect.x*_scale,layersRect.y*_scale,layersRect.width*_scale,layersRect.height*_scale));
+            }
+            else
+            {
+                int shown=0;
+                foreach(var point in pagePoints)if(!map.PinnedOnly(point))shown++;
+                Rect used=MapLine(lineFull,map,shown,repaint);
+                if(repaint)
                 {
-                string mode=map.CustomPointMode?"ЛКМ: моя цветная метка":map.ClickTeleport?"ЛКМ: телепорт":"ЛКМ: обычная метка";
-                if(Button(new Rect(16,68,292,44),mode,map.ClickTeleport||map.CustomPointMode?_selectedButton:_button))
-                {
-                    if(map.CustomPointMode){map.CustomPointMode=map.ClickTeleport=false;}
-                    else if(map.ClickTeleport){map.ClickTeleport=false;map.CustomPointMode=true;}
-                    else map.ClickTeleport=true;
-                    map.TeleportStatus=map.CustomPointMode?"Нажмите ЛКМ по суше: сохранится своя метка":
-                        map.ClickTeleport?"Нажмите ЛКМ по суше на карте":"ЛКМ ставит обычную метку";
-                }
-                // Icon size is the player's, not the layer's: one slider sets the
-                // largest icon the atlas may draw and it never moves a marker.
-                L.Label(new Rect(16,116,292,18),"РАЗМЕР ЗНАЧКОВ · "+Mathf.RoundToInt(map.MarkerSize)+" px",_atlasHelp);
-                map.MarkerSize=Mathf.RoundToInt(Slider(4,new Rect(16,134,292,28),map.MarkerSize,
-                    MapOverlayLayout.MinSize,MapOverlayLayout.MaxSize));
-                // Only the caption inside the narrow column is shortened;
-                // tooltips keep the full layer name.
-                float layerY=MapLayerOrder.PanelGridTop;
-                for(int group=0;group<2;group++)
-                {
-                    int from=group==0?0:MapLayerOrder.Objects;
-                    int to=group==0?Mathf.Min(MapLayerOrder.Objects,layers.Length):layers.Length;
-                    L.Label(new Rect(16,layerY-20,292,18),group==0?"ОБЪЕКТЫ":"НАХОДКИ И СПАВНЫ",_atlasHelp);
-                    for(int i=from;i<to;i++)
-                    {
-                        string category=layers[i];bool active=map.Visible.Contains(category);
-                        int slot=i-from;
-                        if(NativeCategoryButton(new Rect(16+(slot%2)*150,layerY+(slot/2)*40,142,38),category,active))
-                        {if(active)map.Visible.Remove(category);else map.Visible.Add(category);}
-                    }
-                    layerY+=((to-from+1)/2)*40+24;
-                }
-                if(Button(new Rect(16,controlsY,292,42),map.HideOpened?"Пройденное скрыто":"Пройденное видно",map.HideOpened?_selectedButton:_button))map.HideOpened=!map.HideOpened;
-                string selectedDistance=map.Selected==null?"":MapTools.DistanceText(map.Distance(map.Selected));
-                L.Label(new Rect(16,controlsY+48,292,46),map.Selected==null?"Выберите метку на карте.\n"+map.ProgressSummary():
-                    (selectedDistance.Length>0?selectedDistance+" · ":"")+(FandomSummary(map.Selected) is string wiki?map.DisplayName(map.Selected)+": "+wiki:map.Selected.Category+" · "+map.DisplayName(map.Selected)),_atlasDetail);
-                if(!map.CustomPointMode&&!map.ClickTeleport&&map.Selected!=null&&map.CanMark(map.Selected))
-                {
-                    bool marked=map.Marked(map.Selected);
-                    if(Button(new Rect(16,controlsY+98,292,42),marked?"Снять отметку «собрано»":"Отметить «собрано»",marked?_selectedButton:_button))
-                    {var point=map.Selected;_app.Queue("toggle map mark",()=>map.ToggleMark(point));}
-                }
-                else if(!map.CustomPointMode&&!map.ClickTeleport&&map.Selected==null)
-                {
-                    if(Button(new Rect(16,controlsY+98,292,42),"Ближайшая непройденная",_button))
-                    {
-                        var nearest=map.NearestInFilter(true);
-                        if(nearest==null)_app.Notify("Среди включённых слоёв нет непройденных меток.");
-                        else{map.Selected=nearest;Vector2 c=new(nearest.Position.x,nearest.Position.z);_app.Queue("center nearest marker",()=>map.Ui._viewModel.CenterOnWorldPosition(c));}
-                    }
-                }
-                else L.Label(new Rect(16,controlsY+100,292,42),map.CustomPointMode?"Своя метка: "+_app.Custom.DraftName:
-                    map.ClickTeleport?"Посадка — на свободной суше.\nМоре и препятствия — отказ.":"Значки стоят точно на своих\nместах и не смещаются.",_atlasHelp);
-                bool activeGui=GUI.enabled;
-                GUI.enabled=activeGui&&map.Selected?.Group!=null&&map.Selected?.SourceObservation!=true&&!map.Busy;
-                if(Button(new Rect(16,controlsY+144,142,42),"К метке",_accentButton)){var point=map.Selected;_app.Queue("teleport atlas marker",()=>map.RequestTeleport(point));}
-                GUI.enabled=activeGui&&map.HasReturn&&!map.Busy;
-                if(Button(new Rect(166,controlsY+144,142,42),"Вернуться",_button))_app.Queue("return from atlas",map.Return);
-                GUI.enabled=activeGui;
-                if(Button(new Rect(16,controlsY+190,292,42),"Поиск · метки · настройки",_button))_app.Queue("atlas settings",()=>{map.CloseNative();ShowTabForTest(6);_app.Input.OpenAfterNativeClose();});
+                    _mapLineUsed=used.width;
+                    if(used.width>0)map.OverlayCardRects.Add(new Rect(used.x*_scale,used.y*_scale,used.width*_scale,used.height*_scale));
                 }
             }
-            finally{EndGroup();}
             // Publish only a complete render; never publish partial rectangles
             // from finally after a drawing exception.
             if(repaint)map.SyncRaycastShields();

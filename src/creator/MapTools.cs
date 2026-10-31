@@ -34,12 +34,57 @@ internal sealed partial class MapTools
         internal Sprite SourceIcon;
         internal float ObservedAt;
         internal int ColorIndex;
+        internal string Chip; // AtlasGroupPolicy chip, resolved once per point
         internal string Search => (Name+" "+Id+" "+GroupName+" "+Detail+" "+Contents+" "+WikiHint).ToLowerInvariant();
     }
     // Food and plort spawns were split out of «Ресурсы» (MapResourceLayerPolicy);
     // appended so the indices of the original twelve layers stay stable.
     internal static readonly string[] Categories={"Капсулы","Гордо","Телепорты","Ноды карты","Дроны","Ресурсы","Двери","Механизмы","Горшочки","Спавнеры",FandomMapMarkers.GatherCategory,FandomMapMarkers.RareCategory,MapResourceLayerPolicy.Food,MapResourceLayerPolicy.Plorts};
     internal readonly HashSet<string> Visible = new(Categories.Take(5));
+    // 0.8.1: find kinds switched off inside a visible shared layer (AtlasGroupPolicy chips).
+    internal readonly HashSet<string> HiddenChips = new(StringComparer.Ordinal);
+    internal static string ChipOf(Point p)=>p==null?"":p.Chip??=AtlasGroupPolicy.ChipOf(p.Category,p.FilterKind,
+        p.Category==AtlasGroupPolicy.Drones&&(p.DroneObservation||NativeIconPolicy.GhostDrone(p.Id,p.Name)));
+    // The one visibility rule of the atlas list, the native map, the minimap and the compass.
+    internal bool LayerVisible(Point p)=>p!=null&&AtlasGroupPolicy.Visible(p.Category,ChipOf(p),Visible,HiddenChips);
+    internal void ToggleChip(AtlasGroupPolicy.Chip chip){AtlasGroupPolicy.Toggle(chip,Visible,HiddenChips);_filterResult=null;}
+    internal void SetLayer(string layer,bool on){AtlasGroupPolicy.SetLayer(layer,on,Visible,HiddenChips);_filterResult=null;}
+    internal bool ChipActive(AtlasGroupPolicy.Chip chip)=>AtlasGroupPolicy.Active(chip,Visible,HiddenChips);
+    // Native map «Слои карты» panel: whole groups and one-click presets over the same chips.
+    internal void SetGroup(AtlasGroupPolicy.Group group,bool on){AtlasGroupPolicy.SetGroup(group,on,Visible,HiddenChips);_filterResult=null;}
+    internal int GroupActive(AtlasGroupPolicy.Group group)=>AtlasGroupPolicy.ActiveCount(group,Visible,HiddenChips);
+    internal void ApplyPreset(int index)
+    {
+        if(index<0||index>=AtlasGroupPolicy.Presets.Length)return;
+        AtlasGroupPolicy.ApplyPreset(AtlasGroupPolicy.Presets[index],Visible,HiddenChips);_filterResult=null;
+    }
+    internal int MatchingPreset()=>AtlasGroupPolicy.MatchingPreset(Visible,HiddenChips);
+    // 0.8.1: no icons under unexplored fog of the open atlas page (MapFogMask); own markers and
+    // the selected object stay. FogHiddenOnPage feeds the legend under the toolbar.
+    internal readonly MapFogMask Fog=new();
+    internal bool HideFogged=true;
+    internal int FogHiddenOnPage {get;private set;}
+    // Whole-world chip totals for the atlas chips («0/19»): every two seconds or on a save-state change.
+    private readonly Dictionary<string,(int Total,int Done)> _chipCounts=new(StringComparer.Ordinal);
+    private float _nextChipCounts;private int _chipCountVersion=-1,_chipCountPoints=-1;
+    internal (int Total,int Done) ChipCount(string chip)
+    {
+        if(Time.unscaledTime>=_nextChipCounts||_chipCountVersion!=_stateVersion||_chipCountPoints!=Points.Count)
+        {
+            _nextChipCounts=Time.unscaledTime+2f;_chipCountVersion=_stateVersion;_chipCountPoints=Points.Count;
+            _chipCounts.Clear();
+            foreach(var point in Points)
+            {
+                if(point==null)continue;
+                string id=ChipOf(point);if(id.Length==0)continue;
+                var spec=AtlasGroupPolicy.Find(id);
+                _chipCounts.TryGetValue(id,out var count);
+                count.Total++;if(spec!=null&&spec.Progress&&Opened(point))count.Done++;
+                _chipCounts[id]=count;
+            }
+        }
+        return chip!=null&&_chipCounts.TryGetValue(chip,out var c)?c:default;
+    }
     internal readonly List<Point> Points = new();
     internal readonly CapsuleTools Capsules = new();
     internal readonly NativeIconTools Icons;
@@ -221,6 +266,7 @@ internal sealed partial class MapTools
                 _director.add_OnPlayerNavMarkerChanged(_navHandler);
             }
         }
+        Fog.Tick(this);
         PrepareNativeControlExclusions();
         TrackMapClick();
         if(!ShieldOverlayReady)SuspendRaycastShields();
@@ -639,23 +685,31 @@ internal sealed partial class MapTools
     {
         string needle=(Search??"").Trim().ToLowerInvariant();
         bool byDistance=SortByDistance&&!currentPage&&HasPlayerPosition;
-        string key=needle+"|"+SourcesActualOnly+"|"+currentPage+"|"+HideOpened+"|"+string.Join(",",Visible)+"|"+(Ui?.CurrentMapDefinition?.name??"")+"|"+byDistance+"|"+_stateVersion;
+        string key=needle+"|"+SourcesActualOnly+"|"+currentPage+"|"+HideOpened+"|"+string.Join(",",Visible)+"|"+string.Join(",",HiddenChips)+"|"+(Ui?.CurrentMapDefinition?.name??"")+"|"+byDistance+"|"+_stateVersion+
+            "|"+HideFogged+"|"+Fog.Version+"|"+(currentPage&&Selected!=null?Selected.Category+"/"+Selected.Id:"");
         if(_filterResult!=null&&key==_filterKey&&Time.unscaledTime<_filterUntil)return _filterResult;
         _filterKey=key;_filterUntil=Time.unscaledTime+(byDistance?.5f:.15f);
         // M29: own markers stay pinned on the native atlas page whatever the search text or
         // the layer buttons say; the atlas list (currentPage=false) still filters them.
+        int fogged=0;
         var result=Points.Where(p=>currentPage&&M29AtlasSearchPolicy.PinnedOnMap(p.Category)?OnCurrentMap(p):
-            Visible.Contains(p.Category)&&(!SourcesActualOnly||!p.SourceObservation||p.LiveSource)&&(!HideOpened||!Opened(p))&&
-            MatchesSearch(p,needle)&&(!currentPage||OnCurrentMap(p)&&DrawGordoOverlay(p))).ToList();
+            LayerVisible(p)&&(!SourcesActualOnly||!p.SourceObservation||p.LiveSource)&&(!HideOpened||!Opened(p))&&
+            MatchesSearch(p,needle)&&(!currentPage||OnCurrentMap(p)&&DrawGordoOverlay(p)&&!FogHides(p,ref fogged))).ToList();
+        if(currentPage)FogHiddenOnPage=fogged;
         if(byDistance)result=result.OrderBy(p=>Distance(p)).ToList();
         return _filterResult=result;
+    }
+    private bool FogHides(Point p,ref int count)
+    {
+        if(!HideFogged||p==Selected||!Fog.Fogged(p))return false;
+        count++;return true;
     }
     private bool MatchesSearch(Point p,string needle)=>
         needle.Length==0||p.Search.Contains(needle)||p.Category=="Капсулы"&&Capsules.Get(p.Id).Search.Contains(needle);
     // An own marker on the atlas page that only the M29 pin keeps there (its layer is off or
     // the search does not match it): drawn, but neither a search hit nor a «ближайшая» target.
     internal bool PinnedOnly(Point p)=>p!=null&&M29AtlasSearchPolicy.PinnedOnMap(p.Category)&&
-        (!Visible.Contains(p.Category)||!MatchesSearch(p,M29AtlasSearchPolicy.Needle(Search)));
+        (!LayerVisible(p)||!MatchesSearch(p,M29AtlasSearchPolicy.Needle(Search)));
     internal int SearchHitsOnPage()
     {
         int hits=0;

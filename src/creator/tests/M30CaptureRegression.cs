@@ -110,6 +110,6 @@ internal static class M30CaptureRegression
         C(!free.Contains("harmony.Patch")&&!free.Contains("HarmonyLib")&&free.Contains("Restore()"),"free placement: native metadata leased, no patches");
         C(!names.Contains(".sav\", \"")&&!names.Contains("File.Delete")&&!names.Contains("StoreGame")&&names.Contains("label.Native"),
           "save names: save files never written, native captions handed back");
-        C(mod.Contains("\"0.8.0\"")&&mod.Contains("AssemblyVersion(\"0.8.0.0\")"),"version 0.8.0");
+        C(mod.Contains("\"0.8.1\"")&&mod.Contains("AssemblyVersion(\"0.8.1.0\")"),"version 0.8.1");
     }
 }

@@ -1884,3 +1884,172 @@ Cкамейка из оранжереи	A bench from the Conservatory
 Нода карты	Map node
 Телепорт · 	Teleporter · 
 Капсула · 	Pod · 
+Сокровища	Treasures
+Пути	Routes
+Метки игры	Game markers
+Сокровищницы	Treasure pods
+Сокровищница	Treasure pod
+Поисковые дроны	Research drones
+Призрачные дроны	Ghostly drones
+Статуи для плортов	Plort statues
+Узлы карты	Map nodes
+Ценное	Valuables
+Ценный ресурс	Valuable resource
+Материал	Material
+Плорт	Plort
+Приёмники плортов	Plort depositors
+Места появления	Spawn sites
+Место появления	Spawn site
+Лучистые слаймы	Radiant slimes
+Редкие слаймы	Rare slimes
+Редкий слайм	Rare slime
+Своя метка	Own marker
+Ближайшая	Nearest
+на карте	on the map
+нет на карте	none on the map
+ не открыто	 not opened
+ и ещё 	 +
+ресурсы	resources
+чертёж	blueprint
+компонент улучшения	upgrade component
+По расстоянию	By distance
+По порядку	In order
+Открытое скрыто	Opened hidden
+Открытое видно	Opened shown
+Только живые	Live only
+И места появления	Spawn sites too
+Показано: 	Shown: 
+Отмечено вами	Marked by you
+Не открыта	Not opened
+Пройдено	Done
+Не пройдено	Not done
+Выберите метку в списке.	Pick a marker in the list.
+Выберите метку в списке.\nГруппы и чипы сверху включают слои: включённое видно здесь, на карте, на мини-карте и в компасе.	Pick a marker in the list.\nGroups and chips above switch layers: whatever is on shows here, on the map, on the minimap and in the compass.
+высота точная	exact height
+Цель компаса	Compass target
+Компас выключен: включите его в «Навигации».	The compass is off: turn it on in «Navigation».
+Отметить открытой	Mark as opened
+Внутри	Inside
+предмет	item
+предмета	items
+предметов	items
+Координаты: 	Coordinates: 
+Что ищем: «сердечный», «алмаз», «гордо»…	Search: «heart», «diamond», «gordo»…
+Ничего не найдено. Измените поиск или включите нужные слои в группах выше.	Nothing found. Change the search or switch on the layers you need in the groups above.
+Расхождение с базой · показано то, что в игре	Differs from the database · showing what the game has
+Сверка неполная · награды из базы мода	Partly checked · rewards from the mod database
+Сверено с капсулой в игре	Checked against the pod in the game
+Из базы мода · в игре ещё не сверено	From the mod database · not yet checked in the game
+Слои карты	Map layers
+Минимум	Minimum
+Всё	All
+Скрывать открытое и собранное	Hide opened and collected
+Скрывать в тумане (неисследованное)	Hide in fog (unexplored)
+Значки	Icons
+ЛКМ	LMB
+Моя	Own
+Цель	Target
+Отметить	Mark
+Слои выключены	Layers off
+Слои	Layers
+открытое скрыто	opened hidden
+в тумане скрыто	hidden in fog
+прогресс сейва	save progress
+Поиск в атласе	Search the atlas
+Ближайшая неоткрытая	Nearest unopened
+Настройки навигации	Navigation settings
+Среди включённых слоёв нет неоткрытых меток на этой странице.	No unopened markers among the enabled layers on this page.
+открыта	opened
+пройдено	done
+ЛКМ по суше — своя метка	LMB on land — own marker
+ЛКМ по суше — телепорт	LMB on land — teleport
++ Любимая еда слаймов из моих загонов	+ Favorite food of slimes in my corrals
+Ближайший призрачный дрон зоны с наградой — всегда, без предела дальности.	The nearest ghostly drone of the zone with a reward — always, with no range limit.
+ВЫБРАННАЯ МЕТКА	SELECTED MARKER
+Дальность	Range
+Зона не найдена	Zone not found
+Изменения сохраняются сразу	Changes are saved immediately
+Изменить →	Change →
+Каталог ещё загружается…	The catalog is still loading…
+ЛКМ — отметить или снять · ПКМ по отмеченной плитке — другой цвет.	LMB — mark or unmark · RMB on a marked tile — another color.
+Максимум меток	Maximum markers
+Маяк в мире	Beacon in the world
+Метки целей на полосе компаса	Target markers on the compass strip
+На радаре	On the radar
+Непрозрачность	Opacity
+Очистить	Clear
+Очистить радар?	Clear the radar?
+Подсвечивать в мире	Highlight in the world
+Пока пусто. Нажмите на плитку слева — она появится здесь со своим цветом.	Empty for now. Click a tile on the left — it will appear here with its own color.
+Показывать на компасе и мини-карте	Show on the compass and minimap
+Поставить здесь	Place here
+Предпросмотр · как будет в игре	Preview · as it will look in the game
+Призрачные дроны раньше других слоёв, как свои метки.	Ghostly drones before other layers, like own markers.
+Призрачные дроны — наравне с другими дронами.	Ghostly drones — on a par with other drones.
+Радар включён	Radar on
+Радар: добавлено любимой еды — 	Radar: favorite foods added — 
+Радар: новой любимой еды в загонах не найдено	Radar: no new favorite food found in the corrals
+Радиус	Radius
+С радара будут сняты все цели этого сейва.	All targets of this save will be removed from the radar.
+Сбросить вид и лимиты	Reset view and limits
+Создайте первую метку слева.	Create the first marker on the left.
+Точка с карты: маяк появится после проверки высоты при телепорте.	Point from the map: the beacon appears after the height is checked on teleport.
+Угол экрана	Screen corner
+Удалить	Delete
+Указать на карте	Pick on the map
+ЦВЕТ	COLOR
+Цель на компасе	Compass target
+Что отметить? Слайм, еда, ресурс, игрушка, гордо…	What to mark? Slime, food, resource, toy, gordo…
+высота не проверена	height not checked
+другой остров	another island
+сохраняется сразу	saved immediately
+цель	target
+ + радар	 + radar
+ · ближайший 	 · nearest 
+ · любимая: 	 · favorite of: 
+ · хранятся отдельно от сейва	 · stored separately from the save
+ на радаре	 on the radar
+ рядом	 nearby
+Важно	Important
+Значки = слои атласа: 	Icons = atlas layers: 
+Обычно	Normal
+По имени	By name
+Ресурс	Resource
+Север вверх	North up
+Слайм	Slime
+Сначала новые	Newest first
+нет рядом	none nearby
+создана 	created 
+мини-карта выключена	minimap is off
+ · текущая зона, до 	 · current zone, up to 
+ · целей на радаре: 	 · radar targets: 
+ целей.	 targets.
+Загоны ещё не загружены.	The corrals are not loaded yet.
+Загоны не загружены: вернитесь на ранчо.	The corrals are not loaded: return to the ranch.
+Ищем только в текущей нативной зоне · до 	Searching only the current native zone · up to 
+На радаре не больше 	The radar holds at most 
+На радаре: 	On the radar: 
+Радар · выберите, что отметить	Radar · choose what to mark
+Радар станет доступен после загрузки сейва.	The radar becomes available after a save is loaded.
+Радар: настройки не сохранены (	Radar: settings not saved (
+Рядом: 	Nearby: 
+Файл радара не принят, исходный файл не перезаписан: 	The radar file was rejected, the original file was not overwritten: 
+Файл радара слишком велик.	The radar file is too large.
+Этот предмет нельзя отметить на радаре.	This item cannot be marked on the radar.
+На компасе и мини-карте	On the compass and minimap
+выключены	off
+свои (	custom (
+# 0.8.1 menu key
+Клавиша меню	Menu key
+Клавиша меню: 	Menu key: 
+Клавиша меню не изменена	Menu key unchanged
+ (не сохранено)	 (not saved)
+ — открыть меню	 — open menu
+ · закрыть: Esc	 · close: Esc
+Открыть меню: 	Open menu: 
+  ·  изменить…	  ·  change…
+Esc — отмена · F1, Tab, Enter, пробел и стрелки не подходят	Esc — cancel · F1, Tab, Enter, Space and arrows can't be used
+SOS и инфо-HUD — на сеанс · FPS и клавиша меню сохраняются.	SOS and info HUD are per session · FPS and the menu key are saved.
+Вернуть Insert	Back to Insert
+Нажмите клавишу…	Press a key…
+Убирает игровой интерфейс и вакпак. Меню остаётся доступно по 	Removes the game UI and the vacpack. The menu stays available via 

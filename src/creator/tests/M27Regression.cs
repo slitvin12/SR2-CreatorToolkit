@@ -51,8 +51,8 @@ internal static class M27Regression
         C(ui.Contains("_confirmTextHeight=_wrap.CalcHeight(newGUIContent(Loc.T(description)),652);")&&
           ui.Contains("floatdialogHeight=Mathf.Clamp(_confirmTextHeight+200,360,Mathf.Max(360,height-40));")&&
           ui.Contains("newRect(dialog.x+24,dialog.y+90,dialog.width-48,dialogHeight-190),description,_wrap"),"live: confirmation dialogs grow with their description");
-        C(explorer.Contains("L.Label(new Rect(x+16,468,right-32,68),tools.Status+\"\\n\"+(compass!=null?compass.Status:\"\"),_atlasDetail);")&&
-          explorer.Contains("скрытые залежи не угадываются.\",_muted);"),"live: radar status is a top-aligned block below the compass button");
+        C(explorer.Contains("if(DetailedHelp)L.Label(new Rect(x,rect.yMax-176,w,34),tools.Status,_small);")&&
+          explorer.Contains("float listBottom=rect.yMax-(DetailedHelp?184:148);"),"live: with «?» the radar status sits above the favourite-food button, the list makes room");
         C(terrain.Contains("_layerTextures[art.Key]=texture;")&&terrain.Contains("Note(\"committed\"")&&terrain.Contains("Note(\"sample\"")&&
           !terrain.Contains("_calibrations.Remove(_pageName)")&&terrain.Contains("FineSpan=20"),"live: minimap calibration adopts the displayed atlas art and reports why it waits");
         // MainWorldMap: MapBackground is empty, the island is ten zone Images (MapZone material).
@@ -102,17 +102,26 @@ internal static class M27Regression
     {
         C(M27DronePanelPolicy.Scale(1080)==1f&&M27DronePanelPolicy.Scale(540)==.6f&&M27DronePanelPolicy.Scale(2160)==1.3f&&
           M27DronePanelPolicy.Scale(float.NaN)==1f&&M27DronePanelPolicy.Scale(0)==1f,"drone: GUI scale mirrors ToolkitUi clamp(h/1080,.6,1.3)");
-        C(M27DronePanelPolicy.AtlasInset==344&&M27DronePanelPolicy.AtlasTop==20&&M27DronePanelPolicy.AtlasWidth==324&&M27DronePanelPolicy.AtlasCollapsedHeight==56,
-          "drone: atlas constants equal the overlay rect new(sw-344,20,324,expanded?PanelHeight:56)");
+        C(M27DronePanelPolicy.AtlasInset==620&&M27DronePanelPolicy.AtlasTop==20&&M27DronePanelPolicy.AtlasWidth==600&&M27DronePanelPolicy.AtlasCollapsedHeight==108,
+          "drone: atlas constants equal the 0.8.1 toolbar (sw-620,20,600) with its line down to y=128");
         const int layers=14;
         var expanded=M27DronePanelPolicy.AtlasPanel(1920,1080,true,layers);
         var collapsed=M27DronePanelPolicy.AtlasPanel(1920,1080,false,layers);
-        C(expanded.X==1920-344&&expanded.Y==20&&expanded.Width==324&&expanded.Height==MapLayerOrder.PanelHeight(layers)&&
-          collapsed.Height==56&&collapsed.X==expanded.X&&expanded.Bottom<=890,"drone: atlas panel box at 1080p equals the overlay rect");
+        C(expanded.X==1920-620&&expanded.Y==20&&expanded.Width==600&&expanded.Bottom==1080-MapChromePolicy.BottomReserve&&
+          collapsed.Height==108&&collapsed.X==expanded.X&&Near(expanded.Height,MapChromePolicy.Bounds(1920,1080,true).Height),
+          "drone: atlas box at 1080p equals the toolbar plus the «Слои карты» drop-down");
         var wide=M27DronePanelPolicy.AtlasPanel(2560,1440,true,layers);
-        C(Near(wide.X,2560-344*1.3f,1e-3)&&Near(wide.Y,26,1e-3)&&Near(wide.Height,MapLayerOrder.PanelHeight(layers)*1.3f,1e-2),
+        var wideLogical=MapChromePolicy.Bounds(2560/1.3f,1440/1.3f,true);
+        C(Near(wide.X,2560-620*1.3f,1e-2)&&Near(wide.Y,26,1e-3)&&Near(wide.Height,wideLogical.Height*1.3f,1e-2),
           "drone: atlas box follows the GUI matrix at 1440p");
         float sh=1080,m=M27DronePanelPolicy.Margin;
+        // The drop-down reaches the bottom reserve: a panel under it can only be cleared by closing it.
+        var under=new MapShieldPolicy.Box(expanded.X+40,200,300,300);
+        var real=M27DronePanelPolicy.Decide(under,expanded,collapsed,true,true,sh);
+        C(real.Collapse&&real.Clear&&real.Shift==0,"drone: a panel under the open «Слои карты» closes the drop-down instead of leaving the screen");
+        // Decide itself is geometry-agnostic: a short fixture panel leaves room below it.
+        expanded=new MapShieldPolicy.Box(1920-344,20,324,700);
+        collapsed=new MapShieldPolicy.Box(1920-344,20,324,56);
         var left=new MapShieldPolicy.Box(200,300,400,300);
         var d=M27DronePanelPolicy.Decide(left,expanded,collapsed,true,true,sh);
         C(d.Shift==0&&!d.Collapse&&d.Clear,"drone: a panel clear of the atlas is never moved");
@@ -402,14 +411,14 @@ internal static class M27Regression
           explorer.Contains("NativeRequiredIcon(new Rect(18,370+o,42,42),\"Farm\")")&&explorer.Contains("feed.Request(!feeding)"),
           "autofeed: native chomp path, policy meal choice, confirmed opt-in from the farm page");
         C(explorer.Contains("NativeRequiredIcon(new Rect(18,162+o,42,42),\"PinkPlort\")")&&explorer.Contains("NativeRequiredIcon(new Rect(x+18,162+o,42,42),\"Feeder\")")&&
-          explorer.Contains("_radarSelection=slimes.FirstOrDefault(e=>e.Type.ReferenceId==tools.SlimeReference)"),"explorer: existing farm/radar contracts kept");
+          explorer.Contains("var target=tools.Tracked(entry.Type.ReferenceId);"),"explorer: existing farm/radar contracts kept");
         // M29: the disc diameter is M29MiniMapLayout.Diameter (size from navigation.cfg) in both; the zoom is the live range.
         C(mini.Contains("M29MiniMapLayout.Diameter(look.Size,Screen.height)")&&terrain.Contains("M29MiniMapLayout.Diameter(nav?.Settings.Size??1,Screen.height)")&&
           terrain.Contains("terrainRadius=radius-6f,markerRadius=radius-14f")&&mini.Contains("terrainRadius=radius-6f")&&mini.Contains("scale=(radius-14)/range"),
           "minimap: terrain composite and UI share the disc diameter and marker scale");
-        C(mini.Contains("M27MiniMapPolicy.ScreenDegrees(yaw)")&&mini.Contains("M27MiniMapPolicy.PivotTranslation(center.x,center.y,degrees,out double tx,out double ty)")&&
+        C(mini.Contains("M27MiniMapPolicy.ScreenDegrees(yaw)")&&mini.Contains("M27MiniMapPolicy.PivotTranslation(center.x+clip.x,center.y+clip.y,degrees,out double tx,out double ty)")&&
           mini.Contains("GUI.matrix=Matrix4x4.identity;")&&mini.Contains("Event.current.type!=EventType.Repaint")&&mini.Contains("_nextMiniMap=Time.unscaledTime+.5f")&&
-          mini.Contains("MiniMapPoints.Count>80")&&mini.Contains("CanonIcon(icon,CanonMapIconPolicy.Cell(point.Category,point.Id,point.Name))"),
+          mini.Contains("MiniMapPoints.Count>MiniMapMarkers")&&mini.Contains("CanonIcon(icon,CanonMapIconPolicy.Cell(point.Category,point.Id,point.Name))"),
           "minimap: rotated terrain under GUI.matrix, repaint-only, bounded markers kept");
         string compactTerrain=Compact(terrain);
         C(compactTerrain.Contains("internalvoidTick(){if(!Enabled)return;")&&terrain.Contains("M27MiniMapPolicy.NeedsCompose(")&&terrain.Contains("MaxCaptures=6,LayerCapture=1024")&&
@@ -417,12 +426,12 @@ internal static class M27Regression
           "minimap: idle when off, page readback cached, composite throttled, calibration in UserData");
         // 0.8.0: the single minimap switch is the «Навигация → Режим» row (off / terrain / radar, saved).
         string navTools=R("M29NavigationTools.cs");
-        C(explorer.Contains("NavigationChoice(new Rect(cx,190,cw,34),M29NavigationSettings.ModeTitles,s.Mode)")&&explorer.Contains("nav.SetMode(mode)")&&
+        C(explorer.Contains("Segmented(new Rect(cx,y,cw,40),M29NavigationSettings.ModeTitles,s.Mode)")&&explorer.Contains("nav.SetMode(mode)")&&
           navTools.Contains("map.ShowMiniMap=Settings.Mode!=0;")&&navTools.Contains("_app.MiniMapTerrain?.SetEnabled(Settings.Mode==1);"),"minimap: navigation mode row switches off / terrain / radar");
         C(compass.Contains("RegisterTrackedGameObjectAdvanced")&&compass.Contains("UnregisterTrackedGameObjectAdvanced")&&compass.Contains("M29CompassPolicy.Pick(")&&
-          explorer.Contains("_app.Compass.SetEnabled(on)"),"compass: native RadarRegistry markers, bounded by policy, toggled on the radar page");
+          explorer.Contains("nav.SetCompass(on)"),"compass: native RadarRegistry markers, bounded by policy, toggled on the navigation page");
         C(drone.Contains("M27DronePanelPolicy.Decide(")&&drone.Contains("anchoredPosition")&&
-          ui.Contains("Rect panelBounds=new(sw-344,20,324,map.PanelExpanded?MapLayerOrder.PanelHeight(layers.Length):56);")&&
+          ui.Contains("Rect toolbar=R(MapChromePolicy.Toolbar(sw));")&&ui.Contains("layersOpen?R(MapChromePolicy.Layers(sw,sh)):default;")&&
           ui.Contains("_scale=Mathf.Clamp(Screen.height/1080f,.6f,1.3f)"),"drone: the policy box matches the live atlas overlay");
         string csproj=File.ReadAllText(Path.Combine(dir,"tests","CreatorToolkit.Tests.csproj"));
         C(csproj.Contains("..\\M27Policy.cs"),"tests: M27 policies are linked into the offline checker");

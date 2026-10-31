@@ -139,6 +139,8 @@ internal sealed partial class MapTools
             _gordoPoints[pair.Key]=point;Points.Add(point);
         }
     }
+    // 0.8.1 radar: the atlas row of a persistent gordo model (null when not indexed).
+    internal Point GordoPoint(string id)=>id!=null&&_gordoPoints.TryGetValue(id,out var point)?point:null;
     internal GordoMapPolicy.State GordoState(Point point)=>point!=null&&point.Category=="Гордо"&&
         _gordoStates.TryGetValue(point.Id,out var state)?state:GordoMapPolicy.State.Unknown;
     internal string GordoStateLabel(Point point)=>GordoState(point)==GordoMapPolicy.State.Unknown?GordoNeverLoaded(point)?M28TrackingStatePolicy.GordoNeverLoaded:"Состояние Гордо неизвестно":point.GordoStateText??"Состояние Гордо неизвестно";

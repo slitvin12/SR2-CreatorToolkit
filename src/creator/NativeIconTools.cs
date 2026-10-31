@@ -20,7 +20,8 @@ namespace CreatorToolkit;
 internal sealed class NativeIconTools
 {
     // +2 for the food / plort layer badges split from «Ресурсы» (was 192).
-    internal const int AssetBudget=194;
+    // 0.8.1: +26 statue/plort artworks for per-species plort statues (MapRareIcons).
+    internal const int AssetBudget=240;
     private readonly ToolkitMod _app;
     private readonly Dictionary<string,Sprite> _categories=new(StringComparer.Ordinal);
     private readonly Dictionary<string,Sprite> _rewards=new(StringComparer.Ordinal);
@@ -555,6 +556,9 @@ internal sealed class NativeIconTools
         foreach(string name in names){var sprite=Named(name);if(sprite!=null)return sprite;}
         return null;
     }
+    // Atlas chips and statue badges: exact artwork of a find kind / one declared sprite name.
+    internal Sprite Kind(string kind)=>NamedFirst(MapRareIcons.Names(kind));
+    internal Sprite Art(string name)=>Named(name);
     internal Sprite Reward(string key)=>_rewards.TryGetValue(key??"",out var sprite)&&Live(sprite)?sprite:null;
     internal void VisitUiTextures(Action<Texture2D> observe)
     {
@@ -612,8 +616,9 @@ internal sealed class NativeIconTools
         if(point.Category==FandomMapMarkers.RareCategory)
         {
             // Statues, gates and radiant slimes: real game art per find kind,
-            // never the baked atlas cell that looked like a bush.
-            var art=NamedFirst(MapRareIcons.Names(point.FilterKind));
+            // never the baked atlas cell that looked like a bush. The name carries the
+            // statue species («Статуя для плорта · скалистый»), the kind the generic art.
+            var art=NamedFirst(MapRareIcons.Names(point.Name))??NamedFirst(MapRareIcons.Names(point.FilterKind));
             if(art!=null)return art;
         }
         return Category(point.Category);

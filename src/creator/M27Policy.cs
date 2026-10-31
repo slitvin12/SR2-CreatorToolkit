@@ -8,12 +8,13 @@ namespace CreatorToolkit;
 // links this file directly and unit-tests every decision (tests\M27Regression.cs).
 
 // 1. Native map drone panel (MapUI._droneMenu) placement. Boxes are top-left
-//    screen pixels. The creator atlas panel is drawn by ToolkitUi.DrawMapOverlay
-//    at logical new(sw-344,20,324,PanelExpanded?MapLayerOrder.PanelHeight(n):56)
-//    under the uniform GUI scale clamp(Screen.height/1080,.6,1.3).
+//    screen pixels. The creator atlas chrome is drawn by ToolkitUi.DrawMapOverlay
+//    at logical MapChromePolicy.Bounds (0.8.1: the toolbar with its line, or the toolbar
+//    with the «Слои карты» drop-down) under the uniform GUI scale clamp(Screen.height/1080,.6,1.3).
 internal static class M27DronePanelPolicy
 {
-    internal const float Margin=12f,AtlasInset=344f,AtlasTop=20f,AtlasWidth=324f,AtlasCollapsedHeight=56f;
+    internal const float Margin=12f,AtlasInset=MapChromePolicy.Inset+MapChromePolicy.ToolbarWidth,AtlasTop=MapChromePolicy.Top,
+        AtlasWidth=MapChromePolicy.ToolbarWidth,AtlasCollapsedHeight=MapChromePolicy.LineTop+MapChromePolicy.LineHeight-MapChromePolicy.Top;
     // Drift beyond this means the game itself rewrote the panel position.
     internal const float WriteTolerance=.5f;
     internal const int MaxOverwrites=30;
@@ -32,9 +33,10 @@ internal static class M27DronePanelPolicy
     internal static float Scale(float screenHeight)=>float.IsFinite(screenHeight)&&screenHeight>0?Math.Clamp(screenHeight/1080f,.6f,1.3f):1f;
     internal static MapShieldPolicy.Box AtlasPanel(float screenWidth,float screenHeight,bool expanded,int layers)
     {
+        // layers: kept for the callers; the 0.8.1 drop-down height follows the screen, not the count.
         float scale=Scale(screenHeight);
-        float height=expanded?MapLayerOrder.PanelHeight(layers):AtlasCollapsedHeight;
-        return new MapShieldPolicy.Box(screenWidth-AtlasInset*scale,AtlasTop*scale,AtlasWidth*scale,height*scale);
+        var box=MapChromePolicy.Bounds(screenWidth/scale,screenHeight/scale,expanded);
+        return new MapShieldPolicy.Box(box.X*scale,box.Y*scale,box.Width*scale,box.Height*scale);
     }
     internal static bool Overlaps(MapShieldPolicy.Box a,MapShieldPolicy.Box b)=>
         a.Valid&&b.Valid&&a.X<b.Right&&b.X<a.Right&&a.Y<b.Bottom&&b.Y<a.Bottom;

@@ -184,7 +184,7 @@ internal static class M29NavigationRegression
           nav.Contains("_app.Compass?.Wanted"),"wiring: navigation.cfg in UserData, atomic save, smooth zoom, live toggles adopted");
         C(mini.Contains("M29MiniMapLayout.Box(look.Corner,")&&mini.Contains("M29MiniMapLayout.Diameter(look.Size,")&&mini.Contains("M29MiniMapLayout.MapYaw(look.NorthUp,")&&
           mini.Contains("look.BackgroundAlpha")&&mini.Contains("M29MiniMapZoom.TextureScale(terrain.ComposedRange,range)")&&mini.Contains("M29LayerPolicy.RoundRobin(")&&
-          mini.Contains("SourcesActualOnly&&point.SourceObservation&&!point.LiveSource")&&mini.Contains("playerMarker?.Draw(center,radius,true,turn);"),
+          mini.Contains("SourcesActualOnly&&point.SourceObservation&&!point.LiveSource")&&mini.Contains("playerMarker?.Draw(center,radius,true,turn,clip);"),
           "wiring: minimap size, corner, zoom, transparency, orientation and the per-layer cap");
         C(terrain.Contains("M29MiniMapLayout.Diameter(nav?.Settings.Size??1,Screen.height)")&&terrain.Contains("ComposedRange=range;")&&
           terrain.Contains("M29MiniMapZoom.Stale(ComposedRange,range)"),"wiring: the terrain composite follows the disc size and the zoom");
@@ -193,7 +193,7 @@ internal static class M29NavigationRegression
           "wiring: compass range, limit, layer share, phantom priority and the list's source rule");
         C(map.Contains("M29LayerPolicy.HudNeedsSources(ShowMiniMap,")&&map.Contains("M29LayerPolicy.CensusBudget(atlas)")&&map.Contains("GroupName=groupName")&&
           map.Contains("M29LayerPolicy.SourceGroup(observation.SceneGroup,currentGroup,"),"wiring: sources are observed for the HUD and carry the scene group");
-        C(explorer.Contains("\"Навигация\"")&&explorer.Contains("NavigationPage(width)")&&explorer.Contains("Slider(60,")&&explorer.Contains("nav.ResetLook"),
+        C(explorer.Contains("\"Навигация\"")&&explorer.Contains("NavigationPage(width,height)")&&explorer.Contains("Slider(60,")&&explorer.Contains("nav.ResetLook"),
           "wiring: the explorer has the navigation page");
         C(relay.Contains("case \"ct-nav\"")&&relay.Contains("private static string Nav(")&&M28TestPolicy.Help.Any(h=>h.StartsWith("ct-nav ",StringComparison.Ordinal)),
           "relay: ct-nav handled and documented");

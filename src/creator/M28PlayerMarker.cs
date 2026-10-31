@@ -39,7 +39,13 @@ internal sealed class PlayerMarkerTools
         internal float X,Y,W,H,Angle;   // GUI px around the marker pivot (capture scale), quad centre/size, clockwise degrees
         internal Color Tint=Color.white;
         internal bool Below,Rotating;
+        internal uint[] Pixels;          // the copy itself, for the screen-size resamples
+        internal readonly List<Sized> Resampled=new();
+        internal float ResampledAt=-1f;
     }
+    // 0.8.1: the copy resampled to the exact screen size it is drawn at (no mips, bilinear).
+    private sealed class Sized{internal Texture2D Texture;internal int Width,Height;internal float UsedAt;}
+    private const int MaxSized=3;private const float ResizeEvery=.2f;
     // GUI px around the marker pivot (y down): bottom-left, top-left, top-right, bottom-right.
     private struct Quad{internal Vector2 C0,C1,C2,C3;}
     private sealed class Clip
@@ -107,14 +113,25 @@ internal sealed class PlayerMarkerTools
     // Minimap drawing (Repaint only, GUI.matrix identity on entry). below: the view cone
     // layer the game draws under the other markers. turn (M29 north-up minimap): clockwise
     // screen degrees for the rotating parts (facing arrow, view cone) around the centre.
-    internal bool Draw(Vector2 centre,float radius,bool below,float turn=0f)
+    // clip (0.8.1 «Навигация» preview): the caller's GUI group origin, so the rotation pivots on the
+    // drawn point inside nested menu groups; zero on the HUD.
+    internal bool Draw(Vector2 centre,float radius,bool below,float turn=0f,Vector2 clip=default)
     {
         if(_parts.Count==0||Event.current==null||Event.current.type!=EventType.Repaint)return false;
-        float scale=M28PlayerMarkerPolicy.FitScale(_body,_body,M28PlayerMarkerPolicy.TargetSize);
-        if(_extent>0&&radius>12f)scale=Math.Min(scale,(radius-6f)/_extent);
+        float front=0;
+        foreach(var part in _parts)if(!part.Below)front=Math.Max(front,Math.Max(part.W,part.H));
+        float scale=M28PlayerMarkerPolicy.MarkerScale(front,_body,_extent,radius);
         if(!float.IsFinite(scale)||scale<=0)return false;
         bool drew=false;
         var matrix=GUI.matrix;var color=GUI.color;
+        // 0.8.1: screen px per GUI px of the caller (the menu preview is scaled), so each part is
+        // resampled to the size it really covers; an unrotated matrix also lets upright parts snap
+        // to whole pixels. The rect is drawn at its real place inside the caller's group (a rect
+        // around the group origin was clipped to a quadrant in the «Навигация» preview) and
+        // rotated around that place through the matrix.
+        float pixels=new Vector2(matrix.m00,matrix.m10).magnitude;
+        if(!float.IsFinite(pixels)||pixels<=.01f)pixels=1f;
+        bool axisAligned=Math.Abs(matrix.m01)<1e-5f&&Math.Abs(matrix.m10)<1e-5f&&matrix.m00>0f&&matrix.m11>0f;
         try
         {
             foreach(var part in _parts)
@@ -125,15 +142,60 @@ internal sealed class PlayerMarkerTools
                 if(!(w>.5f)||!(h>.5f))continue;
                 float px=part.X*scale,py=part.Y*scale,angle=part.Angle;
                 if(part.Rotating&&turn!=0f&&float.IsFinite(turn)){M28PlayerMarkerPolicy.Rotate(px,py,turn,out px,out py);angle+=turn;}
-                var at=new Vector3(centre.x+px,centre.y+py,0f);
-                GUI.matrix=matrix*Matrix4x4.TRS(at,Quaternion.Euler(0f,0f,angle),Vector3.one);
+                angle=M28PlayerMarkerPolicy.Normalize(angle);
+                var texture=SizedTexture(part,w*pixels,h*pixels,out int tw,out int th);
+                if(texture!=part.Texture){w=tw/pixels;h=th/pixels;}
+                float ax=centre.x+px,ay=centre.y+py,left=ax-w*.5f,top=ay-h*.5f;
+                bool turned=Math.Abs(angle)>.05f;
+                if(turned)
+                {
+                    var pivot=new Vector3(ax+clip.x,ay+clip.y,0f);
+                    GUI.matrix=matrix*Matrix4x4.TRS(pivot,Quaternion.Euler(0f,0f,angle),Vector3.one)*Matrix4x4.Translate(-pivot);
+                }
+                else
+                {
+                    GUI.matrix=matrix;
+                    if(axisAligned&&texture!=part.Texture)
+                    {
+                        left=(Mathf.Round(matrix.m00*(left+clip.x)+matrix.m03)-matrix.m03)/matrix.m00-clip.x;
+                        top=(Mathf.Round(matrix.m11*(top+clip.y)+matrix.m13)-matrix.m13)/matrix.m11-clip.y;
+                    }
+                }
                 GUI.color=part.Tint;
-                GUI.DrawTexture(new Rect(-w*.5f,-h*.5f,w,h),part.Texture);
+                GUI.DrawTexture(new Rect(left,top,w,h),texture);
                 drew=true;
             }
         }
         finally{GUI.matrix=matrix;GUI.color=color;}
         return drew;
+    }
+    // The copy at w×h screen px: a cached resample (up to three sizes per part — HUD and the menu
+    // preview can show the marker at once), rebuilt at most every 0.2 s while a size changes; the
+    // mip-mapped copy itself when it is not larger than the drawn size.
+    private Texture2D SizedTexture(Part part,float wantW,float wantH,out int tw,out int th)
+    {
+        tw=Math.Max(1,Mathf.RoundToInt(wantW));th=Math.Max(1,Mathf.RoundToInt(wantH));
+        if(part.Pixels==null||tw>=part.Width||th>=part.Height||part.Pixels.Length<part.Width*part.Height)return part.Texture;
+        float now=Time.unscaledTime;
+        Sized near=null;
+        foreach(var sized in part.Resampled)
+        {
+            if(sized.Texture==null||sized.Texture.WasCollected)continue;
+            if(sized.Width==tw&&sized.Height==th){sized.UsedAt=now;return sized.Texture;}
+            if(near==null||Math.Abs(sized.Width-tw)<Math.Abs(near.Width-tw))near=sized;
+        }
+        if(near!=null&&now<part.ResampledAt+ResizeEvery){near.UsedAt=now;return near.Texture;}
+        part.Resampled.RemoveAll(x=>x.Texture==null||x.Texture.WasCollected);
+        while(part.Resampled.Count>=MaxSized)
+        {
+            int oldest=0;
+            for(int i=1;i<part.Resampled.Count;i++)if(part.Resampled[i].UsedAt<part.Resampled[oldest].UsedAt)oldest=i;
+            UnityEngine.Object.Destroy(part.Resampled[oldest].Texture);part.Resampled.RemoveAt(oldest);
+        }
+        var pixels=M28PlayerMarkerPolicy.Downsample(part.Pixels,part.Width,part.Height,tw,th);
+        var texture=Upload(pixels,tw,th,false);
+        part.Resampled.Add(new Sized{Texture=texture,Width=tw,Height=th,UsedAt=now});part.ResampledAt=now;
+        return texture;
     }
 
     private bool TryCapture(out string note)
@@ -308,7 +370,7 @@ internal sealed class PlayerMarkerTools
         var up=quad.C1-quad.C0;
         var color=graphic.color;color.a=alpha;
         if(graphic.material!=null&&!graphic.material.WasCollected)info.Append(" material=").Append(graphic.material.name);
-        return new Part{Name=graphic.name,Info=info.ToString(),Texture=Upload(pixels,width,height),Width=width,Height=height,
+        return new Part{Name=graphic.name,Info=info.ToString(),Texture=Upload(pixels,width,height),Pixels=pixels,Width=width,Height=height,
             X=centre.x,Y=centre.y,W=(quad.C3-quad.C0).magnitude,H=up.magnitude,Angle=M28PlayerMarkerPolicy.Normalize(M28PlayerMarkerPolicy.Heading(up.x,up.y)),
             Tint=color,Below=below!=null&&IsUnder(graphic.transform,below),Rotating=rotating};
     }
@@ -454,7 +516,7 @@ internal sealed class PlayerMarkerTools
         }
         for(int i=0;i<target.Length;i++){var c=pixels[i];target[i]=(uint)(c.r|c.g<<8|c.b<<16|c.a<<24);}
     }
-    private static unsafe Texture2D Upload(uint[] pixels,int width,int height)
+    private static unsafe Texture2D Upload(uint[] pixels,int width,int height,bool mips=true)
     {
         var colors=new Il2CppStructArray<Color32>(pixels.Length);
         IntPtr native=colors.Pointer;
@@ -464,17 +526,21 @@ internal sealed class PlayerMarkerTools
             fixed(uint* source=pixels)Buffer.MemoryCopy(source,(void*)IntPtr.Add(native,4*IntPtr.Size),bytes,bytes);
         }
         else for(int i=0;i<pixels.Length;i++){uint p=pixels[i];colors[i]=new Color32((byte)p,(byte)(p>>8),(byte)(p>>16),(byte)(p>>24));}
-        var texture=new Texture2D(width,height,TextureFormat.RGBA32,true);
+        var texture=new Texture2D(width,height,TextureFormat.RGBA32,mips);
         texture.name="CreatorToolkit.PlayerMarker";texture.hideFlags=HideFlags.HideAndDontSave;
-        texture.filterMode=FilterMode.Trilinear;texture.wrapMode=TextureWrapMode.Clamp;
+        texture.filterMode=mips?FilterMode.Trilinear:FilterMode.Bilinear;texture.wrapMode=TextureWrapMode.Clamp;
         texture.SetPixels32(colors);
-        texture.Apply(true,false);
+        texture.Apply(mips,false);
         return texture;
     }
     private static void DestroyAll(List<Part> parts)
     {
         foreach(var part in parts)
+        {
             if(part.Texture!=null&&!part.Texture.WasCollected)UnityEngine.Object.Destroy(part.Texture);
+            foreach(var sized in part.Resampled)if(sized.Texture!=null&&!sized.Texture.WasCollected)UnityEngine.Object.Destroy(sized.Texture);
+            part.Resampled.Clear();
+        }
     }
     private uint Hash()
     {
@@ -559,7 +625,8 @@ internal sealed class PlayerMarkerTools
                 var texture=Upload(pixels,pngWidth,pngHeight);
                 loaded.Add(new Part{Width=int.Parse(f[2],CultureInfo.InvariantCulture),Height=int.Parse(f[3],CultureInfo.InvariantCulture),
                     X=P(f[4]),Y=P(f[5]),W=P(f[6]),H=P(f[7]),Angle=P(f[8]),Tint=new Color(P(f[9]),P(f[10]),P(f[11]),P(f[12])),
-                    Below=f[13]=="1",Rotating=f[14]=="1",Name=f.Length>15?f[15]:"",Texture=texture});
+                    Below=f[13]=="1",Rotating=f[14]=="1",Name=f.Length>15?f[15]:"",Texture=texture,
+                    Pixels=pngWidth==int.Parse(f[2],CultureInfo.InvariantCulture)&&pngHeight==int.Parse(f[3],CultureInfo.InvariantCulture)?pixels:null});
             }
             if(loaded.Count==0)throw new InvalidDataException("нет частей");
             DestroyAll(_parts);_parts.Clear();_parts.AddRange(loaded);_hash=Hash();

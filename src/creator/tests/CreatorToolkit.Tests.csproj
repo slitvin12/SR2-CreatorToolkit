@@ -20,6 +20,10 @@
     <Compile Include="..\MapLayerOrder.cs" Link="MapLayerOrder.cs" />
     <Compile Include="..\MapDistanceText.cs" Link="MapDistanceText.cs" />
     <Compile Include="..\MapRareIcons.cs" Link="MapRareIcons.cs" />
+    <Compile Include="..\AtlasGroupPolicy.cs" Link="AtlasGroupPolicy.cs" />
+    <Compile Include="..\MapChromePolicy.cs" Link="MapChromePolicy.cs" />
+    <Compile Include="..\MapExplorerPolicy.cs" Link="MapExplorerPolicy.cs" />
+    <Compile Include="..\MenuHotkeyPolicy.cs" Link="MenuHotkeyPolicy.cs" />
     <Compile Include="..\GordoMapPolicy.cs" Link="GordoMapPolicy.cs" />
     <Compile Include="..\DiagnosticIo.cs" Link="DiagnosticIo.cs" />
     <Compile Include="..\StressComparisonPlan.cs" Link="StressComparisonPlan.cs" />

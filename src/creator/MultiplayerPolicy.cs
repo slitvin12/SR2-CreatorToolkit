@@ -70,6 +70,9 @@ internal static class MultiplayerPolicy
         "coop: effects off",
         // 0.7.0: camera, smooth physics (local rendering only) and own save names (a local file)
         "camera fov", "smooth zoom", "smooth physics", "save name",
+        // 0.8.1 «Карта»: own markers and the per-save radar file are local
+        "custom beacon", "custom color", "radar colour", "radar corral favourites", "radar highlight", "radar hud", "radar radius",
+        "radar remove", "radar switch", "radar target", "Очистить радар?",
     };
 
     internal static CoopKind Classify(string label)

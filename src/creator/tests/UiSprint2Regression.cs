@@ -68,16 +68,12 @@ internal static class UiSprint2Regression
               !marker.Contains("GUI.Label(count,")&&!marker.Contains("cluster.Items.Count"),
             "ui3 static marker icon shares its hover transform and no count badge merges nearby objects");
         string explorer=Compact(File.ReadAllText(Path.Combine(root,"src","creator","ExplorerUi.cs")));
-        check(explorer.Contains("Fill(HoverChildRect(row,newRect(row.x+5,row.y+10,4,24),")&&
+        check(explorer.Contains("MarkerBadge(newRect(row.x+10,row.y+(row.height-34)/2,34,34),record.Color)")&&
               !explorer.Contains("Fill(newRect(row.x+5,row.y+10,4,24),MarkerColor(record.Color))"),
-            "ui3 static custom waypoint row stripe follows row hover instead of remaining detached");
-        string choices=explorer.Split("privateintColorChoices(Rectrect,intselected,stringprefix)")[1]
-            .Split("privatevoidCustomWaypointPage(floatwidth)")[0];
-        check(choices.Contains("boolhovered=InputEnabled&&r.Contains(Pointer())")&&
-              choices.Contains("floatoffset=HoverOffset(r,hovered,hovered&&")&&
-              choices.Contains("Fill(HoverChildRect(r,newRect(r.x+12,r.yMax-6,r.width-24,3),offset),MarkerColor(i))")&&
-              !choices.Contains("Fill(newRect(r.x+12,r.yMax-6,r.width-24,3),MarkerColor(i))"),
-            "ui3 static ColorChoices palette stripe shares its own button hover transform and native marker color");
+            "ui3 static custom waypoint row colour badge sits inside its row (mockup v2) instead of a detached stripe");
+        string choices=explorer.Split("privateintColorDots(Rectrect,intselected,floatdot,floatgap)")[1].Split("privatevoidMarkerBadge(")[0];
+        check(choices.Contains("GUI.color=MarkerColor(i);GUI.DrawTexture(r,_badgeCircle);")&&choices.Contains("Pressed(newRect(r.x-4,r.y-4,dot+8,dot+8))"),
+            "ui3 static colour dots use the native marker colours and a padded hit area");
     }
     internal static void Run(Action<bool,string> check,string root)
     {

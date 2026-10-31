@@ -15,6 +15,8 @@ internal sealed class WaypointRecord
     public float X {get;set;} public float Y {get;set;} public float Z {get;set;}
     public int Color {get;set;}
     public bool ExactHeight {get;set;}
+    // 0.8.1: creation time (Unix seconds, 0 for markers saved by older versions).
+    public long Created {get;set;}
 }
 internal sealed class WaypointStore
 {

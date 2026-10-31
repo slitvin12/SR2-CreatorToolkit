@@ -57,8 +57,8 @@ internal static class M23ResourceLayerRegression
         C(icons.Contains("if(MapResourceLayerPolicy.Owns(point.Category))"),"food and plort markers show their exact in-game item icon");
         C(icons.Contains("Category(MapResourceLayerPolicy.Food,\"iconCategoryEverything\");")&&icons.Contains("Category(MapResourceLayerPolicy.Plorts,\"iconPlortPink_small\");")&&
           icons.Contains("Category(MapResourceLayerPolicy.Food,\"iconVeggieCarrot_small\");"),"new layer buttons borrow exact native game sprites");
-        C(ui.Contains("map.PanelExpanded?MapLayerOrder.PanelHeight(layers.Length):56")&&ui.Contains("Rect panel=panelBounds;")&&
-          ui.Contains("new Rect(16,controlsY+190,292,42)")&&!ui.Contains("PanelExpanded?780:56"),"panel, marker exclusion and controls grow together");
-        C(ui.Contains("152+(i/filterColumns)*44")&&ui.Contains("MapLayerOrder.FilterWidth(area.width,filterLayers.Length)"),"atlas page filters use the shared two-row layout");
+        C(ui.Contains("layersOpen?R(MapChromePolicy.Layers(sw,sh)):default;")&&ui.Contains("overlayExclusions.Any(r=>r.Contains(p))")&&
+          !ui.Contains("Rect panel=panelBounds;")&&!ui.Contains("PanelExpanded?780:56"),"the «Слои карты» drop-down, marker exclusion and shields share one geometry");
+        C(Read("AtlasUi.cs").Contains("var chips=AtlasGroupPolicy.Groups[_atlasGroup].Chips;")&&Read("AtlasUi.cs").Contains("map.ToggleChip(chip)"),"atlas page filters are the grouped layer chips");
     }
 }

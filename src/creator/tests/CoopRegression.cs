@@ -73,7 +73,7 @@ internal static class CoopRegression
         Check(!bridgeRaw.Contains("using SR2MP")&&!bridgeRaw.Contains("typeof(SR2MP")&&!bridgeRaw.Contains("using Starlight"),"bridge has no compile-time SR2MP/Starlight dependency");
         Check(bridge.Contains("_nextPoll=now+0.5f;")&&bridge.Contains("_nextProbe=now+10f;"),"session poll is throttled (0.5 s, probe every 10 s)");
         Check(bridge.Contains("if(Role==CoopRole.Offline)returnnull;")&&bridge.Contains("if(Role==CoopRole.Offline)return;"),"offline bridge is inert");
-        Check(ui.Contains("coop?_app.Coop.Footer:\"Insert  ·  Esc\""),"menu footer shows the co-op rule while in a session");
+        Check(ui.Contains("coop?_app.Coop.Footer:_app.Hotkey?.Footer??\"Insert  ·  Esc\""),"menu footer shows the co-op rule while in a session");
 
         string dll=Path.Combine(root,"_work","creator-stage","CreatorToolkit.dll");
         using var pe=new PEReader(File.OpenRead(dll));

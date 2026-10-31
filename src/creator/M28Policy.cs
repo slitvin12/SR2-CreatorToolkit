@@ -195,6 +195,57 @@ internal static class M28PlayerMarkerPolicy
         if(degrees<=-180f)degrees+=360f;
         return degrees;
     }
+    // 0.8.1: the front of the copied marker (Beatrix portrait frame) is sized from the minimap disc —
+    // a little larger on L, smaller on S — and the view cone (extent) still has to stay inside it.
+    // Without a front part the M28 fit of the whole marker body is used.
+    internal const float FrontShare=.40f,FrontMin=36f,FrontMax=52f;
+    internal static float MarkerScale(float front,float body,float extent,float radius)
+    {
+        float scale=front>1f&&float.IsFinite(front)&&radius>12f&&float.IsFinite(radius)?
+            Math.Clamp(radius*FrontShare,FrontMin,FrontMax)/front:FitScale(body,body,TargetSize);
+        if(extent>0&&float.IsFinite(extent)&&radius>12f)scale=Math.Min(scale,(radius-6f)/extent);
+        return scale;
+    }
+    // 0.8.1: area-weighted box downsample of a marker copy (Color32 packed r|g<<8|b<<16|a<<24) to
+    // the exact screen size it is drawn at. Colours are weighted by alpha (premultiplied sum, then
+    // divided back), so transparent texels never darken the antialiased edges the way the GPU
+    // mip chain of a non-premultiplied texture does. The target is clamped to 1..source size.
+    internal static uint[] Downsample(uint[] source,int width,int height,int targetWidth,int targetHeight)
+    {
+        if(source==null||width<=0||height<=0||source.Length<(long)width*height)return Array.Empty<uint>();
+        targetWidth=Math.Clamp(targetWidth,1,width);targetHeight=Math.Clamp(targetHeight,1,height);
+        var result=new uint[targetWidth*targetHeight];
+        double fx=(double)width/targetWidth,fy=(double)height/targetHeight;
+        for(int ty=0;ty<targetHeight;ty++)
+        {
+            double y0=ty*fy,y1=Math.Min(height,y0+fy);
+            int sy0=(int)Math.Floor(y0),sy1=Math.Min(height,(int)Math.Ceiling(y1-1e-9));
+            for(int tx=0;tx<targetWidth;tx++)
+            {
+                double x0=tx*fx,x1=Math.Min(width,x0+fx);
+                int sx0=(int)Math.Floor(x0),sx1=Math.Min(width,(int)Math.Ceiling(x1-1e-9));
+                double r=0,g=0,b=0,a=0,area=0;
+                for(int sy=sy0;sy<sy1;sy++)
+                {
+                    double wy=Math.Min(y1,sy+1)-Math.Max(y0,sy);
+                    if(wy<=0)continue;
+                    int row=sy*width;
+                    for(int sx=sx0;sx<sx1;sx++)
+                    {
+                        double wx=Math.Min(x1,sx+1)-Math.Max(x0,sx);
+                        if(wx<=0)continue;
+                        double weight=wx*wy;uint p=source[row+sx];
+                        double pa=(p>>24)*weight;
+                        r+=(p&255)*pa;g+=(p>>8&255)*pa;b+=(p>>16&255)*pa;a+=pa;area+=weight;
+                    }
+                }
+                uint Channel(double sum)=>a>0?(uint)Math.Clamp(Math.Round(sum/a),0,255):0u;
+                uint alpha=area>0?(uint)Math.Clamp(Math.Round(a/area),0,255):0u;
+                result[ty*targetWidth+tx]=Channel(r)|Channel(g)<<8|Channel(b)<<16|alpha<<24;
+            }
+        }
+        return result;
+    }
     internal static float FitScale(float width,float height,float target)
     {
         float size=Math.Max(width,height);
@@ -284,6 +335,9 @@ internal static class M28TestPolicy
         "ct-atlas-search <text>|clear    M29: atlas search as the atlas page field sets it (%XX UTF-8 accepted); clear = the × buttons",
         "ct-atlas-state                  M29: search, hits and own markers on the page, card slot, covered marker",
         "ct-atlas-focus pod|own|drone|gordo|teleport|<layer> [n]   M29: select and centre the n-th point (test save only)",
+        "ct-map-fog                      0.8.1: native map fog mask (pieces, masks, hidden markers on the page) -> ct-map-fog.txt",
+        "ct-map-preset <0-3>             0.8.1: «Слои карты» preset (0 Минимум, 1 Сокровища, 2 Ресурсы, 3 Всё)",
+        "ct-map-fog-hide on|off|toggle   0.8.1: hide markers under unexplored fog",
         "ct-ghost-state                  M29: zone of each phantom route (membership/map/authored/unique/live), atlas page, compass group -> ct-ghost.txt",
         "ct-palette-sources              M29: vacpack styles and every shop / reward-kiosk entry that grants one, with its conditions -> ct-palettes-src.txt",
         "ct-layer-audit                  M29: per map layer: points, duplicates, zone, in range, navigator list, compass -> ct-layers.txt",

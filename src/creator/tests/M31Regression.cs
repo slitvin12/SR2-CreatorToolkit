@@ -37,7 +37,7 @@ internal static class M31Regression
         C(ui.Contains("GUI.Label(new Rect(-scroll,0,Mathf.Max(inside.width,textWidth+4),inside.height),display,_label); // typed text: never translated"),
           "language: only typed text is drawn untranslated");
         C(ui.Contains("internal void SyncLanguage()")&&mod.Contains("SyncLanguage()"),"language: cached button/label texts are rebuilt on a switch");
-        C(ui.Contains("string label=Loc.T((map.Opened(point)?\"+ \":\"\")+point.Category")&&ui.Contains("text=Loc.T(text);\r\n        return text.Length>90")&&
+        C(R("AtlasUi.cs").Contains("row.Title=Loc.T(map.DisplayName(point));")&&ui.Contains("text=Loc.T(text);\r\n        return text.Length>90")&&
           ui.Contains("string status = Loc.T(_app.Audit?.Active == true"),"language: rows, wiki summaries and the status line are translated before the length cut");
         // Hints.
         C(ui.Contains("private void Hint(Rect rect,string text,GUIStyle style=null){if(DetailedHelp&&!string.IsNullOrEmpty(text))"),"hints: long explanations only with «?»");
@@ -57,7 +57,7 @@ internal static class M31Regression
         C(bridge.Contains("Starlight.Managers.StarlightSaveManager")&&bridge.Contains("\"inGameData\"")&&bridge.Contains("Starlight.Components.NoClipComponent")&&
           player.Contains("StarlightBridge.NoClipActive"),"starlight: cheat flags shown, flight refuses while NoClip is on");
         C(bridge.Contains("Starlight.Buttons.CustomPauseMenuButton")&&bridge.Contains("\"AddTranslation\""),"starlight: pause-menu button through the public API");
-        C(mod.Contains("StarlightBridge.Configure(this)")&&mod.Contains("AssemblyVersion(\"0.8.0.0\")"),"starlight: configured; release 0.8.0");
+        C(mod.Contains("StarlightBridge.Configure(this)")&&mod.Contains("AssemblyVersion(\"0.8.1.0\")"),"starlight: configured; release 0.8.1");
     }
 
     private static void Table(Action<bool,string> C,string tsv)

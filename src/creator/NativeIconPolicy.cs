@@ -96,6 +96,8 @@ internal static class NativeIconPolicy
         ["Atlas"]=new[]{"iconPediaHomeWorld"},
         ["MyMarkers"]=new[]{"marker_flag"},
         ["Radar"]=new[]{"iconMapDetectorActive"},
+        // 0.8.1: the «Навигация» sub-tab uses the game's waypoint diamond (the facing frame is a thin bar).
+        ["Navigation"]=new[]{"iconWaypoint","marker_flag"},
         // Phantom route drones: the native map's own explorer drone artwork.
         ["GhostDrone"]=new[]{"iconMapExplorerDrone","iconMapRancherDrone"},
         ["Farm"]=new[]{"iconPatchSiloBase"},
