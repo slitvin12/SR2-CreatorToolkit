@@ -34,7 +34,7 @@ internal static class MultiplayerPolicy
     private static readonly HashSet<string> Cheat = new(StringComparer.Ordinal)
     {
         // creation, inventory, money, vitals
-        "spawn", "fill ammo", "currency max", "currency add", "currency 100000", "currency 10000", "refill vitals",
+        "spawn", "fill ammo", "currency max", "currency add", "currency set", "currency 100000", "currency 10000", "refill vitals",
         "auto refill request", "infinite builder", "free placement", "flight", "hotkey god mode", "hotkey infinite energy",
         "refinery fill request", "refinery all +100 request", "refinery selected fill request", "refinery selected +100 request",
         "m26 acceptance refinery request",
@@ -43,7 +43,7 @@ internal static class MultiplayerPolicy
         "m27 acceptance tracking teleport", "teleport atlas marker", "recall checkpoint", "safe native phenomenon travel",
         "atlas return", "return from atlas",
         // confirmations: permanent save changes and free items
-        "Заменить содержимое слота?", "Включить автопополнение?", "Включить автокормление загонов?", "Включить фермерского помощника?",
+        "Заменить содержимое слота?", "Уменьшить нью-баксы?", "Обнулить нью-баксы?", "Включить автопополнение?", "Включить автокормление загонов?", "Включить фермерского помощника?",
         "Открыть дверь?", "Заполнить Преобразователь?", "Добавить ресурсы Преобразователя?", "Накормить голодных слаймов вокруг?",
         "Открыть весь атлас?", "Открыть всю Слаймопедию", "Открыть карту и ноды", "Применить все улучшения", "Открыть все двери",
         "Открыть все стили слаймов", "Открыть все чертежи гаджетов", "Открыть все стили вакпака",

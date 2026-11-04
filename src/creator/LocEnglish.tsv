@@ -2112,3 +2112,10 @@ SOS и инфо-HUD — на сеанс · клавиши, FPS и графика
 Бесконечный режим: Преобразователь не трогается.	Infinite mode: the Refinery is not touched.
 Нужен изготовленный экземпляр. Удаление и возврат — через штатное строительство.	Needs a crafted item. Removing and returning it uses the game's own build mode.
 Неподвижная земля перед игроком, нормаль поверхности, полный контакт и отсутствие пересечений. Связанные порталы подчиняются ограничениям игры.	Still ground in front of the player, the surface normal, full contact and no overlaps. Linked portals follow the game's limits.
+# 0.8.6 currency: set and clear
+Установить	Set
+Обнулить	Clear
+Введите сумму — целое число, можно 0.	Enter an amount — a whole number, 0 is fine.
+Уменьшить нью-баксы?	Lower your newbucks?
+Обнулить нью-баксы?	Clear your newbucks?
+Баланс нью-баксов: 	Newbucks balance: 

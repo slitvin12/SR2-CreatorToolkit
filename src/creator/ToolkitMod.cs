@@ -10,13 +10,13 @@ using MelonLoader.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "Creator Toolkit", "0.8.5", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
+[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "Creator Toolkit", "0.8.6", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: MelonGame("MonomiPark", "SlimeRancher2")]
-[assembly: AssemblyVersion("0.8.5.0")]
-[assembly: AssemblyFileVersion("0.8.5.0")]
+[assembly: AssemblyVersion("0.8.6.0")]
+[assembly: AssemblyFileVersion("0.8.6.0")]
 // Starlight mod menu (StarlightPackageManager): description, links and the embedded CreatorToolkit.icon.png.
 [assembly: AssemblyDescription("Creator & quality-of-life toolkit: player cheats, spawning, atlas with markers, minimap, camera tools, FPS counter and graphics optimization. Open the menu with Insert.\nНабор создателя: читы игрока, спавн, атлас и метки, миникарта, камера, счётчик FPS и оптимизация графики. Меню — клавиша Insert.")]
-[assembly: AssemblyMetadata("display_version", "0.8.5")]
+[assembly: AssemblyMetadata("display_version", "0.8.6")]
 [assembly: AssemblyMetadata("source_code", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 // SR2 Mod Manager: hooks shared with these mods were checked together (co-op via Ranching Together).
 [assembly: AssemblyMetadata("SR2ModManager.CompatibleWith", "SR2MP;Lycoreia;Starlight;InfiniteHealth")]
@@ -29,7 +29,7 @@ namespace CreatorToolkit;
 public sealed class ToolkitMod : MelonMod
 {
     internal static ToolkitMod I;
-    internal const string Version = "0.8.5";
+    internal const string Version = "0.8.6";
     internal readonly InputCapture Input = new();
     internal PlayerTools Player;
     internal MultiplayerBridge Coop; // Ranching Together (SR2MP) / Lycoreia co-op rules; inert without the mod.

@@ -95,6 +95,14 @@ Check(SafetyPolicy.CurrencyDelta(120, 100, 100) == 0, "currency above native cap
 Check(SafetyPolicy.ParseCurrency("25 000")==25000&&SafetyPolicy.ParseCurrency("1\u00a0000\u00a0000")==1000000&&SafetyPolicy.ParseCurrency("7")==7,"0.8.3 typed currency accepts digits and group separators");
 Check(SafetyPolicy.ParseCurrency("")==0&&SafetyPolicy.ParseCurrency("-5")==0&&SafetyPolicy.ParseCurrency("12k")==0&&SafetyPolicy.ParseCurrency(" , ")==0,"0.8.3 typed currency rejects signs, letters and empty input");
 Check(SafetyPolicy.ParseCurrency("99999999999999")==int.MaxValue,"0.8.3 typed currency saturates instead of overflowing");
+Check(SafetyPolicy.TryParseCurrency("0",out int zeroTarget)&&zeroTarget==0&&SafetyPolicy.TryParseCurrency("25 000",out int typedTarget)&&typedTarget==25000,"0.8.6 set balance accepts 0 and group separators");
+Check(!SafetyPolicy.TryParseCurrency("",out _)&&!SafetyPolicy.TryParseCurrency("-5",out _)&&!SafetyPolicy.TryParseCurrency("12k",out _)&&!SafetyPolicy.TryParseCurrency(" , ",out _),"0.8.6 set balance rejects empty input, signs and letters");
+Check(SafetyPolicy.CurrencySetDelta(5000,1200,100000)==-3800&&SafetyPolicy.CurrencySetDelta(1200,5000,100000)==3800&&SafetyPolicy.CurrencySetDelta(5000,5000,100000)==0,"0.8.6 set balance lowers and raises to the exact amount");
+Check(SafetyPolicy.CurrencySetDelta(5000,0,100000)==-5000&&SafetyPolicy.CurrencySetDelta(0,0,100000)==0,"0.8.6 clear balance spends everything");
+Check(SafetyPolicy.CurrencySetDelta(50,500,100)==50&&SafetyPolicy.CurrencySetDelta(int.MaxValue,0,int.MaxValue)==-int.MaxValue,"0.8.6 set balance clamps to the native cap without overflow");
+Check(SafetyPolicy.CurrencySetDelta(120,500,100)==0&&SafetyPolicy.CurrencySetDelta(120,110,100)==-10&&SafetyPolicy.CurrencySetDelta(120,50,100)==-70,"0.8.6 balance above the cap is never raised, only lowered");
+Check(SafetyPolicy.CurrencySetDelta(-1,0,100)==0&&SafetyPolicy.CurrencySetDelta(10,-1,100)==0&&SafetyPolicy.CurrencySetDelta(10,0,-1)==0,"0.8.6 set balance ignores invalid input");
+Check(MultiplayerPolicy.Known("currency set")&&MultiplayerPolicy.Known("Уменьшить нью-баксы?")&&MultiplayerPolicy.Known("Обнулить нью-баксы?"),"0.8.6 set and clear balance are classified for co-op");
 Check(SafetyPolicy.AmmoFill == 100, "ammo fill exactly 100");
 Check(!SafetyPolicy.NeedsRefill(-1)&&!SafetyPolicy.NeedsRefill(0),"auto refill never revives empty/invalid slot");
 Check(SafetyPolicy.NeedsRefill(1)&&SafetyPolicy.NeedsRefill(25),"auto refill threshold inclusive");
@@ -355,7 +363,7 @@ using (var pe = new PEReader(File.OpenRead(dll)))
     Check(!refs.Any(n => n.Contains("Minecraft", StringComparison.OrdinalIgnoreCase) || n.Contains("McHud", StringComparison.OrdinalIgnoreCase) || n.Contains("WebSocket", StringComparison.OrdinalIgnoreCase)), "no Minecraft/bridge/socket assembly dependency");
     Check(refs.Contains("MelonLoader") && refs.Contains("Assembly-CSharp"), "native MelonLoader and game API references");
     var types = md.TypeDefinitions.Where(h => md.GetTypeDefinition(h).GetDeclaringType().IsNil).ToDictionary(h => md.GetString(md.GetTypeDefinition(h).Namespace) + "." + md.GetString(md.GetTypeDefinition(h).Name));
-    Check(md.GetAssemblyDefinition().Version==new Version(0,8,5,0),"release assembly version is 0.8.5");
+    Check(md.GetAssemblyDefinition().Version==new Version(0,8,6,0),"release assembly version is 0.8.6");
     foreach (string name in new[] { "ToolkitMod", "ToolkitUi", "InputCapture", "PlayerTools", "ActorTools", "WorldTools", "UnlockTools", "CinemaTools", "MapTools", "PrototypeTools", "NativeUiProbe", "NativeAtlasProbe", "ConvenienceTools", "StressSuite", "DiagnosticIo", "NativeHooks", "EngineFrameProbe", "StressComparisonPlan", "TransitSafety", "CatalogOrder", "CapsuleDatabase", "CapsuleTools","ExplorerPolicy","WaypointStore","WaypointRecord","CustomWaypointTools","RadarTools","FarmTools","UiThemePolicy","CarePolicy","SlimeCareTools","GadgetTools","NativeIconTools","PhenomenaTools","PhenomenaWindowPolicy","AuditSaveGuard","AuditSavePolicy","AuditImmutableBaseline","AuditCheckpointStore" })
         Check(types.ContainsKey("CreatorToolkit." + name), "packaged module " + name);
     var mod = md.GetTypeDefinition(types["CreatorToolkit.ToolkitMod"]);

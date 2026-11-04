@@ -702,6 +702,33 @@ internal sealed class ActorTools
         _app.Notify("Нью-баксы: " + player.GetCurrency(currency) + " / " + maximum);
     }
 
+    // 0.8.6: «Установить» and «Обнулить» (a player request): the balance becomes exactly the typed amount.
+    // A raise is queued like «Добавить»; a decrease asks first, because the lost newbucks go into the save.
+    internal void RequestSetCurrency(int target)
+    {
+        var player = _app.Context.PlayerState;
+        int current = Currency(), maximum = player._model.maxCurrency;
+        int delta = SafetyPolicy.CurrencySetDelta(current, target, maximum);
+        if (delta == 0) { _app.Notify("Нью-баксы: " + current + " / " + maximum); return; }
+        if (delta > 0) { _app.Queue("currency set", () => SetCurrency(target)); return; }
+        string change = "Баланс нью-баксов: " + current.ToString("N0") + " → " + ((long)current + delta).ToString("N0") + ". Изменение попадёт в сейв.";
+        _app.Confirm(target == 0 ? "Обнулить нью-баксы?" : "Уменьшить нью-баксы?", change, () => SetCurrency(target));
+    }
+
+    // Re-reads the balance when the queued job runs: a raise goes through the game's AddCurrency (no popup),
+    // a decrease through its own SpendCurrency, so the HUD counter, the save and co-op sync see a normal change.
+    internal void SetCurrency(int target)
+    {
+        var player = _app.Context.PlayerState;
+        var currency = Newbucks().Cast<ICurrency>();
+        int current = player.GetCurrency(currency);
+        int maximum = player._model.maxCurrency;
+        int delta = SafetyPolicy.CurrencySetDelta(current, target, maximum);
+        if (delta > 0) player.AddCurrency(currency, delta, false, null);
+        else if (delta < 0) player.SpendCurrency(currency, -delta, null);
+        _app.Notify("Нью-баксы: " + player.GetCurrency(currency) + " / " + maximum);
+    }
+
     internal bool CanStore(Entry entry,int index)
     {
         if(entry?.IsRadiant==true)return false; // Native radiant ammo metadata is not implemented.

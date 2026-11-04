@@ -1830,7 +1830,9 @@ internal sealed partial class ToolkitUi
         try
         {
             // 0.8.3: the native Newbucks coin and the balance, then the amount field, add and native maximum right after it.
-            const float maxW = 124, addW = 128, fieldW = 200;
+            // 0.8.6: «Установить» makes the balance exactly the typed amount, «Обнулить» clears it (both ask before a decrease).
+            const float maxW = 124, addW = 128, setW = 140, clearW = 124, fieldW = 200, gap = 10;
+            const float buttonsW = addW + setW + maxW + clearW + gap * 4;
             var coin = _app.Actors.CurrencyIcon();
             float balanceX = 0;
             if (coin != null) { DrawSprite(new Rect(0, 2, 38, 38), coin); balanceX = 46; }
@@ -1838,15 +1840,25 @@ internal sealed partial class ToolkitUi
             var balanceContent = RawContent(coin != null ? balance : Loc.T("Нью-баксы: ") + balance);
             float balanceW = Mathf.Ceil(_heading.CalcSize(balanceContent).x) + 4;
             L.Label(new Rect(balanceX, 1, balanceW, 40), balanceContent, _heading);
-            float fieldX = Mathf.Min(balanceX + balanceW + 22, area.width - maxW - addW - fieldW - 20);
+            float fieldX = Mathf.Min(balanceX + balanceW + 22, area.width - fieldW - buttonsW);
             _currencyAmount = TextBox("currency-amount", new Rect(fieldX, 2, fieldW, 38), _currencyAmount, 13, "Сумма…");
-            if (Button(new Rect(fieldX + fieldW + 10, 2, addW, 38), "Добавить", _accentButton))
+            float bx = fieldX + fieldW + gap;
+            if (Button(new Rect(bx, 2, addW, 38), "Добавить", _accentButton))
             {
                 int amount = SafetyPolicy.ParseCurrency(_currencyAmount);
                 if (amount <= 0) _app.Notify("Введите сумму — целое число больше нуля.");
                 else _app.Queue("currency add", () => _app.Actors.AddCurrency(amount));
             }
-            if (Button(new Rect(fieldX + fieldW + addW + 20, 2, maxW, 38), "Максимум", _button)) _app.Queue("currency max", () => _app.Actors.AddCurrency(0, true));
+            bx += addW + gap;
+            if (Button(new Rect(bx, 2, setW, 38), "Установить", _button))
+            {
+                if (!SafetyPolicy.TryParseCurrency(_currencyAmount, out int target)) _app.Notify("Введите сумму — целое число, можно 0.");
+                else _app.Actors.RequestSetCurrency(target);
+            }
+            bx += setW + gap;
+            if (Button(new Rect(bx, 2, maxW, 38), "Максимум", _button)) _app.Queue("currency max", () => _app.Actors.AddCurrency(0, true));
+            bx += maxW + gap;
+            if (Button(new Rect(bx, 2, clearW, 38), "Обнулить", _button)) _app.Actors.RequestSetCurrency(0);
             L.Label(new Rect(0, 52, area.width, 32), "Заполнить выбранный слот вакпака", _heading);
             var ammo = _app.Context.PlayerState.Ammo;
             float sw = (area.width - (ammo.Slots.Length - 1) * 6) / Math.Max(1, ammo.Slots.Length);
