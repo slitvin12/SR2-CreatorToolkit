@@ -122,10 +122,7 @@ internal sealed partial class PlayerTools
         _nextFlightStreaming=Time.unscaledTime+.5f;
         // The motor is disabled during NoClip, but native region sources must
         // still receive its real transform and wake/check streamed sectors.
-        var members=_app.Context.Player.GetComponentsInChildren<Il2CppMonomiPark.SlimeRancher.Regions.RegionMember>(true);
-        foreach(var member in members)if(member!=null&&member.enabled)member.UpdateRegionMembershipFromPositionImpl(_motor.TransientPosition);
-        var loaders=_app.Context.Player.GetComponentsInChildren<SECTR_RegionLoader>(true);
-        foreach(var regionLoader in loaders)if(regionLoader!=null&&regionLoader.enabled){regionLoader.Update();regionLoader.UpdateAwake();}
+        PumpRegions(_motor.TransientPosition);
         var group=_app.Map.FlightGroupAt(_motor.TransientPosition);
         if(group==null){FlightStreamingStatus="Зона полёта не определена; чужая сцена не подставляется";return;}
         if(group==loader.CurrentSceneGroup){FlightStreamingStatus="Прогрузка текущего острова: "+group.name;return;}
@@ -137,6 +134,38 @@ internal sealed partial class PlayerTools
         _flightDestination=group;_flightDeadline=Time.unscaledTime+45f;_flyVelocity=Vector3.zero;
         FlightStreamingStatus="Загрузка острова в полёте: "+group.name;
         try{loader.LoadSceneGroup(group,parameters);}catch{_flightDestination=null;throw;}
+    }
+
+    private void PumpRegions(Vector3 position)
+    {
+        var members=_app.Context.Player.GetComponentsInChildren<Il2CppMonomiPark.SlimeRancher.Regions.RegionMember>(true);
+        foreach(var member in members)if(member!=null&&member.enabled)member.UpdateRegionMembershipFromPositionImpl(position);
+        var loaders=_app.Context.Player.GetComponentsInChildren<SECTR_RegionLoader>(true);
+        foreach(var regionLoader in loaders)if(regionLoader!=null&&regionLoader.enabled){regionLoader.Update();regionLoader.UpdateAwake();}
+    }
+
+    private float _nextHoldStreaming;
+    // 0.8.2: a transit hold disables the motor exactly like NoClip, so the destination sectors
+    // must be woken the same way (twice a second, only while held).
+    internal void PumpRegionStreaming()
+    {
+        if(!_transitHold||_motor==null||_motor.WasCollected||_app.Context?.Player==null||Time.unscaledTime<_nextHoldStreaming)return;
+        _nextHoldStreaming=Time.unscaledTime+.5f;
+        PumpRegions(_motor.TransientPosition);
+    }
+
+    private static readonly float[] SpiralRadii={2f,4f,7f,10f,14f};
+    /// Nearest clear walkable column around an approximate target (map clicks, airborne origins).
+    internal bool TrySpiralMapGround(Vector3 target,out Vector3 landing)
+    {
+        for(int ring=0;ring<SpiralRadii.Length;ring++)
+            for(int direction=0;direction<8;direction++)
+            {
+                float angle=(direction+(ring&1)*.5f)*Mathf.PI*.25f;
+                var nearby=target+new Vector3(Mathf.Cos(angle)*SpiralRadii[ring],0,Mathf.Sin(angle)*SpiralRadii[ring]);
+                if(TryMapGround(nearby,false,out landing))return true;
+            }
+        landing=default;return false;
     }
 
     internal void BeginTransitHold()
@@ -332,13 +361,15 @@ internal sealed partial class PlayerTools
         Vector3 position = _motor.TransientPosition;
         if (!float.IsFinite(position.x) || !float.IsFinite(position.y) || !float.IsFinite(position.z))
             throw new InvalidOperationException("Мотор игрока имеет невалидные координаты; полёт запрещён.");
+        // 0.8.3: end native abilities (jump/jetpack) first, so their temporary gravity/motor
+        // overrides are never captured as the state to restore after the flight.
+        _controller.StopAbilitiesForTeleport();
         _oldMotorEnabled = _motor.enabled;
         _oldGravity = _controller._BypassGravity_k__BackingField;
         _oldCapsule = _motor.Capsule != null && _motor.Capsule.enabled;
         _oldMovement = _motor._solveMovementCollisions;
         _oldGround = _motor._solveGrounding;
         _lastSafe = _motor.TransientPosition;
-        _controller.StopAbilitiesForTeleport();
         _controller.ResetVelocity(false);
         Flight = true;
         _motor.enabled = false;
@@ -455,7 +486,11 @@ internal sealed partial class PlayerTools
             {
                 try
                 {
-                    if (!ClearCapsule(_motor.TransientPosition)) _motor.SetPosition(_lastSafe, true);
+                    Vector3 here = _motor.TransientPosition;
+                    // 0.8.2: switched off inside rock: the nearest walkable surface of this very column
+                    // (no rubber-banding back to where NoClip entered the terrain), then the last clear spot.
+                    if (!ClearCapsule(here))
+                        _motor.SetPosition(TryMapGround(here, true, out var surface) || TryMapGround(here, false, out surface) ? surface : _lastSafe, true);
                     _motor.BaseVelocity = Vector3.zero;
                 }
                 finally
@@ -481,6 +516,7 @@ internal sealed partial class PlayerTools
                 _controller._BypassGravity_k__BackingField = _oldGravity;
                 _controller.ResetVelocity(false);
             }
+            RefreshGroundingAfterFlight();
         }
     }
 

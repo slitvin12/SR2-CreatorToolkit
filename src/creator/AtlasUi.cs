@@ -172,20 +172,45 @@ internal sealed partial class ToolkitUi
         finally{EndGroup();}
     }
 
-    // Horizontal carousel: arrows, mouse wheel inside the strip and a position bar below it.
-    private float AtlasCarousel(Rect strip,float offset,float content,out Rect view)
+    // Horizontal carousel: round arrows, mouse wheel, press-and-drag inside the strip and a position bar.
+    // 0.8.3: pills inside a carousel click on release (CarouselTap), so a drag never toggles the pill
+    // it started on; a press that moves more than AtlasGroupPolicy.DragThreshold scrolls instead.
+    private int _carouselDrag=-1,_carouselTap=-1;
+    private float _carouselDragOffset;
+    private bool _carouselDragMoved;
+    private Vector2 _carouselDragStart,_carouselTapAt;
+    internal bool CarouselDraggingForTest=>_carouselDrag>=0&&_carouselDragMoved;
+    private float AtlasCarousel(int id,Rect strip,float offset,float content,out Rect view)
     {
-        const float arrow=34;
+        float arrow=Mathf.Min(40f,strip.height-4);
         view=new Rect(strip.x+arrow+6,strip.y-4,strip.width-2*(arrow+6),strip.height+6);
-        var e=Event.current;
+        var e=Event.current;var mouse=Mouse.current;
+        if(_carouselTap==id)_carouselTap=-1; // a tap is honoured only by the pills drawn right after it
+        if(_carouselDrag==id)
+        {
+            if(mouse!=null&&mouse.leftButton.isPressed)
+            {
+                float dx=Pointer().x+_groupOrigin.x-_carouselDragStart.x;
+                if(!_carouselDragMoved&&AtlasGroupPolicy.IsDrag(dx))_carouselDragMoved=true;
+                if(_carouselDragMoved)offset=AtlasGroupPolicy.CarouselDrag(_carouselDragOffset,dx,content,view.width);
+            }
+            else
+            {
+                if(!_carouselDragMoved){_carouselTap=id;_carouselTapAt=_carouselDragStart;}
+                _carouselDrag=-1;_carouselDragMoved=false;
+            }
+        }
+        else if(InputEnabled&&mouse!=null&&mouse.leftButton.wasPressedThisFrame&&PointerWithinGroups()&&view.Contains(Pointer()))
+        {_carouselDrag=id;_carouselDragStart=Pointer()+_groupOrigin;_carouselDragOffset=offset;_carouselDragMoved=false;}
         if(content>view.width&&InputEnabled&&PointerWithinGroups()&&e!=null&&e.type==EventType.ScrollWheel&&view.Contains(e.mousePosition))
         {offset+=(Mathf.Abs(e.delta.x)>Mathf.Abs(e.delta.y)?e.delta.x:e.delta.y)*24f;e.Use();}
         offset=AtlasGroupPolicy.CarouselClamp(offset,content,view.width);
         bool enabled=GUI.enabled;
+        Rect left=new(strip.x,strip.y+(strip.height-4-arrow)*.5f,arrow,arrow),right=new(strip.xMax-arrow,left.y,arrow,arrow);
         GUI.enabled=enabled&&offset>0;
-        if(Button(new Rect(strip.x,strip.y,arrow,strip.height-4),"<",_button))offset=AtlasGroupPolicy.CarouselStep(offset,-1,content,view.width);
+        if(CarouselArrow(left,-1))offset=AtlasGroupPolicy.CarouselStep(offset,-1,content,view.width);
         GUI.enabled=enabled&&offset<content-view.width-.5f;
-        if(Button(new Rect(strip.xMax-arrow,strip.y,arrow,strip.height-4),">",_button))offset=AtlasGroupPolicy.CarouselStep(offset,1,content,view.width);
+        if(CarouselArrow(right,1))offset=AtlasGroupPolicy.CarouselStep(offset,1,content,view.width);
         GUI.enabled=enabled;
         if(content>view.width+1)
         {
@@ -198,6 +223,43 @@ internal sealed partial class ToolkitUi
         return offset;
     }
 
+    // A tap recorded by the carousel on release, honoured once by the pill under the press point.
+    private bool CarouselTap(int id,Rect rect)
+    {
+        if(_carouselTap!=id||!rect.Contains(_carouselTapAt-_groupOrigin))return false;
+        _carouselTap=-1;return true;
+    }
+    private bool CarouselArrow(Rect rect,int direction)
+    {
+        bool clicked=Button(rect,GUIContent.none,_button);
+        bool live=InputEnabled&&CanHover(rect);
+        float lift=HoverOffset(rect,live,live&&Mouse.current!=null&&Mouse.current.leftButton.isPressed);
+        float face=Mathf.Max(4,rect.height-UiThemePolicy.RestDepth);
+        Rect glyph=HoverChildRect(rect,new Rect(rect.center.x-5.5f,rect.y+face*.5f-9f,11f,18f),lift);
+        Color ink=_ink;ink.a=GUI.enabled?.82f:.26f;
+        DrawChevron(glyph,direction,ink);
+        return clicked;
+    }
+    // A chevron of overlapping round dots (the shared badge texture): smooth at any UI scale, no extra
+    // texture (the theme budget is fixed) and no rotated GUI matrix inside nested groups.
+    private void DrawChevron(Rect rect,int direction,Color color)
+    {
+        if(_badgeCircle==null||Event.current?.type!=EventType.Repaint)return;
+        Color saved=GUI.color;
+        try
+        {
+            GUI.color=color;
+            float dot=Mathf.Max(3.5f,rect.height*.24f),half=rect.height*.5f-dot*.5f,reach=rect.width*.5f-dot*.5f;
+            float tip=rect.center.x+direction*reach,back=rect.center.x-direction*reach;
+            for(int arm=-1;arm<=1;arm+=2)
+                for(int i=0;i<=8;i++)
+                {
+                    float t=i/8f,px=Mathf.Lerp(back,tip,t),py=Mathf.Lerp(rect.center.y+arm*half,rect.center.y,t);
+                    GUI.DrawTexture(new Rect(px-dot*.5f,py-dot*.5f,dot,dot),_badgeCircle);
+                }
+        }
+        finally{GUI.color=saved;}
+    }
     private float AtlasGroupWidth(int index)
     {
         int count=_atlasGroupCounts[index];
@@ -209,7 +271,7 @@ internal sealed partial class ToolkitUi
         var groups=AtlasGroupPolicy.Groups;
         float content=0;
         for(int i=0;i<groups.Length;i++)content+=AtlasGroupWidth(i)+(i>0?8:0);
-        _atlasGroupOffset=AtlasCarousel(strip,_atlasGroupOffset,content,out Rect view);
+        _atlasGroupOffset=AtlasCarousel(0,strip,_atlasGroupOffset,content,out Rect view);
         BeginGroup(view);
         try
         {
@@ -231,7 +293,7 @@ internal sealed partial class ToolkitUi
     private bool AtlasGroupPill(Rect rect,int index)
     {
         var group=AtlasGroupPolicy.Groups[index];bool selected=index==_atlasGroup;
-        bool clicked=Button(rect,GUIContent.none,selected?_selectedButton:_button);
+        Button(rect,GUIContent.none,selected?_selectedButton:_button);bool clicked=CarouselTap(0,rect);
         bool hovered=CanHover(rect);
         float offset=HoverOffset(rect,hovered,hovered&&Mouse.current!=null&&Mouse.current.leftButton.isPressed);
         AtlasChipIcon(HoverChildRect(rect,new Rect(rect.x+8,rect.y+(rect.height-30)/2-2,30,30),offset),group.Chips[0]);
@@ -255,7 +317,7 @@ internal sealed partial class ToolkitUi
         var chips=AtlasGroupPolicy.Groups[_atlasGroup].Chips;
         float content=0;
         for(int i=0;i<chips.Length;i++)content+=AtlasChipWidth(chips[i])+(i>0?8:0);
-        _atlasChipOffset=AtlasCarousel(strip,_atlasChipOffset,content,out Rect view);
+        _atlasChipOffset=AtlasCarousel(1,strip,_atlasChipOffset,content,out Rect view);
         BeginGroup(view);
         try
         {
@@ -273,7 +335,7 @@ internal sealed partial class ToolkitUi
     private bool AtlasChip(Rect rect,AtlasGroupPolicy.Chip chip)
     {
         var map=_app.Map;bool active=map.ChipActive(chip);
-        bool clicked=Button(rect,GUIContent.none,active?_selectedButton:_button);
+        Button(rect,GUIContent.none,active?_selectedButton:_button);bool clicked=CarouselTap(1,rect);
         bool hovered=CanHover(rect);
         float offset=HoverOffset(rect,hovered,hovered&&Mouse.current!=null&&Mouse.current.leftButton.isPressed);
         Color saved=GUI.color;

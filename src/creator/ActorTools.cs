@@ -39,6 +39,48 @@ internal sealed class ActorTools
     internal int PrototypeApplied=>_prototypes.Applied;
     internal int PrototypeFaceted=>_prototypes.Faceted;
     private readonly List<GameObject> _owned = new();
+    // Spawn batches ("groups"), so hens/roosters/chicks can be removed without wiping everything else.
+    private sealed class SpawnGroup{internal string Reference,Key;internal readonly List<GameObject> Objects=new();}
+    private readonly List<SpawnGroup> _groups=new();
+    // 0.8.2: one catalogue tile = one key. A prototype or a radiant variant shares its native type
+    // with ordinary slimes, so the tile key (not the type) decides what «Мои ×» removes.
+    internal static string EntryKey(Entry entry)=>entry==null?"":entry.IsRadiant?"radiant:"+entry.RadiantToken:
+        entry.IsPrototype?"prototype:"+entry.Prototype:entry.Reference??"";
+    internal int OwnedCountFor(Entry entry)
+    {
+        if(entry==null||_groups.Count==0)return 0;
+        string key=EntryKey(entry);int n=0;
+        foreach(var g in _groups)
+        {
+            if(!string.Equals(g.Key,key,StringComparison.Ordinal))continue;
+            foreach(var go in g.Objects)if(go!=null&&!go.WasCollected)n++;
+        }
+        return n;
+    }
+    /// «Все ×» is offered only where the native type is the tile itself: not for gordos, decorations,
+    /// visual prototypes (type Pink) or radiant variants (type of the ordinary slime).
+    internal bool CanRemoveWorldType(Entry entry)=>entry?.Type!=null&&!entry.IsPrototype&&!entry.IsRadiant&&
+        !IsGordo(entry.Type)&&entry.Type.TryCast<GadgetDefinition>()==null;
+    private static bool IsChickenReference(string reference)
+    {
+        if(string.IsNullOrEmpty(reference))return false;
+        int dot=reference.LastIndexOf('.');string name=dot>=0?reference.Substring(dot+1):reference;
+        return name.EndsWith("Hen",StringComparison.Ordinal)||name.EndsWith("Chick",StringComparison.Ordinal)||name=="Rooster";
+    }
+    internal int OwnedChickenCount
+    {
+        get
+        {
+            int n=0;
+            for(int i=_groups.Count-1;i>=0;i--)
+            {
+                var g=_groups[i];g.Objects.RemoveAll(go=>go==null||go.WasCollected);
+                if(g.Objects.Count==0){_groups.RemoveAt(i);continue;}
+                if(IsChickenReference(g.Reference))n+=g.Objects.Count;
+            }
+            return n;
+        }
+    }
     // Session-scoped, exceptional model-only rollback failures; no Tick retry.
     private readonly List<ActorModel> _failedRadiantModels = new();
     private float _nextCatalog;
@@ -310,7 +352,8 @@ internal sealed class ActorTools
                 pending.Add((currentModel,currentObject));
                 currentModel=null;currentObject=null;
             }
-            foreach(var actor in pending){_owned.Add(actor.Object);_app.Coop?.AnnounceSpawn(actor.Object);}
+            var radiantGroup=new SpawnGroup{Reference=entry.Reference,Key=EntryKey(entry)};_groups.Add(radiantGroup);
+            foreach(var actor in pending){_owned.Add(actor.Object);radiantGroup.Objects.Add(actor.Object);_app.Coop?.AnnounceSpawn(actor.Object);}
             _app.Notify("Создано: "+entry.Name+" × "+pending.Count+". Только эти объекты доступны для очистки."+
                 (_app.Coop?.InSession==true?" В коопе друзья видят обычный вариант: сияние не синхронизируется.":""));
         }
@@ -392,6 +435,7 @@ internal sealed class ActorTools
         if(entry.IsRadiant)
         { SpawnRadiant(entry,ctx,player,cam,count,origin);return; }
         int created = 0;
+        var spawnGroup=new SpawnGroup{Reference=entry.Reference,Key=EntryKey(entry)};_groups.Add(spawnGroup);
         for (int i = 0; i < count; i++)
         {
             Vector3 offset = count == 1 ? Vector3.zero : cam.transform.right * ((i % 5 - 2) * 0.28f) + Vector3.up * (i / 5 * 0.22f);
@@ -410,7 +454,7 @@ internal sealed class ActorTools
                 ctx.GameModel.DestroyIdentifiableModel(model);
                 throw;
             }
-            _owned.Add(go);
+            _owned.Add(go);spawnGroup.Objects.Add(go);
             if(entry.IsPrototype)_prototypes.Apply(go,entry.Prototype);
             _app.Coop?.AnnounceSpawn(go); // Co-op: SR2MP replicates the actor to everyone (no-op offline).
             created++;
@@ -490,6 +534,8 @@ internal sealed class ActorTools
         }
         _owned.Clear();
         _owned.AddRange(failed);
+        foreach(var g in _groups)g.Objects.RemoveAll(go=>!failed.Contains(go));
+        _groups.RemoveAll(g=>g.Objects.Count==0);
         var failedModels = new List<ActorModel>();
         foreach(var model in _failedRadiantModels)
         {
@@ -508,6 +554,91 @@ internal sealed class ActorTools
         string result = "Удалено созданных модом объектов: " + removed + ". Нативные объекты мира не затронуты.";
         if (failedCount == 0) { _prototypes.Clear(); _app.Notify(result); }
         else _app.Status = result + " Не удалось удалить: " + failedCount + " (моделей без объекта: " + failedModels.Count + "); можно повторить очистку.";
+    }
+
+    // Removes ALL chickens (hen/rooster/chick, every variant): mod-spawned and native world ones, loaded or not.
+    internal void CleanupChickens()
+    {
+        if(_gordoJob!=null)throw new InvalidOperationException("Дождитесь завершения создания Гордо.");
+        if(_app.Coop?.InSession==true)throw new InvalidOperationException("Кооп: удаление всех куриц не синхронизируется и доступно только в одиночной игре.");
+        RequireWorldIndex();
+        int removed=0,failedCount=0;
+        var seen=new HashSet<IntPtr>();
+        foreach(var entry in Catalog)
+        {
+            if(entry==null||entry.Type==null||entry.IsPrototype||entry.IsRadiant||!IsChickenReference(entry.Reference))continue;
+            if(!seen.Add(entry.Type.Pointer))continue;
+            RemoveWorldType(entry.Type,"CreatorToolkit remove all chickens","remove chickens",ref removed,ref failedCount);
+        }
+        string result="Удалено куриц: "+removed+".";
+        if(failedCount==0)_app.Notify(result);
+        else _app.Status=result+" Не удалось удалить: "+failedCount+"; можно повторить.";
+    }
+
+    // 0.8.2 tile button «Все ×»: every actor of this native type in the save — wild, in corrals,
+    // mod-spawned, loaded or not. Solo only: co-op removal of other players' actors is not synchronised.
+    internal void CleanupEntryAll(Entry entry)
+    {
+        if(_gordoJob!=null)throw new InvalidOperationException("Дождитесь завершения создания Гордо.");
+        if(entry==null||!Catalog.Contains(entry))throw new InvalidOperationException("Запись каталога устарела; выберите карточку заново.");
+        if(!CanRemoveWorldType(entry))
+            throw new InvalidOperationException("Для «"+entry.Name+"» доступно только удаление созданного модом («Мои ×»): тип общий с обычными объектами или это не актор.");
+        if(_app.Coop?.InSession==true)
+            throw new InvalidOperationException("Кооп: удаление всех объектов типа не синхронизируется и доступно только в одиночной игре. «Мои ×» работает.");
+        RequireWorldIndex();
+        int removed=0,failedCount=0;
+        RemoveWorldType(entry.Type,"CreatorToolkit remove all of type","remove all of type",ref removed,ref failedCount);
+        string result="Удалено «"+entry.Name+"» во всём мире: "+removed+".";
+        if(failedCount==0)_app.Notify(result);
+        else _app.Status=result+" Не удалось удалить: "+failedCount+"; можно повторить.";
+    }
+
+    // 0.8.2 tile button «Мои ×»: only what this mod created from this tile; native actors stay.
+    internal void CleanupEntryOwned(Entry entry)
+    {
+        if(entry==null)throw new InvalidOperationException("Выберите объект в каталоге.");
+        string key=EntryKey(entry);int removed=0,failedCount=0;
+        for(int i=_groups.Count-1;i>=0;i--)
+        {
+            var g=_groups[i];if(!string.Equals(g.Key,key,StringComparison.Ordinal))continue;
+            for(int j=g.Objects.Count-1;j>=0;j--)
+            {
+                var go=g.Objects[j];
+                if(go==null||go.WasCollected){g.Objects.RemoveAt(j);continue;}
+                try{Destroyer.DestroyActor(go,"CreatorToolkit owned type cleanup");g.Objects.RemoveAt(j);_owned.Remove(go);removed++;}
+                catch(Exception e){failedCount++;_app.Fail("cleanup type",e);}
+            }
+            if(g.Objects.Count==0)_groups.RemoveAt(i);
+        }
+        string result="Удалено созданных модом «"+entry.Name+"»: "+removed+". Нативные объекты не затронуты.";
+        if(failedCount==0)_app.Notify(result);
+        else _app.Status=result+" Не удалось удалить: "+failedCount+"; можно повторить.";
+    }
+
+    private void RequireWorldIndex()
+    {
+        if(_app.Context?.GameModel?.identifiablesByIdent==null)throw new InvalidOperationException("Нативный индекс предметов ещё не готов.");
+    }
+
+    // Loaded actors go through Destroyer (co-op mods and the world see a normal removal);
+    // unloaded ones are removed from the save model directly.
+    private void RemoveWorldType(IdentifiableType type,string reason,string scope,ref int removed,ref int failedCount)
+    {
+        var gameModel=_app.Context.GameModel;
+        if(type==null||!gameModel.identifiablesByIdent.TryGetValue(type,out var models)||models==null)return;
+        for(int m=models.Count-1;m>=0;m--)
+        {
+            if(m>=models.Count)continue;
+            var model=models[m];if(model==null)continue;
+            try
+            {
+                var go=model.GetGameObject();
+                if(go!=null&&!go.WasCollected)Destroyer.DestroyActor(go,reason);
+                else gameModel.DestroyIdentifiableModel(model);
+                removed++;
+            }
+            catch(Exception e){failedCount++;_app.Fail(scope,e);}
+        }
     }
 
     internal GameObject SpawnAtForTest(Entry entry,Vector3 position)
@@ -537,9 +668,27 @@ internal sealed class ActorTools
         return currency;
     }
 
+    // Read every repaint by the footer and «Ресурсы»: 0 until the native currency list and the player
+    // exist, without throwing and catching an exception per frame (0.8.3).
     internal int Currency()
     {
-        try { return _app.Context.PlayerState.GetCurrency(Newbucks().Cast<ICurrency>()); } catch { return 0; }
+        var currency = LookupDirector.GetIfReady()?.CurrencyList?.GetDefaultCurrency();
+        var player = _app.Context?.PlayerState;
+        return currency == null || player == null ? 0 : player.GetCurrency(currency.Cast<ICurrency>());
+    }
+
+    // 0.8.3: the native Newbucks coin (CurrencyDefinition.Icon) for the «Ресурсы» row; looked up at most
+    // every two seconds until the currency list is ready, then cached while the sprite is alive.
+    private Sprite _currencyIcon;
+    private float _currencyIconRetry;
+    internal Sprite CurrencyIcon()
+    {
+        if (_currencyIcon != null && !_currencyIcon.WasCollected) return _currencyIcon;
+        if (Time.unscaledTime < _currencyIconRetry) return null;
+        _currencyIconRetry = Time.unscaledTime + 2f;
+        var currency = LookupDirector.GetIfReady()?.CurrencyList?.GetDefaultCurrency();
+        _currencyIcon = currency != null ? currency.Icon : null;
+        return _currencyIcon;
     }
 
     internal void AddCurrency(int requested, bool setMaximum = false)
@@ -616,7 +765,7 @@ internal sealed class ActorTools
     {
         _gordoJob=null;_ownedGordoSnares.Clear();
         _prototypes.Clear();
-        _owned.Clear(); // Never carry ownership into another save, and never delete a user's native actors.
+        _groups.Clear();_owned.Clear(); // Never carry ownership into another save, and never delete a user's native actors.
         _failedRadiantModels.Clear(); // Forget failed models on session/save change; never destroy across sessions.
         Catalog.Clear();
         Generation++;

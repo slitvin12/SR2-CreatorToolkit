@@ -28,6 +28,21 @@ internal static class UiThemePolicy
         float weight=0;foreach(string label in labels)weight+=PillWeight(label);
         return (total-gap*(labels.Length-1))*PillWeight(labels[index])/weight;
     }
+    // 0.8.3: one row of bookmarks. Every tab gets its measured need and the spare width is spread
+    // evenly; false (equal slices) when even the needs do not fit.
+    internal static bool TabWidths(float[] need,float total,float gap,float[] result)
+    {
+        if(need==null||result==null||need.Length==0||result.Length<need.Length||!float.IsFinite(total)||!float.IsFinite(gap)||gap<0)return false;
+        float free=total-gap*(need.Length-1),sum=0;
+        foreach(float n in need){if(!float.IsFinite(n)||n<0)return false;sum+=n;}
+        bool fits=free>0&&sum<=free;
+        float extra=fits?(free-sum)/need.Length:0;
+        for(int i=0;i<need.Length;i++)result[i]=fits?need[i]+extra:Math.Max(0,free)/need.Length;
+        return fits;
+    }
+    // Small tile buttons («Мои ×», «Все ×»): the measured label plus padding, never below the floor.
+    internal static float SmallButtonWidth(float measured,float floor=56f)=>
+        float.IsFinite(measured)?Math.Max(floor,(float)Math.Ceiling(measured)+18f):floor;
     internal const string CyrillicProbe="CREATOR TOOLKIT Розовый слайм Ёё Йй 0123456789 ×";
     internal static int ButtonDepth(bool hovered,bool held)=>
         held&&hovered?HeldDepth:hovered?HoverDepth:RestDepth;

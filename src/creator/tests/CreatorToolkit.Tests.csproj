@@ -24,6 +24,8 @@
     <Compile Include="..\MapChromePolicy.cs" Link="MapChromePolicy.cs" />
     <Compile Include="..\MapExplorerPolicy.cs" Link="MapExplorerPolicy.cs" />
     <Compile Include="..\MenuHotkeyPolicy.cs" Link="MenuHotkeyPolicy.cs" />
+    <Compile Include="..\ActionHotkeyPolicy.cs" Link="ActionHotkeyPolicy.cs" />
+    <Compile Include="..\UiPolishPolicy.cs" Link="UiPolishPolicy.cs" />
     <Compile Include="..\GordoMapPolicy.cs" Link="GordoMapPolicy.cs" />
     <Compile Include="..\DiagnosticIo.cs" Link="DiagnosticIo.cs" />
     <Compile Include="..\StressComparisonPlan.cs" Link="StressComparisonPlan.cs" />

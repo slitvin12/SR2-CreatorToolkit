@@ -58,6 +58,6 @@ internal static class InteropRegression
         Check(actors.Contains("inttarget=ModInterop.FillTarget(slot);")&&actors.Contains("ammo.MaybeAddResource(entry.Type,index,target,true)")&&actors.Contains("slot.Count=target;")&&actors.Contains("ammo.GetSlotCount(index)!=target"),"vacpack fill follows the slot target");
         string mod=Compact(File.ReadAllText(Path.Combine(dir,"ToolkitMod.cs")));
         Check(mod.Contains("ModInterop.Configure(this);")&&mod.Contains("(\"modinterop\",ModInterop.Tick)")&&mod.Contains("Interop:{ModInterop.Summary}\\n"),"interop is configured, ticked and in the diagnostics snapshot");
-        Check(mod.Contains("[assembly:AssemblyMetadata(\"SR2ModManager.CompatibleWith\",\"SR2MP;Starlight;InfiniteHealth\")]"),"Infinite Health is declared checked: both cancel PlayerModel.LoseHealth for the same purpose");
+        Check(mod.Contains("[assembly:AssemblyMetadata(\"SR2ModManager.CompatibleWith\",\"SR2MP;Lycoreia;Starlight;InfiniteHealth\")]"),"Infinite Health is declared checked: both cancel PlayerModel.LoseHealth for the same purpose");
     }
 }

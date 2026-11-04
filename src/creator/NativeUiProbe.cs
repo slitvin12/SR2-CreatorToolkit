@@ -29,7 +29,7 @@ internal sealed class NativeUiProbe
     private int _textCommitsBefore,_imePreviewsBefore,_textQueuedFrame,_textEventFrame,_textBoundFrame;
     private int _stage=-1,_hoverBaseline,_heldBaseline;
     private int _latencyIndex,_clickRowsBefore;
-    private float TabX=>30+(1100f-7*8)/8/2+(_latencyIndex%8)*((1100f-7*8)/8+8);
+    private float TabX=>_app.UiForTests.TabCenterForTest(_latencyIndex%ToolkitUi.TabCount);
     internal string Status="idle";
     internal bool Active=>_stage>=0;
     internal NativeUiProbe(ToolkitMod app)=>_app=app;
@@ -157,22 +157,22 @@ internal sealed class NativeUiProbe
                 case 48:Pointer(TabX,126,true);break;
                 case 49:Pointer(TabX,126,false);break;
                 case 50:
-                    Check(_app.UiForTests.CurrentTabForTest==_latencyIndex%8,"native tab round "+(_latencyIndex/8+1)+" index "+(_latencyIndex%8));
-                    _latencyIndex++;if(_latencyIndex<16)_stage=48;break;
+                    Check(_app.UiForTests.CurrentTabForTest==_latencyIndex%ToolkitUi.TabCount,"native tab round "+(_latencyIndex/ToolkitUi.TabCount+1)+" index "+(_latencyIndex%ToolkitUi.TabCount));
+                    _latencyIndex++;if(_latencyIndex<2*ToolkitUi.TabCount)_stage=48;break;
                 case 51:
                     var timings=_app.UiForTests.PaintTelemetry.Rows;
-                    Check(timings.FindAll(r=>r.NativeClick).Count-_clickRowsBefore==16,
-                        "all sixteen real native tab clicks have bounded CPU repaint evidence");
-                    for(int i=0;i<8;i++)
+                    Check(timings.FindAll(r=>r.NativeClick).Count-_clickRowsBefore==2*ToolkitUi.TabCount,
+                        "two rounds of real native tab clicks have bounded CPU repaint evidence");
+                    for(int i=0;i<ToolkitUi.TabCount;i++)
                         Check(timings.Exists(r=>r.Tab==i&&r.FirstInSession)&&timings.Exists(r=>r.Tab==i&&!r.FirstInSession),
                             "first and warmed native body repaint measured for tab "+i);
                     _app.UiForTests.PaintTelemetry.Write(_app.DataDirectory);break;
                 case 52:
-                    _app.UiForTests.ShowTabForTest(7);
-                    Pointer(1000,738,true);break;
-                case 53:Pointer(1000,738,false);break;
+                    _app.UiForTests.ShowTabForTest(8);
+                    Pointer(734,582,true);break;
+                case 53:Pointer(734,582,false);break;
                 case 54:
-                    Check(_app.UiForTests.OptimizationVisibleForTest,"native LMB opened nested optimization without a ninth crowded tab");
+                    Check(_app.UiForTests.OptimizationVisibleForTest,"native LMB opened graphics from the «Настройки» tab");
                     Capture("optimization-default");break;
                 case 55:_app.ShowTabForTest(0);Pointer(1062,371,true);break;
                 case 56:Pointer(1062,371,false);break;
@@ -187,8 +187,8 @@ internal sealed class NativeUiProbe
                     _app.Player.HighJump=_app.Player.InfiniteItems=false;_app.Player.Tick();
                     _app.ShowTabForTest(2);break;
                 case 65:Capture("lo-vacpack-row");break;
-                case 66:_app.ShowTabForTest(7);Pointer(711,738,true);break;
-                case 67:Pointer(711,738,false);break;
+                case 66:_app.ShowTabForTest(8);Pointer(988,582,true);break;
+                case 67:Pointer(988,582,false);break;
                 case 68:Check(_app.UiForTests.InfoVisibleForTest,"native LMB opened version/status in nested Console Info");Capture("lo-info");break;
                 case 69:
                     Check(!NativeUiPriority.HasNativeFocus,"native F1 fixture starts from gameplay without another modal");

@@ -10,16 +10,16 @@ using MelonLoader.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "Creator Toolkit", "0.8.1", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
+[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "Creator Toolkit", "0.8.5", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: MelonGame("MonomiPark", "SlimeRancher2")]
-[assembly: AssemblyVersion("0.8.1.0")]
-[assembly: AssemblyFileVersion("0.8.1.0")]
+[assembly: AssemblyVersion("0.8.5.0")]
+[assembly: AssemblyFileVersion("0.8.5.0")]
 // Starlight mod menu (StarlightPackageManager): description, links and the embedded CreatorToolkit.icon.png.
 [assembly: AssemblyDescription("Creator & quality-of-life toolkit: player cheats, spawning, atlas with markers, minimap, camera tools, FPS counter and graphics optimization. Open the menu with Insert.\nНабор создателя: читы игрока, спавн, атлас и метки, миникарта, камера, счётчик FPS и оптимизация графики. Меню — клавиша Insert.")]
-[assembly: AssemblyMetadata("display_version", "0.8.1")]
+[assembly: AssemblyMetadata("display_version", "0.8.5")]
 [assembly: AssemblyMetadata("source_code", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 // SR2 Mod Manager: hooks shared with these mods were checked together (co-op via Ranching Together).
-[assembly: AssemblyMetadata("SR2ModManager.CompatibleWith", "SR2MP;Starlight;InfiniteHealth")]
+[assembly: AssemblyMetadata("SR2ModManager.CompatibleWith", "SR2MP;Lycoreia;Starlight;InfiniteHealth")]
 // SR2 Mod Manager: every Harmony hook is cooperative - Priority.Last, no transpilers/finalizers, cancelling prefixes only
 // while the feature is switched on, exceptions fall back to vanilla and repeated faults withdraw only our own patches.
 [assembly: AssemblyMetadata("SR2ModManager.HookPolicy", "cooperative")]
@@ -29,10 +29,10 @@ namespace CreatorToolkit;
 public sealed class ToolkitMod : MelonMod
 {
     internal static ToolkitMod I;
-    internal const string Version = "0.8.1";
+    internal const string Version = "0.8.5";
     internal readonly InputCapture Input = new();
     internal PlayerTools Player;
-    internal MultiplayerBridge Coop; // Ranching Together (SR2MP) co-op rules; inert without the mod.
+    internal MultiplayerBridge Coop; // Ranching Together (SR2MP) / Lycoreia co-op rules; inert without the mod.
     internal ActorTools Actors;
     internal WorldTools World;
     internal UnlockTools Unlocks;
@@ -58,6 +58,7 @@ public sealed class ToolkitMod : MelonMod
     internal DroneToggleTools DroneToggle;
     internal PlayerMarkerTools PlayerMarker;
     internal MenuHotkey Hotkey;
+    internal ActionHotkeys Shortcuts; // 0.8.3 «Настройки»: optional action keys
     // M29 task 4: minimap / compass settings (navigation.cfg) and the smooth minimap zoom.
     internal NavigationTools Navigation;
     // 0.7.0: camera and capture (FOV, smooth zoom, FPS counter, background limit, smooth physics),
@@ -164,6 +165,7 @@ public sealed class ToolkitMod : MelonMod
         PlayerMarker = new PlayerMarkerTools(this);
         Hotkey = new MenuHotkey(this);
         Hotkey.EnsureLoaded();
+        Shortcuts = new ActionHotkeys(this);
         Status = Hotkey.Display + " — открыть меню";
         Navigation = new NavigationTools(this);
         Navigation.Load();
@@ -229,19 +231,28 @@ public sealed class ToolkitMod : MelonMod
                 // 0.8.1: the menu key is chosen on «Удобство» (Insert by default); while it is being
                 // chosen the next key goes to the capture, so neither it nor Esc toggles the menu.
                 // A key that also types does nothing while a mod text field has focus.
+                // 0.8.3: the action keys («Настройки») are captured the same way and never fire on
+                // the frame a key is being assigned.
+                bool assigning = Hotkey.Capturing || Shortcuts.Capturing >= 0;
                 if (Hotkey.Capturing)
                 {
                     if (MenuOpen) Hotkey.TickCapture(kb); else Hotkey.CancelCapture();
+                }
+                else if (Shortcuts.Capturing >= 0)
+                {
+                    if (MenuOpen) Shortcuts.TickCapture(kb); else Shortcuts.CancelCapture();
                 }
                 else if (Hotkey.Pressed(kb) && !(MenuOpen && Hotkey.Typing && (_ui?.TextFieldFocused ?? false)))
                 {
                     if (MenuOpen) CloseMenu(); else Input.Open();
                 }
                 else if (MenuOpen && kb.escapeKey.wasPressedThisFrame) CloseMenu();
+                if (!assigning) Shortcuts.Tick(kb, MenuOpen && (_ui?.TextFieldFocused ?? false));
             }
             if (MenuOpen) Input.Enforce();
             M17UiHoverProbe.Tick();
             M18GordoProbe.Tick();
+            JumpProbe.Tick();
             M19GraphicsUiProbe.Tick();
             _ui?.TickTextInput();
             _ui?.TickPlayerReadouts();
@@ -304,20 +315,16 @@ public sealed class ToolkitMod : MelonMod
         {
             try{_ui.InitializeReadyGui();}catch(Exception e){Fail("UI initialization",e);return;}
         }
-        if (!MenuOpen&&StarlightBridge.MenuOpen)
+        if (MenuOpen)
         {
-            // A Starlight menu is on screen: our overlays step aside, only the FPS counter stays.
-            try { _ui.DrawFpsCounter(); } catch(Exception e) { Fail("FPS counter",e); }
-            return;
+            try { _ui.Draw(); Tests?.Rendered(); }
+            catch (Exception e) { Tests?.GuiFailed(e); Fail("GUI", e); CloseMenu(); }
         }
-        if (!MenuOpen)
+        else if (!StarlightBridge.MenuOpen) // a Starlight menu on screen: our overlays step aside
         {
             try { _ui.DrawTransitStatus();_ui.DrawSessionHud();_ui.DrawExplorerHud();_ui.DrawMiniMap();_ui.DrawMapOverlay();Audit?.DrawNativeFontSwatch(); } catch(Exception e) { Fail("HUD / map overlay",e); }
-            try { _ui.DrawFpsCounter(); } catch(Exception e) { Fail("FPS counter",e); }
-            return;
         }
-        try { _ui.Draw(); Tests?.Rendered(); }
-        catch (Exception e) { Tests?.GuiFailed(e); Fail("GUI", e); CloseMenu(); }
+        // One FPS counter on top of everything, with or without the menu (0.8.3: was three copies).
         try { _ui.DrawFpsCounter(); } catch(Exception e) { Fail("FPS counter",e); }
     }
 
@@ -518,6 +525,7 @@ public sealed class ToolkitMod : MelonMod
     {
         Pending = null;
         Hotkey?.CancelCapture();
+        Shortcuts?.CancelCapture();
         _ui?.ClearInteraction();
         try { Input.Close(); } catch (Exception e) { Fail("restore input", e); }
     }
@@ -665,6 +673,8 @@ public sealed class ToolkitMod : MelonMod
                     case "fps-runtime-audit": _sprintReadOnlySnapshot=Optimization.Runtime.Audit();break;
                     case "graphics-maximum": if(Ready)Queue("maximum FPS",()=>Optimization.ApplyMaximum());break;
                     case "m18-gordo-test": M18GordoProbe.Start(this);break;
+                    case "jump-probe": if(Ready)JumpProbe.Start(this,false);break;
+                    case "jump-probe-legacy": if(Ready)JumpProbe.Start(this,true);break;
                     case "menu-graphics-geometry": NavigateMenu(command,()=>_ui.ShowGraphicsTabForTest(1));break;
                     case "menu-graphics-effects": NavigateMenu(command,()=>_ui.ShowGraphicsTabForTest(2));break;
                     case "m19-graphics-custom": if(Ready)Queue("m19-graphics-custom",()=>Optimization.ApplyDetailed(new M19GraphicsRequest(50,180,false,false,M19Effects.MotionBlur|M19Effects.Bloom)));break;
@@ -780,7 +790,7 @@ public sealed class ToolkitMod : MelonMod
         details.Append(M26AcceptanceCore.Diagnostics(this,_ui));details.Append(M26AcceptanceIpc.Diagnostics(this,_ui));
         details.Append(M27AcceptanceIpc.Diagnostics(this,_ui));
         details.Append(M28TestIpc.Diagnostics(this));
-        details.Append($"OpenMenuKey: {Hotkey?.Key ?? MenuHotkeyPolicy.Default}\nHighJump: {Player.HighJump}\nJumpHeight: {Player.JumpHeightMultiplier:F2}\nJumpPrivateAssetRoots: {Player.JumpAssetRoots}\nInfiniteVacpackItems: {Player.InfiniteItems}\nPreservedVacpackSpends: {Player.PreservedSpends}\nNativeTabIcons: {Map.Icons.TabCount}\nTextListenerRoots: {_ui.TextListenerRootsForTest}\nTextCommits: {_ui.TextCommitsForTest}\nImePreviews: {_ui.ImePreviewsForTest}\nRejectedImeEvents: {_ui.RejectedImeEventsForTest}\nLastTextCallbackMs: {_ui.LastTextCallbackMsForTest:F4}\n");
+        details.Append($"OpenMenuKey: {Hotkey?.Key ?? MenuHotkeyPolicy.Default}\nActionKeys: {Shortcuts?.Summary}\nActionKeyFires: {Shortcuts?.Fired ?? 0}\nHighJump: {Player.HighJump}\nJumpHeight: {Player.JumpHeightMultiplier:F2}\nJumpPrivateAssetRoots: {Player.JumpAssetRoots}\nInfiniteVacpackItems: {Player.InfiniteItems}\nPreservedVacpackSpends: {Player.PreservedSpends}\nNativeTabIcons: {Map.Icons.TabCount}\nTextListenerRoots: {_ui.TextListenerRootsForTest}\nTextCommits: {_ui.TextCommitsForTest}\nImePreviews: {_ui.ImePreviewsForTest}\nRejectedImeEvents: {_ui.RejectedImeEventsForTest}\nLastTextCallbackMs: {_ui.LastTextCallbackMsForTest:F4}\n");
         try{details.Append("UnityGcMode: "+UnityEngine.Scripting.GarbageCollector.GetMode()+"\n");}
         catch(Exception e){details.Append("UnityGcModeError: "+e.Message+"\n");}
         if(Ready)try

@@ -224,6 +224,12 @@ internal static class AtlasGroupPolicy
         if(float.IsNaN(offset))return 0f;
         return Math.Min(limit,Math.Max(0f,offset));
     }
+    // 0.8.3: press-and-drag scrolling. A press becomes a drag after DragThreshold px; until then it is a
+    // tap that clicks the pill on release. Dragging right reveals the pills on the left.
+    internal const float DragThreshold=6f;
+    internal static bool IsDrag(float dx)=>Math.Abs(dx)>DragThreshold;
+    internal static float CarouselDrag(float startOffset,float dx,float content,float viewport)=>
+        CarouselClamp(startOffset-dx,content,viewport);
     internal static float CarouselStep(float offset,int direction,float content,float viewport)=>
         CarouselClamp(offset+Math.Sign(direction)*Math.Max(80f,viewport*.6f),content,viewport);
     // Brings [x, x+width] fully into view with the smallest move.

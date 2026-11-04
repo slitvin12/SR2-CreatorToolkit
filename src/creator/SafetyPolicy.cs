@@ -20,6 +20,18 @@ internal static class SafetyPolicy
     internal static bool NearbyReturnOffset(float x,float y,float z) =>
         float.IsFinite(x)&&float.IsFinite(y)&&float.IsFinite(z)&&
         x*x+z*z<=MaxReturnOffset*MaxReturnOffset+.0001f&&Math.Abs(y)<=MaxReturnHeightDelta;
+    /// Typed currency amount: digits with optional group separators; anything else is 0.
+    internal static int ParseCurrency(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text)) return 0;
+        long value = 0; bool digits = false;
+        foreach (char c in text)
+        {
+            if (c >= '0' && c <= '9') { digits = true; value = Math.Min(int.MaxValue, value * 10 + (c - '0')); }
+            else if (c != ' ' && c != '\u00a0' && c != '\u202f' && c != '_' && c != ',' && c != '.' && c != '\'') return 0;
+        }
+        return digits ? (int)value : 0;
+    }
     internal static int CurrencyDelta(int current, int requested, int maximum)
     {
         if (current < 0 || maximum < 0 || requested < 0) return 0;

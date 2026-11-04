@@ -2053,3 +2053,62 @@ SOS и инфо-HUD — на сеанс · FPS и клавиша меню сох
 Вернуть Insert	Back to Insert
 Нажмите клавишу…	Press a key…
 Убирает игровой интерфейс и вакпак. Меню остаётся доступно по 	Removes the game UI and the vacpack. The menu stays available via 
+Мои ×	Mine ×
+Все ×	All ×
+Точно?	Sure?
+Удалить всех куриц	Remove all chickens
+Нажмите ещё раз: удалить ВСЕХ куриц	Click again: remove ALL chickens
+Добавить	Add
+Максимум	Maximum
+Сумма…	Amount…
+Введите сумму — целое число больше нуля.	Enter an amount — a whole number above zero.
+# 0.8.3 settings tab, action keys
+Настройки	Settings
+Настройки · клавиши, зум, FPS и графика	Settings · keys, zoom, FPS and graphics
+Горячие клавиши	Hotkeys
+Назначить…	Assign…
+ · занята меню	 · used by the menu
+Клавиши работают в игре и в меню · Ctrl/Alt + клавиша не срабатывает · сохраняются сразу.	Keys work in game and in the menu · Ctrl/Alt + key never fires · saved at once.
+Держите клавишу — приближение · сила зума — во вкладке «Съёмка».	Hold the key to zoom in · zoom strength is on «Capture».
+M4 — боковая кнопка мыши · сила зума — во вкладке «Съёмка».	M4 is the side mouse button · zoom strength is on «Capture».
+Кадры в секунду и время кадра в выбранном углу.	Frames per second and frame time in the chosen corner.
+Графика и консоль	Graphics and console
+Пресеты, дальность, текстуры и эффекты · версия, статус и последние ошибки.	Presets, distance, textures and effects · version, status and recent errors.
+Инфо-HUD	Info HUD
+Зона, XYZ, время и активные эффекты поверх игры.	Zone, XYZ, time and active effects over the game.
+Клавиши, FPS, графика и консоль →	Keys, FPS, graphics and console →
+SOS и инфо-HUD — на сеанс · клавиши, FPS и графика — во вкладке «Настройки».	SOS and info HUD are per session · keys, FPS and graphics are on «Settings».
+Назад к настройкам	Back to settings
+ · игровые спрайты	 · game sprites
+Чистый кадр	Clean shot
+: клавиша снята	: key cleared
+Клавиша не изменена	Key unchanged
+ · снята с «	 · taken from «
+Эта клавиша не подходит: Esc, F1, Tab, Enter, пробел и стрелки заняты.	This key can't be used: Esc, F1, Tab, Enter, Space and arrows are reserved.
+Эта клавиша уже открывает меню.	This key already opens the menu.
+Нет такого действия.	No such action.
+Бессмертие: ВКЛ	God mode: ON
+Бессмертие: ВЫКЛ	God mode: OFF
+Бесконечная энергия: ВКЛ	Infinite energy: ON
+Бесконечная энергия: ВЫКЛ	Infinite energy: OFF
+Прототип	Prototype
+Лучистый	Radiant
+Недоступен	Unavailable
+# 0.8.4 hints and compact pages
+Нативные феномены…	Native phenomena…
+Подсказки включены · пояснения под кнопками	Hints on · explanations under the buttons
+Подсказки скрыты	Hints hidden
+Автопополнение и ферма	Auto-refill & farm
+Фермерский помощник…	Farm helper…
+Нажмите клавишу · Esc — отмена	Press a key · Esc cancels
+# 0.8.5 polish: tracker, gadgets
+Поиск чертежа…	Search blueprints…
+Слева — полученные чертежи	Received blueprints are listed on the left
+В наличии	In stock
+Экземпляр не списывается	No item is used up
+Списывается 1 экземпляр	Uses up 1 item
+Без проверки пересечений и уклона	No overlap or slope checks
+Штатные проверки места	Standard placement checks
+Бесконечный режим: Преобразователь не трогается.	Infinite mode: the Refinery is not touched.
+Нужен изготовленный экземпляр. Удаление и возврат — через штатное строительство.	Needs a crafted item. Removing and returning it uses the game's own build mode.
+Неподвижная земля перед игроком, нормаль поверхности, полный контакт и отсутствие пересечений. Связанные порталы подчиняются ограничениям игры.	Still ground in front of the player, the surface normal, full contact and no overlaps. Linked portals follow the game's limits.

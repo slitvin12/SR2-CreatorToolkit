@@ -113,6 +113,6 @@ internal static class CoexistenceRegression
             meta[key]=value;
         }
         Check(meta.TryGetValue(C.HookPolicyKey,out var policy)&&policy==C.HookPolicyValue,"release DLL carries SR2ModManager.HookPolicy = cooperative");
-        Check(meta.TryGetValue("SR2ModManager.CompatibleWith",out var with)&&with=="SR2MP;Starlight;InfiniteHealth","release DLL still carries CompatibleWith = SR2MP;Starlight;InfiniteHealth");
+        Check(meta.TryGetValue("SR2ModManager.CompatibleWith",out var with)&&with=="SR2MP;Lycoreia;Starlight;InfiniteHealth","release DLL still carries CompatibleWith = SR2MP;Lycoreia;Starlight;InfiniteHealth");
     }
 }

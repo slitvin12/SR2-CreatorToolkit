@@ -7,8 +7,8 @@ internal sealed partial class ToolkitUi
 {
     private bool _infoPage;
     internal void ShowInfoForTest()
-    {ShowTabForTest(7);_infoPage=true;}
-    internal bool InfoVisibleForTest=>_app.MenuOpen&&_tab==7&&_infoPage;
+    {ShowTabForTest(8);_infoPage=true;}
+    internal bool InfoVisibleForTest=>_app.MenuOpen&&_tab==8&&_infoPage;
 
     private void InfoPage(Rect area)
     {
@@ -16,7 +16,7 @@ internal sealed partial class ToolkitUi
         try
         {
             L.Label(new Rect(0,0,area.width-260,40),"Консоль / Инфо",_heading);
-            if(Button(new Rect(area.width-242,0,242,44),"Назад к удобствам",_button))
+            if(Button(new Rect(area.width-242,0,242,44),"Назад к настройкам",_button))
             {_infoPage=false;ClearInteraction();return;}
             float col=(area.width-24)/2,x=col+24;
             L.Box(new Rect(0,68,col,210),GUIContent.none,_card);
@@ -32,7 +32,7 @@ internal sealed partial class ToolkitUi
                 "Шрифт: "+_fontDisplayName+
                 "\nИсточник: "+(FontNativeForTest?"игровой ресурс":_fontSource)+
                 "\nКириллица: "+(FontCyrillicForTest?"проверена":"недоступна")+
-                "\nИконки вкладок: "+_app.Map.Icons.TabCount+" / 8 · игровые спрайты",_muted);
+                "\nИконки вкладок: "+_app.Map.Icons.TabCount+" / "+ToolkitUi.TabCount+" · игровые спрайты",_muted);
             L.Box(new Rect(0,298,area.width,248),GUIContent.none,_card);
             L.Label(new Rect(20,310,area.width-40,36),"Состояние",_tableHeading);
             string status=_app.Audit?.Active==true?_app.Audit.Status:_app.Status;

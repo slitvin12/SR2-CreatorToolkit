@@ -48,6 +48,7 @@ internal static class CoexistencePolicy
         "MenuInputMode" => "Управление меню Creator Toolkit",
         "VacpackSlotSpend" or "VacpackIndexSpend" or "VacpackTypeSpend" => "Бесконечный инвентарь",
         "LoadingBudget" => "Плавная загрузка",
+        "SeaKillGuard" => "Полёт / NoClip",
         _ when Group(patch) == InfiniteBuilderGroup => "Бесконечный режим строителя",
         _ => "Функция Creator Toolkit",
     };

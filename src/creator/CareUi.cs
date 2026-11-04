@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using UnityEngine;
 
@@ -10,6 +10,20 @@ internal sealed partial class ToolkitUi
     private Vector2 _careScroll, _gadgetScroll;
     private string _gadgetSearch = "";
     private GadgetTools.Entry _gadgetSelection;
+    // 0.8.5: the filtered blueprint list is rebuilt only when the search or the catalog changes (it was a
+    // LINQ copy plus one lower-cased search string per entry on every GUI event).
+    private readonly System.Collections.Generic.List<GadgetTools.Entry> _gadgetView = new();
+    private string _gadgetViewSearch; private int _gadgetViewVersion = -1;
+    private System.Collections.Generic.List<GadgetTools.Entry> GadgetView(GadgetTools tools)
+    {
+        string search = _gadgetSearch ?? "";
+        if (_gadgetViewVersion == tools.Version && string.Equals(_gadgetViewSearch, search)) return _gadgetView;
+        _gadgetViewVersion = tools.Version; _gadgetViewSearch = search;
+        string needle = search.Trim().ToLowerInvariant();
+        _gadgetView.Clear();
+        foreach (var e in tools.Catalog) if (needle.Length == 0 || e.Search.Contains(needle)) _gadgetView.Add(e);
+        return _gadgetView;
+    }
     private void CatalogArt(Rect rect,string reference)
     {
         if(string.IsNullOrEmpty(reference))return;
@@ -102,58 +116,80 @@ internal sealed partial class ToolkitUi
         finally { EndGroup(); }
         L.Label(new Rect(0, 524, width, 60), tools.Status, _muted);
     }
+    // 0.8.5: search and refresh on top; the list and the chosen item side by side (icon, name, stock,
+    // what the current modes mean, the place button at the foot of the card); the build modes and the
+    // refinery in one row under the cards; the status as one quiet line.
     private void GadgetPage(float width)
     {
         var tools = _app.Gadgets;
-        _gadgetSearch = TextBox("gadget-search", new Rect(0, 52, width - 220 - 425, 40), _gadgetSearch);
-        bool infinite = tools.InfiniteBuilder;
-        if (Button(new Rect(width - 205 - 15 - 410, 52, 410, 40), InfiniteBuilderPolicy.Label(infinite),
-            infinite ? _selectedButton : _button))
-            _app.Queue("infinite builder", () => tools.SetInfiniteBuilder(!tools.InfiniteBuilder));
+        _gadgetSearch = TextBox("gadget-search", new Rect(0, 52, width - 205 - 12, 40), _gadgetSearch, 60, "Поиск чертежа…");
         if (Button(new Rect(width - 205, 52, 205, 40), "Обновить чертежи", _button))
             _app.Queue("gadget catalog", () => { tools.RefreshCatalog(); _gadgetSelection = null; });
+        bool infinite = tools.InfiniteBuilder, free = _app.FreePlacement.Enabled;
+        const float top = 106, cardH = 400;
         float left = (width - 18) * .56f, x = left + 18, right = width - x;
-        var entries = tools.Catalog.Where(e => e.Search.Contains(_gadgetSearch.Trim().ToLowerInvariant())).ToList();
-        L.Box(new Rect(0, 110, left, 402), GUIContent.none, _card);
-        _gadgetScroll = BeginScroll(62, new Rect(10, 120, left - 20, 382), _gadgetScroll, entries.Count * 62, 62);
+        var entries = GadgetView(tools);
+        L.Box(new Rect(0, top, left, cardH), GUIContent.none, _card);
+        _gadgetScroll = BeginScroll(62, new Rect(10, top + 10, left - 20, cardH - 20), _gadgetScroll, entries.Count * 62, 62);
         try
         {
             for (int i = 0; i < entries.Count; i++)
             {
                 var entry = entries[i]; float y = i * 62 - _gadgetScroll.y;
-                if (y < 0 || y + 56 > 382) continue;
-                if (Button(new Rect(0, y, left - 72, 56),GUIContent.none,
-                    _gadgetSelection == entry ? _selectedButton : _button)) _gadgetSelection = entry;
-                if(entry.Definition?.Icon!=null)DrawSprite(new Rect(8,y+7,40,40),entry.Definition.Icon);
-                string count=tools.DisplayCount(entry);
-                L.Label(new Rect(58,y,left-138,52),ButtonContent(entry.Name+"  ·  "+count),
-                    ButtonTextStyle(ButtonContent(entry.Name+"  ·  "+count),left-138));
+                if (y + 56 <= 0 || y >= cardH - 20) continue;
+                Rect face = new(0, y, left - 72, 56);
+                if (Button(face, GUIContent.none, _gadgetSelection == entry ? _selectedButton : _button)) _gadgetSelection = entry;
+                float offset = JellyOffset(face);
+                if (entry.Definition?.Icon != null) DrawSprite(RowChild(new Rect(8, y + 7, 40, 40), offset, true), entry.Definition.Icon);
+                string count = tools.DisplayCount(entry);
+                var caption = ButtonContent(entry.Name + "  ·  " + count);
+                HoverText(RowChild(new Rect(58, y, left - 138, 52), offset), caption, ButtonTextStyle(caption, left - 138), offset);
             }
             if (entries.Count == 0) L.Label(new Rect(12, 12, left - 80, 110),
                 "Нет полученных чертежей по этому запросу.\nОбновите каталог; скрытые чертежи мод не открывает.", _muted);
         }
         finally { EndGroup(); }
-        L.Box(new Rect(x, 110, right, 402), GUIContent.none, _card);
-        if(_gadgetSelection?.Definition?.Icon!=null)DrawSprite(new Rect(x+18,128,64,64),_gadgetSelection.Definition.Icon);
-        float art=_gadgetSelection?.Definition?.Icon!=null?80:0;
-        L.Label(new Rect(x + 18+art, 128, right - 36-art, 74), _gadgetSelection?.Name ?? "Выберите гаджет", _heading);
-        Hint(new Rect(x + 18, 214, right - 36, 110),
+        // The chosen item: icon, name and stock on top, the modes in two short lines, the button at the foot.
+        L.Box(new Rect(x, top, right, cardH), GUIContent.none, _card);
+        var chosen = _gadgetSelection;
+        var icon = chosen?.Definition?.Icon;
+        float art = icon != null ? 86 : 0, tx = x + 20 + art, tw = right - 40 - art;
+        if (icon != null) DrawSprite(new Rect(x + 20, top + 18, 72, 72), icon);
+        L.Label(new Rect(tx, top + 16, tw, 44), Ellipsize(chosen?.Name ?? "Выберите гаджет", tw, _heading), _heading);
+        L.Label(new Rect(tx, top + 58, tw, 30), chosen == null ? "Слева — полученные чертежи" : "В наличии: " + tools.DisplayCount(chosen), _muted);
+        float fy = top + 108;
+        Fill(new Rect(x + 20, fy - 8, right - 40, 1), new Color(.85f, .80f, .72f, .8f));
+        GadgetFact(new Rect(x + 20, fy, right - 40, 28), infinite ? "Экземпляр не списывается" : "Списывается 1 экземпляр", infinite);
+        GadgetFact(new Rect(x + 20, fy + 30, right - 40, 28), free ? "Без проверки пересечений и уклона" : "Штатные проверки места", free);
+        Hint(new Rect(x + 20, fy + 70, right - 40, 92),
             "Неподвижная земля перед игроком, нормаль поверхности, полный контакт и отсутствие пересечений. "+
             "Связанные порталы подчиняются ограничениям игры.");
+        Hint(new Rect(x + 20, fy + 164, right - 40, 50),
+            infinite ? "Бесконечный режим: Преобразователь не трогается." :
+            "Нужен изготовленный экземпляр. Удаление и возврат — через штатное строительство.", _small);
         bool enabled = GUI.enabled; GUI.enabled = enabled && tools.CanPlace(_gadgetSelection);
-        if (Button(new Rect(x + 18, 342, right - 36, 52), "Разместить 1 экземпляр…", _accentButton))
+        if (Button(new Rect(x + 20, top + cardH - 20 - 52, right - 40, 52), "Разместить 1 экземпляр…", _accentButton))
             tools.RequestPlace(_gadgetSelection);
         GUI.enabled = enabled;
-        Hint(new Rect(x + 18, 411, right - 36, 83),
-            infinite ? "Бесконечный режим: экземпляр не списывается, Преобразователь не трогается. "+(_app.FreePlacement.Enabled?"Свободная установка: без проверки пересечений и уклона.":"Лимиты и проверки места — штатные.") :
-            "Нужен изготовленный экземпляр. Размещение — с подтверждением; удаление и возврат — через штатное строительство.", _muted);
-        // Bottom row, outside the detail card: the card has no spare height for a third text block plus a button.
-        if(Button(new Rect(width-300,522,300,42),"Ресурсы Преобразователя…",_goldButton))
-        {_refineryPage=true;_app.Queue("refinery catalog",_app.Refinery.Refresh);}
+        // Build modes and the refinery: one row under the cards.
+        float bw = (width - 24) / 3f, by = top + cardH + 14;
+        if (Button(new Rect(0, by, bw, 42), InfiniteBuilderPolicy.Label(infinite), infinite ? _selectedButton : _button))
+            _app.Queue("infinite builder", () => tools.SetInfiniteBuilder(!tools.InfiniteBuilder));
         // «Свободная установка» (native build mode): clipping, any slope, overhangs and a longer reach.
-        bool free=_app.FreePlacement.Enabled;
-        if(Button(new Rect(width-616,522,300,42),CapturePolicy.FreePlacementLabel(free),free?_selectedButton:_button))
-            _app.Queue("free placement",()=>_app.FreePlacement.Set(!_app.FreePlacement.Enabled));
-        L.Label(new Rect(0, 529, width-632, 60), free?_app.FreePlacement.Status:tools.Status, _muted);
+        if (Button(new Rect(bw + 12, by, bw, 42), CapturePolicy.FreePlacementLabel(free), free ? _selectedButton : _button))
+            _app.Queue("free placement", () => _app.FreePlacement.Set(!_app.FreePlacement.Enabled));
+        if (Button(new Rect(2 * (bw + 12), by, bw, 42), "Ресурсы Преобразователя…", _goldButton))
+        { _refineryPage = true; _app.Queue("refinery catalog", _app.Refinery.Refresh); }
+        string status = free ? _app.FreePlacement.Status : tools.Status;
+        L.Label(new Rect(0, by + 48, width, 24), Ellipsize(status, width, _small), _small);
+    }
+    // One short line about a build mode: a mint dot when the mode is on.
+    private void GadgetFact(Rect rect, string text, bool special)
+    {
+        var saved = GUI.color;
+        GUI.color = special ? _accent : new Color(.70f, .64f, .56f, 1f);
+        try { GUI.DrawTexture(new Rect(rect.x, rect.center.y - 5, 10, 10), MiniDiscTexture(false)); }
+        finally { GUI.color = saved; }
+        L.Label(new Rect(rect.x + 18, rect.y, rect.width - 18, rect.height), Ellipsize(text, rect.width - 18, _muted), _muted);
     }
 }

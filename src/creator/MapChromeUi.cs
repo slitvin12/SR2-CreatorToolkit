@@ -68,33 +68,54 @@ internal sealed partial class ToolkitUi
         try{GUI.DrawTexture(rect,_mapGlyphs[Mathf.Clamp(glyph,0,_mapGlyphs.Length-1)]);}
         finally{GUI.color=saved;}
     }
-    // Compact on/off switch (mockup 06): a rounded track and a round knob.
+    // Compact on/off switch (mockup 06): a rounded track and a round knob. 0.8.5: the knob slides and the
+    // switch lifts under the pointer like the menu's jelly buttons.
     private bool MiniSwitch(Rect rect,bool on)
     {
-        bool hover=CanHover(rect);
-        if(hover)L.Box(new Rect(rect.x-2,rect.y-2,rect.width+4,rect.height+4),GUIContent.none,_glowBox);
-        DrawRoundedSurface(rect,(on?_selectedButton:_trackStyle).normal.background,rect.height*.5f);
-        float knob=rect.height-6;
-        Rect dot=new(on?rect.xMax-knob-3:rect.x+3,rect.y+3,knob,knob);
-        var saved=GUI.color;GUI.color=on?Color.white:new Color(1f,1f,1f,.9f);
+        bool hover=CanHover(rect),held=hover&&Mouse.current!=null&&Mouse.current.leftButton.isPressed;
+        float offset=HoverOffset(rect,hover,held),t=UiMotionPolicy.Smooth(SwitchProgress(rect,on));
+        Rect face=new(rect.x,rect.y+offset*.5f,rect.width,rect.height);
+        if(hover)DrawRoundedSurface(new Rect(face.x-3,face.y-3,face.width+6,face.height+6),_glowBox.normal.background,face.height*.5f+3f);
+        DrawRoundedSurface(face,(t>=.5f?_selectedButton:_trackStyle).normal.background,face.height*.5f);
+        float knob=face.height-6;
+        Rect dot=new(Mathf.Lerp(face.x+3,face.xMax-knob-3,t),face.y+3,knob,knob);
+        var saved=GUI.color;GUI.color=t>=.5f?Color.white:new Color(1f,1f,1f,.9f);
         try{GUI.DrawTexture(dot,MiniDiscTexture(false));}
         finally{GUI.color=saved;}
         return Pressed(rect);
     }
-    // Segmented control: returns the pressed segment or -1.
+    // Segmented control: returns the pressed segment or -1. 0.8.5: the selection pill glides, a hovered
+    // segment glows and its caption lifts like a menu button.
     private int Segmented(Rect rect,string[] titles,int selected)
     {
         DrawRoundedSurface(rect,_trackStyle.normal.background,rect.height*.5f);
         int pressed=-1;float part=(rect.width-6)/titles.Length;
+        if(selected>=0&&selected<titles.Length)
+        {
+            float at=SegmentGlide(rect,selected);
+            Rect pill=new(rect.x+3+at*part,rect.y+3,part,rect.height-6);
+            DrawRoundedSurface(pill,_selectedButton.normal.background,pill.height*.5f);
+        }
         for(int i=0;i<titles.Length;i++)
         {
             Rect seg=new(rect.x+3+i*part,rect.y+3,part,rect.height-6);
-            if(i==selected)DrawRoundedSurface(seg,_selectedButton.normal.background,seg.height*.5f);
-            else if(CanHover(seg))L.Box(seg,GUIContent.none,_glowBox);
-            L.Label(seg,titles[i],_mapSegment);
+            bool hover=CanHover(seg),held=hover&&Mouse.current!=null&&Mouse.current.leftButton.isPressed;
+            float offset=HoverOffset(seg,hover,held);
+            if(i!=selected&&hover)DrawRoundedSurface(seg,_glowBox.normal.background,seg.height*.5f);
+            HoverText(new Rect(seg.x,seg.y+offset*.5f,seg.width,seg.height),titles[i],_mapSegment,offset);
             if(Pressed(seg))pressed=i;
         }
         return pressed;
+    }
+    // 0.8.5: a settings line of «Слои карты»: the whole row glows, lifts and toggles, not only the switch.
+    private bool MapSettingRow(Rect row,string title,bool on)
+    {
+        bool hover=CanHover(row),held=hover&&Mouse.current!=null&&Mouse.current.leftButton.isPressed;
+        float offset=HoverOffset(row,hover,held);
+        if(hover)DrawRoundedSurface(row,_glowBox.normal.background,12f);
+        HoverText(new Rect(row.x+8,row.y+offset*.5f,row.width-100,row.height-2),title,_atlasRowTitle,offset);
+        bool switched=MiniSwitch(new Rect(row.xMax-64,row.y+5,56,28),on);
+        return switched||Pressed(row);
     }
     private void OpenMenuFromMap(string label,int section,bool focusSearch=false)
     {
@@ -245,11 +266,9 @@ internal sealed partial class ToolkitUi
             finally{EndGroup();}
             float sy=h-settings+8;
             Fill(new Rect(14,sy-6,w-28,2),new Color(.93f,.90f,.84f,1f));
-            L.Label(new Rect(18,sy,w-110,36),"Скрывать открытое и собранное",_atlasRowTitle);
-            if(MiniSwitch(new Rect(w-74,sy+5,56,28),map.HideOpened))map.HideOpened=!map.HideOpened;
+            if(MapSettingRow(new Rect(10,sy,w-20,38),"Скрывать открытое и собранное",map.HideOpened))map.HideOpened=!map.HideOpened;
             sy+=40;
-            L.Label(new Rect(18,sy,w-110,36),"Скрывать в тумане (неисследованное)",_atlasRowTitle);
-            if(MiniSwitch(new Rect(w-74,sy+5,56,28),map.HideFogged))map.HideFogged=!map.HideFogged;
+            if(MapSettingRow(new Rect(10,sy,w-20,38),"Скрывать в тумане (неисследованное)",map.HideFogged))map.HideFogged=!map.HideFogged;
             sy+=44;
             L.Label(new Rect(18,sy,120,40),"Значки",_atlasRowTitle);
             int size=Segmented(new Rect(w-200,sy,182,40),MapSizeTitles,MapChromePolicy.SizeIndex(map.MarkerSize));
@@ -273,11 +292,14 @@ internal sealed partial class ToolkitUi
         Fill(new Rect(row.x+8,row.y,row.width-16,2),new Color(.94f,.91f,.85f,1f));
         Rect toggle=new(row.xMax-62,row.y+11,50,26);
         Rect head=new(row.x,row.y,row.width-70,row.height);
-        if(CanHover(head))L.Box(head,GUIContent.none,_glowBox);
+        // 0.8.5: the menu's jelly hover: a rounded glow, the icon grows, the caption lifts.
+        bool hover=CanHover(head),held=hover&&Mouse.current!=null&&Mouse.current.leftButton.isPressed;
+        float offset=HoverOffset(head,hover,held),lift=offset*.5f;
+        if(hover)DrawRoundedSurface(new Rect(head.x+2,head.y+3,head.width-2,head.height-4),_glowBox.normal.background,12f);
         if(Pressed(head))_mapLayersGroup=expanded?-1:index;
-        MapGlyph(new Rect(row.x+8,row.y+15,16,16),expanded?MapChromePolicy.Chevron:MapChromePolicy.ChevronRight,new Color(.6f,.56f,.5f,1f));
-        AtlasChipIcon(new Rect(row.x+30,row.y+8,30,30),group.Chips[0]);
-        L.Label(new Rect(row.x+68,row.y+2,row.width-140,22),Loc.T(group.Title).ToUpperInvariant(),_mapGroupHead);
+        MapGlyph(new Rect(row.x+8,row.y+15+lift,16,16),expanded?MapChromePolicy.Chevron:MapChromePolicy.ChevronRight,new Color(.6f,.56f,.5f,1f));
+        AtlasChipIcon(HoverGrow(new Rect(row.x+30,row.y+8+lift,30,30),offset),group.Chips[0]);
+        HoverText(new Rect(row.x+68,row.y+2+lift,row.width-140,22),Loc.T(group.Title).ToUpperInvariant(),_mapGroupHead,offset);
         bool progress=false;
         foreach(var chip in group.Chips)progress|=chip.Progress;
         string sub;
@@ -288,21 +310,23 @@ internal sealed partial class ToolkitUi
             foreach(var chip in group.Chips)names.Add(Loc.T(chip.Title).ToLowerInvariant());
             sub=string.Join(", ",names);
         }
-        L.Label(new Rect(row.x+68,row.y+23,row.width-140,20),Ellipsize(sub,row.width-140,_mapGroupSub),_mapGroupSub);
+        L.Label(new Rect(row.x+68,row.y+23+lift,row.width-140,20),Ellipsize(sub,row.width-140,_mapGroupSub),_mapGroupSub);
         if(MiniSwitch(toggle,active>0))map.SetGroup(group,active==0);
     }
     private void MapChipRow(Rect row,MapTools map,AtlasGroupPolicy.Chip chip)
     {
         bool active=map.ChipActive(chip);
         Rect toggle=new(row.xMax-62,row.y+8,50,26);
-        if(CanHover(row))L.Box(row,GUIContent.none,_glowBox);
+        bool hover=CanHover(row),held=hover&&Mouse.current!=null&&Mouse.current.leftButton.isPressed;
+        float offset=HoverOffset(row,hover,held),lift=offset*.5f;
+        if(hover)DrawRoundedSurface(new Rect(row.x+2,row.y+1,row.width-4,row.height-2),_glowBox.normal.background,12f);
         var saved=GUI.color;
         if(!active)GUI.color=new Color(saved.r,saved.g,saved.b,saved.a*.55f);
-        try{AtlasChipIcon(new Rect(row.x+30,row.y+5,32,32),chip);}
+        try{AtlasChipIcon(HoverGrow(new Rect(row.x+30,row.y+5+lift,32,32),offset),chip);}
         finally{GUI.color=saved;}
         var (total,done)=map.ChipCount(chip.Id);
         float textW=row.width-220;
-        L.Label(new Rect(row.x+70,row.y+(chip.Progress&&total>0?1:6),textW,26),chip.Title,_mapChipText);
+        HoverText(new Rect(row.x+70,row.y+(chip.Progress&&total>0?1:6)+lift,textW,26),chip.Title,_mapChipText,offset);
         if(chip.Progress&&total>0)
         {
             Rect bar=new(row.x+70,row.y+30,Mathf.Min(150,textW),5);

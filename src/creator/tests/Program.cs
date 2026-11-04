@@ -1,4 +1,4 @@
-using System.Reflection.Metadata;
+﻿using System.Reflection.Metadata;
 using System.Reflection.PortableExecutable;
 using CreatorToolkit;
 
@@ -92,6 +92,9 @@ Check(SafetyPolicy.CurrencyDelta(int.MaxValue - 5, int.MaxValue, int.MaxValue) =
 Check(SafetyPolicy.CurrencyDelta(100, 1, 100) == 0, "currency already full");
 Check(SafetyPolicy.CurrencyDelta(100, -1, 1000) == 0, "currency rejects negative request");
 Check(SafetyPolicy.CurrencyDelta(120, 100, 100) == 0, "currency above native cap");
+Check(SafetyPolicy.ParseCurrency("25 000")==25000&&SafetyPolicy.ParseCurrency("1\u00a0000\u00a0000")==1000000&&SafetyPolicy.ParseCurrency("7")==7,"0.8.3 typed currency accepts digits and group separators");
+Check(SafetyPolicy.ParseCurrency("")==0&&SafetyPolicy.ParseCurrency("-5")==0&&SafetyPolicy.ParseCurrency("12k")==0&&SafetyPolicy.ParseCurrency(" , ")==0,"0.8.3 typed currency rejects signs, letters and empty input");
+Check(SafetyPolicy.ParseCurrency("99999999999999")==int.MaxValue,"0.8.3 typed currency saturates instead of overflowing");
 Check(SafetyPolicy.AmmoFill == 100, "ammo fill exactly 100");
 Check(!SafetyPolicy.NeedsRefill(-1)&&!SafetyPolicy.NeedsRefill(0),"auto refill never revives empty/invalid slot");
 Check(SafetyPolicy.NeedsRefill(1)&&SafetyPolicy.NeedsRefill(25),"auto refill threshold inclusive");
@@ -352,7 +355,7 @@ using (var pe = new PEReader(File.OpenRead(dll)))
     Check(!refs.Any(n => n.Contains("Minecraft", StringComparison.OrdinalIgnoreCase) || n.Contains("McHud", StringComparison.OrdinalIgnoreCase) || n.Contains("WebSocket", StringComparison.OrdinalIgnoreCase)), "no Minecraft/bridge/socket assembly dependency");
     Check(refs.Contains("MelonLoader") && refs.Contains("Assembly-CSharp"), "native MelonLoader and game API references");
     var types = md.TypeDefinitions.Where(h => md.GetTypeDefinition(h).GetDeclaringType().IsNil).ToDictionary(h => md.GetString(md.GetTypeDefinition(h).Namespace) + "." + md.GetString(md.GetTypeDefinition(h).Name));
-    Check(md.GetAssemblyDefinition().Version==new Version(0,8,1,0),"release assembly version is 0.8.1");
+    Check(md.GetAssemblyDefinition().Version==new Version(0,8,5,0),"release assembly version is 0.8.5");
     foreach (string name in new[] { "ToolkitMod", "ToolkitUi", "InputCapture", "PlayerTools", "ActorTools", "WorldTools", "UnlockTools", "CinemaTools", "MapTools", "PrototypeTools", "NativeUiProbe", "NativeAtlasProbe", "ConvenienceTools", "StressSuite", "DiagnosticIo", "NativeHooks", "EngineFrameProbe", "StressComparisonPlan", "TransitSafety", "CatalogOrder", "CapsuleDatabase", "CapsuleTools","ExplorerPolicy","WaypointStore","WaypointRecord","CustomWaypointTools","RadarTools","FarmTools","UiThemePolicy","CarePolicy","SlimeCareTools","GadgetTools","NativeIconTools","PhenomenaTools","PhenomenaWindowPolicy","AuditSaveGuard","AuditSavePolicy","AuditImmutableBaseline","AuditCheckpointStore" })
         Check(types.ContainsKey("CreatorToolkit." + name), "packaged module " + name);
     var mod = md.GetTypeDefinition(types["CreatorToolkit.ToolkitMod"]);
@@ -489,7 +492,7 @@ Check(!ui.Contains("GUI.DrawTextureWithTexCoords("), "no crashing managed textur
 Check(!toolkit.Contains("kb.f1Key.wasPressedThisFrame")&&toolkit.Contains("else if (Hotkey.Pressed(kb)")&&
     ui.Contains("_app.Hotkey?.Footer??\"Insert  ·  Esc\"")&&!ui.Contains("\"МИР ЗАГРУЖЕН\"")&&
     !ui.Contains("SLIME RANCHER 2  ·  мастерская создателя"),"LO header cleanup and the configurable (Insert) hotkey are explicit");
-Check(ui.Contains("ammo.GetSlotCount(i)")&&ui.Contains("179, sw, 44")&&
+Check(ui.Contains("ammo.GetSlotCount(i)")&&ui.Contains("92, sw, 44")&&
     ui.Contains("DrawRoundedSurface(new Rect(x+14")&&!ui.Contains("_tabIcons"),
     "slot row uses non-overlapping forty-pixel faces and scrollbar uses a scaled capsule, not an egg");
 string nativeText=File.ReadAllText(Path.Combine(root,"src","creator","NativeTextInput.cs"));
@@ -618,7 +621,7 @@ Check(unlocks.Contains("var ui = _app.Map.Ui;")&&unlocks.Contains("_app.Map.Nati
 Check(atlas.Contains("if(group==null||!group.IsGameplay)")&&!atlas.Contains("group=entry.SceneGroups[0]"),"native map destination is not replaced by an arbitrary zone group");
 Check(atlas.Contains("LastTransitSucceeded=false;")&&atlas.Contains("LastTransitSucceeded=true;"),"transit success cannot be inferred from an older SOS return point");
 Check(ui.Contains("(rect.height - 52) / row"),"catalog row viewport reserves its footer hint");
-Check(ui.Contains("MapOverlayLayout.Place(projected,map.MarkerSize)")&&ui.Contains("markerBoxes.Any(r=>r.Overlaps(label))"),"map zone labels avoid exact marker bounds");
+Check(ui.Contains("MapOverlayLayout.Place(projected,map.MarkerSize)")&&ui.Contains("AnyOverlaps(markerBoxes,label)"),"map zone labels avoid exact marker bounds");
 string layerOrderSource=File.ReadAllText(Path.Combine(root,"src","creator","MapLayerOrder.cs"));
 string mapChromeUi=File.ReadAllText(Path.Combine(root,"src","creator","MapChromeUi.cs"));
 Check(layerOrderSource.Contains("internal const int Objects = 7;")&&
@@ -635,9 +638,9 @@ Check(fandomSource.Contains("GatherCategory=\"Ресурсы: ценные\";")&
     "atlas layer order mirrors the fandom category names instead of drifting from them");
 Check(File.ReadAllText(Path.Combine(root,"src","creator","MapTools.cs")).Contains("Categories={\"Капсулы\",\"Гордо\",\"Телепорты\",\"Ноды карты\",\"Дроны\",\"Ресурсы\",\"Двери\",\"Механизмы\",\"Горшочки\",\"Спавнеры\",FandomMapMarkers.GatherCategory,FandomMapMarkers.RareCategory,MapResourceLayerPolicy.Food,MapResourceLayerPolicy.Plorts}"),
     "offline layer fixtures mirror the fourteen production map categories");
-Check(ui.Contains("overlayExclusions.Any(r=>r.Contains(p))")&&ui.Contains("markers.FindIndex(m=>m.Item==map.Selected)"),"atlas excludes toolbar margins and draws the selected object above stacked markers");
-Check(ui.Contains("nativeMarkerExclusions.Any(r=>r.Contains(p))")&&ui.Contains("nativeChrome.Any(r=>r.Overlaps(label))"),"atlas marker and label layout reserves native zone titles, counters and zoom controls");
-Check(atlas.Contains("NativeChromeRects.Any(r=>r.Contains(p))")&&!atlas.Contains("rects.AddRange(NativeChromeRects)"),"native map controls exclude teleport gestures without raycast shields that would block their clicks");
+Check(ui.Contains("AnyContains(overlayExclusions,p)")&&ui.Contains("markers.FindIndex(m=>m.Item==map.Selected)"),"atlas excludes toolbar margins and draws the selected object above stacked markers");
+Check(ui.Contains("AnyContains(nativeMarkerExclusions,p)")&&ui.Contains("AnyOverlaps(nativeChrome,label)"),"atlas marker and label layout reserves native zone titles, counters and zoom controls");
+Check(atlas.Contains("AnyContains(NativeChromeRects,p)")&&!atlas.Contains("rects.AddRange(NativeChromeRects)"),"native map controls exclude teleport gestures without raycast shields that would block their clicks");
 string stress=File.ReadAllText(Path.Combine(root,"src","creator","StressSuite.cs"));
 Check(toolkit.Contains("_readyTicks=new (string,Action)[]")&&!toolkit.Contains("SafeTick(\"player\", Player.Tick)"),"per-frame native tick delegates are cached once");
 Check(player.Contains("ctx.Player.Pointer!=_playerPointer")&&player.Contains("_playerPointer=IntPtr.Zero;_overlaps=null"),"player controller cache invalidates and releases overlap roots");
@@ -1267,7 +1270,7 @@ Check(nativeIcons.Contains("Resources.FindObjectsOfTypeAll<MapMarkerDefinition>(
     "map and reward art borrows original game sprites rather than copying assets or geometric substitutes");
 Check(ui.Contains("Rect iconRect=HoverChildRect(hit,new Rect(p2.x-half,p2.y-half,icon,icon),markerOffset)")&&
     ui.Contains("if(nativeIcon!=null)DrawSprite(iconRect,nativeIcon)")&&
-    mapChromeUi.Contains("AtlasChipIcon(new Rect(row.x+30,row.y+5,32,32),chip)")&&!ui.Contains("Icon(new Rect(hit.x+4,hit.y+4,36,36),MapIcon"),
+    mapChromeUi.Contains("AtlasChipIcon(HoverGrow(new Rect(row.x+30,row.y+5+lift,32,32),offset),chip)")&&!ui.Contains("Icon(new Rect(hit.x+4,hit.y+4,36,36),MapIcon"),
     "native map markers and category filters no longer display handmade pictograms");
 Check(ui.Contains("map.Icons.Reward(reward.Key)")&&ui.Contains("_wrap.CalcHeight(ButtonContent(reward.Title),viewport.width-92)")&&
     ui.Contains("view.Rewards"),"capsule reward cards combine original icons, native titles, counts and measured Cyrillic wrapping");
@@ -1557,6 +1560,8 @@ M31Regression.Run(Check,root);
 AtlasGroupRegression.Run(Check,root);
 MapExplorerRegression.Run(Check,root);
 MenuHotkeyRegression.Run(Check,root);
+SettingsRegression.Run(Check,root);
+UiPolishRegression.Run(Check,root);
 Console.WriteLine($"SUMMARY: {passed} checks passed. Compilation/package/policy checks only; live-game validation is pending.");
 string sha = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(dll))).ToLowerInvariant();
 File.WriteAllText(Path.Combine(root, "_work", "creator-tests.summary.txt"), $"PASS {passed}\nDllSha256={sha}\nLiveGameVerified=false\n");

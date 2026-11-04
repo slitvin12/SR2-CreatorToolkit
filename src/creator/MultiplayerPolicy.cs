@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 namespace CreatorToolkit;
-// Co-op rules for Ranching Together (SR2MP, a Starlight expansion). Pure policy: no Unity,
+// Co-op rules for Ranching Together (SR2MP) and its 2.x successor Lycoreia. Pure policy: no Unity,
 // no SR2MP reference. MultiplayerBridge reads the live session through reflection.
 // Server rules mirror SR2MP itself: its ConsoleCheatPatch blocks cheat commands for the host
 // and every guest while the server's "allow_cheats" is off (GlobalVariables.CheatsEnabled).
@@ -17,7 +17,8 @@ internal enum CoopKind
 
 internal static class MultiplayerPolicy
 {
-    internal const string ModName = "Ranching Together";
+    // "Lycoreia" once its 2.x assembly is detected (MultiplayerBridge), else the 1.x name.
+    internal static string ModName { get; set; } = "Ranching Together";
 
     // Exact Queue labels / Confirm titles. Every literal label in the sources must be listed
     // here (offline regression scans the sources), so a new action can not slip through unclassified.
@@ -33,8 +34,8 @@ internal static class MultiplayerPolicy
     private static readonly HashSet<string> Cheat = new(StringComparer.Ordinal)
     {
         // creation, inventory, money, vitals
-        "spawn", "fill ammo", "currency max", "currency 100000", "currency 10000", "refill vitals",
-        "auto refill request", "infinite builder", "free placement", "flight",
+        "spawn", "fill ammo", "currency max", "currency add", "currency 100000", "currency 10000", "refill vitals",
+        "auto refill request", "infinite builder", "free placement", "flight", "hotkey god mode", "hotkey infinite energy",
         "refinery fill request", "refinery all +100 request", "refinery selected fill request", "refinery selected +100 request",
         "m26 acceptance refinery request",
         // movement (SR2MP: warp / position / noclip)
@@ -60,6 +61,9 @@ internal static class MultiplayerPolicy
         "nearest unopened capsule", "open atlas", "atlas settings", "atlas point", "minimap mode", "navigation reset",
         "save waypoint", "delete waypoint", "remember checkpoint", "select ammo slot",
         "safe transit return", "cancel safe transit", "safe position tracking", "SOS rescue", "cleanup owned",
+        // 0.8.2 spawn tiles: own removal is free; world-wide removals refuse a co-op session themselves
+        // with a precise reason (they would delete other players' actors without synchronisation).
+        "cleanup type owned", "cleanup type all", "cleanup chickens",
         "restore profile", "explorer profile", "reset player", "info HUD", "hide HUD",
         "graphics preset", "graphics optimization", "detailed graphics",
         "m19-graphics-shadows", "m19-graphics-full", "m19-graphics-effects", "m19-graphics-decor", "m19-graphics-custom",

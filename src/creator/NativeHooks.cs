@@ -42,6 +42,7 @@ internal static class NativeHooks
         Hook(typeof(PlayerState), "CanBeDamaged", nameof(DamageGuard));
         Hook(typeof(PlayerModel), "LoseHealth", nameof(HealthGuard));
         Hook(typeof(PlayerDeathHandler), "OnDeath", nameof(HealthGuard));
+        Hook(typeof(KillOnTrigger), "OnTriggerEnter", nameof(SeaKillGuard));
         Hook(typeof(PlayerState), "SpendEnergy", nameof(EnergyGuard));
         Hook(typeof(PlayerModel), "SpendEnergy", nameof(EnergyGuard));
         Hook(typeof(UnitResource), "set_Value", nameof(EnergyResourceGuard));
@@ -127,6 +128,21 @@ internal static class NativeHooks
     {
         try { return !God; }
         catch (Exception e) { return HookCoexistence.Fault(nameof(HealthGuard), e); }
+    }
+    // 0.8.2 (log: KillOnTrigger/seaKillCube at y=-7 while flying): NoClip and a transit hold
+    // never trigger the sea/void kill volume for the player. Actors keep the vanilla path.
+    private static bool SeaKillGuard(Collider __0)
+    {
+        try
+        {
+            var app = ToolkitMod.I;
+            if (app == null || __0 == null || !app.Ready) return true;
+            var player = app.Player;
+            if (player == null || !(player.Flight || player.TransitHeld)) return true;
+            var root = app.Context?.Player;
+            return root == null || !__0.transform.IsChildOf(root.transform);
+        }
+        catch (Exception e) { return HookCoexistence.Fault(nameof(SeaKillGuard), e); }
     }
     private static bool EnergyGuard()
     {

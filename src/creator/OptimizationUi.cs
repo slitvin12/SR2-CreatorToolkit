@@ -16,11 +16,11 @@ internal sealed partial class ToolkitUi
         _optDraft=OptimizationRequest.Full;_renderDraft=M19GraphicsRequest.Full;_optSubpage=0;_runtimeDraft=M25RuntimeRequest.Full;
     }
     private void OpenOptimizationUi(){ClearInteraction();_infoPage=false;_optimizationPage=true;_optDraftReady=_renderDraftReady=false;}
-    internal void ShowOptimizationForTest(){ShowTabForTest(7);OpenOptimizationUi();}
+    internal void ShowOptimizationForTest(){ShowTabForTest(8);OpenOptimizationUi();}
     internal void ShowGraphicsTabForTest(int tab){ShowOptimizationForTest();_optSubpage=Math.Clamp(tab,0,3);}
     internal M19GraphicsRequest GraphicsDraftForTest=>_renderDraft;
     internal int GraphicsSubpageForTest=>_optSubpage;
-    internal bool OptimizationVisibleForTest=>_app.MenuOpen&&_tab==7&&_optimizationPage;
+    internal bool OptimizationVisibleForTest=>_app.MenuOpen&&_tab==8&&_optimizationPage;
     internal bool OptimizationDragForTest=>_dragSlider>=70&&_dragSlider<=79;
     internal bool CareHeadersFitForTest=>_tableHeading!=null&&!_tableHeading.wordWrap&&_tableHeading.CalcSize(ButtonContent("Голод / возбуждение")).x<=1100*.25f;
     private void QueueOptimization(OptimizationRequest request)

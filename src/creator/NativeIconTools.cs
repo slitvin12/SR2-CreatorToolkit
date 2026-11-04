@@ -206,10 +206,10 @@ internal sealed class NativeIconTools
         Category(CustomWaypointTools.Category,"marker_flag","BeaconMarkerDefinition");
         // Typed native owner references select art; unrelated atlas copies
         // sharing Sprite.name cannot invalidate these authoritative bindings.
-        string[] tabNames={"Игрок","Спавн","Ресурсы","Мир","Открытия","Съёмка","Карта","Удобство"};
-        string[] ownerNames={"Pink","Cotton","JellystoneCraft","Angler","Gold","Phosphor","Honey","Yolky"};
+        string[] tabNames={"Игрок","Спавн","Ресурсы","Мир","Открытия","Съёмка","Карта","Удобство","Настройки"};
+        string[] ownerNames={"Pink","Cotton","JellystoneCraft","Angler","Gold","Phosphor","Honey","Yolky","Rock"};
         string[] suffixes={"pink_slime","cotton_slime","jellystone_craft","angler_slime","gold_slime",
-            "phosphor_slime","honey_slime","yolky_slime"};
+            "phosphor_slime","honey_slime","yolky_slime","rock_slime"};
         var registry=LookupDirector.GetIfReady();
         var bindings=new OwnerBinding[_tabs.Length];
         var ownerTypes=new IntPtr[_tabs.Length];
@@ -403,7 +403,7 @@ internal sealed class NativeIconTools
             "; unretained/unreported patterns remain UNKNOWN, not missing native assets");
         foreach(var diagnostic in _roleDiagnostics)report.Add("ROLE "+diagnostic.Key+" = "+diagnostic.Value);
         if(AssetRoots>AssetBudget)throw new InvalidOperationException("Нативный каталог иконок превысил ограничение.");
-        Status="Игровые спрайты: вкладки "+TabCount+" / 8 · категории "+CategoryCount+" · награды "+RewardCount+" / "+database.Assets.Count+
+        Status="Игровые спрайты: вкладки "+TabCount+" / "+ToolkitUi.TabCount+" · категории "+CategoryCount+" · награды "+RewardCount+" / "+database.Assets.Count+
             " · находки "+_named.Count;
         try{File.WriteAllText(Path.Combine(_app.DataDirectory,"native-icons.txt"),"CreatorToolkit "+ToolkitMod.Version+
             " native icon census\n"+Status+"\nDiscoveryScans="+DiscoveryScans+"\nAssetRoots="+AssetRoots+

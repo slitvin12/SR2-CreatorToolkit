@@ -8,14 +8,17 @@ namespace CreatorToolkit;
 //  • server rules: SR2MP.GlobalVariables.CheatsEnabled (the host's "Allow Cheats");
 //  • spawn sync: SR2MP.GlobalVariables.ActorManager.RegisterSpawnOverNetwork(GameObject) — CT creates
 //    actors through GameModel.InstantiateActorModel, which SR2MP does not intercept on its own.
-// Polled twice a second through cached delegates (no per-frame reflection or boxing).
+// Lycoreia 2.x (the renamed mod, assembly "Lycoreia"): Lycoreia.Compat.ModFacade.Server.IsRunning /
+// Client.IsConnected, the live Lycoreia.Mod.Session cheat rule (host: AllowCheats, guest:
+// HostAllowsCheats) and its own InstantiateActor spawn-publishing postfix for CT spawns.
+// Polled twice a second through cached delegates (no per-frame reflection).
 internal sealed class MultiplayerBridge
 {
     private readonly ToolkitMod _app;
     private Func<bool> _isHost, _isClient, _cheats;
     private Action<GameObject> _announce;
     private float _nextProbe, _nextPoll;
-    private bool _bound, _announceFailed;
+    private bool _bound, _announceFailed, _lycoreiaWarned;
 
     internal CoopRole Role { get; private set; } = CoopRole.Offline;
     internal bool ServerCheats { get; private set; }
@@ -54,12 +57,15 @@ internal sealed class MultiplayerBridge
 
     private void Probe()
     {
-        Assembly asm = null;
+        Assembly asm = null, lycoreia = null;
         foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
         {
             string n = a.FullName;
-            if (n != null && n.StartsWith("SR2MP,", StringComparison.Ordinal)) { asm = a; break; }
+            if (n == null) continue;
+            if (n.StartsWith("SR2MP,", StringComparison.Ordinal)) asm = a;
+            else if (n.StartsWith("Lycoreia,", StringComparison.Ordinal)) lycoreia = a;
         }
+        if (lycoreia != null) { ProbeLycoreia(lycoreia); return; }
         if (asm == null) return;
         Installed = true;
         const BindingFlags S = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
@@ -84,6 +90,57 @@ internal sealed class MultiplayerBridge
         _bound = _isHost != null && _isClient != null && _cheats != null;
         if (_bound)
             _app.LoggerInstance.Msg("Ranching Together detected: co-op rules active" + (_announce != null ? ", spawn sync available." : ", spawn sync unavailable (API changed)."));
+    }
+
+    private void ProbeLycoreia(Assembly asm)
+    {
+        Installed = true;
+        MultiplayerPolicy.ModName = "Lycoreia";
+        const BindingFlags S = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
+        const BindingFlags I = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+        _isHost ??= StaticFlag(asm.GetType("Lycoreia.Compat.ModFacade+Server"), "IsRunning");
+        _isClient ??= StaticFlag(asm.GetType("Lycoreia.Compat.ModFacade+Client"), "IsConnected");
+        if (_cheats == null)
+        {
+            var session = asm.GetType("Lycoreia.Mod")?.GetProperty("Session", S);
+            var sessionType = session?.PropertyType;
+            var hostRule = sessionType?.GetField("AllowCheats", I);
+            var guestRule = sessionType?.GetProperty("HostAllowsCheats", I);
+            var isHost = _isHost;
+            if (session != null && isHost != null && hostRule?.FieldType == typeof(bool) && guestRule?.PropertyType == typeof(bool))
+                _cheats = () =>
+                {
+                    // Host: the rule it sends to guests; guest: the rule the host approved it with.
+                    object live = session.GetValue(null);
+                    if (live == null) return false;
+                    return isHost() ? (bool)hostRule.GetValue(live) : (bool)guestRule.GetValue(live);
+                };
+        }
+        if (_announce == null)
+        {
+            try // Optional: Lycoreia publishes spawns from its InstantiateActor postfix; CT spawns bypass it.
+            {
+                var postfix = asm.GetType("Lycoreia.Game.Hooks.InstantiateActorHook")?.GetMethod("Postfix", S, null, new[] { typeof(GameObject) }, null);
+                if (postfix != null && postfix.ReturnType == typeof(void))
+                    _announce = (Action<GameObject>)Delegate.CreateDelegate(typeof(Action<GameObject>), postfix);
+            }
+            catch (Exception e) { _announce = null; _app.LoggerInstance.Warning("Lycoreia spawn sync unavailable: " + e.Message); }
+        }
+        _bound = _isHost != null && _isClient != null && _cheats != null;
+        if (_bound)
+            _app.LoggerInstance.Msg("Lycoreia " + asm.GetName().Version + " detected: co-op rules active" + (_announce != null ? ", spawn sync available." : ", spawn sync unavailable (API changed)."));
+        else if (!_lycoreiaWarned)
+        {
+            _lycoreiaWarned = true;
+            _app.LoggerInstance.Warning("Lycoreia " + asm.GetName().Version + " found, but its session API was not recognised: co-op rules inactive.");
+        }
+    }
+
+    private static Func<bool> StaticFlag(Type holder, string name)
+    {
+        const BindingFlags S = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
+        var getter = holder?.GetProperty(name, S)?.GetGetMethod(true);
+        return getter == null || getter.ReturnType != typeof(bool) ? null : (Func<bool>)Delegate.CreateDelegate(typeof(Func<bool>), getter);
     }
 
     private static Func<bool> Bind(Type main, string holder, string flag)

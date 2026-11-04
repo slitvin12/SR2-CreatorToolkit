@@ -169,6 +169,8 @@ internal sealed partial class MapTools
     private int _transit;
     private float _transitStart,_deadline,_nextGroundQuery;
     private float _placedAt;
+    // 0.8.2: where the held player was staged, when, and whether the slow-wait diagnostics ran.
+    private Vector3 _staged;private float _stageStart,_groupSettledAt=-1f;private bool _waitLogged;
     private bool _returning;
     private Vector3 _settledLanding;
     private readonly TransitSafety _collisionGate=new();
@@ -979,24 +981,25 @@ internal sealed partial class MapTools
             if(!TryScreenWorld(screen,out Vector3 position))return;
             var area=ZoneAreaAt(Ui,position);
             if(area?.ZoneMapData?.PrimaryZone==null){_app.Notify("Телепорт отменён: выберите сушу внутри известной зоны.");return;}
-            var group=nativeHint;
-            // A zone may span several scene groups. Do not overwrite the
-            // native resolved destination with the first group in an asset.
-            if(group==null||!group.IsGameplay)
-            {
-                var candidates=new Dictionary<IntPtr,SceneGroup>();
-                foreach(var mapping in Resources.FindObjectsOfTypeAll<ZoneSceneGroupMapping>())
-                    for(int i=0;mapping?._mappings!=null&&i<mapping._mappings.Count;i++)
-                    {
-                        var entry=mapping._mappings[i];
-                        if(entry.Zone!=area.ZoneMapData.PrimaryZone||entry.SceneGroups==null)continue;
-                        foreach(var candidate in entry.SceneGroups)
-                            if(candidate!=null&&candidate.IsGameplay)candidates[candidate.Pointer]=candidate;
-                    }
-                var current=_app.Context.Player.GetComponentInChildren<TeleportablePlayer>(true)?.SceneGroup;
-                if(current!=null&&candidates.ContainsKey(current.Pointer))group=current;
-                else if(candidates.Count==1)group=candidates.Values.First();
-            }
+            // 0.8.2: the native navigation marker carries the map PAGE's scene group (logs: always
+            // ConservatoryFields, even for clicks in the Gorge), so it loaded the wrong island and
+            // held the player over empty space. The clicked zone decides; the native hint is used
+            // only when it really is one of that zone's groups (a zone may span several groups).
+            var candidates=new Dictionary<IntPtr,SceneGroup>();
+            foreach(var mapping in Resources.FindObjectsOfTypeAll<ZoneSceneGroupMapping>())
+                for(int i=0;mapping?._mappings!=null&&i<mapping._mappings.Count;i++)
+                {
+                    var entry=mapping._mappings[i];
+                    if(entry.Zone!=area.ZoneMapData.PrimaryZone||entry.SceneGroups==null)continue;
+                    foreach(var candidate in entry.SceneGroups)
+                        if(candidate!=null&&candidate.IsGameplay)candidates[candidate.Pointer]=candidate;
+                }
+            SceneGroup group=null;
+            var current=_app.Context.Player.GetComponentInChildren<TeleportablePlayer>(true)?.SceneGroup;
+            if(candidates.Count==0)group=nativeHint!=null&&nativeHint.IsGameplay?nativeHint:null;
+            else if(nativeHint!=null&&candidates.ContainsKey(nativeHint.Pointer))group=nativeHint;
+            else if(current!=null&&candidates.ContainsKey(current.Pointer))group=current;
+            else if(candidates.Count==1)group=candidates.Values.First();
             if(group==null||!group.IsGameplay){_app.Notify("Для этой области не найдена игровая сцена. Телепорт отменён.");return;}
             LastClickWorld=position;LastClickScreen=screen;
             LastClickResolver=nativeHint!=null?"native navigation event":"native pointer release + native zone mapping";
@@ -1009,7 +1012,13 @@ internal sealed partial class MapTools
         if(!ShieldOverlayReady)return false;
         if(!AllowsOverlayPointer(screen))return true;
         Vector2 p=new(screen.x,Screen.height-screen.y);
-        return MarkerHitRects.Any(r=>r.Contains(p))||OverlayCardRects.Any(r=>r.Contains(p))||NativeChromeRects.Any(r=>r.Contains(p));
+        return AnyContains(MarkerHitRects,p)||AnyContains(OverlayCardRects,p)||AnyContains(NativeChromeRects,p);
+    }
+    // 0.8.5: allocation-free (a LINQ lambda capturing the point allocated a closure per test).
+    internal static bool AnyContains(List<Rect> rects,Vector2 p)
+    {
+        for(int i=0;i<rects.Count;i++)if(rects[i].Contains(p))return true;
+        return false;
     }
     internal List<(string Name,Vector3 Position)> ZoneLabels()
     {
@@ -1259,9 +1268,10 @@ internal sealed partial class MapTools
         var loadPosition=new Vector3(_destination.x,_exactHeight?_destination.y+3f:point.Group.InitialPlayerPosition.y+8f,_destination.z);
         try
         {
-            if(!_app.Player.TryNearbyMapGround(_origin.Position,out var safeOrigin))
+            if(!TryOriginGround(_origin.Position,out var safeOrigin))
                 throw new InvalidOperationException("У исходной позиции нет подтверждённой безопасной земли для возврата.");
             _origin.Position=safeOrigin;
+            _staged=loadPosition;_stageStart=Time.unscaledTime;_groupSettledAt=-1f;_waitLogged=false;
             _app.Player.BeginTransitHold();
             NativeTeleport(loadPosition,_destinationGroup);
             _app.Player.MaintainTransitHold();
@@ -1315,14 +1325,25 @@ internal sealed partial class MapTools
         {
             _app.Player.MaintainTransitHold();
             if(!_app.Ready)return; // Never release gravity during the native async load.
+            if(NativeRelocated(out string moved))
+            {
+                // Emergency return / respawn already put the player on native safe ground.
+                TransitDetails+=" nativeRelocation="+moved;
+                _app.LoggerInstance.Msg("Atlas transit: the game moved the held player itself ("+moved+"); hold released.");
+                RestoreTransit();
+                TeleportStatus="Переход прерван: игра сама переместила игрока (аварийный возврат). Удержание снято.";
+                _app.Notify(TeleportStatus);return;
+            }
             if(_transit==5)return; // Failed return: hold, no autosave, explicit retry.
             float now=Time.unscaledTime;
             var group=_returning?_origin?.Group:_destinationGroup;
+            // The motor is disabled while held: feed the native region streaming the real position.
+            if(SystemContext.Instance?.SceneLoader?.IsSceneLoadInProgress==false)_app.Player.PumpRegionStreaming();
             if(_transit==4)
             {
                 if(now<_placedAt+TransitSafety.PlacementSettleSeconds)return;
                 Physics.SyncTransforms();
-                if(!SceneAssetsReady(group)||!_app.Player.TryMapGround(_settledLanding,true,out var check)||
+                if(!TransitSceneReady(group,now)||!_app.Player.TryMapGround(_settledLanding,true,out var check)||
                     Vector3.Distance(check,_settledLanding)>TransitSafety.MaximumGroundDrift)
                 {
                     // Streaming transforms or a passing actor may invalidate a
@@ -1357,10 +1378,18 @@ internal sealed partial class MapTools
             _nextGroundQuery=now+TransitSafety.QueryIntervalSeconds;
             Physics.SyncTransforms();
             Vector3 landing=default;
-            bool ready=SceneAssetsReady(group)&&(_returning?
-                _app.Player.TryNearbyMapGround(_origin.Position,out landing):TryDestinationGround(out landing));
+            bool ready=TransitSceneReady(group,now)&&(_returning?
+                TryOriginGround(_origin.Position,out landing):TryDestinationGround(out landing));
             if(!_collisionGate.Observe(ready,now,landing.x,landing.y,landing.z))
             {
+                if(!_waitLogged&&now-_stageStart>8f)
+                {
+                    // One line per stage for the next report: which half (scenes or ground) is missing.
+                    _waitLogged=true;
+                    var probe=_returning?_origin.Position:_destination;
+                    _app.LoggerInstance.Msg("Atlas transit wait: ready="+ready+" "+SceneAssetStatus(group)+" ground="+
+                        _app.Player.DescribeMapGround(probe,_returning||_exactHeight));
+                }
                 TeleportStatus=ready?"Проверка коллизий земли · "+_collisionGate.StableSeconds(now).ToString("F1")+" / 0,75 с":
                     "Подготовка сцены и безопасного сектора…";
                 return;
@@ -1374,7 +1403,7 @@ internal sealed partial class MapTools
                 Math.Abs(landing.y-_destination.y)<TransitSafety.MaximumGroundDrift&&_app.Player.IsClearPosition(_destination))
                 placed=_destination;
             _app.Player.PlaceForMap(placed);
-            _settledLanding=placed;_placedAt=now;_transit=4;
+            _settledLanding=placed;_staged=placed;_placedAt=now;_transit=4;
             TeleportStatus="Посадка подтверждена. Стабилизация физики…";
         }
         catch(Exception e)
@@ -1395,13 +1424,53 @@ internal sealed partial class MapTools
         TransitDetails+=" rollback="+reason;
         _returning=true;_transit=3;_nextGroundQuery=0;
         _deadline=Time.unscaledTime+TransitSafety.LoadDeadlineSeconds;
+        _staged=_origin.Position;_stageStart=Time.unscaledTime;_groupSettledAt=-1f;_waitLogged=false;
         NativeTeleport(_origin.Position,_origin.Group);
         _app.Player.MaintainTransitHold();
         TeleportStatus=reason+" Возвращаемся на проверенную землю.";
     }
-    private bool TryDestinationGround(out Vector3 landing) =>
-        _allowNearbyLanding&&_exactHeight?_app.Player.TryNearbyMapGround(_destination,out landing):
-        _app.Player.TryMapGround(_destination,_exactHeight,out landing);
+    private bool TryDestinationGround(out Vector3 landing)
+    {
+        if(_allowNearbyLanding&&_exactHeight?_app.Player.TryNearbyMapGround(_destination,out landing):
+            _app.Player.TryMapGround(_destination,_exactHeight,out landing))return true;
+        // 0.8.2: a map click is approximate. When its exact column is a steep rock, a tree or a prop
+        // (logged: a rock over a plane at (169,389) held the player for 30 s), land on the nearest
+        // clear walkable column within 14 m — same slope, hazard, actor and capsule checks.
+        return !_exactHeight&&_app.Player.TrySpiralMapGround(_destination,out landing);
+    }
+    // 0.8.2: a transit may start in the air (flight/NoClip, a jump): the surface under the player,
+    // then the nearest clear column, instead of refusing the teleport.
+    private bool TryOriginGround(Vector3 origin,out Vector3 safe)
+    {
+        if(_app.Player.TryNearbyMapGround(origin,out safe))return true;
+        return _app.Player.TryMapGround(origin,false,out safe)||_app.Player.TrySpiralMapGround(origin,out safe);
+    }
+    // Some sector scenes of a group stream only around the player. Once the native load finished
+    // on the requested group with its core scene, the measured ground decides after 4 s.
+    private bool TransitSceneReady(SceneGroup group,float now)
+    {
+        if(SceneAssetsReady(group))return true;
+        var loader=SystemContext.Instance?.SceneLoader;
+        if(group==null||loader==null||loader.IsSceneLoadInProgress||loader.CurrentSceneGroup!=group||
+            (group.CoreSceneReference!=null&&!loader.IsAssetLoaded(group.CoreSceneReference))){_groupSettledAt=-1f;return false;}
+        if(_groupSettledAt<0f)_groupSettledAt=now;
+        return now-_groupSettledAt>=4f;
+    }
+    // The expected group is loaded but the held player is far from where CT staged it:
+    // the game (emergency return, respawn) or another mod moved it. Holding further only freezes it.
+    private bool NativeRelocated(out string detail)
+    {
+        detail=null;
+        var loader=SystemContext.Instance?.SceneLoader;
+        var motor=_app.Player.Controller?.Motor;
+        if(loader==null||motor==null||loader.IsSceneLoadInProgress||Time.unscaledTime<_stageStart+2f)return false;
+        var group=_returning?_origin?.Group:_destinationGroup;
+        if(group==null||loader.CurrentSceneGroup!=group)return false;
+        Vector3 p=motor.TransientPosition;
+        if(!float.IsFinite(p.x)||!float.IsFinite(p.z)||new Vector2(p.x-_staged.x,p.z-_staged.z).sqrMagnitude<=40f*40f)return false;
+        detail="pos="+p.ToString("F0")+" staged="+_staged.ToString("F0")+" group="+group.name;
+        return true;
+    }
     internal void AbortTeleport()
     {
         if(!Busy||_origin==null||_origin.Session!=_app.Session)return;

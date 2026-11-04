@@ -352,7 +352,7 @@ internal sealed partial class ToolkitUi
         var categories=MapExplorerPolicy.RadarCategories;
         float content=0;
         for(int i=0;i<categories.Length;i++)content+=RadarCategoryWidth(i)+(i>0?8:0);
-        _radarCategoryOffset=AtlasCarousel(strip,_radarCategoryOffset,content,out Rect view);
+        _radarCategoryOffset=AtlasCarousel(2,strip,_radarCategoryOffset,content,out Rect view);
         BeginGroup(view);
         try
         {
@@ -364,7 +364,8 @@ internal sealed partial class ToolkitUi
                 if(pill.xMax>0&&pill.x<view.width)
                 {
                     bool selected=i==_radarCategory;
-                    if(Button(pill,GUIContent.none,selected?_selectedButton:_button))
+                    Button(pill,GUIContent.none,selected?_selectedButton:_button);
+                    if(CarouselTap(2,pill))
                     {
                         _radarCategory=i;_radarScroll.y=0;
                         _radarCategoryOffset=AtlasGroupPolicy.CarouselReveal(_radarCategoryOffset,x+_radarCategoryOffset,w,content,view.width);

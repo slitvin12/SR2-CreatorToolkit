@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -10,7 +10,7 @@ namespace CreatorToolkit;
 
 internal sealed partial class ToolkitUi
 {
-    internal const int TabCount=8;
+    internal const int TabCount=9;
     private readonly ToolkitMod _app;
     private Vector2 _atlasScroll,_sourceDetailScroll;
     private string _sourceDetailId="";
@@ -25,8 +25,10 @@ internal sealed partial class ToolkitUi
     private string _capsuleId="",_family="Все";
     private MapTools.Point _hoverCapsule;
     private int _tab, _category, _quantity = 1;
+    private float _chickenArm, _tileArm;
+    private ActorTools.Entry _tileArmEntry; // 0.8.2: «Все ×» needs a second click within 4 s
     private Vector2 _catalogScroll, _ammoScroll, _weatherScroll;
-    private string _search = "", _ammoSearch = "", _waypointName = "";
+    private string _search = "", _ammoSearch = "", _waypointName = "", _currencyAmount = "";
     private float _hour = 12f;
     private int _dragSlider = -1;
     private float _menuOpenedAt=-10f;
@@ -105,6 +107,8 @@ internal sealed partial class ToolkitUi
     private readonly Dictionary<IntPtr,GUIStyle> _textShadows=new();
     private GUIStyle[] _titleGradient;
     private Texture2D _slimeKnob,_badgeCircle,_headerGradient;
+    // 0.8.5: the pixel slime of the header (CreatorLogoPolicy); outside the shared theme budget.
+    private Texture2D _logoTexture;
     private int _fontResourceScans,_jellyHeldRepaints,_jellyHoverRepaints,_fontRoundRank;
     private string _fontSource="not initialized",_fontDisplayName="";
     private bool _fontCyrillic;
@@ -118,9 +122,17 @@ internal sealed partial class ToolkitUi
     private readonly Dictionary<string,GUIContent> _buttonLabels=new();
     private struct HoverMotion {internal UiThemePolicy.HoverAnimation Animation;internal float Time;internal int Frame;}
     private readonly Dictionary<(float X,float Y,float W,float H),HoverMotion> _hoverMotion=new();
+    // 0.8.5: sliding switch knobs and gliding segment pills, keyed like hover motion; bounded.
+    private struct SwitchMotion {internal float Value;internal int Frame;}
+    private readonly Dictionary<(float X,float Y,float W,float H),SwitchMotion> _switchMotion=new(64);
+    private struct GlideMotion {internal UiMotionPolicy.Glide Glide;internal int Frame;}
+    private readonly Dictionary<(float X,float Y,float W,float H),GlideMotion> _glideMotion=new(32);
+    private UiMotionPolicy.Glide _tabMarkX,_tabMarkW;
+    private int _tabMarkFrame=-1,_veilPage=-1;
+    private float _veilSince=-10f;
     private sealed class ScrollMotion { internal float Target,Returned,Time; internal int Frame=-1; }
     private readonly Dictionary<int,ScrollMotion> _scrollMotion=new();
-    private readonly string[] _tabs = { "Игрок", "Спавн", "Ресурсы", "Мир", "Открытия", "Съёмка", "Карта", "Удобство" };
+    private readonly string[] _tabs = { "Игрок", "Спавн", "Ресурсы", "Мир", "Открытия", "Съёмка", "Карта", "Удобство", "Настройки" };
     private readonly string[] _categories = { "Все", "Слаймы", "Ларго", "Эксперименты", "Еда", "Плорты", "Ресурсы", "Гордо" };
     private static readonly string[] WeatherNames = { "Ясно", "Дождь", "Гроза", "Слаймодождь", "Пыльца", "Ветер", "Лава", "Блики" };
     private string _buttonLabelFitDiagnostics="";
@@ -164,12 +176,36 @@ internal sealed partial class ToolkitUi
         get
         {
             if(_iconTab==null||_iconTabCompact==null||_iconTabSmall==null)return false;
-            float width=(1160f-60f-(_tabs.Length-1)*8f)/_tabs.Length-45f;
-            return _tabs.All(text=>{
-                var style=IconTextStyle(text,width);
-                return !style.wordWrap&&style.fontSize>=14&&style.CalcSize(ButtonContent(text)).x<=width;
-            });
+            // 0.8.3: nine measured bookmarks (TabWidths) instead of nine equal slices.
+            var widths=TabWidths(1160f-60f);
+            for(int i=0;i<_tabs.Length;i++)
+            {
+                float width=widths[i]-45f;var style=IconTextStyle(_tabs[i],width);
+                if(style.wordWrap||style.fontSize<14||style.CalcSize(ButtonContent(_tabs[i])).x>width)return false;
+            }
+            return true;
         }
+    }
+    // 0.8.3: nine bookmarks share one row. Each gets its icon plus its measured label (the largest
+    // font at which the whole row still fits); the spare width is spread evenly (UiThemePolicy).
+    private readonly float[] _tabWidths=new float[TabCount],_tabNeed=new float[TabCount];
+    private float _tabWidthsFor=-1;private int _tabWidthsLanguage=-1;
+    private float[] TabWidths(float total)
+    {
+        if(Mathf.Approximately(_tabWidthsFor,total)&&_tabWidthsLanguage==Loc.Generation)return _tabWidths;
+        foreach(var style in new[]{_iconTab,_iconTabCompact,_iconTabSmall})
+        {
+            for(int i=0;i<_tabs.Length;i++)_tabNeed[i]=50f+Mathf.Ceil(style.CalcSize(ButtonContent(_tabs[i])).x);
+            if(UiThemePolicy.TabWidths(_tabNeed,total,8f,_tabWidths))break; // else: equal slices, smallest font
+        }
+        _tabWidthsFor=total;_tabWidthsLanguage=Loc.Generation;
+        return _tabWidths;
+    }
+    internal float TabCenterForTest(int index)
+    {
+        var widths=TabWidths(1160f-60f);float x=30;
+        for(int i=0;i<index&&i<widths.Length;i++)x+=widths[i]+8;
+        return x+widths[Mathf.Clamp(index,0,widths.Length-1)]*.5f;
     }
     internal bool ButtonLabelsFitForTest
     {
@@ -215,6 +251,8 @@ internal sealed partial class ToolkitUi
         ResetSession();_hoverStyles.Clear();_pressedStyles.Clear();_textShadows.Clear();_headerSlime=null;
         foreach(var texture in _textures)if(texture!=null&&!texture.WasCollected)UnityEngine.Object.Destroy(texture);
         _textures.Clear();
+        if(_logoTexture!=null&&!_logoTexture.WasCollected)UnityEngine.Object.Destroy(_logoTexture);
+        _logoTexture=null;
         _iconAtlas=_slimeKnob=_badgeCircle=_headerGradient=null;
         if(_ownsFont&&_font!=null&&!_font.WasCollected)UnityEngine.Object.Destroy(_font);
         _font=null;_ownsFont=false;
@@ -483,6 +521,7 @@ internal sealed partial class ToolkitUi
         _shadowBox=SurfaceStyle(shadow);_glowBox=SurfaceStyle(glow);
         _trackStyle=SurfaceStyle(track,20);_fillStyle=SurfaceStyle(fill,20);
         _sliderTrackPaint=track;_sliderFillPaint=fill;_sliderGlowPaint=glow;
+        _tabWidthsFor=-1;
         AtlasStyles();
         _titleGradient=new GUIStyle[8];
         for(int i=0;i<_titleGradient.Length;i++)
@@ -493,6 +532,7 @@ internal sealed partial class ToolkitUi
         if(_app.Ready)_headerSlime=_app.Actors.Catalog.FirstOrDefault(e=>e.Category=="Слаймы"&&!e.IsPrototype)?.Type?.Icon;
         LoadIconAtlas();
         if(_textures.Count!=ThemeTextureBudget)throw new InvalidDataException("Shared jelly theme texture budget mismatch.");
+        BuildLogo();
     }
 
     private void LoadIconAtlas()
@@ -575,7 +615,9 @@ internal sealed partial class ToolkitUi
     {
         // The hit area stays fixed. Only genuine native Slimepedia sprites
         // appear here; unavailable art is not replaced with a schematic icon.
-        Rect visual=new(rect.x,rect.y-(selected?3:0),rect.width,rect.height+(selected?3:0));
+        // 0.8.5: the open tab rises smoothly instead of jumping 3 px.
+        float rise=index>=0&&index<_tabRise.Length?GlideTo(ref _tabRise[index],selected?3f:0f,UiMotionPolicy.SwitchSeconds):selected?3f:0f;
+        Rect visual=new(rect.x,rect.y-rise,rect.width,rect.height+rise);
         GUIStyle flavor=index switch {0 or 2=>_accentButton,1 or 3=>_goldButton,4 or 5=>_violetButton,_=>_button};
         bool clicked=Button(rect,GUIContent.none,selected?_selectedButton:flavor,visual);
         float offset=HoverOffset(rect,CanHover(rect),
@@ -624,7 +666,8 @@ internal sealed partial class ToolkitUi
     {
         const string text="CREATOR TOOLKIT";
         L.Label(rect,text,_title);
-        GUI.DrawTexture(new Rect(rect.x,rect.yMax-1,390,3),_headerGradient);
+        // 0.8.5: a pixel-step pink-to-mint underline that matches the pixel logo.
+        for(int i=0;i<26;i++)Fill(new Rect(rect.x+i*15,rect.yMax-1,12,4),Color.Lerp(_pink,_accent,i/25f));
     }
 
     private static Texture2D _fillWhite;
@@ -662,6 +705,9 @@ internal sealed partial class ToolkitUi
         float SnapY(float y)=>Mathf.Round((_groupOrigin.y+y)*pixelScale)/pixelScale-_groupOrigin.y;
         rect=Rect.MinMaxRect(SnapX(rect.x),SnapY(rect.y),SnapX(rect.xMax),SnapY(rect.yMax));
         float radius=UiThemePolicy.CapsuleRadius(rect.width,rect.height,wantedRadius);
+        // 0.8.5: neighbouring slices overlap by one physical pixel. IMGUI clips every group with a soft
+        // edge, so two slices meeting exactly on one pixel line left a light seam (a pill's right cap).
+        float bleed=radius>0?1f/pixelScale:0f;
         for(int row=0;row<3;row++)
         for(int col=0;col<3;col++)
         {
@@ -676,8 +722,9 @@ internal sealed partial class ToolkitUi
             float left=SnapX(rect.x+dx),top=SnapY(rect.y+dy);
             float right=SnapX(rect.x+dx+dw),bottom=SnapY(rect.y+dy+dh);
             scaleX=(right-left)/sourceW;scaleY=(bottom-top)/sourceH;
-            BeginGroup(new Rect(left,top,right-left,bottom-top));
-            try{GUI.DrawTexture(new Rect(-sx*scaleX,-sy*scaleY,64*scaleX,64*scaleY),surface);}
+            float cl=col>0?left-bleed:left,ct=row>0?top-bleed:top,cr=col<2?right+bleed:right,cb=row<2?bottom+bleed:bottom;
+            BeginGroup(new Rect(cl,ct,cr-cl,cb-ct));
+            try{GUI.DrawTexture(new Rect(left-cl-sx*scaleX,top-ct-sy*scaleY,64*scaleX,64*scaleY),surface);}
             finally{EndGroup();}
         }
     }
@@ -685,8 +732,9 @@ internal sealed partial class ToolkitUi
     internal void ClearInteraction()
     {
         _dragSlider = _dragScroll = -1;
+        _carouselDrag=_carouselTap=-1;_carouselDragMoved=false;
         Array.Clear(_sliderMotion);
-        _hoverMotion.Clear();_scrollMotion.Clear();
+        _hoverMotion.Clear();_scrollMotion.Clear();_switchMotion.Clear();_glideMotion.Clear();
         BlurTextInput();
         if(!_optQueued){_optDraftChanged=false;_optDraftReady=false;}
     }
@@ -763,7 +811,7 @@ internal sealed partial class ToolkitUi
     {
         if(_languageGeneration==Loc.Generation)return;
         _languageGeneration=Loc.Generation;
-        _buttonLabels.Clear();_ellipsizeSource=null;_confirmText=null;
+        _buttonLabels.Clear();_ellipsized.Clear();_confirmText=null;_footerSource=null;
         OnLanguageChanged();
     }
     partial void OnLanguageChanged();
@@ -791,23 +839,30 @@ internal sealed partial class ToolkitUi
         L.Label(new Rect(rect.x,top+line,rect.width,line),ButtonContent(Ellipsize(detail,rect.width,_small)),_small);
     }
     private readonly GUIContent _measureContent=new();
-    private string _ellipsizeSource,_ellipsizeResult;private float _ellipsizeWidth=-1;
+    // 0.8.5: one cached result per text, width and style (it was a single slot that every list row
+    // missed, so each row re-measured every GUI event) and a binary search for the longest fitting
+    // prefix instead of one measurement per dropped letter.
+    private readonly Dictionary<(string Text,int Width,IntPtr Style),string> _ellipsized=new();
     private string Ellipsize(string text,float width,GUIStyle style)
     {
         if(string.IsNullOrEmpty(text))return text??"";
         text=Loc.T(text);
-        if(text==_ellipsizeSource&&Mathf.Approximately(width,_ellipsizeWidth))return _ellipsizeResult;
+        var key=(text,Mathf.RoundToInt(width*4f),style.Pointer);
+        if(_ellipsized.TryGetValue(key,out var cached))return cached;
         string result=text;_measureContent.text=text;
         if(style.CalcSize(_measureContent).x>width)
         {
             result="…";
-            for(int n=text.Length-1;n>0;n--)
+            int lo=1,hi=text.Length-1;
+            while(lo<=hi)
             {
+                int n=(lo+hi)/2;
                 string cut=text.Substring(0,n).TrimEnd()+"…";_measureContent.text=cut;
-                if(style.CalcSize(_measureContent).x<=width){result=cut;break;}
+                if(style.CalcSize(_measureContent).x<=width){result=cut;lo=n+1;}else hi=n-1;
             }
         }
-        _ellipsizeSource=text;_ellipsizeWidth=width;_ellipsizeResult=result;
+        if(_ellipsized.Count>=1024)_ellipsized.Clear();
+        _ellipsized[key]=result;
         return result;
     }
     private bool Button(Rect rect,GUIContent content,GUIStyle style,Rect? visualBounds=null)
@@ -833,13 +888,29 @@ internal sealed partial class ToolkitUi
         float offset=HoverOffset(rect,hovered,held);
         AllocationMark(21,ref allocationStamp);
         Rect visual=visualBounds??rect;
-        if(hovered)L.Box(new Rect(visual.x-2,visual.y-2,visual.width+4,visual.height+4),GUIContent.none,_glowBox);
-        L.Box(visual,GUIContent.none,_shadowBox);
+        // 0.8.5: the hover glow fades in and out with the lift instead of blinking.
+        float glow=held?1f:Mathf.Clamp01(offset/UiThemePolicy.HoverLift);
+        Color beforeGlow=GUI.color;
+        if(glow<1f)GUI.color=new Color(beforeGlow.r,beforeGlow.g,beforeGlow.b,beforeGlow.a*glow);
+        if(visual.height<40f)
+        {
+            // 0.8.3: below 40 px the fixed 20 px GUIStyle borders of glow and shadow overlap and leave a
+            // contour above small pills (tile «Мои ×»); paint them with the same radius-clamped slices.
+            if(glow>.01f)DrawRoundedSurface(new Rect(visual.x-2,visual.y-2,visual.width+4,visual.height+4),_glowBox.normal.background,Mathf.Min(20f,visual.height*.5f+2f));
+            GUI.color=beforeGlow;
+            DrawRoundedSurface(visual,_shadowBox.normal.background,Mathf.Min(20f,visual.height*.5f));
+        }
+        else
+        {
+            if(glow>.01f)L.Box(new Rect(visual.x-2,visual.y-2,visual.width+4,visual.height+4),GUIContent.none,_glowBox);
+            GUI.color=beforeGlow;
+            L.Box(visual,GUIContent.none,_shadowBox);
+        }
         Rect face=HoverChildRect(visual,new Rect(visual.x,visual.y,visual.width,Mathf.Max(4,visual.height-UiThemePolicy.RestDepth)),offset);
         { // All pill sizes share the same seam-free radius-clamped paint path.
             if(!_roundedButtonPaint.TryGetValue(rendered.Pointer,out var surface)||surface==null||surface.WasCollected)
             {surface=rendered.normal.background;if(_roundedButtonPaint.Count<1024)_roundedButtonPaint[rendered.Pointer]=surface;}
-            DrawRoundedSurface(face,surface,Mathf.Min(20f,face.height*.5f));
+            PaintFace(rect,face,surface);
         }
 
         AllocationMark(22,ref allocationStamp);
@@ -850,6 +921,63 @@ internal sealed partial class ToolkitUi
         AllocationMark(24,ref allocationStamp);
         return Pressed(rect);
     }
+    // 0.8.5: a face that changes its paint (hover, press, selection) cross-fades instead of switching.
+    private struct SurfaceMotion{internal Texture2D Current,Previous;internal float Since;}
+    private readonly Dictionary<(float X,float Y,float W,float H),SurfaceMotion> _surfaceMotion=new();
+    private void PaintFace(Rect hit,Rect face,Texture2D surface)
+    {
+        float radius=Mathf.Min(20f,face.height*.5f);
+        if(surface==null||Event.current?.type!=EventType.Repaint){DrawRoundedSurface(face,surface,radius);return;}
+        var key=(_groupOrigin.x+hit.x,_groupOrigin.y+hit.y,hit.width,hit.height);
+        float now=Time.unscaledTime;
+        if(!_surfaceMotion.TryGetValue(key,out var motion))
+        {
+            if(_surfaceMotion.Count>=512)_surfaceMotion.Clear();
+            motion=new SurfaceMotion{Current=surface,Since=-10f};_surfaceMotion[key]=motion;
+        }
+        else if(motion.Current is null||motion.Current.Pointer!=surface.Pointer)
+        {motion.Previous=motion.Current;motion.Current=surface;motion.Since=now;_surfaceMotion[key]=motion;}
+        float shown=UiMotionPolicy.Fade(now-motion.Since,UiMotionPolicy.SurfaceFadeSeconds);
+        if(shown>=1f||motion.Previous is null||motion.Previous.WasCollected){DrawRoundedSurface(face,surface,radius);return;}
+        DrawRoundedSurface(face,motion.Previous,radius);
+        Color before=GUI.color;
+        GUI.color=new Color(before.r,before.g,before.b,before.a*shown);
+        try{DrawRoundedSurface(face,surface,radius);}
+        finally{GUI.color=before;}
+    }
+    // 0.8.5: a value easing toward its target, advanced once per frame (OnGUI runs several events a frame).
+    private struct FrameGlide{internal UiMotionPolicy.Glide Glide;internal int Frame;}
+    private static float GlideTo(ref FrameGlide glide,float target,float duration)
+    {
+        float dt=glide.Frame!=Time.frameCount?Time.unscaledDeltaTime:0f;glide.Frame=Time.frameCount;
+        return UiMotionPolicy.Step(ref glide.Glide,target,dt,duration);
+    }
+    private readonly FrameGlide[] _tabRise=new FrameGlide[16];
+    // 0.8.5: the footer line is trimmed once per new status (not every frame) and fades in when a
+    // status that stood still for a second changes; a status that changes every frame never blinks.
+    private string _footerSource,_footerText="";private float _footerSince=-10f,_footerChanged=-10f;
+    private string FooterStatus(string raw,out float shown)
+    {
+        raw??="";
+        if(!ReferenceEquals(raw,_footerSource)&&!string.Equals(raw,_footerSource,StringComparison.Ordinal))
+        {
+            bool first=_footerSource==null;float now=Time.unscaledTime;
+            _footerSource=raw;
+            string status=Loc.T(raw);
+            int newline=status.IndexOf('\n'); if(newline>=0)status=status.Substring(0,newline);
+            if(status.Length>94)status=status.Substring(0,91)+"…";
+            _footerText=status;
+            if(first)_footerSince=-10f;else if(now-_footerChanged>=1f)_footerSince=now;
+            _footerChanged=now;
+        }
+        shown=UiMotionPolicy.Fade(Time.unscaledTime-_footerSince,UiMotionPolicy.StatusFadeSeconds);
+        return _footerText;
+    }
+    // 0.8.5: allocation-free rectangle tests of the map overlay (each LINQ lambda allocated a closure per marker).
+    private static readonly int[] ZoneLabelColumns={0,-1,1};
+    private static bool AnyContains(List<Rect> rects,Vector2 p)=>MapTools.AnyContains(rects,p);
+    private static bool AnyOverlaps(List<Rect> rects,Rect r){for(int i=0;i<rects.Count;i++)if(rects[i].Overlaps(r))return true;return false;}
+    private static bool AnyOverlaps(Rect[] rects,Rect r){for(int i=0;i<rects.Length;i++)if(rects[i].Overlaps(r))return true;return false;}
     private float HoverOffset(Rect rect,bool hovered,bool held)
     {
         var key=(_groupOrigin.x+rect.x,_groupOrigin.y+rect.y,rect.width,rect.height);
@@ -953,11 +1081,15 @@ internal sealed partial class ToolkitUi
             _groupOrigins.Clear();_groupRects.Clear();
             GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(scale,scale,1));
             float sw = Screen.width / scale, sh = Screen.height / scale;
-            float entrance=OpeningProgress;
-            if(entrance>=1f)_menuEntering=false;
+            float entrance=OpeningProgress,opened=Time.unscaledTime-_menuOpenedAt;
+            if(entrance>=1f&&!(opened<UiMotionPolicy.MenuPopSeconds))_menuEntering=false;
             const float width = 1160, height = 820;
             Rect window = new((sw-width)/2, (sh-height)/2+24f*(1f-entrance), width,height);
             Fill(new Rect(0,0,sw,sh),new Color(.19f,.15f,.10f,.22f*entrance));
+            // 0.8.5: the window pops in with a slight overshoot (the backdrop stays put) and its pages
+            // develop from the parchment; GUI.matrix is restored by the finally below.
+            float pop=_menuEntering?UiMotionPolicy.MenuPop(opened):1f;
+            if(pop!=1f)GUIUtility.ScaleAroundPivot(new Vector2(pop,pop),window.center);
             Fill(new Rect(window.x-2,window.y+8,width+4,height),new Color(.35f,.25f,.13f,.10f));
             L.Box(window,GUIContent.none,_frame);
             AllocationMark(1,ref allocationStamp);
@@ -967,12 +1099,15 @@ internal sealed partial class ToolkitUi
                 L.Box(new Rect(25,14,69,69),GUIContent.none,_glowBox);
                 GUI.DrawTexture(new Rect(30,14,62,62),_badgeCircle);
                 AllocationMark(7,ref allocationStamp);
-                if(_headerSlime!=null&&!_headerSlime.WasCollected)DrawSprite(new Rect(34,16,54,54),_headerSlime);
-                else Icon(new Rect(32,16,58,58),8);
+                if(!DrawLogo(new Rect(28,12,66,66)))
+                {
+                    if(_headerSlime!=null&&!_headerSlime.WasCollected)DrawSprite(new Rect(34,16,54,54),_headerSlime);
+                    else Icon(new Rect(32,16,58,58),8);
+                }
                 AllocationMark(8,ref allocationStamp);
                 GradientTitle(new Rect(102,25,650,44));
                 AllocationMark(9,ref allocationStamp);
-                if(Button(new Rect(width-182,25,44,44),"?",DetailedHelp?_selectedButton:_button))DetailedHelp=!DetailedHelp;
+                if(Button(new Rect(width-182,25,44,44),"?",DetailedHelp?_selectedButton:_button)){DetailedHelp=!DetailedHelp;_app.Notify(DetailedHelp?"Подсказки включены · пояснения под кнопками":"Подсказки скрыты");}
                 if(Button(new Rect(width-130,25,100,44),"Закрыть",_button)) _app.CloseMenu();
                 Fill(new Rect(30,88,width-60,1),new Color(.15f,.85f,.78f,.35f));
                 AllocationMark(2,ref allocationStamp);
@@ -982,14 +1117,18 @@ internal sealed partial class ToolkitUi
                 // the labels and produced unreadable validation captures.
                 _bodyInteractionBlocked=(_app.Audit?.Active??false)&&!(_app.UiProbe?.Active??false);
                 GUI.enabled = !modal && !_app.Map.Busy;
-                float tw = (width-60-(_tabs.Length-1)*8)/_tabs.Length;
-                for(int i=0;i<_tabs.Length;i++)
-                    if(TabButton(new Rect(30+i*(tw+8),102,tw,46),_tabs[i],i,i==_tab))
+                var tabWidths=TabWidths(width-60);float tabX=30,markX=30,markW=tabWidths[0];
+                for(int i=0;i<_tabs.Length;tabX+=tabWidths[i]+8,i++)
+                {
+                    if(i==_tab){markX=tabX;markW=tabWidths[i];}
+                    if(TabButton(new Rect(tabX,102,tabWidths[i],46),_tabs[i],i,i==_tab))
                     {
                         _tab=i;ClearInteraction();
                         _tabClickAt=System.Diagnostics.Stopwatch.GetTimestamp();_tabClickIndex=i;
                         if(_tab==3&&_app.Ready)_hour=_app.World.Hour();
                     }
+                }
+                TabMarker(markX,markW);
                 AllocationMark(3,ref allocationStamp);
                 Rect body = new(30,166,width-60,height-226);
                 bool measurePaint=Event.current.type==EventType.Repaint&&_app.Ready&&!_app.Map.Busy&&!modal&&
@@ -1013,7 +1152,8 @@ internal sealed partial class ToolkitUi
                     L.Label(new Rect(58,265,width-116,90),"Функции станут доступны после загрузки игрока и нативных компонентов игры.",_wrap);
                 }
                 else switch(_tab)
-                { case 0:PlayerPage(body);break; case 1:CreationPage(body);break; case 2:CurrencyPage(body);break; case 3:WorldPage(body);break; case 4:UnlockPage(body);break; case 5:CinemaPage(body);break; case 6:AtlasPage(body);break; case 7:ConveniencePage(body);break; }
+                { case 0:PlayerPage(body);break; case 1:CreationPage(body);break; case 2:CurrencyPage(body);break; case 3:WorldPage(body);break; case 4:UnlockPage(body);break; case 5:CinemaPage(body);break; case 6:AtlasPage(body);break; case 7:ConveniencePage(body);break; case 8:SettingsPage(body);break; }
+                PageVeil(body);
                 AllocationMark(4,ref allocationStamp);
                 if(measurePaint)
                 {
@@ -1027,12 +1167,14 @@ internal sealed partial class ToolkitUi
                 _bodyInteractionBlocked=false;
                 GUI.enabled = true;
                 Fill(new Rect(30,height-52,width-60,1),new Color(.15f,.85f,.78f,.35f));
-                string status = Loc.T(_app.Audit?.Active == true ? _app.Audit.Status : _app.Status);
-                int newline=status.IndexOf('\n'); if(newline>=0)status=status.Substring(0,newline);
-                if(status.Length>94)status=status.Substring(0,91)+"…";
+                string status=FooterStatus(_app.Audit?.Active == true ? _app.Audit.Status : _app.Status,out float statusShown);
                 bool coop=_app.Coop?.InSession==true; // Ranching Together: role and server cheat rule instead of the key hint.
-                L.Label(new Rect(30,height-46,width-(coop?370:250),38),status,_muted);
+                Rect statusRect=new(30,height-46+4f*(1f-statusShown),width-(coop?370:250),38);
+                if(statusShown>=1f)L.Label(statusRect,status,_muted);
+                else{Color c=GUI.color;GUI.color=new Color(c.r,c.g,c.b,c.a*statusShown);L.Label(statusRect,status,_muted);GUI.color=c;}
                 L.Label(coop?new Rect(width-330,height-46,300,38):new Rect(width-210,height-46,180,38),coop?_app.Coop.Footer:_app.Hotkey?.Footer??"Insert  ·  Esc",_muted);
+                float veil=_menuEntering?UiMotionPolicy.MenuVeil(opened):0f;
+                if(veil>.001f)Fill(new Rect(24,94,width-48,height-112),new Color(_parchment.r,_parchment.g,_parchment.b,veil));
                 if(modal)DrawConfirmation(width,height);
                 AllocationMark(5,ref allocationStamp);
             }
@@ -1171,7 +1313,7 @@ internal sealed partial class ToolkitUi
     internal void SetFamilyForTest(int category,string family){SetForTest(1,category,1);_family=family;}
     internal int FilteredCountForTest=>Filter("",_categories[_category],false,_family).Count;
 
-    internal void ShowPage(int tab) { _tab = Mathf.Clamp(tab, 0, TabCount-1); if(_tab==3&&_app.Ready)_hour=_app.World.Hour(); if(_tab==6)_explorerSection=0; if(_tab==7){_optimizationPage=false;_infoPage=false;_farmPage=false;} ClearInteraction(); }
+    internal void ShowPage(int tab) { _tab = Mathf.Clamp(tab, 0, TabCount-1); if(_tab==3&&_app.Ready)_hour=_app.World.Hour(); if(_tab==6)_explorerSection=0; if(_tab==7)_farmPage=false; if(_tab==8){_optimizationPage=false;_infoPage=false;} ClearInteraction(); }
     internal void ShowTabForTest(int tab)=>ShowPage(tab);
     // Read-only content navigation: the same filter/selection state as Atlas UI.
     internal void ShowCapsules()
@@ -1213,13 +1355,112 @@ internal sealed partial class ToolkitUi
     {
         bool hover=CanHover(rect),held=hover&&Mouse.current!=null&&Mouse.current.leftButton.isPressed;
         float offset=HoverOffset(rect,hover,held);
-        if(enabled||hover)L.Box(new Rect(rect.x-3,rect.y-3,rect.width+6,rect.height+6),GUIContent.none,_glowBox);
+        // 0.8.5: the knob slides (UiMotionPolicy.SwitchSeconds); colour and caption flip as it passes the middle.
+        float t=UiMotionPolicy.Smooth(SwitchProgress(rect,enabled));bool on=t>=.5f;
+        if(on||hover)L.Box(new Rect(rect.x-3,rect.y-3,rect.width+6,rect.height+6),GUIContent.none,_glowBox);
         L.Box(rect,GUIContent.none,_shadowBox);
-        L.Box(HoverChildRect(rect,new Rect(rect.x,rect.y,rect.width,rect.height-4),offset),GUIContent.none,enabled?_selectedButton:_button);
-        float knobX=enabled?rect.xMax-38:rect.x+6;
+        L.Box(HoverChildRect(rect,new Rect(rect.x,rect.y,rect.width,rect.height-4),offset),GUIContent.none,on?_selectedButton:_button);
+        float knobX=Mathf.Lerp(rect.x+6,rect.xMax-38,t);
         GUI.DrawTexture(HoverChildRect(rect,new Rect(knobX,rect.y+4,32,32),offset),_slimeKnob);
-        HoverText(HoverChildRect(rect,new Rect(enabled?rect.x+6:rect.x+40,rect.y-2,58,44),offset),enabled?"ВКЛ":"ВЫКЛ",_iconTab,offset);
+        HoverText(HoverChildRect(rect,new Rect(on?rect.x+6:rect.x+40,rect.y-2,58,44),offset),on?"ВКЛ":"ВЫКЛ",_iconTab,offset);
         return Pressed(rect);
+    }
+    // 0.8.5: 0..1 knob position of a switch, eased toward its state once per frame. A switch seen for
+    // the first time (or after a tab change) starts at rest.
+    private float SwitchProgress(Rect rect,bool on)
+    {
+        float target=on?1f:0f;
+        var key=(_groupOrigin.x+rect.x,_groupOrigin.y+rect.y,rect.width,rect.height);
+        if(!_switchMotion.TryGetValue(key,out var motion))
+        {
+            if(_switchMotion.Count>=256)_switchMotion.Clear();
+            _switchMotion[key]=new SwitchMotion{Value=target,Frame=Time.frameCount};
+            return target;
+        }
+        if(motion.Frame!=Time.frameCount)
+        {
+            motion.Value=UiMotionPolicy.Toward(motion.Value,target,Time.unscaledDeltaTime,UiMotionPolicy.SwitchSeconds);
+            motion.Frame=Time.frameCount;_switchMotion[key]=motion;
+        }
+        return motion.Value;
+    }
+    // 0.8.5: the selection pill of a segmented control glides to the chosen segment.
+    private float SegmentGlide(Rect rect,int selected)
+    {
+        var key=(_groupOrigin.x+rect.x,_groupOrigin.y+rect.y,rect.width,rect.height);
+        if(!_glideMotion.TryGetValue(key,out var motion))
+        {
+            if(_glideMotion.Count>=256)_glideMotion.Clear();
+            motion=new GlideMotion{Frame=Time.frameCount};
+            UiMotionPolicy.Step(ref motion.Glide,selected,0f);
+            _glideMotion[key]=motion;
+            return selected;
+        }
+        float dt=motion.Frame!=Time.frameCount?Time.unscaledDeltaTime:0f;
+        float value=UiMotionPolicy.Step(ref motion.Glide,selected,dt);
+        motion.Frame=Time.frameCount;_glideMotion[key]=motion;
+        return value;
+    }
+    // Hover / press offset of a jelly face drawn with Button(rect, GUIContent.none, ...): children follow it.
+    private float JellyOffset(Rect face)
+    {
+        bool hover=CanHover(face);
+        return HoverOffset(face,hover,hover&&Mouse.current!=null&&Mouse.current.leftButton.isPressed);
+    }
+    // A child drawn outside a jelly face: grows around its centre with the hover scale.
+    private static Rect HoverGrow(Rect rect,float offset)
+    {
+        float s=UiThemePolicy.HoverScale(offset),w=rect.width*s,h=rect.height*s;
+        return new Rect(rect.center.x-w*.5f,rect.center.y-h*.5f,w,h);
+    }
+    // 0.8.5: a child of a wide list row keeps its own place (the face cannot grow past the fixed row),
+    // follows the lift and, for icons, grows around its own centre.
+    private static Rect RowChild(Rect child,float offset,bool grow=false)
+    {
+        Rect r=grow?HoverGrow(child,offset):child;
+        if(float.IsFinite(offset))r.y+=offset;
+        return r;
+    }
+    // 0.8.5: a mint pill under the open tab glides to the next one.
+    private void TabMarker(float x,float w)
+    {
+        float dt=_tabMarkFrame!=Time.frameCount?Time.unscaledDeltaTime:0f;_tabMarkFrame=Time.frameCount;
+        float mx=UiMotionPolicy.Step(ref _tabMarkX,x,dt),mw=UiMotionPolicy.Step(ref _tabMarkW,w,dt);
+        DrawRoundedSurface(new Rect(mx+18,153,Mathf.Max(8,mw-36),5),_fillStyle.normal.background,2.5f);
+    }
+    // 0.8.5: a freshly opened page (tab, «Спавн» and «Открытия» sections) fades in from the parchment.
+    private void PageVeil(Rect body)
+    {
+        int page=_tab*8+(_tab==1?_creationSection:_tab==4?_unlockSection:0);
+        if(page!=_veilPage){bool first=_veilPage<0;_veilPage=page;_veilSince=first?-10f:Time.unscaledTime;}
+        float veil=UiMotionPolicy.PageVeil(Time.unscaledTime-_veilSince);
+        if(veil<=.001f)return;
+        Fill(new Rect(body.x-6,body.y-6,body.width+12,body.height+12),new Color(_parchment.r,_parchment.g,_parchment.b,veil));
+    }
+    // 0.8.5: the header logo, a 32 x 32 pixel slime upscaled 4x once (bilinear keeps edges even at any UI scale).
+    private void BuildLogo()
+    {
+        if(_logoTexture!=null&&!_logoTexture.WasCollected)return;
+        _logoTexture=null;
+        var data=CreatorLogoPolicy.Pixels();
+        if(data==null)return;
+        int size=CreatorLogoPolicy.TextureSize;
+        var pixels=new Color32[size*size];
+        for(int i=0;i<pixels.Length;i++)pixels[i]=new Color32(data[i*4],data[i*4+1],data[i*4+2],data[i*4+3]);
+        var texture=new Texture2D(size,size,TextureFormat.RGBA32,false);
+        texture.name="CreatorToolkit_UI_Logo";texture.hideFlags=HideFlags.HideAndDontSave;
+        texture.filterMode=FilterMode.Bilinear;texture.wrapMode=TextureWrapMode.Clamp;
+        texture.SetPixels32(pixels);texture.Apply(false,true);
+        _logoTexture=texture;
+    }
+    // The slime breathes (squash and stretch around the base of its body).
+    private bool DrawLogo(Rect rect)
+    {
+        if(_logoTexture==null||_logoTexture.WasCollected)return false;
+        UiMotionPolicy.LogoBreath(Time.unscaledTime,out float sx,out float sy);
+        float w=rect.width*sx,h=rect.height*sy,baseY=rect.y+rect.height*CreatorLogoPolicy.Base;
+        GUI.DrawTexture(new Rect(rect.center.x-w*.5f,baseY-h*CreatorLogoPolicy.Base,w,h),_logoTexture);
+        return true;
     }
 
     private void PlayerPage(Rect area)
@@ -1236,7 +1477,6 @@ internal sealed partial class ToolkitUi
         {
             float col=(area.width-24)/2;
             L.Label(new Rect(0,0,area.width-220,36),"Игрок · защита, движение, строительство",_heading);
-            if(Button(new Rect(area.width-192,0,192,36),DetailedHelp?"Скрыть подсказки":"Подсказки",DetailedHelp?_selectedButton:_button))DetailedHelp=!DetailedHelp;
             AllocationMark(10,ref allocationStamp);
             var p=_app.Player;
             // 0.8.0: six compact rows; the builder switches are the same ones as in «Спавн → Гаджеты».
@@ -1512,13 +1752,20 @@ internal sealed partial class ToolkitUi
             {var entry=_selected;int count=gordo?1:_quantity;_app.Queue("spawn",()=>_app.Actors.Spawn(entry,count));}
             GUI.enabled=enabled&&!_app.Actors.GordoSpawnPending;
             if(Button(new Rect(x+18,top+388,rightW-36,42),"Очистить созданное ("+_app.Actors.OwnedCount+")",_button))_app.Queue("cleanup owned",_app.Actors.Cleanup);
+            float hintY=top+486;bool chickenArmed=_chickenArm>Time.unscaledTime;
+            if(Button(new Rect(x+18,top+436,rightW-36,42),chickenArmed?"Нажмите ещё раз: удалить ВСЕХ куриц":"Удалить всех куриц",chickenArmed?_accentButton:_button))
+            {
+                if(chickenArmed){_chickenArm=0f;_app.Queue("cleanup chickens",_app.Actors.CleanupChickens);}
+                else _chickenArm=Time.unscaledTime+4f;
+            }
             GUI.enabled=enabled;
             string hint=gordo?_app.Actors.GordoSpawnStatus:_selected?.CanSpawn==false?_selected.UnavailableReason:_selected?.IsPrototype==true?"Только визуальный Pink-прототип, без уникальных способностей.":_selected?.IsRadiant==true?"Нативный лучистый вариант. Вакпак не поддерживается.":DetailedHelp?"В 2,5 м перед камерой. Очистка удаляет только созданное этим модом.":"";
-            L.Label(new Rect(x+18,top+442,rightW-36,Mathf.Max(40,height-448)),hint,_atlasDetail);
+            L.Label(new Rect(x+18,hintY,rightW-36,Mathf.Max(40,height-(hintY-top)-6)),hint,_atlasDetail);
         }
         finally{EndGroup();}
     }
 
+    private float SmallTileButtonWidth(string text)=>UiThemePolicy.SmallButtonWidth(_buttonText14.CalcSize(ButtonContent(text)).x);
     private void SpawnTiles(Rect rect,List<ActorTools.Entry> entries)
     {
         if(_selected==null||!entries.Contains(_selected))_selected=entries.Count>0?entries[0]:null;
@@ -1534,10 +1781,42 @@ internal sealed partial class ToolkitUi
             {
                 var entry=entries[i];float tx=(i%2)*(width+10),ty=(i/2)*row-_catalogScroll.y;
                 Rect tile=new(tx,ty,width,row-10);
+                // 0.8.2: per-tile removal. «Мои ×» — only what the mod created from this tile,
+                // «Все ×» — every actor of the type in the world (second click confirms).
+                // The small buttons claim the click BEFORE the tile underneath them.
+                bool tools=entry.Type!=null&&entry.Category!="Гордо";
+                bool world=tools&&!entry.IsPrototype&&!entry.IsRadiant;
+                // 0.8.3: sized by the measured (translated) label: «Mine ×» was clipped at a fixed 62 px.
+                const float smallH=28;
+                float ownW=SmallTileButtonWidth("Мои ×"),allW=Mathf.Max(SmallTileButtonWidth("Все ×"),SmallTileButtonWidth("Точно?"));
+                Rect allRect=new Rect(tx+width-10-allW,ty+row-10-smallH-8,allW,smallH);
+                Rect ownRect=world?new Rect(allRect.x-6-ownW,allRect.y,ownW,smallH):new Rect(tx+width-10-ownW,allRect.y,ownW,smallH);
+                int own=tools?_app.Actors.OwnedCountFor(entry):0;
+                bool armed=world&&_tileArmEntry==entry&&_tileArm>Time.unscaledTime;
+                bool ownHit=tools&&own>0&&Pressed(ownRect),allHit=world&&Pressed(allRect);
                 if(Button(tile,GUIContent.none,entry==_selected?_selectedButton:_button))_selected=entry;
                 SpritePreview(new Rect(tx+10,ty+14,44,44),entry);
                 L.Label(new Rect(tx+64,ty+8,width-76,54),entry.Name,_atlasDetail);
-                L.Label(new Rect(tx+12,ty+65,width-24,22),entry.IsPrototype?"Визуальный прототип":entry.CanSpawn?(entry.IsRadiant?"Лучистый · нативный":"Нативный объект"):"Недоступен в этой версии",_small);
+                float kindW=tools?ownRect.x-tx-18:width-24;
+                // 0.8.3: never a clipped stub («Nati…»): the full type, else a short one for the notable
+                // cases (prototype, radiant, unavailable), else nothing — an ordinary native tile needs no label.
+                var kind=ButtonContent(entry.IsPrototype?"Визуальный прототип":entry.CanSpawn?(entry.IsRadiant?"Лучистый · нативный":"Нативный объект"):"Недоступен в этой версии");
+                string kindShort=entry.IsPrototype?"Прототип":entry.CanSpawn?(entry.IsRadiant?"Лучистый":null):"Недоступен";
+                if(kindShort!=null&&_small.CalcSize(kind).x>kindW)kind=ButtonContent(kindShort);
+                if(kindW>=24&&_small.CalcSize(kind).x<=kindW)L.Label(new Rect(tx+12,ty+64,kindW,24),kind,_small);
+                if(tools)
+                {
+                    bool enabled=GUI.enabled;GUI.enabled=enabled&&own>0;
+                    Button(ownRect,"Мои ×",_button);
+                    GUI.enabled=enabled;
+                    if(world)Button(allRect,armed?"Точно?":"Все ×",armed?_accentButton:_button);
+                }
+                if(ownHit){var target=entry;_app.Queue("cleanup type owned",()=>_app.Actors.CleanupEntryOwned(target));}
+                if(allHit)
+                {
+                    if(armed){_tileArm=0f;_tileArmEntry=null;var target=entry;_app.Queue("cleanup type all",()=>_app.Actors.CleanupEntryAll(target));}
+                    else{_tileArmEntry=entry;_tileArm=Time.unscaledTime+4f;_app.Notify("Нажмите «Точно?»: удалить ВСЕХ «"+entry.Name+"» во всём мире, включая загоны.");}
+                }
             }
             if(entries.Count==0)L.Label(new Rect(12,18,viewport.width-48,96),"Ничего не найдено. Измените поиск или категорию.",_muted);
         }
@@ -1550,13 +1829,25 @@ internal sealed partial class ToolkitUi
         BeginGroup(area);
         try
         {
-            L.Label(new Rect(0, 0, area.width, 35), "Нью-баксы: " + _app.Actors.Currency().ToString("N0"), _heading);
-            float bw = (area.width - 20) / 3;
-            if (Button(new Rect(0, 49, bw, 42), "+10 000", _button)) _app.Queue("currency 10000", () => _app.Actors.AddCurrency(10000));
-            if (Button(new Rect(bw + 10, 49, bw, 42), "+100 000", _button)) _app.Queue("currency 100000", () => _app.Actors.AddCurrency(100000));
-            if (Button(new Rect(2 * (bw + 10), 49, bw, 42), "Максимум денег", _accentButton)) _app.Queue("currency max", () => _app.Actors.AddCurrency(0, true));
-            Hint(new Rect(0, 99, area.width, 24), "Деньги и вакпак сохраняются игрой.", _muted);
-            L.Label(new Rect(0, 137, area.width, 32), "Заполнить выбранный слот вакпака", _heading);
+            // 0.8.3: the native Newbucks coin and the balance, then the amount field, add and native maximum right after it.
+            const float maxW = 124, addW = 128, fieldW = 200;
+            var coin = _app.Actors.CurrencyIcon();
+            float balanceX = 0;
+            if (coin != null) { DrawSprite(new Rect(0, 2, 38, 38), coin); balanceX = 46; }
+            string balance = _app.Actors.Currency().ToString("N0");
+            var balanceContent = RawContent(coin != null ? balance : Loc.T("Нью-баксы: ") + balance);
+            float balanceW = Mathf.Ceil(_heading.CalcSize(balanceContent).x) + 4;
+            L.Label(new Rect(balanceX, 1, balanceW, 40), balanceContent, _heading);
+            float fieldX = Mathf.Min(balanceX + balanceW + 22, area.width - maxW - addW - fieldW - 20);
+            _currencyAmount = TextBox("currency-amount", new Rect(fieldX, 2, fieldW, 38), _currencyAmount, 13, "Сумма…");
+            if (Button(new Rect(fieldX + fieldW + 10, 2, addW, 38), "Добавить", _accentButton))
+            {
+                int amount = SafetyPolicy.ParseCurrency(_currencyAmount);
+                if (amount <= 0) _app.Notify("Введите сумму — целое число больше нуля.");
+                else _app.Queue("currency add", () => _app.Actors.AddCurrency(amount));
+            }
+            if (Button(new Rect(fieldX + fieldW + addW + 20, 2, maxW, 38), "Максимум", _button)) _app.Queue("currency max", () => _app.Actors.AddCurrency(0, true));
+            L.Label(new Rect(0, 52, area.width, 32), "Заполнить выбранный слот вакпака", _heading);
             var ammo = _app.Context.PlayerState.Ammo;
             float sw = (area.width - (ammo.Slots.Length - 1) * 6) / Math.Max(1, ammo.Slots.Length);
             for (int i = 0; i < ammo.Slots.Length; i++)
@@ -1564,12 +1855,12 @@ internal sealed partial class ToolkitUi
                 bool enabled = GUI.enabled; GUI.enabled = enabled && ammo.Slots[i].IsUnlocked;
                 // A 44 px hitbox / 40 px face fits both 20 px corner borders.
                 // The previous 34 px box forced the top/bottom slices to overlap.
-                if (Button(new Rect(i * (sw + 6), 179, sw, 44), "Слот " + (i + 1) + " · " + ammo.GetSlotCount(i), i == ammo._selectedAmmoIdx ? _selectedButton : _button)) { int slot = i; _app.Queue("select ammo slot", () => ammo.SetSelectedSlot(slot)); }
+                if (Button(new Rect(i * (sw + 6), 92, sw, 44), "Слот " + (i + 1) + " · " + ammo.GetSlotCount(i), i == ammo._selectedAmmoIdx ? _selectedButton : _button)) { int slot = i; _app.Queue("select ammo slot", () => ammo.SetSelectedSlot(slot)); }
                 GUI.enabled = enabled;
             }
-            _ammoSearch = TextBox("ammo-search", new Rect(0, 230, area.width, 36), _ammoSearch);
+            _ammoSearch = TextBox("ammo-search", new Rect(0, 143, area.width, 36), _ammoSearch);
             float leftW = Mathf.Round((area.width - 16) * .60f);
-            const float panelTop = 278;
+            const float panelTop = 191;
             float panelHeight = area.height - panelTop;
             Catalog(new Rect(0, panelTop, leftW, panelHeight), Filter(_ammoSearch, "Все", true), ref _ammoScroll, ref _ammoSelected);
             float x = leftW + 16, w = area.width - x;
@@ -1643,32 +1934,34 @@ internal sealed partial class ToolkitUi
             if(_phenomenaPage){PhenomenaPage(area.width);return;}
             if(_capturePage){CapturePage(area);return;}
             var cinema = _app.Cinema;
-            if(Button(new Rect(area.width-250,112,250,40),"Скорость времени…",_violetButton)){_timePage=true;ClearInteraction();return;}
-            if(Button(new Rect(area.width-250,27,250,40),"Камера и запись…",_accentButton)){_capturePage=true;ClearInteraction();return;}
-            bool hidden = Toggle(new Rect(0, 0, area.width-266, 94), "Чистый кадр / скрыть HUD", cinema.HideHud, "Убирает игровой интерфейс и вакпак. Меню остаётся доступно по "+(_app.Hotkey?.Display??"Insert")+".");
+            // 0.8.4: the three sub-pages in one row, the clean-frame switch, then the teleport points;
+            // explanations (the empty-list text too) appear only with «?».
+            float third=(area.width-24)/3;
+            if(Button(new Rect(0,0,third,44),"Камера и запись…",_accentButton)){_capturePage=true;ClearInteraction();return;}
+            if(Button(new Rect(third+12,0,third,44),"Скорость времени…",_violetButton)){_timePage=true;ClearInteraction();return;}
+            if(Button(new Rect(2*(third+12),0,third,44),"Нативные феномены…",_violetButton))
+            {_phenomenaPage=true;ClearInteraction();_app.Queue("native phenomena census",()=>_app.Phenomena.SetInspect(true));return;}
+            bool hidden = Toggle(new Rect(0, 58, area.width, 64), "Чистый кадр / скрыть HUD", cinema.HideHud, "Убирает игровой интерфейс и вакпак. Меню остаётся доступно по "+(_app.Hotkey?.Display??"Insert")+".");
             if (hidden != cinema.HideHud) _app.Queue("hide HUD", () => cinema.SetHideHud(hidden));
-            L.Label(new Rect(0, 116, area.width-266, 35), "Точки телепортации · " + cinema.Waypoints.Count + " / 5", _heading);
-            _waypointName = TextBox("waypoint-name", new Rect(0, 165, area.width - 234, 38), _waypointName, 40, "Название новой точки…");
+            L.Label(new Rect(0, 140, area.width, 35), "Точки телепортации · " + cinema.Waypoints.Count + " / 5", _heading);
+            _waypointName = TextBox("waypoint-name", new Rect(0, 184, area.width - 234, 38), _waypointName, 40, "Название новой точки…");
             bool previous = GUI.enabled; GUI.enabled = previous && cinema.Waypoints.Count < SafetyPolicy.MaxWaypoints;
-            if (Button(new Rect(area.width - 218, 165, 218, 38), "Сохранить позицию", _accentButton)) { string name = _waypointName; _app.Queue("save waypoint", () => cinema.SaveWaypoint(name)); _waypointName = ""; }
+            if (Button(new Rect(area.width - 218, 184, 218, 38), "Сохранить позицию", _accentButton)) { string name = _waypointName; _app.Queue("save waypoint", () => cinema.SaveWaypoint(name)); _waypointName = ""; }
             GUI.enabled = previous;
             if(cinema.Waypoints.Count==0)
             {
-                L.Box(new Rect(0,225,area.width,114),GUIContent.none,_card);
-                L.Label(new Rect(20,244,area.width-40,34),"Первая точка — ваш быстрый возврат",_label);
-                Hint(new Rect(20,285,area.width-40,38),"Введите название и сохраните текущую позицию. Можно держать до пяти точек.");
+                Hint(new Rect(0,244,area.width,30),"Первая точка — ваш быстрый возврат",_label);
+                Hint(new Rect(0,278,area.width,38),"Введите название и сохраните текущую позицию. Можно держать до пяти точек.");
             }
             for (int i = 0; i < cinema.Waypoints.Count; i++)
             {
-                var point = cinema.Waypoints[i]; float y = 225 + i * 62;
+                var point = cinema.Waypoints[i]; float y = 240 + i * 62;
                 L.Box(new Rect(0, y, area.width, 54), GUIContent.none, _card);
                 L.Label(new Rect(15, y + 7, area.width - 300, 40), point.Name + "   " + point.Position.ToString("F1"), _label);
                 if (Button(new Rect(area.width - 269, y + 10, 186, 34), "Телепортироваться", _button)) _app.Queue("teleport waypoint", () => cinema.Teleport(point));
                 if (Button(new Rect(area.width - 72, y + 10, 57, 34), "×", _button)) { var remove = point; _app.Queue("delete waypoint", () => cinema.Waypoints.Remove(remove)); }
             }
-            Hint(new Rect(0, 551, area.width-246, 40), "Точки хранятся в текущем сеансе и не переносятся между сейвами.", _muted);
-            if(Button(new Rect(area.width-232,551,232,40),"Нативные феномены",_violetButton))
-            {_phenomenaPage=true;_app.Queue("native phenomena census",()=>_app.Phenomena.SetInspect(true));}
+            Hint(new Rect(0, area.height - 40, area.width, 36), "Точки хранятся в текущем сеансе и не переносятся между сейвами.", _muted);
         }
         finally { EndGroup(); }
     }
@@ -1676,11 +1969,10 @@ internal sealed partial class ToolkitUi
     // 0.8.0: «Ферма…» (moved from «Карта»), FPS counter next to the info HUD, hints only with «?».
     private bool _farmPage;
     private static readonly string[] FpsCornerArrows={"↖","↗","↙","↘"};
+    private static readonly string[] HudPlaces={"Справа","Слева","Внизу"};
     internal void ShowFarmForTest(){ShowTabForTest(7);_farmPage=true;}
     private void ConveniencePage(Rect area)
     {
-        if(_optimizationPage){OptimizationPage(area);return;}
-        if(_infoPage){InfoPage(area);return;}
         if(_saveNamePage){SaveNamePage(area);return;}
         BeginGroup(area);
         try
@@ -1693,88 +1985,152 @@ internal sealed partial class ToolkitUi
                 return;
             }
             var tools=_app.Convenience;
+            // 0.8.4: every card holds two rows of controls; the explanations (and the room for them) appear
+            // only with «?». «Имя сейва…» sits in the heading row, the farm helper next to the auto-refill.
+            bool help=DetailedHelp;
             float col=(area.width-24)/2,x=col+24,bw=(col-48)/2;
-            const float top=66,cardH=206,row2=top+cardH+14;
-            L.Label(new Rect(0,0,area.width,36),"Удобство · профили, HUD и автоматизация",_heading);
-            Hint(new Rect(0,38,area.width,26),"Все новые функции выключены по умолчанию. Включайте только то, что нужно сейчас.",_small);
+            const float top=54,r1=56,r2=108,hintY=160;
+            float cardH=help?214:166,row2=top+cardH+14;
+            L.Label(new Rect(0,0,area.width-250,40),"Удобство · профили, HUD и автоматизация",_heading);
+            if(Button(new Rect(area.width-230,0,230,40),"Имя сейва…",_accentButton))OpenSaveNameUi();
+
             L.Box(new Rect(0,top,col,cardH),GUIContent.none,_card);
             L.Label(new Rect(20,top+12,col-40,34),"Профили · "+tools.ProfileName,_heading);
             bool enabled=GUI.enabled;GUI.enabled=enabled&&!_app.Map.Busy;
-            if(Button(new Rect(20,top+54,bw,44),"Исследователь",tools.Profile==1?_selectedButton:_button))
+            if(Button(new Rect(20,top+r1,bw,44),"Исследователь",tools.Profile==1?_selectedButton:_button))
                 _app.Queue("explorer profile",()=>tools.SetProfile(1));
-            if(Button(new Rect(28+bw,top+54,bw,44),"Кадр",tools.Profile==2?_selectedButton:_button))
+            if(Button(new Rect(28+bw,top+r1,bw,44),"Кадр",tools.Profile==2?_selectedButton:_button))
                 _app.Queue("frame profile",()=>tools.SetProfile(2));
-            Hint(new Rect(20,top+104,col-40,46),"Исследователь: защита, энергия, ×2.\nКадр: полёт, пауза, без HUD.");
             GUI.enabled=enabled&&tools.Profile!=0&&!_app.Map.Busy;
-            if(Button(new Rect(20,top+152,col-40,44),"Восстановить прежние настройки",_button))
+            if(Button(new Rect(20,top+r2,col-40,44),"Восстановить прежние настройки",_button))
                 _app.Queue("restore profile",()=>tools.SetProfile(0));
             GUI.enabled=enabled;
+            Hint(new Rect(20,top+hintY,col-40,46),"Исследователь: защита, энергия, ×2.\nКадр: полёт, пауза, без HUD.");
 
             L.Box(new Rect(x,top,col,cardH),GUIContent.none,_card);
             L.Label(new Rect(x+20,top+12,col-40,34),"Исследование и SOS",_heading);
-            if(Button(new Rect(x+20,top+54,bw,44),tools.TrackSafe?"SOS: запись ВКЛ":"SOS: запись ВЫКЛ",tools.TrackSafe?_selectedButton:_button))
+            if(Button(new Rect(x+20,top+r1,bw,44),tools.TrackSafe?"SOS: запись ВКЛ":"SOS: запись ВЫКЛ",tools.TrackSafe?_selectedButton:_button))
             {bool track=!tools.TrackSafe;_app.Queue("safe position tracking",()=>tools.SetSafeTracking(track));}
             GUI.enabled=enabled&&tools.HasSafe&&!_app.Map.Busy;
-            if(Button(new Rect(x+28+bw,top+54,bw,44),"Вернуться · Ctrl + Home",_button))
+            if(Button(new Rect(x+28+bw,top+r1,bw,44),"Вернуться · Ctrl + Home",_button))
                 _app.Queue("SOS rescue",tools.Rescue);
             GUI.enabled=enabled;
-            if(tools.TrackSafe)L.Label(new Rect(x+20,top+104,col-40,44),tools.SafeStatus,_muted);
-            else Hint(new Rect(x+20,top+104,col-40,44),"Записываются только проверенные наземные точки.");
-            if(Button(new Rect(x+20,top+152,col-40,44),"Найти неоткрытую капсулу · без автосбора",_accentButton))
+            if(Button(new Rect(x+20,top+r2,col-40,44),"Найти неоткрытую капсулу · без автосбора",_accentButton))
                 _app.Queue("nearest unopened capsule",tools.OpenNearestCapsule);
+            Hint(new Rect(x+20,top+hintY,col-40,46),tools.TrackSafe?tools.SafeStatus:"Записываются только проверенные наземные точки.");
 
             L.Box(new Rect(0,row2,col,cardH),GUIContent.none,_card);
-            L.Label(new Rect(20,row2+12,col-40,34),"Автопополнение вакпака",_heading);
-            L.Label(new Rect(20,row2+50,col-40,40),tools.RefillStatus,_muted);
-            if(Button(new Rect(20,row2+94,col-40,44),tools.Refilling?"Отключить автопополнение":"Включить для выбранного слота…",tools.Refilling?_selectedButton:_button))
+            L.Label(new Rect(20,row2+12,col-40,34),"Автопополнение и ферма",_heading);
+            if(Button(new Rect(20,row2+r1,col-40,44),tools.Refilling?"Отключить автопополнение":"Включить для выбранного слота…",tools.Refilling?_selectedButton:_button))
                 _app.Queue("auto refill request",tools.RequestRefill);
-            L.Label(new Rect(20,row2+146,col-40,24),"Порог: "+ModInterop.RefillText,_small);
-            Hint(new Rect(20,row2+172,col-40,24),"Сохраняется игрой · пустой или другой слот — стоп.",_small);
+            if(Button(new Rect(20,row2+r2,col-40,44),"Фермерский помощник…",_button)){_farmPage=true;ClearInteraction();return;}
+            Hint(new Rect(20,row2+hintY,col-40,24),tools.Refilling?tools.RefillStatus:"Порог: "+ModInterop.RefillText,_small);
+            Hint(new Rect(20,row2+hintY+24,col-40,24),"Сохраняется игрой · пустой или другой слот — стоп.",_small);
 
-            // Info HUD and the FPS counter: two on-screen readouts, one card.
-            var cap=_app.Capture;
+            // Info HUD (0.8.3: the FPS counter, keys, graphics and the console moved to «Настройки»).
             L.Box(new Rect(x,row2,col,cardH),GUIContent.none,_card);
-            L.Label(new Rect(x+20,row2+12,col-40,34),"Инфо-HUD и счётчик FPS",_heading);
+            L.Label(new Rect(x+20,row2+12,col-40,34),"Инфо-HUD",_heading);
             float tw=Mathf.Round((col-40)*.46f),cx=x+20+tw+10,cw=col-40-tw-10;
-            if(Button(new Rect(x+20,row2+54,tw,44),tools.ShowHud?"Инфо-HUD: ВКЛ":"Инфо-HUD: ВЫКЛ",tools.ShowHud?_selectedButton:_button))
+            if(Button(new Rect(x+20,row2+r1,tw,44),tools.ShowHud?"Инфо-HUD: ВКЛ":"Инфо-HUD: ВЫКЛ",tools.ShowHud?_selectedButton:_button))
             {bool show=!tools.ShowHud;_app.Queue("info HUD",()=>tools.SetHud(show));}
-            string[] places={"Справа","Слева","Внизу"};float pw=(cw-16)/3;
-            for(int i=0;i<places.Length;i++)
-                if(Button(new Rect(cx+i*(pw+8),row2+54,pw,44),places[i],tools.HudPlacement==i?_selectedButton:_button))tools.HudPlacement=i;
-            if(cap!=null)
-            {
-                if(Button(new Rect(x+20,row2+106,tw,44),cap.ShowFps?"Счётчик FPS: ВКЛ":"Счётчик FPS: ВЫКЛ",cap.ShowFps?_selectedButton:_button))
-                    cap.SetShowFps(!cap.ShowFps);
-                int corner=NavigationChoice(new Rect(cx,row2+106,cw,44),FpsCornerArrows,cap.FpsCorner);
-                if(corner>=0&&corner!=cap.FpsCorner)cap.SetFpsCorner(corner);
-                if(cap.ShowFps)L.Label(new Rect(x+20,row2+158,col-40,40),cap.FpsText+" · виден и в меню игры",_muted);
-            }
-            if(cap==null||!cap.ShowFps)Hint(new Rect(x+20,row2+158,col-40,44),"Зона, XYZ, время и эффекты · FPS и время кадра в выбранном углу.",_muted);
+            float pw=(cw-16)/3;
+            for(int i=0;i<HudPlaces.Length;i++)
+                if(Button(new Rect(cx+i*(pw+8),row2+r1,pw,44),HudPlaces[i],tools.HudPlacement==i?_selectedButton:_button))tools.HudPlacement=i;
+            if(Button(new Rect(x+20,row2+r2,col-40,44),"Клавиши, FPS, графика и консоль →",_violetButton))ShowPage(8);
+            Hint(new Rect(x+20,row2+hintY,col-40,46),"Зона, XYZ, время и активные эффекты поверх игры.");
 
-            float qb=(area.width-36)/4,qy=row2+cardH+16;
-            if(Button(new Rect(0,qy,qb,44),"Ферма…",_button)){_farmPage=true;ClearInteraction();}
-            if(Button(new Rect(qb+12,qy,qb,44),"Имя сейва…",_accentButton))OpenSaveNameUi();
-            if(Button(new Rect(2*(qb+12),qy,qb,44),"Консоль / Инфо",_button))
-            {_infoPage=true;ClearInteraction();}
-            if(Button(new Rect(3*(qb+12),qy,qb,44),"Оптимизация / Potato Mode",_goldButton))
-                OpenOptimizationUi();
-            // 0.8.1: the menu key (Insert by default) — the button waits for the next key, Esc cancels.
-            var hotkey=_app.Hotkey;
-            if(hotkey!=null)
-            {
-                float hy=qy+52;
-                L.Label(new Rect(0,hy,160,34),"Клавиша меню",_label);
-                if(Button(new Rect(160,hy,230,34),hotkey.Capturing?"Нажмите клавишу…":hotkey.Display+"  ·  изменить…",hotkey.Capturing?_selectedButton:_button))
-                {if(hotkey.Capturing)hotkey.CancelCapture();else hotkey.StartCapture();}
-                GUI.enabled=enabled&&!hotkey.IsDefault&&!hotkey.Capturing;
-                if(Button(new Rect(402,hy,170,34),"Вернуть Insert",_button))hotkey.Reset();
-                GUI.enabled=enabled;
-                if(hotkey.Capturing)L.Label(new Rect(588,hy,area.width-588,34),"Esc — отмена · F1, Tab, Enter, пробел и стрелки не подходят",_small);
-                else Hint(new Rect(588,hy,area.width-588,34),"SOS и инфо-HUD — на сеанс · FPS и клавиша меню сохраняются.",_small);
-            }
-            else Hint(new Rect(0,qy+50,area.width,28),"SOS и инфо-HUD — на сеанс · счётчик FPS сохраняется в capture.cfg.",_small);
+            float qy=row2+cardH+14;
+            Hint(new Rect(0,qy,area.width,26),"Все новые функции выключены по умолчанию. Включайте только то, что нужно сейчас.",_small);
+            Hint(new Rect(0,qy+28,area.width,26),"SOS и инфо-HUD — на сеанс · клавиши, FPS и графика — во вкладке «Настройки».",_small);
         }
         finally {EndGroup();}
+    }
+
+    // 0.8.3 «Настройки»: keys (the menu key + optional action keys), smooth zoom, the FPS counter and the
+    // graphics / console pages that used to sit at the bottom of «Удобство».
+    private void SettingsPage(Rect area)
+    {
+        if(_optimizationPage){OptimizationPage(area);return;}
+        if(_infoPage){InfoPage(area);return;}
+        BeginGroup(area);
+        try
+        {
+            bool enabled=GUI.enabled;
+            float col=(area.width-24)/2,x=col+24,lw=col-40;
+            L.Label(new Rect(0,0,area.width-220,36),"Настройки · клавиши, зум, FPS и графика",_heading);
+
+            // Keys: the menu key first, then the action keys (every one unbound by default).
+            // 0.8.4: the cards hug their controls; the explanations (and the room for them) appear only with «?».
+            const float top=48,keyRow=104,stride=50,rowH=40,nameW=200,keyW=196;
+            bool help=DetailedHelp;
+            float bottom=help?area.height:keyRow+ActionHotkeyPolicy.Count*stride+rowH+20;
+            var hotkey=_app.Hotkey;var keys=_app.Shortcuts;
+            bool capturing=(hotkey?.Capturing??false)||(keys!=null&&keys.Capturing>=0);
+            L.Box(new Rect(0,top,col,bottom-top),GUIContent.none,_card);
+            L.Label(new Rect(20,top+12,lw,34),capturing?"Нажмите клавишу · Esc — отмена":"Горячие клавиши",_heading);
+            float kx=20+nameW+8,rx=kx+keyW+8,rw=col-20-rx;
+            if(hotkey!=null)
+            {
+                L.Label(new Rect(20,keyRow,nameW,rowH),"Клавиша меню",_muted);
+                if(Button(new Rect(kx,keyRow,keyW,rowH),hotkey.Capturing?"Нажмите клавишу…":hotkey.Display+"  ·  изменить…",hotkey.Capturing?_selectedButton:_button))
+                {if(hotkey.Capturing)hotkey.CancelCapture();else{keys?.CancelCapture();hotkey.StartCapture();}}
+                GUI.enabled=enabled&&!hotkey.IsDefault&&!hotkey.Capturing;
+                if(Button(new Rect(rx,keyRow,rw,rowH),"Insert",_button))hotkey.Reset();
+                GUI.enabled=enabled;
+            }
+            if(keys!=null)
+                for(int i=0;i<ActionHotkeyPolicy.Count;i++)
+                {
+                    float y=keyRow+(i+1)*stride;bool mine=keys.Capturing==i;string key=keys.Key(i);
+                    L.Label(new Rect(20,y,nameW,rowH),ActionHotkeyPolicy.Titles[i],_muted);
+                    string caption=mine?"Нажмите клавишу…":key==null?"Назначить…":keys.Blocked(i)?keys.Display(i)+" · занята меню":keys.Display(i)+"  ·  изменить…";
+                    if(Button(new Rect(kx,y,keyW,rowH),caption,mine?_selectedButton:_button))
+                    {if(mine)keys.CancelCapture();else keys.StartCapture(i);}
+                    GUI.enabled=enabled&&key!=null&&!mine;
+                    if(Button(new Rect(rx,y,rw,rowH),"×",_button))keys.Clear(i);
+                    GUI.enabled=enabled;
+                }
+            float hy=keyRow+(ActionHotkeyPolicy.Count+1)*stride+4;
+            Hint(new Rect(20,hy,lw,area.height-hy-10),capturing?"Esc — отмена · F1, Tab, Enter, пробел и стрелки не подходят":
+                "Клавиши работают в игре и в меню · Ctrl/Alt + клавиша не срабатывает · сохраняются сразу.");
+
+            var cap=_app.Capture;
+            float zoomH=help?178:150,fpsH=help?150:112;
+            // Smooth zoom: on/off and its key (C, Z, V, middle or side mouse button).
+            L.Box(new Rect(x,top,col,zoomH),GUIContent.none,_card);
+            L.Label(new Rect(x+20,top+12,lw,34),"Плавный зум",_heading);
+            if(cap!=null)
+            {
+                if(Button(new Rect(x+20,top+56,lw,40),cap.ZoomEnabled?"Плавный зум: ВКЛ":"Плавный зум: ВЫКЛ",cap.ZoomEnabled?_selectedButton:_button))
+                {bool on=!cap.ZoomEnabled;_app.Queue("smooth zoom",()=>cap.SetZoom(on));}
+                L.Label(new Rect(x+20,top+104,120,36),"Клавиша",_muted);
+                int zoomKey=NavigationChoice(new Rect(x+140,top+104,lw-120,36),CapturePolicy.ZoomKeys,cap.ZoomKey);
+                if(zoomKey>=0&&zoomKey!=cap.ZoomKey)cap.SetZoomKey(zoomKey);
+                Hint(new Rect(x+20,top+144,lw,28),cap.ZoomKey==4?"M4 — боковая кнопка мыши · сила зума — во вкладке «Съёмка».":"Держите клавишу — приближение · сила зума — во вкладке «Съёмка».",_small);
+            }
+            // FPS counter: on/off and the screen corner.
+            float fy=top+zoomH+14;
+            L.Box(new Rect(x,fy,col,fpsH),GUIContent.none,_card);
+            L.Label(new Rect(x+20,fy+12,lw,34),"Счётчик FPS",_heading);
+            if(cap!=null)
+            {
+                float half=Mathf.Round(lw*.5f);
+                if(Button(new Rect(x+20,fy+56,half,40),cap.ShowFps?"Счётчик FPS: ВКЛ":"Счётчик FPS: ВЫКЛ",cap.ShowFps?_selectedButton:_button))
+                    cap.SetShowFps(!cap.ShowFps);
+                int corner=NavigationChoice(new Rect(x+30+half,fy+56,lw-half-10,40),FpsCornerArrows,cap.FpsCorner);
+                if(corner>=0&&corner!=cap.FpsCorner)cap.SetFpsCorner(corner);
+                Hint(new Rect(x+20,fy+104,lw,36),cap.ShowFps?cap.FpsText+" · виден и в меню игры":"Кадры в секунду и время кадра в выбранном углу.");
+            }
+            // Graphics (Potato Mode) and the console, formerly at the bottom of «Удобство».
+            float gy=fy+fpsH+14;
+            L.Box(new Rect(x,gy,col,bottom-gy),GUIContent.none,_card);
+            L.Label(new Rect(x+20,gy+12,lw,34),"Графика и консоль",_heading);
+            float bw=(lw-10)/2;
+            if(Button(new Rect(x+20,gy+56,bw,44),"Оптимизация / Potato Mode",_goldButton))OpenOptimizationUi();
+            if(Button(new Rect(x+30+bw,gy+56,bw,44),"Консоль / Инфо",_button)){_infoPage=true;ClearInteraction();}
+            Hint(new Rect(x+20,gy+108,lw,bottom-gy-116),"Пресеты, дальность, текстуры и эффекты · версия, статус и последние ошибки.",_muted);
+        }
+        finally{EndGroup();}
     }
 
     internal void DrawTransitStatus()
@@ -2032,7 +2388,7 @@ internal sealed partial class ToolkitUi
                 {
                     Vector2 pixel=origin+dx*point.Position.x+dz*point.Position.z;
                     Vector2 p=new(pixel.x/_scale,(Screen.height-pixel.y)/_scale);
-                    if(p.x<28||p.x>sw-28||p.y<100||p.y>sh-100||overlayExclusions.Any(r=>r.Contains(p))||nativeMarkerExclusions.Any(r=>r.Contains(p)))continue;
+                    if(p.x<28||p.x>sw-28||p.y<100||p.y>sh-100||AnyContains(overlayExclusions,p)||AnyContains(nativeMarkerExclusions,p))continue;
                     projected.Add((p.x,p.y,point));
                 }
                 // Every projected object keeps its own marker on its exact map
@@ -2111,13 +2467,13 @@ internal sealed partial class ToolkitUi
                     bool placed=false;
                     for(int ring=0;ring<=3&&!placed;ring++)
                     {
-                        int[] vertical=ring==0?new[]{0}:new[]{-ring,ring};
-                        foreach(int offset in vertical)
+                        for(int zoneSide=0;zoneSide<(ring==0?1:2);zoneSide++)
                         {
-                            foreach(int horizontal in new[]{0,-1,1})
+                            int offset=ring==0?0:zoneSide==0?-ring:ring;
+                            foreach(int horizontal in ZoneLabelColumns)
                             {
                                 Rect label=new(Mathf.Clamp(at.x-145+horizontal*156,16,sw-306),at.y-24+offset*56,290,48);
-                                if(label.y<80||label.yMax>sh-100||overlayChrome.Any(r=>r.Overlaps(label))||hadCapsule&&capsuleBounds.Overlaps(label)||nativeChrome.Any(r=>r.Overlaps(label))||labelBoxes.Any(r=>r.Overlaps(label))||markerBoxes.Any(r=>r.Overlaps(label)))continue;
+                                if(label.y<80||label.yMax>sh-100||AnyOverlaps(overlayChrome,label)||hadCapsule&&capsuleBounds.Overlaps(label)||AnyOverlaps(nativeChrome,label)||AnyOverlaps(labelBoxes,label)||AnyOverlaps(markerBoxes,label))continue;
                                 L.Label(label,zone.Name,_zoneLabel);labelBoxes.Add(label);
                                 MapZoneLabelRects.Add(new Rect(label.x*_scale,label.y*_scale,label.width*_scale,label.height*_scale));
                                 placed=true;break;
@@ -2188,9 +2544,13 @@ internal sealed partial class ToolkitUi
     private string _confirmText;
     private int _confirmFont = -1;
     private float _confirmTextHeight;
+    // 0.8.5: the backdrop fades in and the dialog pops from 94 %; its buttons wait until it settles.
+    private object _confirmShown;private float _confirmSince=-10f;
     private void DrawConfirmation(float width, float height)
     {
-        Fill(new Rect(0, 0, width, height), new Color(0, 0, 0, 0.8f));
+        if(!ReferenceEquals(_confirmShown,_app.Pending)){_confirmShown=_app.Pending;_confirmSince=Time.unscaledTime;}
+        float since=Time.unscaledTime-_confirmSince;
+        Fill(new Rect(0, 0, width, height), new Color(0, 0, 0, 0.8f*UiMotionPolicy.Fade(since,UiMotionPolicy.DialogSeconds)));
         string description = _app.Pending.Description ?? "";
         if (!ReferenceEquals(description, _confirmText) || _confirmFont != _wrap.fontSize)
         {
@@ -2199,10 +2559,17 @@ internal sealed partial class ToolkitUi
         }
         float dialogHeight = Mathf.Clamp(_confirmTextHeight + 200, 360, Mathf.Max(360, height - 40));
         Rect dialog = new((width - 700) / 2, (height - dialogHeight) / 2, 700, dialogHeight);
+        float pop=UiMotionPolicy.DialogPop(since);
+        Matrix4x4 beforePop=GUI.matrix;bool wasBlocked=_bodyInteractionBlocked;
+        try
+        {
+        if(pop!=1f){GUIUtility.ScaleAroundPivot(new Vector2(pop,pop),dialog.center);_bodyInteractionBlocked=true;}
         L.Box(dialog, GUIContent.none, _card);
         L.Label(new Rect(dialog.x + 24, dialog.y + 20, dialog.width - 48, 58), _app.Pending.Title, _heading);
         L.Label(new Rect(dialog.x + 24, dialog.y + 90, dialog.width - 48, dialogHeight - 190), description, _wrap);
         if (Button(new Rect(dialog.x + 24, dialog.yMax - 74, 315, 48), "Подтвердить", _accentButton)) _app.AcceptConfirmation();
         if (Button(new Rect(dialog.x + 360, dialog.yMax - 74, 315, 48), "Отмена", _button)) _app.Pending = null;
+        }
+        finally{GUI.matrix=beforePop;_bodyInteractionBlocked=wasBlocked;}
     }
 }

@@ -20,6 +20,7 @@ internal sealed class GadgetTools
     }
     private readonly ToolkitMod _app;
     internal readonly List<Entry> Catalog = new();
+    internal int Version { get; private set; } // 0.8.5: bumped on every catalog rebuild (cached views)
     private IntPtr _session;
     private sealed class Placement
     {
@@ -113,7 +114,7 @@ internal sealed class GadgetTools
     }
     internal void RefreshCatalog()
     {
-        Catalog.Clear();
+        Catalog.Clear(); Version++;
         if (!_app.Ready || _app.Map.Busy) return;
         _session = _app.Session;
         var director = _app.Context.GadgetDirector;
@@ -141,6 +142,7 @@ internal sealed class GadgetTools
             if (Catalog.Count >= CarePolicy.MaxGadgets) break;
         }
         Catalog.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.CurrentCulture));
+        Version++;
         Status = (InfiniteBuilder ? "Известных гаджетов и декора: " : "Полученных чертежей: ") + Catalog.Count + (InfiniteBuilder
             ? " · бесконечный режим: экземпляры не тратятся"
             : " · размещаются только изготовленные экземпляры");
@@ -510,7 +512,7 @@ internal sealed class GadgetTools
     {
         if(_pending!=null)FinishPlacement(_pending);
         InfiniteBuildHooks.SetEnabled(false,_app); // Transient: never carried into another save.
-        Catalog.Clear(); Catalog.TrimExcess(); _session = IntPtr.Zero; Placed = 0;
+        Catalog.Clear(); Catalog.TrimExcess(); Version++; _session = IntPtr.Zero; Placed = 0;
         LastPlacementSucceeded=false;
         LastPlacementPoint=LastPlacementNormal=Vector3.zero;
         Status = "Каталог гаджетов ещё не открыт";

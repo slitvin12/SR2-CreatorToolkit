@@ -29,7 +29,7 @@ internal static class CoopRegression
         Check(P.Deny(CoopKind.HostWorld,CoopRole.Host,true)==null&&P.Deny(CoopKind.HostWorld,CoopRole.Host,false)!=null,"host clock/weather needs server cheats");
         Check(P.Classify("freeze time")==CoopKind.SoloOnly&&P.Classify("freeze mobs")==CoopKind.SoloOnly&&P.Classify("Ускорить симуляцию в 5 раз?")==CoopKind.SoloOnly,"freeze and simulation rate are solo-only");
         Check(P.Classify("weather")==CoopKind.HostWorld&&P.Classify("set hour")==CoopKind.HostWorld&&P.Classify("time +6")==CoopKind.HostWorld,"weather and clock belong to the host");
-        Check(P.Classify("spawn")==CoopKind.Cheat&&P.Classify("currency max")==CoopKind.Cheat&&P.Classify("teleport waypoint")==CoopKind.Cheat&&
+        Check(P.Classify("spawn")==CoopKind.Cheat&&P.Classify("currency max")==CoopKind.Cheat&&P.Classify("currency add")==CoopKind.Cheat&&P.Classify("teleport waypoint")==CoopKind.Cheat&&
             P.Classify("refill vitals")==CoopKind.Cheat&&P.Classify("Открыть весь атлас?")==CoopKind.Cheat&&P.Classify("Открыть все двери")==CoopKind.Cheat,"spawn, money, vitals, teleport and unlocks are cheats");
         Check(P.Classify("Разместить «Тест»?")==CoopKind.Cheat&&P.Known("Разместить «Тест»?"),"free gadget placement is a cheat");
         Check(P.Classify("cleanup owned")==CoopKind.Free&&P.Classify("SOS rescue")==CoopKind.Free&&P.Classify("safe transit return")==CoopKind.Free&&P.Classify("cancel safe transit")==CoopKind.Free,"cleanup and rescue stay available");
@@ -64,7 +64,7 @@ internal static class CoopRegression
         Check(mod.Contains("BindSession();Coop.Poll();"),"session role is polled every frame before the Ready gate");
         Check(mod.Contains("_readyTicks=new(string,Action)[]{(\"cooprules\",Coop.Enforce),"),"co-op rules are enforced first among ready ticks");
         Check(mod.Contains("Coop=newMultiplayerBridge(this);Player=newPlayerTools(this);"),"bridge exists before any tool");
-        Check(mod.Contains("[assembly:AssemblyMetadata(\"SR2ModManager.CompatibleWith\",\"SR2MP;Starlight;InfiniteHealth\")]"),"mod manager learns the shared hooks were checked with SR2MP, Starlight and Infinite Health");
+        Check(mod.Contains("[assembly:AssemblyMetadata(\"SR2ModManager.CompatibleWith\",\"SR2MP;Lycoreia;Starlight;InfiniteHealth\")]"),"mod manager learns the shared hooks were checked with SR2MP, Starlight and Infinite Health");
         Check(actors.Contains("_app.Coop?.AnnounceSpawn(go);")&&actors.Contains("_app.Coop?.AnnounceSpawn(actor.Object);"),"ordinary and radiant spawns are announced to SR2MP");
         int gordo=actors.IndexOf("if(_app.Coop?.InSession==true)thrownewInvalidOperationException(\"Кооп:Гордо",StringComparison.Ordinal);
         Check(gordo>=0&&gordo<actors.IndexOf("BeginGordoSpawn(entry);return;",StringComparison.Ordinal),"unsynchronised gordo snare is refused in co-op");
@@ -91,8 +91,8 @@ internal static class CoopRegression
             if(parent.Kind!=HandleKind.TypeReference||md.GetString(md.GetTypeReference((TypeReferenceHandle)parent).Name)!="AssemblyMetadataAttribute")continue;
             var blob=md.GetBlobReader(attr.Value);
             if(blob.ReadUInt16()!=1)continue;
-            if(blob.ReadSerializedString()=="SR2ModManager.CompatibleWith"&&blob.ReadSerializedString()=="SR2MP;Starlight;InfiniteHealth")metadata=true;
+            if(blob.ReadSerializedString()=="SR2ModManager.CompatibleWith"&&blob.ReadSerializedString()=="SR2MP;Lycoreia;Starlight;InfiniteHealth")metadata=true;
         }
-        Check(metadata,"release DLL carries SR2ModManager.CompatibleWith = SR2MP;Starlight;InfiniteHealth");
+        Check(metadata,"release DLL carries SR2ModManager.CompatibleWith = SR2MP;Lycoreia;Starlight;InfiniteHealth");
     }
 }
