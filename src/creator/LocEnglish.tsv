@@ -2119,3 +2119,50 @@ SOS и инфо-HUD — на сеанс · клавиши, FPS и графика
 Уменьшить нью-баксы?	Lower your newbucks?
 Обнулить нью-баксы?	Clear your newbucks?
 Баланс нью-баксов: 	Newbucks balance: 
+Выбрать место…	Pick a spot…
+1. Выберите вид Гордо.\n2. «Выбрать место…» — курсором, с поворотом,\nили «Разместить Гордо» — в 9 м перед собой.	1. Pick a Gordo species.\n2. «Pick a spot…» — with the cursor and a facing,\nor «Place Gordo» — 9 m ahead of you.
+Курсором с поворотом или в 9 м перед собой.	With the cursor and a facing, or 9 m ahead of you.
+Скорость симуляции	Simulation speed
+Ниже ×1 — замедление для кадров, выше — ускорение симуляции (спросит подтверждение). Это Unity TimeScale, не скрытая способность разработчиков; пауза игры всегда главнее.	Below ×1 — slow motion for shots, above — a faster simulation (asks for confirmation). This is Unity TimeScale, not a hidden developer ability; the game's pause always wins.
+Закрепить скорость	Pin the speed
+Не сбрасывается после Esc и паузы, карты, загрузки и смены сейва — возвращается сама. Запоминается между запусками.	Not reset by Esc and the pause, the map, loading or a save change — it comes back by itself. Remembered between launches.
+Плавная физика замедления	Smooth slow-motion physics
+Шаг физики уменьшается вместе со скоростью: слаймы, и из Classic Slimes тоже, движутся без рывков.	The physics step shrinks with the speed: slimes, Classic Slimes ones too, move without stutter.
+закреплено	pinned
+Разрешить ускорение симуляции?	Allow a faster simulation?
+Ускоряются физика и игровые события. Это не оптимизация FPS. Прогресс мира может сохраниться; тестируйте на копии сейва. Разрешение действует до смены сейва; пауза игры по-прежнему главнее.	Physics and game events speed up. This is not an FPS optimization. World progress may be saved; test on a copy of the save. The permission lasts until the save changes; the game's pause still wins.
+Скорость закреплена: вернётся сама после паузы, карты и загрузки	Speed pinned: it comes back by itself after the pause, the map and loading
+Скорость больше не закреплена	Speed is no longer pinned
+Плавная физика замедления включена	Smooth slow-motion physics on
+Плавная физика замедления выключена	Smooth slow-motion physics off
+Дождитесь автосохранения.	Wait for the autosave.
+Кооп: Гордо доступны только в одиночной игре.	Co-op: Gordos are available in single player only.
+Место для Гордо: ЛКМ — поставить, колесо или Q/E — поворот, ПКМ — назад.	Gordo spot: LMB — place, wheel or Q/E — rotate, RMB — back.
+Место и поворот: ЛКМ — поставить, колесо или Q/E — поворот, ПКМ — назад.	Spot and facing: LMB — place, wheel or Q/E — rotate, RMB — back.
+Выбор места прерван: мир изменился.	Spot picking interrupted: the world changed.
+Выбор места завершён.	Spot picking finished.
+Выбор места закрыт.	Spot picking closed.
+Каталог обновился; выберите объект заново.	The catalog changed; pick the object again.
+Мышь или камера недоступны	Mouse or camera unavailable
+Выбор места отменён.	Spot picking cancelled.
+Игрок ещё не готов	The player is not ready yet
+Курсор вне окна	The cursor is outside the window
+Гордо уже создаётся	A Gordo is already being created
+Наведите курсор на землю ближе 60 м	Point the cursor at ground within 60 m
+Слишком крутой склон для Гордо	Too steep for a Gordo
+Нет свободной устойчивой земли	No free stable ground here
+Другой Гордо ближе 8 м	Another Gordo is closer than 8 m
+Море слаймов и лава не подходят	The slime sea and lava are not suitable
+Мало места: сдвиньте курсор	Not enough room: move the cursor
+Место не подходит	This spot is not suitable
+Место для Гордо	Gordo spot
+Место и поворот	Spot and facing
+Можно поставить	Ready to place
+Наведите курсор на землю	Point the cursor at the ground
+ЛКМ — поставить · колесо или Q/E — поворот (Shift — точнее) · R — лицом к вам · ПКМ — назад · Esc — закрыть меню	LMB — place · wheel or Q/E — rotate (Shift — finer) · R — face you · RMB — back · Esc — close the menu
+Гордо размещается на нативной ловушке, отдельным действием.	A Gordo is placed on a native snare, as a separate action.
+Запись каталога устарела; выберите объект заново.	The catalog entry is stale; pick the object again.
+Невалидная точка размещения.	Invalid placement point.
+Невалидная точка размещения Гордо.	Invalid Gordo placement point.
+Выбранное место больше не подходит для Гордо; выберите другое.	The chosen spot no longer suits a Gordo; pick another.
+Выберите Гордо в каталоге.	Pick a Gordo in the catalog.

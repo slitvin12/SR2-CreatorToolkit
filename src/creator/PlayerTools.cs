@@ -183,10 +183,12 @@ internal sealed partial class PlayerTools
         if (_holdMotor != _motor)
         {
             ReleaseHoldController();
+            // 0.8.7: end native abilities (jump/jetpack) BEFORE the capture, as flight does since 0.8.3:
+            // their temporary motor/gravity overrides must never become the state restored on landing.
+            _controller.StopAbilitiesForTeleport();
             _holdController = _controller; _holdMotor = _motor;
             _holdMotorEnabled = _motor.enabled;
             _holdGravity = _controller._BypassGravity_k__BackingField;
-            _controller.StopAbilitiesForTeleport();
         }
         // Unlike NoClip this never disables capsule, movement or grounding
         // collisions. SceneLoader remains free to apply its native placement.
@@ -201,14 +203,14 @@ internal sealed partial class PlayerTools
         try
         {
             if (_holdMotor != null && !_holdMotor.WasCollected)
-            { _holdMotor.BaseVelocity = Vector3.zero; _holdMotor.enabled = _holdMotorEnabled; }
+            { _holdMotor.BaseVelocity = Vector3.zero; _holdMotor.enabled = _holdMotorEnabled || !Flight; } // 0.8.7: never leave the walking motor asleep
         }
         finally
         {
             try
             {
                 if (_holdController != null && !_holdController.WasCollected)
-                { _holdController._BypassGravity_k__BackingField = _holdGravity; _holdController.ResetVelocity(false); }
+                { _holdController._BypassGravity_k__BackingField = _holdGravity && Flight; _holdController.ResetVelocity(false); }
             }
             finally { _holdMotor = null; _holdController = null; }
         }
@@ -216,8 +218,9 @@ internal sealed partial class PlayerTools
 
     internal void EndTransitHold()
     {
+        bool held = _transitHold;
         try { ReleaseHoldController(); }
-        finally { _transitHold = false; }
+        finally { _transitHold = false; if (held) RefreshGroundingAfterTransit(); }
     }
 
     private void UpdateSpeed()
@@ -379,22 +382,33 @@ internal sealed partial class PlayerTools
 
     internal bool TryMapGround(Vector3 target, bool exactHeight, out Vector3 landing)
     {
-        landing=default;
-        if(_motor==null||_controller==null)return false;
         float ceiling=exactHeight?target.y+6f:Math.Max(900f,target.y+200f);
         float range=exactHeight?20f:1800f;
+        return TryColumnGround(target,ceiling,range,out landing);
+    }
+
+    // 0.8.7: one vertical column from ceiling down by range; placement mode probes just above the cursor point.
+    internal bool TryColumnGround(Vector3 target,float ceiling,float range,out Vector3 landing)
+    {
+        landing=default;
+        if(_motor==null||_controller==null||!float.IsFinite(target.x)||!float.IsFinite(target.z)||!float.IsFinite(ceiling)||!(range>0f))return false;
         var hits=Physics.RaycastAll(new Vector3(target.x,ceiling,target.z),Vector3.down,range,_motor.CollidableLayers,QueryTriggerInteraction.Ignore);
         float nearest=float.MaxValue;
-        for(int i=0;i<hits.Length;i++)
+        // 0.8.7: highest surface first, so the enclosure probe runs only for the plausible landing.
+        var order=new int[hits.Length];var distances=new float[hits.Length];
+        for(int i=0;i<order.Length;i++){order[i]=i;distances[i]=hits[i].distance;}
+        Array.Sort(distances,order);
+        for(int k=0;k<order.Length;k++)
         {
-            var hit=hits[i];var collider=hit.collider;
+            var hit=hits[order[k]];var collider=hit.collider;
             if(collider==null||hit.normal.y<.65f||hit.distance>=nearest||collider.transform.IsChildOf(_controller.transform))continue;
             string name=(collider.name+" "+collider.transform.parent?.name).ToLowerInvariant();
             if(name.Contains("water")||name.Contains("slimesea")||name.Contains("lava")||name.Contains("slime"))continue;
             if(collider.GetComponentInParent<IdentifiableActor>()!=null)continue;
             Vector3 candidate=hit.point+Vector3.up*.12f;
-            if(!ClearCapsule(candidate))continue;
-            nearest=hit.distance;landing=candidate;
+            // 0.8.7: a capsule inside a rock or trunk hull overlaps nothing: «clear» alone is no proof.
+            if(!ClearCapsule(candidate)||Enclosed(candidate))continue;
+            nearest=hit.distance;landing=candidate;break;
         }
         return nearest<float.MaxValue;
     }
@@ -473,7 +487,7 @@ internal sealed partial class PlayerTools
         }
     }
 
-    internal bool IsClearPosition(Vector3 feet) => float.IsFinite(feet.x)&&float.IsFinite(feet.y)&&float.IsFinite(feet.z)&&ClearCapsule(feet);
+    internal bool IsClearPosition(Vector3 feet) => float.IsFinite(feet.x)&&float.IsFinite(feet.y)&&float.IsFinite(feet.z)&&ClearCapsule(feet)&&!Enclosed(feet);
 
     private void StopFlight()
     {
@@ -489,7 +503,7 @@ internal sealed partial class PlayerTools
                     Vector3 here = _motor.TransientPosition;
                     // 0.8.2: switched off inside rock: the nearest walkable surface of this very column
                     // (no rubber-banding back to where NoClip entered the terrain), then the last clear spot.
-                    if (!ClearCapsule(here))
+                    if (!ClearCapsule(here) || Enclosed(here))
                         _motor.SetPosition(TryMapGround(here, true, out var surface) || TryMapGround(here, false, out surface) ? surface : _lastSafe, true);
                     _motor.BaseVelocity = Vector3.zero;
                 }

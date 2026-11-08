@@ -35,6 +35,10 @@ internal sealed class M25ScalarLease<T> where T:IEquatable<T>
     internal bool Owned {get;private set;} internal bool Conflict {get;private set;}
     internal M25ScalarLease(Func<T> read,Action<T> write,T target)
     {_read=read;_write=write;Before=read();Expected=target;Owned=!Before.Equals(target);}
+    // 0.8.7: re-own a value that is already current (written back by a save/restore writer),
+    // remembering the ordinary value it returns to on Restore.
+    internal M25ScalarLease(Func<T> read,Action<T> write,T before,T target)
+    {_read=read;_write=write;Before=before;Expected=target;Owned=!before.Equals(target);}
     internal void Apply(){if(!Owned)return;_write(Expected);if(!_read().Equals(Expected))throw new InvalidOperationException("Runtime scalar readback mismatch");}
     internal void Restore(){if(!Owned)return;T current=_read();if(current.Equals(Expected)){_write(Before);if(!_read().Equals(Before))throw new InvalidOperationException("Runtime restore readback mismatch");}else if(!current.Equals(Before))Conflict=true;Owned=false;}
 }

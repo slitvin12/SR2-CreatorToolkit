@@ -1051,6 +1051,7 @@ internal sealed partial class ToolkitUi
     internal long DrawAllocatedBytesForTest,DrawMeasuredCallsForTest,PlayerPageAllocatedBytesForTest,PlayerPageMeasuredCallsForTest;
     internal void Draw()
     {
+        if(_app.Placement?.Showing==true){DrawPlacement();return;} // 0.8.7: the panel steps aside for «Выбрать место…»
         long bytes=GC.GetAllocatedBytesForCurrentThread();
         try{DrawMeasured();}
         finally{DrawAllocatedBytesForTest+=GC.GetAllocatedBytesForCurrentThread()-bytes;DrawMeasuredCallsForTest++;}
@@ -1737,12 +1738,20 @@ internal sealed partial class ToolkitUi
             bool gordo=_selected?.Category=="Гордо";
             if(gordo)
             {
-                L.Label(new Rect(x+18,top+170,rightW-36,112),DetailedHelp?"1. Выберите вид Гордо.\n2. Наведите камеру на свободную землю в 9 м перед собой.\n3. Нажмите «Разместить Гордо».":"Наведите камеру на свободную землю в 9 м перед собой.",_atlasDetail);
-                Hint(new Rect(x+18,top+284,rightW-36,38),"Один Гордо на нативной ловушке",_small);
+                // 0.8.7: «Выбрать место…» — the cursor picks the spot and the facing; the main button keeps «9 м перед собой».
+                bool placeEnabled=GUI.enabled;GUI.enabled=placeEnabled&&_selected?.CanSpawn==true&&!_app.Actors.GordoSpawnPending;
+                if(Button(new Rect(x+18,top+168,rightW-36,40),"Выбрать место…",_violetButton))BeginPlacement(_selected,1);
+                GUI.enabled=placeEnabled;
+                L.Label(new Rect(x+18,top+214,rightW-36,70),DetailedHelp?"1. Выберите вид Гордо.\n2. «Выбрать место…» — курсором, с поворотом,\nили «Разместить Гордо» — в 9 м перед собой.":"Курсором с поворотом или в 9 м перед собой.",_atlasDetail);
+                Hint(new Rect(x+18,top+290,rightW-36,32),"Один Гордо на нативной ловушке",_small);
             }
             else
             {
-                L.Label(new Rect(x+18,top+174,rightW-36,28),"Количество · "+_quantity,_label);
+                L.Label(new Rect(x+18,top+174,rightW-36-150,28),"Количество · "+_quantity,_label);
+                // 0.8.7: placement mode — the cursor picks the spot, the wheel or Q/E the facing.
+                bool placeEnabled=GUI.enabled;GUI.enabled=placeEnabled&&_selected?.CanSpawn==true;
+                if(Button(new Rect(x+rightW-18-146,top+168,146,38),"Выбрать место…",_violetButton))BeginPlacement(_selected,_quantity);
+                GUI.enabled=placeEnabled;
                 _quantity=SafetyPolicy.SpawnCount(Mathf.RoundToInt(Slider(2,new Rect(x+18,top+215,rightW-36,30),_quantity,1,25)));
                 int[] counts={1,5,10,25};float width=(rightW-36-18)/4;
                 for(int i=0;i<counts.Length;i++)if(Button(new Rect(x+18+i*(width+6),top+258,width,40),counts[i].ToString(),_quantity==counts[i]?_selectedButton:_button))_quantity=counts[i];

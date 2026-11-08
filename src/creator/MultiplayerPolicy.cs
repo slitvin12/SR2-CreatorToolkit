@@ -25,6 +25,7 @@ internal static class MultiplayerPolicy
     private static readonly HashSet<string> SoloOnly = new(StringComparer.Ordinal)
     {
         "freeze time", "freeze mobs", "cinematic time rate", "m26 acceptance time rate", "Ускорить симуляцию в 5 раз?",
+        "cinematic time pin", "cinematic smooth step", "Разрешить ускорение симуляции?",
     };
     private static readonly HashSet<string> HostWorld = new(StringComparer.Ordinal)
     {

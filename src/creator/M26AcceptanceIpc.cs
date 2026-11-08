@@ -39,7 +39,7 @@ internal static class M26AcceptanceIpc
 {
     private static readonly Dictionary<string,string> Titles=new()
     {
-        ["rate5"]="Ускорить симуляцию в 5 раз?",
+        ["rate5"]="Разрешить ускорение симуляции?",
         ["refinery-add"]="Добавить ресурсы Преобразователя?",
         ["refinery-fill"]="Заполнить Преобразователь?",
     };

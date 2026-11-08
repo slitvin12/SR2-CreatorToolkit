@@ -171,6 +171,7 @@ internal sealed class MultiplayerBridge
         "infinite builder" => _app.Gadgets?.InfiniteBuilder == true,
         "auto refill request" => _app.Convenience?.Refilling == true,
         "cinematic time rate" or "m26 acceptance time rate" => _app.CinematicRate?.Active == true,
+        "cinematic time pin" => _app.CinematicRate?.Pinned == true,
         _ => false,
     };
 

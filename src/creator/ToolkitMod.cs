@@ -10,13 +10,13 @@ using MelonLoader.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "Creator Toolkit", "0.8.6", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
+[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "Creator Toolkit", "0.8.7", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: MelonGame("MonomiPark", "SlimeRancher2")]
-[assembly: AssemblyVersion("0.8.6.0")]
-[assembly: AssemblyFileVersion("0.8.6.0")]
+[assembly: AssemblyVersion("0.8.7.0")]
+[assembly: AssemblyFileVersion("0.8.7.0")]
 // Starlight mod menu (StarlightPackageManager): description, links and the embedded CreatorToolkit.icon.png.
 [assembly: AssemblyDescription("Creator & quality-of-life toolkit: player cheats, spawning, atlas with markers, minimap, camera tools, FPS counter and graphics optimization. Open the menu with Insert.\nНабор создателя: читы игрока, спавн, атлас и метки, миникарта, камера, счётчик FPS и оптимизация графики. Меню — клавиша Insert.")]
-[assembly: AssemblyMetadata("display_version", "0.8.6")]
+[assembly: AssemblyMetadata("display_version", "0.8.7")]
 [assembly: AssemblyMetadata("source_code", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 // SR2 Mod Manager: hooks shared with these mods were checked together (co-op via Ranching Together).
 [assembly: AssemblyMetadata("SR2ModManager.CompatibleWith", "SR2MP;Lycoreia;Starlight;InfiniteHealth")]
@@ -29,7 +29,7 @@ namespace CreatorToolkit;
 public sealed class ToolkitMod : MelonMod
 {
     internal static ToolkitMod I;
-    internal const string Version = "0.8.6";
+    internal const string Version = "0.8.7";
     internal readonly InputCapture Input = new();
     internal PlayerTools Player;
     internal MultiplayerBridge Coop; // Ranching Together (SR2MP) / Lycoreia co-op rules; inert without the mod.
@@ -39,6 +39,7 @@ public sealed class ToolkitMod : MelonMod
     internal CinemaTools Cinema;
     internal RefineryTools Refinery;
     internal CinematicRateTools CinematicRate;
+    internal SpawnPlacementTools Placement;
     internal MapTools Map;
     internal ConvenienceTools Convenience;
     internal CustomWaypointTools Custom;
@@ -147,6 +148,7 @@ public sealed class ToolkitMod : MelonMod
         Cinema = new CinemaTools(this);
         Refinery = new RefineryTools(this);
         CinematicRate = new CinematicRateTools(this);
+        Placement = new SpawnPlacementTools(this);
         Map = new MapTools(this);
         Convenience = new ConvenienceTools(this);
         Custom = new CustomWaypointTools(this);
@@ -187,7 +189,7 @@ public sealed class ToolkitMod : MelonMod
             ("map unlock",Unlocks.Tick),("cinema",Cinema.Tick),("conveniences",Convenience.Tick),("actors",Actors.Tick),
             ("custom waypoints",Custom.Tick),("zone radar",Radar.Tick),("corral assistant",Farm.Tick),("slime care",Care.Tick),
             ("gadget placement",Gadgets.Tick),("native phenomena",Phenomena.Tick),("graphics optimization",Optimization.Tick),
-            ("corral autofeed",AutoFeed.Tick),("compass markers",Compass.Tick)};
+            ("corral autofeed",AutoFeed.Tick),("compass markers",Compass.Tick),("spawn placement",Placement.Tick)};
         _alwaysTicks=new (string,Action)[]{("cinematic rate",CinematicRate.Tick),("navigation settings",Navigation.Tick),("atlas",Map.Tick),("minimap terrain",MiniMapTerrain.Tick),("selftest",Tests.Tick),("native atlas probe",MapProbe.Tick),
             ("native UI probe",UiProbe.Tick),("M15 slider probe",SliderProbe.Tick),("functional suite",Audit.Tick),("hook coexistence",HookCoexistence.Tick),("mod interop",ModInterop.Tick),("starlight bridge",StarlightBridge.Tick)};
         _m30Ticks=new (string,Action)[]{("capture",Capture.Tick),("save names",SaveNames.Tick),("ui language",Loc.Tick),("icon export",IconExport.Tick)}; // every frame, main menu too
@@ -323,6 +325,7 @@ public sealed class ToolkitMod : MelonMod
         else if (!StarlightBridge.MenuOpen) // a Starlight menu on screen: our overlays step aside
         {
             try { _ui.DrawTransitStatus();_ui.DrawSessionHud();_ui.DrawExplorerHud();_ui.DrawMiniMap();_ui.DrawMapOverlay();Audit?.DrawNativeFontSwatch(); } catch(Exception e) { Fail("HUD / map overlay",e); }
+            try { _ui.DrawTimeRateBadge(); } catch(Exception e) { Fail("time rate badge",e); }
         }
         // One FPS counter on top of everything, with or without the menu (0.8.3: was three copies).
         try { _ui.DrawFpsCounter(); } catch(Exception e) { Fail("FPS counter",e); }
@@ -400,6 +403,7 @@ public sealed class ToolkitMod : MelonMod
         UiProbe?.Cancel();SliderProbe?.Cancel();M19GraphicsUiProbe.Cancel();
         MapProbe?.Cancel();
         SafeTick("restore cinematic rate",()=>CinematicRate?.Reset());
+        SafeTick("cancel spawn placement",()=>Placement?.Reset());
         SafeTick("reset refinery catalog",()=>Refinery?.Reset());
         SafeTick("restore graphics optimization",()=>Optimization?.Reset());
         SafeTick("restore corral assistant",()=>Farm?.Reset());

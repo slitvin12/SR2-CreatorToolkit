@@ -34,7 +34,7 @@ internal sealed partial class PlayerTools
             throw new InvalidOperationException("Точка на другом острове. Используйте безопасный переход через карту.");
         if(!TryMapGround(_checkpointPosition,true,out var ground)||!IsClearPosition(ground))
             throw new InvalidOperationException("Место точки занято или земля больше не подтверждена.");
-        PlaceForMap(ground);_app.Notify("Возврат к временной точке.");
+        PlaceForMap(ground);RefreshGroundingAfterTransit();_app.Notify("Возврат к временной точке.");
     }
     private void ClearCheckpoint()
     {

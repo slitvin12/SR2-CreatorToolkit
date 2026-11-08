@@ -325,7 +325,7 @@ internal sealed class ActorTools
 
     // Batch is committed to ownership only after every native variant verifies.
     // On failure roll back the in-flight actor AND earlier actors in this batch.
-    private void SpawnRadiant(Entry entry,SceneContext ctx,TeleportablePlayer player,Camera cam,int count,Vector3 origin)
+    private void SpawnRadiant(Entry entry,SceneContext ctx,TeleportablePlayer player,Camera cam,int count,Vector3 origin,Vector3[] placed=null,float yaw=0f)
     {
         if(ctx.GameModel==null)throw new InvalidOperationException("Игровая модель недоступна.");
         var pending=new List<(ActorModel Model,GameObject Object)>();
@@ -336,8 +336,9 @@ internal sealed class ActorTools
             for(int i=0;i<count;i++)
             {
                 var definition=RequireRadiantEntry(entry); // Revalidate before each mutation.
-                Vector3 offset=count==1?Vector3.zero:cam.transform.right*((i%5-2)*0.28f)+Vector3.up*(i/5*0.22f);
-                currentModel=ctx.GameModel.InstantiateActorModel(definition,player.SceneGroup,origin+offset,Quaternion.identity);
+                // 0.8.7: placement mode hands exact points and one facing; the camera row stays the default.
+                Vector3 offset=placed!=null?placed[i]-origin:count==1?Vector3.zero:cam.transform.right*((i%5-2)*0.28f)+Vector3.up*(i/5*0.22f);
+                currentModel=ctx.GameModel.InstantiateActorModel(definition,player.SceneGroup,origin+offset,placed!=null?Quaternion.Euler(0f,yaw,0f):Quaternion.identity);
                 if(currentModel==null)throw new InvalidOperationException("Не удалось создать лучистый ActorModel.");
                 currentObject=currentModel.GetGameObject()??InstantiationHelpers.InstantiateActorFromModel(currentModel);
                 if(currentObject==null)throw new InvalidOperationException("Не удалось создать лучистый актор.");
@@ -465,7 +466,10 @@ internal sealed class ActorTools
 
     // Gordo is NOT an ActorModel. The native SnareModel owns its persistence,
     // feeding participants and exact species. One deferred transaction per request.
-    private void BeginGordoSpawn(Entry entry)
+    private void BeginGordoSpawn(Entry entry)=>BeginGordoSpawn(entry,null,0f);
+    // 0.8.7: chosen = the ground picked in placement mode (re-measured here); otherwise, as before,
+    // the first clear ground 9 m ahead of the camera. yaw turns the native snare.
+    private void BeginGordoSpawn(Entry entry,Vector3? chosen,float yaw)
     {
         if(_gordoJob!=null)throw new InvalidOperationException("Гордо уже создаётся. Дождитесь завершения.");
         if(!_app.Ready||_app.Map.Busy||!Catalog.Contains(entry)||!entry.CanSpawn||!IsGordo(entry.Type))
@@ -477,15 +481,25 @@ internal sealed class ActorTools
         {var d=type?.TryCast<GadgetDefinition>();if(d?.prefab!=null&&d.prefab.GetComponentInChildren<GordoSnare>(true)!=null)
          {if(snareType==null||string.CompareOrdinal(d.ReferenceId,snareType.ReferenceId)<0)snareType=d;}}
         if(snareType==null)throw new InvalidOperationException("Нативный тип ловушки Гордо не найден.");
-        Vector3 forward=Vector3.ProjectOnPlane(cam.transform.forward,Vector3.up).normalized;
-        Vector3 target=player.transform.position+forward*9f;
-        if(!_app.Player.TryMapGround(target,false,out var ground))throw new InvalidOperationException("Перед игроком нет подтверждённой земли для Гордо.");
+        Vector3 ground;
+        if(chosen.HasValue)
+        {
+            Vector3 point=chosen.Value;
+            if(!_app.Player.TryColumnGround(point,point.y+1.5f,4f,out ground)||Vector3.Distance(ground,point)>.75f)
+                throw new InvalidOperationException("Выбранное место больше не подходит для Гордо; выберите другое.");
+        }
+        else
+        {
+            Vector3 forward=Vector3.ProjectOnPlane(cam.transform.forward,Vector3.up).normalized;
+            Vector3 target=player.transform.position+forward*9f;
+            if(!_app.Player.TryMapGround(target,false,out ground))throw new InvalidOperationException("Перед игроком нет подтверждённой земли для Гордо.");
+        }
         foreach(var other in UnityEngine.Object.FindObjectsOfType<GordoEat>())
             if(other!=null&&Vector3.Distance(other.transform.position,ground)<8f)throw new InvalidOperationException("Другой Гордо слишком близко; выберите свободное место.");
         GameObject go=null;GadgetModel model=null;
         try
         {
-            _app.Context.GameModel.InstantiateGadget(snareType,player.SceneGroup,ground,Quaternion.identity,false,out go,out model);
+            _app.Context.GameModel.InstantiateGadget(snareType,player.SceneGroup,ground,chosen.HasValue?Quaternion.Euler(0f,yaw,0f):Quaternion.identity,false,out go,out model);
             if(go==null||model?.TryCast<SnareModel>()==null||go.GetComponentInChildren<GordoSnare>(true)==null)
                 throw new InvalidOperationException("Нативная ловушка не создала SnareModel.");
             _gordoJob=new GordoJob{Entry=entry,Snare=go,Model=model,Session=_app.Session,Frame=Time.frameCount,Deadline=Time.unscaledTime+8f};
@@ -515,6 +529,79 @@ internal sealed class ActorTools
             {try{Destroyer.DestroyGadget(job.Snare,"CreatorToolkit Gordo transaction rollback");}catch(Exception cleanup){_ownedGordoSnares.Add(job.Snare);_app.Fail("Gordo rollback",cleanup);}}
             _app.Fail("Gordo spawn",e);
         }
+    }
+
+    // 0.8.7 placement mode (SpawnPlacementTools): the refusals of Spawn, checked before the preview.
+    internal static bool IsGordoEntry(Entry entry)=>entry?.Type!=null&&IsGordo(entry.Type);
+    internal void RequireSpawnable(Entry entry)
+    {
+        if(entry?.IsRadiant==true&&!entry.CanSpawn)
+            throw new InvalidOperationException((entry.UnavailableReason??"Нативный лучистый тип недоступен.")+" Создание отключено.");
+        if(entry==null||entry.Type==null)throw new InvalidOperationException("Выберите объект в каталоге.");
+        if(!entry.CanSpawn)throw new InvalidOperationException(entry.UnavailableReason+" Создание отключено для защиты сейва.");
+        if(IsGordo(entry.Type))throw new InvalidOperationException("Гордо размещается на нативной ловушке, отдельным действием.");
+        if(entry.IsRadiant)RequireRadiantEntry(entry);
+        if(entry.Type.TryCast<GadgetDefinition>()!=null)
+            throw new InvalidOperationException("Декорации требуют штатного размещения GadgetModel и не поддерживаются акторным спавнером.");
+        if(NeedsDroneModel(entry.Type))
+            throw new InvalidOperationException("Дрон требует своей модели и станции; этот каталог создаёт слаймов, еду, плорты и ресурсы.");
+        if(!MatchesPrefabIdentity(entry.Type))
+            throw new InvalidOperationException("Тип префаба отличается от записи каталога. Выберите основную запись этого предмета.");
+        if(entry.Type.IsPlayer||entry.Type.IsSceneObject||entry.Type.prefab==null)
+            throw new InvalidOperationException("Этот тип привязан к нативной сцене и не является свободно создаваемым актором.");
+    }
+
+    // Exact points and one facing from placement mode; ownership, cleanup groups, prototypes and the
+    // co-op announcement exactly as Spawn.
+    internal void SpawnPlaced(Entry entry,Vector3[] positions,float yaw)
+    {
+        RequireSpawnable(entry);
+        if(!Catalog.Contains(entry))throw new InvalidOperationException("Запись каталога устарела; выберите объект заново.");
+        if(positions==null||positions.Length==0||positions.Length!=SafetyPolicy.SpawnCount(positions.Length)||!float.IsFinite(yaw))
+            throw new InvalidOperationException("Невалидная точка размещения.");
+        foreach(var p in positions)
+            if(!float.IsFinite(p.x)||!float.IsFinite(p.y)||!float.IsFinite(p.z))throw new InvalidOperationException("Невалидная точка размещения.");
+        SceneContext ctx=_app.Context;
+        if(ctx==null||ctx.GameModel==null)throw new InvalidOperationException("Игровая модель недоступна.");
+        TeleportablePlayer player=ctx.Player.GetComponentInChildren<TeleportablePlayer>(true);
+        if(player==null||player.SceneGroup==null)throw new InvalidOperationException("Группа сцены игрока недоступна.");
+        int count=positions.Length;
+        if(entry.IsRadiant){SpawnRadiant(entry,ctx,player,null,count,positions[0],positions,yaw);return;}
+        Quaternion rotation=Quaternion.Euler(0f,yaw,0f);
+        int created=0;
+        var spawnGroup=new SpawnGroup{Reference=entry.Reference,Key=EntryKey(entry)};_groups.Add(spawnGroup);
+        for(int i=0;i<count;i++)
+        {
+            var model=ctx.GameModel.InstantiateActorModel(entry.Type,player.SceneGroup,positions[i],rotation);
+            if(model==null)throw new InvalidOperationException("Не удалось создать ActorModel: "+entry.Name);
+            GameObject go;
+            try
+            {
+                go=model.GetGameObject()??InstantiationHelpers.InstantiateActorFromModel(model);
+                if(go==null)throw new InvalidOperationException("Не удалось создать актор: "+entry.Name);
+            }
+            catch
+            {
+                ctx.GameModel.DestroyIdentifiableModel(model);
+                throw;
+            }
+            _owned.Add(go);spawnGroup.Objects.Add(go);
+            if(entry.IsPrototype)_prototypes.Apply(go,entry.Prototype);
+            _app.Coop?.AnnounceSpawn(go);
+            created++;
+        }
+        _app.Notify("Создано: "+entry.Name+" × "+created+" · "+Mathf.RoundToInt(Mathf.Repeat(yaw,360f))+"°. Только эти объекты доступны для очистки."+
+            (entry.IsPrototype&&_app.Coop?.InSession==true?" Настройки прототипа видны только вам.":""));
+    }
+
+    internal void SpawnGordoAt(Entry entry,Vector3 ground,float yaw)
+    {
+        if(entry==null||entry.Type==null||!IsGordo(entry.Type))throw new InvalidOperationException("Выберите Гордо в каталоге.");
+        if(!entry.CanSpawn)throw new InvalidOperationException(entry.UnavailableReason+" Создание отключено для защиты сейва.");
+        if(_app.Coop?.InSession==true)throw new InvalidOperationException("Кооп: Гордо создаются через нативную ловушку, которую "+MultiplayerPolicy.ModName+" не синхронизирует. Доступно в одиночной игре.");
+        if(!float.IsFinite(ground.x)||!float.IsFinite(ground.y)||!float.IsFinite(ground.z)||!float.IsFinite(yaw))
+            throw new InvalidOperationException("Невалидная точка размещения Гордо.");
+        BeginGordoSpawn(entry,ground,yaw);
     }
 
     internal void Cleanup()

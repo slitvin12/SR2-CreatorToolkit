@@ -17,15 +17,21 @@ internal static class M26Regression
         foreach(float h in new[]{0f,82,246,280,10000})C(M26ListPolicy.Extent(h)==h+16,"all list extents retain bottom gutter "+h);
         C(M26ListPolicy.Extent(float.NaN)==16&&M26ListPolicy.Extent(-1)==16,"invalid extent does not leak NaN");
         foreach(float width in new[]{800,1000,1100,1280}){float w=M26ListPolicy.CareButtonWidth(width);C(Math.Abs(3*w+24-width)<.001f,"three equal buttons fit logical width "+width);}
-        foreach(float rate in new[]{.25f,1,5})C(M26RatePolicy.Allowed(rate),"explicit time rate allowed "+rate);
-        foreach(float bad in new[]{0f,-1,2,float.NaN,float.PositiveInfinity})C(!M26RatePolicy.Allowed(bad),"invalid time rate denied "+bad);
+        foreach(float rate in new[]{.05f,.1f,.25f,.5f,1,2,5})C(M26RatePolicy.Allowed(rate),"slider time rate allowed "+rate);
+        foreach(float bad in new[]{0f,-1,.01f,5.5f,float.NaN,float.PositiveInfinity})C(!M26RatePolicy.Allowed(bad),"invalid time rate denied "+bad);
+        C(M26RatePolicy.Snap(.97f)==1f&&M26RatePolicy.Snap(1.02f)==1f&&M26RatePolicy.Snap(.333f)==.33f&&M26RatePolicy.Snap(2.37f)==2.35f&&M26RatePolicy.Snap(0)==M26RatePolicy.MinRate&&M26RatePolicy.Snap(9)==M26RatePolicy.MaxRate&&M26RatePolicy.Snap(float.NaN)==1f,"0.8.7 slider rate snaps to hundredths / 0.05 steps, x1 is sticky, out of range clamps");
+        foreach(float slid in new[]{.05f,.1f,.25f,1,2.5f,5}){float back=M26RatePolicy.FromSlider(M26RatePolicy.ToSlider(slid));C(Math.Abs(back-slid)<slid*.001f,"0.8.7 log slider round-trips "+slid);}
+        C(M26RatePolicy.ToSlider(M26RatePolicy.MinRate)<.0001f&&M26RatePolicy.ToSlider(M26RatePolicy.MaxRate)>.9999f&&M26RatePolicy.ToSlider(1)>.6f&&M26RatePolicy.ToSlider(1)<.7f,"0.8.7 slow motion gets most of the slider travel");
+        C(Math.Abs(M26RatePolicy.FixedStep(.02f,.25f)-.005f)<1e-6f&&Math.Abs(M26RatePolicy.FixedStep(.02f,.05f)-.001f)<1e-6f&&M26RatePolicy.FixedStep(.02f,1)==.02f&&M26RatePolicy.FixedStep(.02f,5)==.02f&&M26RatePolicy.FixedStep(.02f,float.NaN)==.02f,"0.8.7 slow motion shortens the physics step by the same factor, acceleration keeps the native one");
+        C(M26RatePolicy.Label(.25f)=="0.25"&&M26RatePolicy.Label(1)=="1"&&M26RatePolicy.Label(2.35f)=="2.35","0.8.7 rate label is culture-invariant");
+        float adopted=.25f;var adopt=new M25ScalarLease<float>(()=>adopted,v=>adopted=v,1f,.25f);adopt.Apply();adopt.Restore();C(adopted==1&&!adopt.Conflict,"0.8.7 a rate written back by another writer is re-owned and released to x1");
         float value=1;var lease=new M25ScalarLease<float>(()=>value,v=>value=v,.25f);lease.Apply();lease.Restore();C(value==1,"slow-motion restores ordinary tempo");
         lease=new M25ScalarLease<float>(()=>value,v=>value=v,5);lease.Apply();value=0;lease.Restore();C(value==0&&lease.Conflict,"native pause is never overridden on reset");
         C(M26RatePolicy.ShouldRepairSavedScale(0,.25f,true,.25f)&&M26RatePolicy.ShouldRepairSavedScale(0,5,true,5),"pause that remembered our rate is repaired");
         C(!M26RatePolicy.ShouldRepairSavedScale(0,.25f,false,.25f),"no repair without a native pause");
         C(!M26RatePolicy.ShouldRepairSavedScale(0,.25f,true,1)&&!M26RatePolicy.ShouldRepairSavedScale(0,5,true,.25f),"foreign remembered scale is never replaced");
         C(!M26RatePolicy.ShouldRepairSavedScale(.25f,.25f,true,.25f),"no repair while our rate is still current");
-        C(!M26RatePolicy.ShouldRepairSavedScale(0,1,true,1)&&!M26RatePolicy.ShouldRepairSavedScale(0,2,true,2),"ordinary or invalid rate never repairs");
+        C(!M26RatePolicy.ShouldRepairSavedScale(0,1,true,1)&&!M26RatePolicy.ShouldRepairSavedScale(0,7,true,7),"ordinary or invalid rate never repairs");
         C(!M26RatePolicy.ShouldRepairSavedScale(0,.25f,true,float.NaN)&&!M26RatePolicy.ShouldRepairSavedScale(0,.25f,true,float.PositiveInfinity),"non-finite remembered scale ignored");
         foreach(float rate in new[]{.25f,5f})foreach(bool repair in new[]{false,true})
         {
@@ -43,7 +49,7 @@ internal static class M26Regression
         C(refinery.Contains("GetAllMembers()")&&refinery.Contains("RefineryTypeGroup.IsMember")&&refinery.Contains("InfiniteBuildHooks.RealCounts()"),"native refinery membership and real counts, never catalog guesses");
         C(refinery.Contains("_app.Confirm(")&&refinery.Contains("expected!=_app.Session")&&refinery.Contains("item.Add,false")&&refinery.Contains("after!=item.Before+item.Add"),"refinery confirmation/session/overflow/readback wired");
         C(!refinery.Contains(".SetCount(")&&!refinery.Contains("WriteAllBytes")&&!refinery.Contains("SaveGame("),"refinery does not overwrite dictionaries or save files");
-        C(rateTool.Contains("NativeUiPriority.HasNativeFocus")&&rateTool.Contains("_app.Benchmark.Active")&&!rateTool.Contains("Time.fixedDeltaTime="),"time tool rejects native focus and FPS measurement without changing physics timestep");
+        C(rateTool.Contains("NativeUiPriority.HasNativeFocus")&&rateTool.Contains("_app.Benchmark.Active")&&rateTool.Contains("v=>Time.fixedDeltaTime=v")&&rateTool.Contains("_fixedLease?.Restore()")&&rateTool.Contains("if(!SmoothPhysics||rate>=1f)return;"),"time tool rejects native focus and FPS measurement; the physics step changes only for slow motion, under its own restored lease");
         C(rateTool.Contains("RepairNativePauseMemory();_lease?.Restore()")&&rateTool.Contains("director._savedTimeScale=_lease.Before")&&!rateTool.Contains("Unpause(")&&!rateTool.Contains("Time.timeScale=1"),"reset repairs remembered native pause scale before releasing, never unpauses");
         C(ui.Contains("contentHeight=M26ListPolicy.Extent(contentHeight)")&&care.Contains("float careButtonWidth=")&&care.Contains("careRow-16"),"global bottom padding, equal care header and measured rows wired");
         C(R("ToolkitMod.cs").Contains("_alwaysTicks=new (string,Action)[]{(\"cinematic rate\",CinematicRate.Tick)")&&rateTool.Contains("if(!_app.Ready||"),"time cleanup runs even when loading clears Ready");
