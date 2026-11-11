@@ -8,12 +8,12 @@ using MelonLoader.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "SlimeMap", "1.0.0", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
+[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "SlimeMap", "1.0.1", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: MelonGame("MonomiPark", "SlimeRancher2")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.1.0")]
+[assembly: AssemblyFileVersion("1.0.1.0")]
 [assembly: AssemblyDescription("Standalone minimap with all atlas markers, terrain, player marker and navigation settings. Open settings with F7.\nОтдельная миникарта со всеми метками атласа, рельефом, маркером игрока и настройками навигации. Настройки — клавиша F7.")]
-[assembly: AssemblyMetadata("display_version", "1.0.0")]
+[assembly: AssemblyMetadata("display_version", "1.0.1")]
 [assembly: AssemblyMetadata("source_code", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: AssemblyMetadata("SR2ModManager.CompatibleWith", "SR2MP;Lycoreia;Starlight;CreatorToolkit")]
 [assembly: AssemblyMetadata("SR2ModManager.HookPolicy", "cooperative")]
@@ -27,7 +27,7 @@ namespace CreatorToolkit;
 public sealed class ToolkitMod : MelonMod
 {
     internal static ToolkitMod I;
-    internal const string Version = "1.0.0";
+    internal const string Version = "1.0.1";
     internal readonly InputCapture Input = new();
     internal PlayerTools Player;
     internal MultiplayerBridge Coop;
@@ -171,6 +171,8 @@ public sealed class ToolkitMod : MelonMod
         ModProfiler = new M20ModProfiler(this);
         _readyTicks = new (string, Action)[]
         {
+            // Player.Tick binds the controller (cheats stay off); terrain and waypoints read Player.Controller.Motor.
+            ("player", Player.Tick),
             ("custom waypoints", Custom.Tick), ("zone radar", Radar.Tick),
             ("compass markers", Compass.Tick),
         };

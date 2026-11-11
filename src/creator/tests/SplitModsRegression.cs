@@ -51,5 +51,15 @@ internal static class SplitModsRegression
         Check(mapHost.Contains("[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), \"SlimeMap\"")&&mapHost.Contains("DrawMiniMap()"),"SlimeMap host is named SlimeMap and draws the minimap");
         string fpsHost=File.ReadAllText(Path.Combine(root,"src","slimefps","SlimeFpsHost.cs"));
         Check(fpsHost.Contains("[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), \"SlimeFPS\"")&&fpsHost.Contains("DrawFpsCounter()"),"SlimeFPS host is named SlimeFPS and draws the FPS counter");
+
+        // 1.0.1: terrain compositing and waypoint beacons read Player.Controller, which only
+        // Player.Tick binds; the settings window must fit its rows and keep slider ids in range.
+        Check(Compact(mapHost).Contains("(\"player\",Player.Tick),"),"SlimeMap ticks Player.Tick so the terrain gets a controller");
+        string mapUi=File.ReadAllText(Path.Combine(root,"src","slimemap","SlimeMapSettingsUi.cs"));
+        int slots=int.Parse(Regex.Match(Read("ToolkitUi.cs"),@"new SliderMotion\[(\d+)\]").Groups[1].Value);
+        bool idsOk=true;int idCount=0;
+        foreach(Match m in Regex.Matches(mapUi,@"Slider\((\d+),")){idCount++;int id=int.Parse(m.Groups[1].Value);if(id<0||id>=slots)idsOk=false;}
+        Check(idCount==4&&idsOk,"SlimeMap settings slider ids fit the motion table");
+        Check(mapUi.Contains("height = 840")&&mapUi.Contains("/ 840f")&&Compact(mapUi).Contains("floatcw=(inner-10)/2;"),"SlimeMap settings window fits every row and the corner titles");
     }
 }
