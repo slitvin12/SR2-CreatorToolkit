@@ -2,6 +2,17 @@
 
 Автономный MelonLoader / IL2CPP-мод. Отдельная `CreatorToolkit.dll` (.NET 6), без Minecraft, WebSocket, shared memory и старого моста. Целевая игра текущей сборки: Slime Rancher 2 1.3.0. Исходники: `src/creator`.
 
+## SlimeMap / SlimeFPS: разделение на отдельные моды
+
+Миникарта (SlimeMap) и оптимизация (SlimeFPS) вынесены в две самостоятельные сборки. Архитектура — «Option C»: проекты `src/slimemap` и `src/slimefps` линкуют **весь неизменённый** исходный код `src/creator` кроме `ToolkitMod.cs`; вместо него — focused host-класс с тем же именем `CreatorToolkit.ToolkitMod : MelonMod` и тем же набором членов. CLR-статики и типы свои на каждую сборку, поэтому CT, SlimeMap и SlimeFPS спокойно живут рядом; у каждого свой MelonInfo, HarmonyInstance и `ToolkitMod.I`. Встроенные ресурсы сохраняют логические имена `CreatorToolkit.*`.
+
+- **SlimeMap** (`SlimeMap.dll`, MelonInfo «SlimeMap»): тикает только карта/навигация, рисует миникарту и компактное окно настроек (F7). Без игровых читов, без Harmony-хуков, без save guard. Настройки — `UserData\SlimeMap\navigation.cfg`.
+- **SlimeFPS** (`SlimeFPS.dll`, MelonInfo «SlimeFPS»): тикает только оптимизация и счётчик FPS (F8), ставит единственный хук плавной загрузки `SceneLoader.SetTurboLoadEnabled`. Настройки — `UserData\SlimeFPS`.
+
+**Авто-отключение в CT.** `ModInterop.SlimeMapPresent` / `SlimeFpsPresent` определяют загруженный отдельный мод по имени melon/сборки (рефлексия, без compile-time ссылок). Ключевое правило: **исполняемая сборка исключается** (`ModInteropPolicy.SplitPresent`), поэтому flavor-мод, линкующий тот же исходник, никогда не отключает сам себя. Гейты в общем исходнике: `DrawMiniMap`/`TickMiniMap` и компас (`CompassMarkerTools.Tick`/`LateTick`) гаснут при SlimeMap; `DrawFpsCounter`, `OptimizationTools.Tick` и страница оптимизации — при SlimeFPS. В «Карта → Навигация» и на странице оптимизации CT показывает заметку о передаче управления. Первые-party моды не входят в third-party каталог `ModInteropPolicy.All` (там только Nexus-моды с проверенными хуками).
+
+**Статус:** собрано (CT + SlimeMap + SlimeFPS, 0 предупреждений / 0 ошибок); офлайн-проверки **5060 PASS** (5040 прежних + 20 новых `SplitModsRegression`). **Проверено в живой игре (2026-11-10):** все три мода загружены вместе — одна мини-карта, один компас, один счётчик FPS, заметки о передаче управления в CT, 0 ошибок в логе. Отдельные репозитории и релизы: [SlimeMap](https://github.com/slitvin12/SlimeMap), [SlimeFPS](https://github.com/slitvin12/SlimeFPS).
+
 ## Новое в 0.5.1: игровое морское стекло
 
 Бежевый Segoe UI dashboard заменён тёмным navy glass с мятным контуром, glossy candy-капсулами, верхним бликом/плотной 4→3→1px press-тенью, толстыми круглыми slime-ползунками, светящимися переключателями, цветными закладками и native Pink Slime badge/градиентным заголовком. Логика и native области нажатия сохранены.

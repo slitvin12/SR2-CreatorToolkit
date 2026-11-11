@@ -336,6 +336,7 @@ internal sealed class OptimizationTools
     }
     internal void Tick()
     {
+        if(ModInterop.SlimeFpsPresent)return; // SlimeFPS owns the graphics leases and runtime FPS.
         if(!Active||!_app.Ready)return;
         _maximum.Tick();Runtime.Tick();
         if(Time.unscaledTime<_nextCensus)return;

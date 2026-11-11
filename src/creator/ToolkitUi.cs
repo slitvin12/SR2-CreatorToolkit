@@ -36,7 +36,7 @@ internal sealed partial class ToolkitUi
     internal void BeginOpenAnimation(){_menuOpenedAt=Time.unscaledTime;_menuEntering=true;ClearInteraction();}
     internal float OpeningProgress=>UiThemePolicy.OpeningProgress(Time.unscaledTime-_menuOpenedAt);
     internal bool DetailedHelp;
-    private Texture2D _sliderTrackPaint,_sliderFillPaint,_sliderGlowPaint;
+    private Texture2D _sliderTrackPaint,_sliderFillPaint,_sliderGlowPaint,_shadowPaint;
     private struct SliderMotion
     {
         internal UiThemePolicy.SliderAnimation Animation;
@@ -118,7 +118,7 @@ internal sealed partial class ToolkitUi
     private bool _ownsFont;
     private readonly List<Texture2D> _textures = new();
     internal readonly List<Rect> MapZoneLabelRects = new();
-    private readonly Dictionary<IntPtr,GUIStyle> _hoverStyles=new(),_pressedStyles=new();
+    private readonly Dictionary<(IntPtr,int),GUIStyle> _surfacePaint=new(); // 0.8.8: one nine-slice paint per theme surface + corner
     private readonly Dictionary<string,GUIContent> _buttonLabels=new();
     private struct HoverMotion {internal UiThemePolicy.HoverAnimation Animation;internal float Time;internal int Frame;}
     private readonly Dictionary<(float X,float Y,float W,float H),HoverMotion> _hoverMotion=new();
@@ -127,8 +127,7 @@ internal sealed partial class ToolkitUi
     private readonly Dictionary<(float X,float Y,float W,float H),SwitchMotion> _switchMotion=new(64);
     private struct GlideMotion {internal UiMotionPolicy.Glide Glide;internal int Frame;}
     private readonly Dictionary<(float X,float Y,float W,float H),GlideMotion> _glideMotion=new(32);
-    private UiMotionPolicy.Glide _tabMarkX,_tabMarkW;
-    private int _tabMarkFrame=-1,_veilPage=-1;
+    private int _veilPage=-1;
     private float _veilSince=-10f;
     private sealed class ScrollMotion { internal float Target,Returned,Time; internal int Frame=-1; }
     private readonly Dictionary<int,ScrollMotion> _scrollMotion=new();
@@ -248,7 +247,7 @@ internal sealed partial class ToolkitUi
     }
     internal void Dispose()
     {
-        ResetSession();_hoverStyles.Clear();_pressedStyles.Clear();_textShadows.Clear();_headerSlime=null;
+        ResetSession();_surfacePaint.Clear();_textShadows.Clear();_headerSlime=null;
         foreach(var texture in _textures)if(texture!=null&&!texture.WasCollected)UnityEngine.Object.Destroy(texture);
         _textures.Clear();
         if(_logoTexture!=null&&!_logoTexture.WasCollected)UnityEngine.Object.Destroy(_logoTexture);
@@ -483,7 +482,7 @@ internal sealed partial class ToolkitUi
         _button.richText = false; _button.border = new RectOffset(20,20,20,20);
         _button.padding = new RectOffset(10,10,4,4);
         _button.normal.background = deep;
-        _button.hover.background = violet;
+        _button.hover.background = deep; // 0.8.8: hover never swaps a paint (one jelly button)
         _button.active.background = deep;
         _button.normal.textColor = _button.hover.textColor = _button.active.textColor = TextTint(_ink);
         _buttonText17=CopyStyle(_button);
@@ -520,7 +519,7 @@ internal sealed partial class ToolkitUi
         _violetButton=CopyStyle(_button);_violetButton.normal.background=_violetButton.hover.background=_violetButton.active.background=violet;
         _shadowBox=SurfaceStyle(shadow);_glowBox=SurfaceStyle(glow);
         _trackStyle=SurfaceStyle(track,20);_fillStyle=SurfaceStyle(fill,20);
-        _sliderTrackPaint=track;_sliderFillPaint=fill;_sliderGlowPaint=glow;
+        _sliderTrackPaint=track;_sliderFillPaint=fill;_sliderGlowPaint=glow;_shadowPaint=shadow;
         _tabWidthsFor=-1;
         AtlasStyles();
         _titleGradient=new GUIStyle[8];
@@ -692,41 +691,41 @@ internal sealed partial class ToolkitUi
         GUI.color = previous;
     }
 
-    // Nine non-overlapping clipped DrawTexture regions. The game's stripped
-    // DrawTextureWithTexCoords wrapper is deliberately never used.
-    // Source corners stay 20/64; destination corners shrink to the actual
-    // capsule radius instead of overlapping fixed GUIStyle borders.
+    // 0.8.8: one seamless paint for every rounded surface: buttons, tabs, pills, chips, switches,
+    // sliders, bars and halos. IMGUI draws a GUIStyle border as ONE nine-slice mesh, so the wanted
+    // corner is the style border and the box fills its rect exactly. Scaling the box through GUI.matrix
+    // (radius/20) mis-sizes it in this stripped IL2CPP player: every surface rendered at scale x its
+    // rect, narrowing slider rails, erasing thin progress bars and leaving tab fills short of the edge
+    // while the separately drawn knob stayed on the full rect. The game's stripped
+    // DrawTextureWithTexCoords wrapper is still never used.
     private void DrawRoundedSurface(Rect rect,Texture2D surface,float wantedRadius)
     {
         if(surface==null||rect.width<=0||rect.height<=0||Event.current?.type!=EventType.Repaint)return;
-        // Snap ALL shared slice edges to physical pixels, including nested groups.
+        // Snap the outer edges to physical pixels, including nested groups.
         float pixelScale=Mathf.Max(.1f,_scale);
         float SnapX(float x)=>Mathf.Round((_groupOrigin.x+x)*pixelScale)/pixelScale-_groupOrigin.x;
         float SnapY(float y)=>Mathf.Round((_groupOrigin.y+y)*pixelScale)/pixelScale-_groupOrigin.y;
         rect=Rect.MinMaxRect(SnapX(rect.x),SnapY(rect.y),SnapX(rect.xMax),SnapY(rect.yMax));
+        if(rect.width<=0||rect.height<=0)return;
         float radius=UiThemePolicy.CapsuleRadius(rect.width,rect.height,wantedRadius);
-        // 0.8.5: neighbouring slices overlap by one physical pixel. IMGUI clips every group with a soft
-        // edge, so two slices meeting exactly on one pixel line left a light seam (a pill's right cap).
-        float bleed=radius>0?1f/pixelScale:0f;
-        for(int row=0;row<3;row++)
-        for(int col=0;col<3;col++)
+        // Floor keeps both corners inside the shorter side (radius <= min(w,h)/2).
+        int border=Mathf.Max(0,Mathf.FloorToInt(radius));
+        var key=(surface.Pointer,border);
+        if(!_surfacePaint.TryGetValue(key,out var paint)||paint==null)
         {
-            float sx=col==0?0:col==1?20:44,sy=row==0?0:row==1?20:44;
-            float sourceW=col==1?24:20,sourceH=row==1?24:20;
-            float dx=col==0?0:col==1?radius:rect.width-radius;
-            float dy=row==0?0:row==1?radius:rect.height-radius;
-            float dw=col==1?rect.width-2*radius:radius;
-            float dh=row==1?rect.height-2*radius:radius;
-            if(dw<=0||dh<=0)continue;
-            float scaleX=dw/sourceW,scaleY=dh/sourceH;
-            float left=SnapX(rect.x+dx),top=SnapY(rect.y+dy);
-            float right=SnapX(rect.x+dx+dw),bottom=SnapY(rect.y+dy+dh);
-            scaleX=(right-left)/sourceW;scaleY=(bottom-top)/sourceH;
-            float cl=col>0?left-bleed:left,ct=row>0?top-bleed:top,cr=col<2?right+bleed:right,cb=row<2?bottom+bleed:bottom;
-            BeginGroup(new Rect(cl,ct,cr-cl,cb-ct));
-            try{GUI.DrawTexture(new Rect(left-cl-sx*scaleX,top-ct-sy*scaleY,64*scaleX,64*scaleY),surface);}
-            finally{EndGroup();}
+            // Only the normal state paints: IMGUI's own hover and press tracking never swaps a face.
+            paint=SurfaceStyle(surface,border);
+            paint.hover.background=paint.active.background=paint.focused.background=null;
+            if(_surfacePaint.Count>=64)_surfacePaint.Clear();
+            _surfacePaint[key]=paint;
         }
+        Color background=GUI.backgroundColor;bool enabled=GUI.enabled;
+        try
+        {
+            GUI.backgroundColor=Color.white;GUI.enabled=true;
+            L.Box(rect,GUIContent.none,paint);
+        }
+        finally{GUI.backgroundColor=background;GUI.enabled=enabled;}
     }
 
     internal void ClearInteraction()
@@ -868,20 +867,11 @@ internal sealed partial class ToolkitUi
     private bool Button(Rect rect,GUIContent content,GUIStyle style,Rect? visualBounds=null)
     {
         long allocationStamp=GC.GetAllocatedBytesForCurrentThread();
-        GUIStyle rendered=style;
         bool hovered=CanHover(rect);
         bool held=hovered&&Mouse.current!=null&&Mouse.current.leftButton.isPressed;
-        if(hovered)
-        {
-            var cache=held?_pressedStyles:_hoverStyles;
-            if(!cache.TryGetValue(style.Pointer,out rendered))
-            {
-                rendered=CopyStyle(style);
-                rendered.normal.background=held?style.active.background:style.hover.background;
-                rendered.normal.textColor=held?style.active.textColor:style.hover.textColor;
-                cache[style.Pointer]=rendered;
-            }
-        }
+        // 0.8.8: one jelly button for the whole toolkit. The paint is the role (parchment, pink, gold,
+        // violet; mint = selected or on) and never changes under the pointer: every button, tab, chip
+        // and switch lifts, grows and glows on hover and sinks on a press in the same way.
         // Use the very same native InputSystem pointer as sliders/scrollbars.
         // Native legacy controls ignore queued device state in this player.
         AllocationMark(20,ref allocationStamp);
@@ -890,26 +880,10 @@ internal sealed partial class ToolkitUi
         Rect visual=visualBounds??rect;
         // 0.8.5: the hover glow fades in and out with the lift instead of blinking.
         float glow=held?1f:Mathf.Clamp01(offset/UiThemePolicy.HoverLift);
-        Color beforeGlow=GUI.color;
-        if(glow<1f)GUI.color=new Color(beforeGlow.r,beforeGlow.g,beforeGlow.b,beforeGlow.a*glow);
-        if(visual.height<40f)
-        {
-            // 0.8.3: below 40 px the fixed 20 px GUIStyle borders of glow and shadow overlap and leave a
-            // contour above small pills (tile «Мои ×»); paint them with the same radius-clamped slices.
-            if(glow>.01f)DrawRoundedSurface(new Rect(visual.x-2,visual.y-2,visual.width+4,visual.height+4),_glowBox.normal.background,Mathf.Min(20f,visual.height*.5f+2f));
-            GUI.color=beforeGlow;
-            DrawRoundedSurface(visual,_shadowBox.normal.background,Mathf.Min(20f,visual.height*.5f));
-        }
-        else
-        {
-            if(glow>.01f)L.Box(new Rect(visual.x-2,visual.y-2,visual.width+4,visual.height+4),GUIContent.none,_glowBox);
-            GUI.color=beforeGlow;
-            L.Box(visual,GUIContent.none,_shadowBox);
-        }
+        JellyBase(visual,glow);
         Rect face=HoverChildRect(visual,new Rect(visual.x,visual.y,visual.width,Mathf.Max(4,visual.height-UiThemePolicy.RestDepth)),offset);
-        { // All pill sizes share the same seam-free radius-clamped paint path.
-            if(!_roundedButtonPaint.TryGetValue(rendered.Pointer,out var surface)||surface==null||surface.WasCollected)
-            {surface=rendered.normal.background;if(_roundedButtonPaint.Count<1024)_roundedButtonPaint[rendered.Pointer]=surface;}
+        { // All pill sizes share the same seamless radius-clamped paint path.
+            var surface=FacePaint(style);
             PaintFace(rect,face,surface);
         }
 
@@ -944,6 +918,39 @@ internal sealed partial class ToolkitUi
         GUI.color=new Color(before.r,before.g,before.b,before.a*shown);
         try{DrawRoundedSurface(face,surface,radius);}
         finally{GUI.color=before;}
+    }
+    // 0.8.8: the face texture of a button style, cached by style (a GUIStyleState read allocates).
+    private Texture2D FacePaint(GUIStyle style)
+    {
+        if(!_roundedButtonPaint.TryGetValue(style.Pointer,out var surface)||surface==null||surface.WasCollected)
+        {surface=style.normal.background;if(_roundedButtonPaint.Count<1024)_roundedButtonPaint[style.Pointer]=surface;}
+        return surface;
+    }
+    // 0.8.8: the halo and the resting shadow under every jelly face; one radius rule for all sizes.
+    private void JellyBase(Rect visual,float glow)
+    {
+        float radius=UiThemePolicy.JellyRadius(visual.width,visual.height);
+        JellyHalo(visual,glow,radius,UiThemePolicy.HaloSpread);
+        DrawRoundedSurface(visual,_shadowPaint,radius);
+    }
+    // 0.8.8: the toolkit's single hover glow (buttons, switches, segments, rows, tiles, chips, links),
+    // faded by amount and drawn by the same seamless paint as the faces.
+    private void JellyHalo(Rect rect,float amount,float radius,float spread=0f)
+    {
+        if(!(amount>.01f))return;
+        Color before=GUI.color;
+        GUI.color=new Color(before.r,before.g,before.b,before.a*Mathf.Clamp01(amount));
+        try{DrawRoundedSurface(new Rect(rect.x-spread,rect.y-spread,rect.width+2*spread,rect.height+2*spread),_sliderGlowPaint,radius+spread);}
+        finally{GUI.color=before;}
+    }
+    // 0.8.8: a custom clickable (row, tile, link, chip, close cross) hovers exactly like a jelly button:
+    // the rounded halo fades in with the lift. Returns the lift for children that follow it.
+    private float HoverHalo(Rect rect,float radius,float spread=0f)
+    {
+        bool hover=CanHover(rect),held=hover&&Mouse.current!=null&&Mouse.current.leftButton.isPressed;
+        float offset=HoverOffset(rect,hover,held);
+        JellyHalo(rect,UiThemePolicy.HaloAmount(offset,held),radius,spread);
+        return offset;
     }
     // 0.8.5: a value easing toward its target, advanced once per frame (OnGUI runs several events a frame).
     private struct FrameGlide{internal UiMotionPolicy.Glide Glide;internal int Frame;}
@@ -1118,10 +1125,9 @@ internal sealed partial class ToolkitUi
                 // the labels and produced unreadable validation captures.
                 _bodyInteractionBlocked=(_app.Audit?.Active??false)&&!(_app.UiProbe?.Active??false);
                 GUI.enabled = !modal && !_app.Map.Busy;
-                var tabWidths=TabWidths(width-60);float tabX=30,markX=30,markW=tabWidths[0];
+                var tabWidths=TabWidths(width-60);float tabX=30;
                 for(int i=0;i<_tabs.Length;tabX+=tabWidths[i]+8,i++)
                 {
-                    if(i==_tab){markX=tabX;markW=tabWidths[i];}
                     if(TabButton(new Rect(tabX,102,tabWidths[i],46),_tabs[i],i,i==_tab))
                     {
                         _tab=i;ClearInteraction();
@@ -1129,7 +1135,6 @@ internal sealed partial class ToolkitUi
                         if(_tab==3&&_app.Ready)_hour=_app.World.Hour();
                     }
                 }
-                TabMarker(markX,markW);
                 AllocationMark(3,ref allocationStamp);
                 Rect body = new(30,166,width-60,height-226);
                 bool measurePaint=Event.current.type==EventType.Repaint&&_app.Ready&&!_app.Map.Busy&&!modal&&
@@ -1340,8 +1345,7 @@ internal sealed partial class ToolkitUi
     {
         // 0.8.0: the explanation is drawn only with «?» (DetailedHelp). Compact rows (< 70 px)
         // keep the switch centred and put the explanation on one 14 px line under the title.
-        L.Box(rect,GUIContent.none,_card);
-        Fill(new Rect(rect.x+1,rect.y+12,3,rect.height-24),enabled?_accent:new Color(.23f,.42f,.54f));
+        L.Box(rect,GUIContent.none,_card); // 0.8.8: no accent bar beside the row; the switch shows the state
         bool compact=rect.height<70f,help=DetailedHelp&&!string.IsNullOrEmpty(detail);
         float titleY=help?(compact?rect.y+2:rect.y+10):rect.center.y-17;
         L.Label(new Rect(rect.x+18,titleY,rect.width-154,34),title,_label);
@@ -1358,9 +1362,9 @@ internal sealed partial class ToolkitUi
         float offset=HoverOffset(rect,hover,held);
         // 0.8.5: the knob slides (UiMotionPolicy.SwitchSeconds); colour and caption flip as it passes the middle.
         float t=UiMotionPolicy.Smooth(SwitchProgress(rect,enabled));bool on=t>=.5f;
-        if(on||hover)L.Box(new Rect(rect.x-3,rect.y-3,rect.width+6,rect.height+6),GUIContent.none,_glowBox);
-        L.Box(rect,GUIContent.none,_shadowBox);
-        L.Box(HoverChildRect(rect,new Rect(rect.x,rect.y,rect.width,rect.height-4),offset),GUIContent.none,on?_selectedButton:_button);
+        // 0.8.8: the jelly button's halo, shadow and cross-fading face (on = mint, off = parchment).
+        JellyBase(rect,on?1f:UiThemePolicy.HaloAmount(offset,held));
+        PaintFace(rect,HoverChildRect(rect,new Rect(rect.x,rect.y,rect.width,rect.height-4),offset),FacePaint(on?_selectedButton:_button));
         float knobX=Mathf.Lerp(rect.x+6,rect.xMax-38,t);
         GUI.DrawTexture(HoverChildRect(rect,new Rect(knobX,rect.y+4,32,32),offset),_slimeKnob);
         HoverText(HoverChildRect(rect,new Rect(on?rect.x+6:rect.x+40,rect.y-2,58,44),offset),on?"ВКЛ":"ВЫКЛ",_iconTab,offset);
@@ -1421,13 +1425,6 @@ internal sealed partial class ToolkitUi
         Rect r=grow?HoverGrow(child,offset):child;
         if(float.IsFinite(offset))r.y+=offset;
         return r;
-    }
-    // 0.8.5: a mint pill under the open tab glides to the next one.
-    private void TabMarker(float x,float w)
-    {
-        float dt=_tabMarkFrame!=Time.frameCount?Time.unscaledDeltaTime:0f;_tabMarkFrame=Time.frameCount;
-        float mx=UiMotionPolicy.Step(ref _tabMarkX,x,dt),mw=UiMotionPolicy.Step(ref _tabMarkW,w,dt);
-        DrawRoundedSurface(new Rect(mx+18,153,Mathf.Max(8,mw-36),5),_fillStyle.normal.background,2.5f);
     }
     // 0.8.5: a freshly opened page (tab, «Спавн» and «Открытия» sections) fades in from the parchment.
     private void PageVeil(Rect body)
@@ -1624,7 +1621,7 @@ internal sealed partial class ToolkitUi
             {
                 Color saved=GUI.color;GUI.color=entry.Prototype=="rad"?new Color(.45f,1f,.32f):new Color(.65f,.80f,1f);
                 try{DrawSprite(rect,entry.Icon??entry.Type?.Icon);}finally{GUI.color=saved;}
-                Rect badge=new(rect.xMax-18,rect.yMax-20,20,20);L.Box(badge,GUIContent.none,_selectedButton);
+                Rect badge=new(rect.xMax-18,rect.yMax-20,20,20);DrawRoundedSurface(badge,FacePaint(_selectedButton),10f);
                 L.Label(badge,entry.Prototype=="rad"?"Р":"М",_badge);
                 return;
             }
@@ -1634,7 +1631,7 @@ internal sealed partial class ToolkitUi
                 // Largo badges combine the two real parent icons instead of
                 // reusing a misleading single-species icon or leaving a blank.
                 var bases = slime.BaseSlimes;
-                L.Box(rect, GUIContent.none, _selectedButton);
+                DrawRoundedSurface(rect,FacePaint(_selectedButton),UiThemePolicy.JellyRadius(rect.width,rect.height));
                 if (bases != null && bases.Length >= 2)
                 {
                     DrawSprite(new Rect(rect.x + 1, rect.y + 1, rect.width * .73f, rect.height * .73f), bases[0]?.Icon ?? bases[0]?.icon);

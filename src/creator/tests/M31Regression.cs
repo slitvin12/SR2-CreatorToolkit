@@ -57,7 +57,7 @@ internal static class M31Regression
         C(bridge.Contains("Starlight.Managers.StarlightSaveManager")&&bridge.Contains("\"inGameData\"")&&bridge.Contains("Starlight.Components.NoClipComponent")&&
           player.Contains("StarlightBridge.NoClipActive"),"starlight: cheat flags shown, flight refuses while NoClip is on");
         C(bridge.Contains("Starlight.Buttons.CustomPauseMenuButton")&&bridge.Contains("\"AddTranslation\""),"starlight: pause-menu button through the public API");
-        C(mod.Contains("StarlightBridge.Configure(this)")&&mod.Contains("AssemblyVersion(\"0.8.7.0\")"),"starlight: configured; release 0.8.7");
+        C(mod.Contains("StarlightBridge.Configure(this)")&&mod.Contains("AssemblyVersion(\"0.8.8.0\")"),"starlight: configured; release 0.8.8");
     }
 
     private static void Table(Action<bool,string> C,string tsv)

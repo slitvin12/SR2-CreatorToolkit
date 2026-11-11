@@ -128,6 +128,18 @@ internal static class UiThemePolicy
     internal static float CapsuleRadius(float width,float height,float requested)=>
         float.IsFinite(width)&&float.IsFinite(height)&&float.IsFinite(requested)?
         Math.Clamp(requested,0,Math.Max(0,Math.Min(width,height)*.5f)):0;
+    // 0.8.8: one seamless paint for every rounded surface. A theme surface is a 64 px texture with a
+    // 20 px corner; IMGUI draws a GUIStyle border as ONE nine-slice mesh, and a uniform scale of
+    // radius/20 makes that corner the wanted radius at any size (no clipped slices, no seam lines).
+    internal const float SurfaceBorder=20f;
+    internal static float SurfaceScale(float radius)=>Math.Max(float.IsFinite(radius)?radius:0f,.5f)/SurfaceBorder;
+    // One radius rule for every jelly face, its shadow and its halo.
+    internal static float JellyRadius(float width,float height)=>
+        CapsuleRadius(width,height,Math.Min(SurfaceBorder,Math.Max(0f,height)*.5f));
+    // The halo of a hovered clickable fades in with the hover lift and is full while pressed.
+    internal const float HaloSpread=2f;
+    internal static float HaloAmount(float offset,bool held)=>
+        held?1f:float.IsFinite(offset)?Math.Clamp(offset/HoverLift,0f,1f):0f;
     internal static float Coverage(float x,float y,float size,float radius)
     {
         float qx=Math.Abs(x+.5f-size*.5f)-(size*.5f-radius);

@@ -107,7 +107,7 @@ internal sealed partial class ToolkitUi
         bool hovered=CanHover(rect);
         bool clicked;
         if(selected)clicked=Button(rect,GUIContent.none,_selectedButton);
-        else{if(hovered)L.Box(rect,GUIContent.none,_glowBox);clicked=Pressed(rect);}
+        else{HoverHalo(rect,UiThemePolicy.JellyRadius(rect.width,rect.height));clicked=Pressed(rect);}
         float offset=selected?HoverOffset(rect,hovered,hovered&&Mouse.current!=null&&Mouse.current.leftButton.isPressed):0f;
         var sprite=_app.Map.Icons.Role(role);
         float textW=AtlasTextWidth(text,_atlasGroupText);
@@ -499,7 +499,7 @@ internal sealed partial class ToolkitUi
         var map=_app.Map;var point=model.Point;
         bool selected=map.Selected==point,hovered=CanHover(row);
         if(selected)DrawRoundedSurface(row,_selectedButton.normal.background,14f);
-        else if(hovered)L.Box(row,GUIContent.none,_glowBox);
+        else HoverHalo(row,14f);
         if(Pressed(row))map.Selected=point;
         AtlasPointIcon(new Rect(row.x+10,row.y+(row.height-38)/2,38,38),point);
         float right=row.xMax-8;

@@ -116,6 +116,7 @@ internal sealed class CompassMarkerTools
 
     internal void Tick()
     {
+        if(ModInterop.SlimeMapPresent){if(_anchors.Count>0)Clear();return;} // SlimeMap owns the native compass bar.
         if(!Enabled)return;
         if(_session!=_app.Session){Clear();_session=_app.Session;_group=IntPtr.Zero;}
         float now=Time.unscaledTime;
@@ -338,6 +339,7 @@ internal sealed class CompassMarkerTools
     // ---- M28: icons on our own compass instances -------------------------------
     internal void LateTick()
     {
+        if(ModInterop.SlimeMapPresent)return; // SlimeMap styles its own compass icons.
         if(!Enabled||Style==M28CompassIconPolicy.Off||_anchors.Count==0)return;
         float now=Time.unscaledTime;
         if(now<_nextStyle)return;

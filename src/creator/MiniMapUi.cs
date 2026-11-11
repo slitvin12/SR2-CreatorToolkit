@@ -35,6 +35,7 @@ internal sealed partial class MapTools
     }
     internal void TickMiniMap()
     {
+        if(ModInterop.SlimeMapPresent){MiniMapPoints.Clear();return;} // SlimeMap gathers its own markers.
         bool wanted=ShowMiniMap||Time.unscaledTime<_miniPreviewUntil;
         if(!wanted||!_app.Ready||Busy){MiniMapPoints.Clear();return;}
         if(Time.unscaledTime>=_nextMiniMapCamera||_miniMapCamera==null||_miniMapCamera.WasCollected)
@@ -76,6 +77,7 @@ internal sealed partial class ToolkitUi
     private static readonly M29NavigationSettings DefaultNavigation=new();
     internal void DrawMiniMap()
     {
+        if(ModInterop.SlimeMapPresent)return; // the SlimeMap mod owns the minimap; Creator Toolkit steps aside.
         var map=_app.Map;
         if(map==null||!map.ShowMiniMap||!_app.Ready||_app.MenuOpen||map.NativeMapOpen||map.Busy||_app.Cinema.HideHud||Time.timeScale<=0)return;
         if(Event.current==null||Event.current.type!=EventType.Repaint)return;

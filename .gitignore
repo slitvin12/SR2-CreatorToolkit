@@ -1,6 +1,6 @@
-# The repository publishes Creator Toolkit and its Agent Director test bridge
-# for AI agents only. Everything else in this
-# working folder (other experiments, game references, saves, logs, backups)
+# The repository publishes Creator Toolkit, its standalone SlimeMap/SlimeFPS
+# flavors and the Agent Director test bridge for AI agents. Everything else in
+# this working folder (other experiments, game references, saves, logs, backups)
 # stays local: the list below is a whitelist.
 /*
 !/.gitignore
@@ -16,6 +16,8 @@
 !/src/
 /src/*
 !/src/creator/
+!/src/slimemap/
+!/src/slimefps/
 !/src/agentdirector/
 
 !/tools/

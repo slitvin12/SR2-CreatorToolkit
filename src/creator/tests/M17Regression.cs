@@ -18,7 +18,7 @@ internal static class M17Regression
   for(int i=1;i<=250;i++){float original=i*10;float clip=M17Policy.FarClip(original,.3f);Check(clip>0&&clip<=original&&clip<=180,"camera distance finite and never increases draw distance "+i);}
   string Read(string f)=>File.ReadAllText(Path.Combine(root,"src","creator",f));
   string ui=Read("ToolkitUi.cs"),actors=Read("ActorTools.cs"),map=Read("MapTools.cs"),player=Read("PlayerTools.cs"),opt=Read("OptimizationTools.cs");
-  Check(ui.Contains("float glint=knob?")&&ui.Contains("SnapX(rect.x+dx+dw)")&&ui.Contains("SnapY(rect.y+dy+dh)"),"pill slices share snapped physical edges and no horizontal glint discontinuity");
+  Check(ui.Contains("float glint=knob?")&&ui.Contains("rect=Rect.MinMaxRect(SnapX(rect.x),SnapY(rect.y),SnapX(rect.xMax),SnapY(rect.yMax));")&&!ui.Contains("SnapX(rect.x+dx+dw)"),"0.8.8: a rounded surface snaps to physical pixels as one seamless piece and no horizontal glint discontinuity");
   Check(ui.Contains("moved.y=Mathf.Clamp(moved.y,owner.y")&&ui.Contains("moved.width=Mathf.Min(moved.width,owner.width)"),"hover geometry cannot escape its unchanged owner hitbox");
   Check(ui.Contains("MapOverlayLayout.Place(projected,map.MarkerSize)")&&ui.Contains("MapMarkersForTest=markers.Count"),"the atlas always lays out one marker per object and never a dense badge");
   Check(map.Contains("existingPod.Position=pod.transform.position"),"loaded capsule location supersedes stale baked coordinate");

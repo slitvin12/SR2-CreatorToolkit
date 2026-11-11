@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- SlimeFPS: standalone graphics-optimization mod. Links the Creator Toolkit source tree
+       (unchanged) except ToolkitMod.cs, replaced by SlimeFpsHost.cs (optimization-only host).
+       Resource logical names stay "CreatorToolkit.*" because the shared readers hardcode them. -->
+  <PropertyGroup>
+    <AssemblyName>SlimeFPS</AssemblyName>
+    <RootNamespace>CreatorToolkit</RootNamespace>
+    <TargetFramework>net6.0</TargetFramework>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <NoWarn>CA1416;CS0618;CS8632</NoWarn>
+    <RefsDir>$(MSBuildThisFileDirectory)..\..\refs\</RefsDir>
+    <CreatorDir>$(MSBuildThisFileDirectory)..\creator\</CreatorDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="$(RefsDir)*.dll" Exclude="$(RefsDir)CreatorToolkit.dll;$(RefsDir)SlimeMap.dll;$(RefsDir)SlimeFPS.dll" Private="false" />
+    <Compile Include="$(CreatorDir)*.cs" Link="shared\%(Filename)%(Extension)" />
+    <Compile Remove="$(CreatorDir)ToolkitMod.cs" />
+    <EmbeddedResource Include="$(CreatorDir)GhostDroneIndex.tsv" LogicalName="CreatorToolkit.GhostDroneIndex.tsv" />
+    <EmbeddedResource Include="$(CreatorDir)MapIndex.tsv" LogicalName="CreatorToolkit.MapIndex.tsv" />
+    <EmbeddedResource Include="$(CreatorDir)CapsuleContents.json" LogicalName="CreatorToolkit.CapsuleContents.json" />
+    <EmbeddedResource Include="$(CreatorDir)CreatorAtlas.rgba" LogicalName="CreatorToolkit.CreatorAtlas.rgba" />
+    <EmbeddedResource Include="$(CreatorDir)FandomMarkers.tsv" LogicalName="CreatorToolkit.FandomMarkers.tsv" />
+    <EmbeddedResource Include="$(CreatorDir)FandomAtlas.rgba" LogicalName="CreatorToolkit.FandomAtlas.rgba" />
+    <EmbeddedResource Include="$(CreatorDir)LocEnglish.tsv" LogicalName="CreatorToolkit.LocEnglish.tsv" />
+    <EmbeddedResource Include="$(CreatorDir)icon.png" LogicalName="CreatorToolkit.icon.png" />
+  </ItemGroup>
+</Project>

@@ -78,6 +78,22 @@ internal static class ModInteropPolicy
         (names ?? Enumerable.Empty<string>()).Select(Find).Where(k => k != null).Distinct()
             .OrderBy(k => k.Name, StringComparer.Ordinal).ToList();
 
+    // First-party split mods (SlimeMap = minimap/compass, SlimeFPS = optimization/FPS), kept out of the
+    // third-party Nexus catalogue above. "Present" means a melon/assembly OTHER than this one provides
+    // the feature: the executing assembly is excluded so a flavor mod that links the same source never
+    // disables itself. Name matching is case/punctuation-insensitive, like Find.
+    internal static bool SplitPresent(IEnumerable<string> names, string feature, string selfAssembly)
+    {
+        string want = Norm(feature), self = Norm(selfAssembly);
+        if (want.Length == 0) return false;
+        foreach (var n in names ?? Enumerable.Empty<string>())
+        {
+            string k = Norm(n);
+            if (k.Length > 0 && k == want && k != self) return true;
+        }
+        return false;
+    }
+
     // Vacpack fill target. Vanilla keeps the historical 100 (may exceed native capacity on purpose);
     // with a slot-limit mod (known by name, or anything else patching AmmoSlot.MaxCount) the slot's
     // own MaxCount wins, so the cheat neither undercuts a raised limit nor overshoots a lowered one.

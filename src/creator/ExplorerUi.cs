@@ -119,7 +119,7 @@ internal sealed partial class ToolkitUi
     }
     private bool TextLink(Rect rect,string text,GUIStyle style,bool chevron=false)
     {
-        if(CanHover(rect))L.Box(rect,GUIContent.none,_glowBox);
+        HoverHalo(rect,UiThemePolicy.JellyRadius(rect.width,rect.height));
         const float glyph=16;
         L.Label(new Rect(rect.x,rect.y,rect.width-(chevron?glyph+6:0),rect.height),text,style);
         if(chevron)MapGlyph(new Rect(rect.xMax-glyph-4,rect.center.y-glyph/2,glyph,glyph),MapChromePolicy.Chevron,_ink);
@@ -228,7 +228,7 @@ internal sealed partial class ToolkitUi
                     try{DrawRoundedSurface(new Rect(row.x+2,row.y+2,row.width-4,row.height-4),_card.normal.background,12f);}
                     finally{GUI.color=tint;}
                 }
-                else if(CanHover(row))L.Box(row,GUIContent.none,_glowBox);
+                else HoverHalo(row,14f);
                 if(Pressed(row))_customSelection=record.Id;
                 MarkerBadge(new Rect(row.x+10,row.y+(row.height-34)/2,34,34),record.Color);
                 float right=row.xMax-12,distance=_markerDistances[i];
@@ -450,7 +450,7 @@ internal sealed partial class ToolkitUi
                     DrawRoundedSurface(new Rect(tile.x+3,tile.y+3,tile.width-6,tile.height-6),_card.normal.background,13f);
                 }
                 else DrawRoundedSurface(tile,_button.normal.background,16f);
-                if(hover)L.Box(tile,GUIContent.none,_glowBox);
+                HoverHalo(tile,16f);
                 SpritePreview(new Rect(tile.center.x-29,tile.y+12,58,58),entry);
                 L.Label(new Rect(tile.x+4,tile.y+72,tile.width-8,38),entry.Name,_explorerTile);
                 Rect corner=new(tile.xMax-28,tile.y+6,22,22);
@@ -496,7 +496,7 @@ internal sealed partial class ToolkitUi
                 if(Pressed(new Rect(row.x+2,row.y+8,24,row.height-16)))cycle=t.Reference;
                 if(t.Entry!=null)SpritePreview(new Rect(row.x+28,row.center.y-17,34,34),t.Entry);
                 Rect close=new(row.xMax-30,row.center.y-14,28,28);
-                if(CanHover(close))L.Box(close,GUIContent.none,_glowBox);
+                HoverHalo(close,14f);
                 MapGlyph(new Rect(close.x+6,close.y+6,16,16),MapChromePolicy.Cross,new Color(.45f,.39f,.33f,.85f));
                 if(Pressed(close))remove=t.Reference;
                 string near=MapExplorerPolicy.NearText(t.Near);
@@ -565,6 +565,13 @@ internal sealed partial class ToolkitUi
     }
     private void NavigationPage(float width,float height)
     {
+        if(ModInterop.SlimeMapPresent)
+        {
+            L.Label(new Rect(0,PageTop,width,34),"Навигацией управляет мод SlimeMap",_heading);
+            L.Box(new Rect(0,PageTop+44,width,120),GUIContent.none,_card);
+            L.Label(new Rect(20,PageTop+62,width-40,86),"Мини-карта и компас отключены в Creator Toolkit, пока загружен SlimeMap.\nВсе метки и настройки — в меню SlimeMap (клавиша F7).",_atlasDetail);
+            return;
+        }
         var nav=_app.Navigation;var map=_app.Map;
         if(nav==null){L.Label(new Rect(0,PageTop,width,34),"Настройки навигации недоступны",_heading);return;}
         var s=nav.Settings;float top=PageTop;
@@ -611,7 +618,7 @@ internal sealed partial class ToolkitUi
         // «Значки = слои атласа: <слои> + радар · Изменить →»: the minimap shows the atlas layers.
         Rect chip=new(24,Mathf.Max(y,disc.yMax+52),leftW-48,40);
         bool radarIcons=_app.Radar.Enabled&&_app.Radar.ShowOnHud;
-        if(CanHover(chip))L.Box(chip,GUIContent.none,_glowBox);
+        HoverHalo(chip,12f);
         DrawRoundedSurface(chip,_trackStyle.normal.background,12f);
         L.Label(new Rect(chip.x+16,chip.y,chip.width-150,chip.height),MapExplorerPolicy.LayersChip(MiniMapLayersName(map),radarIcons),_small);
         L.Label(new Rect(chip.xMax-136,chip.y,120,chip.height),"Изменить →",_atlasRight);

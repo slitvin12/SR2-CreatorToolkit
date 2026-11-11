@@ -89,8 +89,6 @@ internal sealed partial class ToolkitUi
             _goldButton,_violetButton,_shadowBox,_glowBox,_trackStyle,_fillStyle,_tableHeading,
             _buttonText17,_buttonText16,_buttonText15,_buttonText14,_selectedRowText,_frame};
         foreach(var style in styles)if(style!=null)style.font=candidate;
-        foreach(var style in _hoverStyles.Values)style.font=candidate;
-        foreach(var style in _pressedStyles.Values)style.font=candidate;
         foreach(var style in _textShadows.Values)style.font=candidate;
         if(_titleGradient!=null)foreach(var style in _titleGradient)style.font=candidate;
         if(owned&&previous!=null&&previous!=candidate&&!previous.WasCollected)UnityEngine.Object.Destroy(previous);

@@ -4,7 +4,7 @@
 
 > *English:* Creator Toolkit is a MelonLoader mod for Slime Rancher 2 that adds an in-game toolkit menu (map atlas with pods, gordos, drones and resources, minimap and compass, waypoints, radar for any object, farm helper, spawner, time/weather controls, unlocks, a photo mode with FOV and smooth zoom, FPS counter and background FPS limit, smoother physics, custom save names, free gadget placement, a world tracker and optional action hotkeys). The mod UI follows the game language: Russian for Russian, English for every other language. The menu opens with **Insert**; the key can be changed in *Settings → Menu key*.
 
-**Автор:** [slitvin12](https://github.com/slitvin12) · **Версия:** 0.8.7 · Неофициальный фанатский мод, не связан с Monomi Park.
+**Автор:** [slitvin12](https://github.com/slitvin12) · **Версия:** 0.8.8 · Неофициальный фанатский мод, не связан с Monomi Park.
 
 ## Требования
 
@@ -19,6 +19,20 @@
 4. Загрузите сохранение и нажмите **Insert** (на ноутбуке может понадобиться **Fn + Insert**). **Esc** закрывает меню. Клавишу открытия можно сменить: **Настройки → «Клавиша меню»**.
 
 Язык интерфейса мода следует языку игры (русский или английский) и переключается вместе с ней. Настройки и метки хранятся в `<папка игры>\UserData\CreatorToolkit\`. Действия, которые навсегда меняют прогресс (открытия, разблокировки, атлас), требуют отдельного подтверждения. Перед ними лучше сделать копию сохранения.
+
+## Новое в 0.8.8
+
+- **Единые кнопки.** Кнопки, вкладки, чипы, переключатели, ползунки и полосы рисуются одной цельной поверхностью без швов: пропали тонкие «палочки» по краям середины кнопок, заметные при наведении. Наведение у всех одинаковое — кнопка приподнимается, чуть растёт и мягко светится, при нажатии проседает; цвет при этом не меняется. Убраны полоска у переключателей и полоска под открытой вкладкой.
+- **Исправлено масштабирование поверхностей в IL2CPP-сборке игры.** Ползунки больше не выезжают далеко за трек (ручка и заполнение всегда на дорожке), тонкие полосы прогресса видны на всю ширину, кнопки и подвкладки закрашены целиком. Исправление общее для Creator Toolkit, SlimeMap и SlimeFPS.
+
+## SlimeMap и SlimeFPS — отдельные моды
+
+Миникарту и оптимизацию графики можно поставить как два самостоятельных мода — **SlimeMap** и **SlimeFPS**. Они собраны из того же исходного кода, что и Creator Toolkit, и работают **без Creator Toolkit**: достаточно положить `SlimeMap.dll` или `SlimeFPS.dll` в `Mods`.
+
+- **SlimeMap** ([репозиторий](https://github.com/slitvin12/SlimeMap) · [скачать](https://github.com/slitvin12/SlimeMap/releases/latest)) — миникарта со всеми метками атласа (слои, радар, свои метки, гордо, дроны, ресурсы), рельефом, маркером игрока и компасом. Настройки — клавиша **F7**; хранятся в `UserData\SlimeMap\navigation.cfg`.
+- **SlimeFPS** ([репозиторий](https://github.com/slitvin12/SlimeFPS) · [скачать](https://github.com/slitvin12/SlimeFPS/releases/latest)) — оптимизация графики (текстуры, LOD, дальность, декор, постэффекты, runtime FPS) и счётчик FPS. Настройки — клавиша **F8**; хранятся в `UserData\SlimeFPS`.
+
+**Creator Toolkit остаётся полным** и ничего не теряет: если рядом загружен SlimeMap, CT сам отключает свою миникарту и компас (в «Карта → Навигация» появляется заметка), а если загружен SlimeFPS — свою оптимизацию и счётчик FPS. Двойных меток и двух счётчиков не бывает. Без новых модов CT работает как раньше.
 
 ## Новое в 0.8.7
 
@@ -122,6 +136,7 @@ powershell -ExecutionPolicy Bypass -File src\creator\install.ps1
 ## Структура
 
 - `src/creator/` — код мода (C#, IL2CPP через Il2CppInterop) и встроенные данные карты.
+- `src/slimemap/`, `src/slimefps/` — самостоятельные сборки SlimeMap и SlimeFPS из того же кода (отдельные репозитории: [SlimeMap](https://github.com/slitvin12/SlimeMap), [SlimeFPS](https://github.com/slitvin12/SlimeFPS)).
 - `src/creator/tests/` — офлайн-проверки политик и данных.
 - `tools/ct-test/` — сценарии проверки в игре.
 

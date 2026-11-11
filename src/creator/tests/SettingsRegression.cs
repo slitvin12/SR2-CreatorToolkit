@@ -81,8 +81,8 @@ internal static class SettingsRegression
           toolkit.Contains("Shortcuts?.CancelCapture();")&&toolkit.Contains("if (!assigning)")&&toolkit.Contains("ActionKeys: {Shortcuts?.Summary}"),"host: keys tick outside capture, capture cancelled on close");
         C(shortcuts.Contains("File.Replace(temp,file,null)")&&shortcuts.Contains("kb.leftCtrlKey.isPressed")&&shortcuts.Contains("textFocused&&MenuHotkeyPolicy.Typing(key)")&&
           shortcuts.Contains("_app.Queue(\"hotkey god mode\"")&&shortcuts.Contains("_app.Queue(\"hotkey infinite energy\""),"runtime: atomic save, Ctrl/Alt ignored, typing keys wait, cheats queued");
-        C(ui.Contains("float ownW=SmallTileButtonWidth(\"Мои ×\")")&&ui.Contains("if(visual.height<40f)")&&ui.Contains("_app.Actors.CurrencyIcon()"),
-          "tiles: measured small buttons, rounded glow on small buttons; currency coin");
+        C(ui.Contains("float ownW=SmallTileButtonWidth(\"Мои ×\")")&&ui.Contains("JellyBase(visual,glow);")&&!ui.Contains("if(visual.height<40f)")&&ui.Contains("_app.Actors.CurrencyIcon()"),
+          "tiles: measured small buttons, one seamless glow and shadow at every button size; currency coin");
         C(ui.Contains("if(kindW>=24&&_small.CalcSize(kind).x<=kindW)")&&!ui.Contains("Ellipsize(entry.IsPrototype"),"tiles: the type label is shown whole or not at all");
         string currency=Section(actors,"internal int Currency()","\n    internal ");
         C(actors.Contains("internal Sprite CurrencyIcon()")&&currency.Length>0&&!currency.Contains("catch"),"currency: read without an exception per frame");

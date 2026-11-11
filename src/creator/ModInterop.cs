@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using HarmonyLib;
 using Il2CppMonomiPark.SlimeRancher.Player;
 using MelonLoader;
@@ -17,11 +18,18 @@ internal static class ModInterop
     private static float _next = float.MinValue, _nextLog;
     private static int _logs;
     private static bool _custom;
+    private static bool _slimeMap, _slimeFps;
     private static List<ModInteropPolicy.Known> _detected = new();
 
     internal static string Summary { get; private set; } = "pending";
     internal static IReadOnlyList<ModInteropPolicy.Known> Detected { get { Refresh(false); return _detected; } }
     internal static bool CustomVacLimits { get { Refresh(false); return _custom; } }
+    // Our own split mods: SlimeMap (minimap + compass) and SlimeFPS (optimization + FPS counter).
+    // "Present" means a SEPARATE assembly provides the feature — the executing assembly is excluded,
+    // so a flavor mod never disables itself (this source is linked into Creator Toolkit, SlimeMap and
+    // SlimeFPS alike). First-party split mods, not third-party Nexus entries: kept out of Policy.All.
+    internal static bool SlimeMapPresent { get { Refresh(false); return _slimeMap; } }
+    internal static bool SlimeFpsPresent { get { Refresh(false); return _slimeFps; } }
 
     internal static void Configure(ToolkitMod app) => _app = app;
 
@@ -53,6 +61,9 @@ internal static class ModInterop
                 try { if (!a.IsDynamic) names.Add(a.GetName().Name); } catch { }
             }
             var detected = ModInteropPolicy.Detect(names);
+            string self = Assembly.GetExecutingAssembly().GetName().Name;
+            _slimeMap = ModInteropPolicy.SplitPresent(names, "slimemap", self);
+            _slimeFps = ModInteropPolicy.SplitPresent(names, "slimefps", self);
             var owners = new List<string>();
             try
             {

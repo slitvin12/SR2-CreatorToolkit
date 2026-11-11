@@ -82,6 +82,7 @@ internal sealed partial class ToolkitUi
     private readonly GUIContent _fpsMeasure = new();
     internal void DrawFpsCounter()
     {
+        if (ModInterop.SlimeFpsPresent) return; // the SlimeFPS mod owns the FPS counter.
         var cap = _app.Capture;
         if (cap == null || !cap.ShowFps || Event.current == null || Event.current.type != EventType.Repaint) return;
         if (_app.Ready && _app.Cinema.HideHud) return;

@@ -128,9 +128,9 @@ internal static class UiPolishRegression
           ui.Contains("if(_switchMotion.Count>=256)_switchMotion.Clear();")&&ui.Contains("if(_glideMotion.Count>=256)_glideMotion.Clear();")&&
           ui.Contains("_hoverMotion.Clear();_scrollMotion.Clear();_switchMotion.Clear();_glideMotion.Clear();"),
           "switches: the knob slides, motion state is bounded and dropped on a tab change");
-        C(ui.Contains("TabMarker(markX,markW);")&&ui.Contains("if(i==_tab){markX=tabX;markW=tabWidths[i];}")&&ui.Contains("float dt=_tabMarkFrame!=Time.frameCount?Time.unscaledDeltaTime:0f;")&&
+        C(!ui.Contains("TabMarker(")&&!ui.Contains("_tabMarkFrame")&&ui.Contains("GlideTo(ref _tabRise[index]")&&
           ui.Contains("PageVeil(body);\n                AllocationMark(4,ref allocationStamp);")&&ui.Contains("int page=_tab*8+(_tab==1?_creationSection:_tab==4?_unlockSection:0);"),
-          "tabs: a gliding marker once per frame, pages fade in");
+          "tabs: the open tab is the raised mint face, no marker bar under it (0.8.8); pages fade in");
         string dispose=Section(ui,"internal void Dispose()","\n    }");
         C(ui.Contains("if(!DrawLogo(new Rect(28,12,66,66)))")&&ui.Contains("var data=CreatorLogoPolicy.Pixels();")&&ui.Contains("BuildLogo();")&&
           ui.Contains("texture.name=\"CreatorToolkit_UI_Logo\"")&&dispose.Contains("UnityEngine.Object.Destroy(_logoTexture)")&&ui.Contains("ResetCreationUi();_headerSlime=null")&&
@@ -147,8 +147,9 @@ internal static class UiPolishRegression
           UiMotionPolicy.Fade(0,.2f)==0f&&UiMotionPolicy.Fade(.2f,.2f)==1f&&UiMotionPolicy.Fade(float.NaN,.2f)==1f&&UiMotionPolicy.Fade(.1f,.2f)>.5f&&
           UiMotionPolicy.EaseOutBack(0)==0f&&Math.Abs(UiMotionPolicy.EaseOutBack(1)-1f)<1e-6f,"dialog pop, entrance veil, fades");
         string round=Section(ui,"private void DrawRoundedSurface(","\n    }");
-        C(round.Contains("float bleed=radius>0?1f/pixelScale:0f;")&&round.Contains("BeginGroup(new Rect(cl,ct,cr-cl,cb-ct));")&&
-          round.Contains("left-cl-sx*scaleX")&&round.Contains("SnapX(rect.x+dx+dw)"),"pill slices overlap one physical pixel (no light seam at a cap)");
+        C(round.Contains("int border=Mathf.Max(0,Mathf.FloorToInt(radius));")&&round.Contains("L.Box(rect,GUIContent.none,paint);")&&
+          !round.Contains("GUI.matrix")&&!round.Contains("rect.width/scale")&&!round.Contains("BeginGroup(")&&!round.Contains("bleed")&&
+          !round.Contains("GUI.DrawTexture("),"0.8.8: one seamless nine-slice at the exact rect (border=radius); no matrix scale, which mis-sized surfaces in the IL2CPP player");
         C(ui.Contains("PaintFace(rect,face,surface);")&&ui.Contains("if(_surfaceMotion.Count>=512)_surfaceMotion.Clear();")&&
           ui.Contains("float glow=held?1f:Mathf.Clamp01(offset/UiThemePolicy.HoverLift);")&&ui.Contains("GlideTo(ref _tabRise[index]"),
           "button paints cross-fade, the glow fades with the lift, the open tab rises");

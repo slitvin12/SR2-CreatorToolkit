@@ -75,7 +75,7 @@ internal sealed partial class ToolkitUi
         bool hover=CanHover(rect),held=hover&&Mouse.current!=null&&Mouse.current.leftButton.isPressed;
         float offset=HoverOffset(rect,hover,held),t=UiMotionPolicy.Smooth(SwitchProgress(rect,on));
         Rect face=new(rect.x,rect.y+offset*.5f,rect.width,rect.height);
-        if(hover)DrawRoundedSurface(new Rect(face.x-3,face.y-3,face.width+6,face.height+6),_glowBox.normal.background,face.height*.5f+3f);
+        JellyHalo(face,UiThemePolicy.HaloAmount(offset,held),face.height*.5f,UiThemePolicy.HaloSpread);
         DrawRoundedSurface(face,(t>=.5f?_selectedButton:_trackStyle).normal.background,face.height*.5f);
         float knob=face.height-6;
         Rect dot=new(Mathf.Lerp(face.x+3,face.xMax-knob-3,t),face.y+3,knob,knob);
@@ -101,7 +101,7 @@ internal sealed partial class ToolkitUi
             Rect seg=new(rect.x+3+i*part,rect.y+3,part,rect.height-6);
             bool hover=CanHover(seg),held=hover&&Mouse.current!=null&&Mouse.current.leftButton.isPressed;
             float offset=HoverOffset(seg,hover,held);
-            if(i!=selected&&hover)DrawRoundedSurface(seg,_glowBox.normal.background,seg.height*.5f);
+            if(i!=selected)JellyHalo(seg,UiThemePolicy.HaloAmount(offset,held),seg.height*.5f);
             HoverText(new Rect(seg.x,seg.y+offset*.5f,seg.width,seg.height),titles[i],_mapSegment,offset);
             if(Pressed(seg))pressed=i;
         }
@@ -112,7 +112,7 @@ internal sealed partial class ToolkitUi
     {
         bool hover=CanHover(row),held=hover&&Mouse.current!=null&&Mouse.current.leftButton.isPressed;
         float offset=HoverOffset(row,hover,held);
-        if(hover)DrawRoundedSurface(row,_glowBox.normal.background,12f);
+        JellyHalo(row,UiThemePolicy.HaloAmount(offset,held),12f);
         HoverText(new Rect(row.x+8,row.y+offset*.5f,row.width-100,row.height-2),title,_atlasRowTitle,offset);
         bool switched=MiniSwitch(new Rect(row.xMax-64,row.y+5,56,28),on);
         return switched||Pressed(row);
@@ -139,7 +139,7 @@ internal sealed partial class ToolkitUi
         try
         {
             Rect title=new(6,6,134,48);
-            if(CanHover(title))L.Box(title,GUIContent.none,_glowBox);
+            HoverHalo(title,UiThemePolicy.JellyRadius(title.width,title.height));
             var atlasIcon=map.Icons.Role("Atlas");
             if(atlasIcon!=null)DrawSprite(new Rect(12,12,36,36),atlasIcon);
             L.Label(new Rect(54,6,86,48),"Атлас",_mapBarTitle);
@@ -295,7 +295,7 @@ internal sealed partial class ToolkitUi
         // 0.8.5: the menu's jelly hover: a rounded glow, the icon grows, the caption lifts.
         bool hover=CanHover(head),held=hover&&Mouse.current!=null&&Mouse.current.leftButton.isPressed;
         float offset=HoverOffset(head,hover,held),lift=offset*.5f;
-        if(hover)DrawRoundedSurface(new Rect(head.x+2,head.y+3,head.width-2,head.height-4),_glowBox.normal.background,12f);
+        JellyHalo(new Rect(head.x+2,head.y+3,head.width-2,head.height-4),UiThemePolicy.HaloAmount(offset,held),12f);
         if(Pressed(head))_mapLayersGroup=expanded?-1:index;
         MapGlyph(new Rect(row.x+8,row.y+15+lift,16,16),expanded?MapChromePolicy.Chevron:MapChromePolicy.ChevronRight,new Color(.6f,.56f,.5f,1f));
         AtlasChipIcon(HoverGrow(new Rect(row.x+30,row.y+8+lift,30,30),offset),group.Chips[0]);
@@ -319,7 +319,7 @@ internal sealed partial class ToolkitUi
         Rect toggle=new(row.xMax-62,row.y+8,50,26);
         bool hover=CanHover(row),held=hover&&Mouse.current!=null&&Mouse.current.leftButton.isPressed;
         float offset=HoverOffset(row,hover,held),lift=offset*.5f;
-        if(hover)DrawRoundedSurface(new Rect(row.x+2,row.y+1,row.width-4,row.height-2),_glowBox.normal.background,12f);
+        JellyHalo(new Rect(row.x+2,row.y+1,row.width-4,row.height-2),UiThemePolicy.HaloAmount(offset,held),12f);
         var saved=GUI.color;
         if(!active)GUI.color=new Color(saved.r,saved.g,saved.b,saved.a*.55f);
         try{AtlasChipIcon(HoverGrow(new Rect(row.x+30,row.y+5+lift,32,32),offset),chip);}

@@ -41,6 +41,19 @@ internal sealed partial class ToolkitUi
     }
     private void OptimizationPage(Rect area)
     {
+        if(ModInterop.SlimeFpsPresent)
+        {
+            BeginGroup(area);
+            try
+            {
+                L.Label(new Rect(0,0,area.width-250,38),"Графика и производительность",_heading);
+                if(Button(new Rect(area.width-226,0,226,42),"Назад",_button)){_optimizationPage=false;ClearInteraction();return;}
+                L.Box(new Rect(0,56,area.width,132),GUIContent.none,_card);
+                L.Label(new Rect(20,74,area.width-40,100),"Графикой и счётчиком FPS управляет мод SlimeFPS.\nВ Creator Toolkit эти настройки отключены, пока загружен SlimeFPS.\nОткройте меню SlimeFPS клавишей F8.",_atlasDetail);
+            }
+            finally{EndGroup();}
+            return;
+        }
         BeginGroup(area);
         try
         {
