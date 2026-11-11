@@ -13,13 +13,17 @@ internal sealed class MenuHotkey
 {
     private readonly ToolkitMod _app;
     private bool _loaded;
-    internal string Key{get;private set;}=MenuHotkeyPolicy.Default;
+    internal string DefaultKey{get;}
+    internal string Key{get;private set;}
     internal string Display=>MenuHotkeyPolicy.Display(Key);
     internal string Footer=>MenuHotkeyPolicy.Footer(Key);
     internal bool Capturing{get;private set;}
-    internal bool IsDefault=>Key==MenuHotkeyPolicy.Default;
+    internal bool IsDefault=>Key==DefaultKey;
     internal bool Typing=>MenuHotkeyPolicy.Typing(Key);
-    internal MenuHotkey(ToolkitMod app)=>_app=app;
+    internal MenuHotkey(ToolkitMod app,string defaultKey=MenuHotkeyPolicy.Default)
+    {
+        _app=app;DefaultKey=defaultKey;Key=defaultKey;
+    }
 
     internal static KeyControl Control(Keyboard kb,string name)=>kb==null?null:name switch
     {
@@ -47,7 +51,7 @@ internal sealed class MenuHotkey
         try
         {
             string file=Path.Combine(_app.DataDirectory,MenuHotkeyPolicy.FileName);
-            if(File.Exists(file))Key=MenuHotkeyPolicy.Parse(File.ReadAllText(file,Encoding.UTF8));
+            if(File.Exists(file))Key=MenuHotkeyPolicy.Parse(File.ReadAllText(file,Encoding.UTF8),DefaultKey);
         }
         catch(Exception e){_app.LoggerInstance.Warning("[hotkey] load: "+e.Message);}
     }
@@ -55,7 +59,7 @@ internal sealed class MenuHotkey
     internal bool Pressed(Keyboard kb)
     {
         EnsureLoaded();
-        var key=Control(kb,Key)??kb.insertKey;
+        var key=Control(kb,Key)??Control(kb,DefaultKey)??kb.insertKey;
         if(key==null||!key.wasPressedThisFrame)return false;
         return !(kb.leftCtrlKey.isPressed||kb.rightCtrlKey.isPressed||kb.leftAltKey.isPressed||kb.rightAltKey.isPressed);
     }
@@ -73,7 +77,7 @@ internal sealed class MenuHotkey
             Capturing=false;Set(name);return;
         }
     }
-    internal void Reset(){Capturing=false;Set(MenuHotkeyPolicy.Default);}
+    internal void Reset(){Capturing=false;Set(DefaultKey);}
     private void Set(string name)
     {
         Key=MenuHotkeyPolicy.Normalize(name);

@@ -18,13 +18,13 @@ internal sealed partial class ToolkitUi
         try
         {
             GUI.color = GUI.contentColor = GUI.backgroundColor = Color.white;
-            float scale = Mathf.Max(.5f, Mathf.Min(1.1f, Mathf.Min((Screen.width - 48f) / 560f, (Screen.height - 48f) / 840f)));
+            float scale = Mathf.Max(.5f, Mathf.Min(1.1f, Mathf.Min((Screen.width - 48f) / 560f, (Screen.height - 48f) / 900f)));
             _scale = scale;
             _groupOrigin = Vector2.zero;
             _groupOrigins.Clear(); _groupRects.Clear();
             GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(scale, scale, 1));
             float sw = Screen.width / scale, sh = Screen.height / scale;
-            const float width = 560, height = 840;
+            const float width = 560, height = 900;
             Rect window = new((sw - width) / 2, (sh - height) / 2, width, height);
             Fill(new Rect(0, 0, sw, sh), new Color(.19f, .15f, .10f, .22f));
             L.Box(window, GUIContent.none, _frame);
@@ -85,6 +85,16 @@ internal sealed partial class ToolkitUi
                 L.Label(new Rect(width - 110, y, 82, 24), look.CompassMarkers.ToString(), _muted); y += 26;
                 float cm = Slider(23, new Rect(28, y, inner, 30), look.CompassMarkers, M29NavigationSettings.MinCompassMarkers, M29NavigationSettings.MaxCompassMarkers);
                 nav.Edit(s => s.CompassMarkers = M29NavigationSettings.ClampMarkers((int)cm)); y += 48;
+
+                var hotkey = _app.Hotkey;
+                hotkey.EnsureLoaded();
+                L.Label(new Rect(28, y, 140, 40), "Клавиша меню", _muted);
+                if (Button(new Rect(170, y, 250, 40), hotkey.Capturing ? "Нажмите клавишу…" : hotkey.Display + " · изменить…", hotkey.Capturing ? _selectedButton : _button))
+                { if (hotkey.Capturing) hotkey.CancelCapture(); else hotkey.StartCapture(); }
+                GUI.enabled = !hotkey.IsDefault && !hotkey.Capturing;
+                if (Button(new Rect(430, y, 102, 40), "F7", _button)) hotkey.Reset();
+                GUI.enabled = true;
+                y += 52;
 
                 if (Button(new Rect(28, y, inner, 40), "Сбросить вид", _button)) nav.ResetLook();
             }

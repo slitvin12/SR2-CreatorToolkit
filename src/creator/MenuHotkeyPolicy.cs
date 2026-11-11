@@ -26,20 +26,20 @@ internal static class MenuHotkeyPolicy
         return !(key.Length>1&&key[0]=='F'&&char.IsDigit(key[1])); // F2..F12 never type
     }
     internal static bool Allowed(string key)=>!string.IsNullOrEmpty(key)&&Array.IndexOf(Keys,key)>=0;
-    internal static string Normalize(string key)
+    internal static string Normalize(string key,string fallback=Default)
     {
         string k=(key??"").Trim();
         foreach(var name in Keys)if(string.Equals(name,k,StringComparison.OrdinalIgnoreCase))return name;
-        return Default;
+        return fallback;
     }
-    internal static string Parse(string text)
+    internal static string Parse(string text,string fallback=Default)
     {
         foreach(var raw in (text??"").Split('\n'))
         {
             string line=raw.Trim();
-            if(line.StartsWith(Prefix,StringComparison.OrdinalIgnoreCase))return Normalize(line.Substring(Prefix.Length));
+            if(line.StartsWith(Prefix,StringComparison.OrdinalIgnoreCase))return Normalize(line.Substring(Prefix.Length),fallback);
         }
-        return Default;
+        return fallback;
     }
     internal static string Serialize(string key)=>"# Creator Toolkit: menu key (UnityEngine.InputSystem.Key name)\n"+Prefix+Normalize(key)+"\n";
     internal static string Display(string key)

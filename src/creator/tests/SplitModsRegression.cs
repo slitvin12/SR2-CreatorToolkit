@@ -60,6 +60,12 @@ internal static class SplitModsRegression
         bool idsOk=true;int idCount=0;
         foreach(Match m in Regex.Matches(mapUi,@"Slider\((\d+),")){idCount++;int id=int.Parse(m.Groups[1].Value);if(id<0||id>=slots)idsOk=false;}
         Check(idCount==4&&idsOk,"SlimeMap settings slider ids fit the motion table");
-        Check(mapUi.Contains("height = 840")&&mapUi.Contains("/ 840f")&&Compact(mapUi).Contains("floatcw=(inner-10)/2;"),"SlimeMap settings window fits every row and the corner titles");
+        Check(mapUi.Contains("height = 900")&&mapUi.Contains("/ 900f")&&Compact(mapUi).Contains("floatcw=(inner-10)/2;"),"SlimeMap settings window fits every row and the corner titles");
+        Check(mapHost.Contains("new MenuHotkey(this, \"F7\")")&&fpsHost.Contains("new MenuHotkey(this, \"F8\")"),"split hosts default their settings key to F7/F8");
+        Check(mapHost.Contains("Hotkey.Pressed(kb)")&&mapHost.Contains("Hotkey.TickCapture(kb)")&&fpsHost.Contains("Hotkey.Pressed(kb)")&&fpsHost.Contains("Hotkey.TickCapture(kb)"),"split hosts toggle via the rebindable hotkey with capture");
+        Check(mapHost.Contains("SeedHotkey(\"F7\")")&&fpsHost.Contains("SeedHotkey(\"F8\")"),"split hosts seed hotkey.cfg with their default on first run");
+        string fpsUi=File.ReadAllText(Path.Combine(root,"src","slimefps","SlimeFpsSettingsUi.cs"));
+        Check(mapUi.Contains("Нажмите клавишу…")&&mapUi.Contains("hotkey.StartCapture()")&&fpsUi.Contains("hotkey.StartCapture()"),"settings windows offer key capture and reset");
+        Check(MenuHotkeyPolicy.Parse("","F7")=="F7"&&MenuHotkeyPolicy.Parse("menu.key=Home","F7")=="Home"&&MenuHotkeyPolicy.Normalize("bogus","F8")=="F8"&&MenuHotkeyPolicy.Parse("")=="Insert","hotkey policy honors per-mod defaults while CT stays Insert");
     }
 }

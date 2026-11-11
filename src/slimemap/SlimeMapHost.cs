@@ -8,12 +8,12 @@ using MelonLoader.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "SlimeMap", "1.0.1", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
+[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "SlimeMap", "1.0.2", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: MelonGame("MonomiPark", "SlimeRancher2")]
-[assembly: AssemblyVersion("1.0.1.0")]
-[assembly: AssemblyFileVersion("1.0.1.0")]
-[assembly: AssemblyDescription("Standalone minimap with all atlas markers, terrain, player marker and navigation settings. Open settings with F7.\nОтдельная миникарта со всеми метками атласа, рельефом, маркером игрока и настройками навигации. Настройки — клавиша F7.")]
-[assembly: AssemblyMetadata("display_version", "1.0.1")]
+[assembly: AssemblyVersion("1.0.2.0")]
+[assembly: AssemblyFileVersion("1.0.2.0")]
+[assembly: AssemblyDescription("Standalone minimap with all atlas markers, terrain, player marker and navigation settings. Settings open with F7 by default; the key is rebindable in the settings window.\nОтдельная миникарта со всеми метками атласа, рельефом, маркером игрока и настройками навигации. Настройки — клавиша F7 по умолчанию, переназначается в окне настроек.")]
+[assembly: AssemblyMetadata("display_version", "1.0.2")]
 [assembly: AssemblyMetadata("source_code", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: AssemblyMetadata("SR2ModManager.CompatibleWith", "SR2MP;Lycoreia;Starlight;CreatorToolkit")]
 [assembly: AssemblyMetadata("SR2ModManager.HookPolicy", "cooperative")]
@@ -27,7 +27,7 @@ namespace CreatorToolkit;
 public sealed class ToolkitMod : MelonMod
 {
     internal static ToolkitMod I;
-    internal const string Version = "1.0.1";
+    internal const string Version = "1.0.2";
     internal readonly InputCapture Input = new();
     internal PlayerTools Player;
     internal MultiplayerBridge Coop;
@@ -122,6 +122,7 @@ public sealed class ToolkitMod : MelonMod
         I = this;
         DataDirectory = Path.Combine(MelonEnvironment.UserDataDirectory, "SlimeMap");
         Directory.CreateDirectory(DataDirectory);
+        SeedHotkey("F7");
         _diagnosticIo = new DiagnosticIo(DataDirectory);
         HookCoexistence.Configure(HarmonyInstance, this);
         ModInterop.Configure(this);
@@ -152,7 +153,9 @@ public sealed class ToolkitMod : MelonMod
         Compass = new CompassMarkerTools(this);
         DroneToggle = new DroneToggleTools(this);
         PlayerMarker = new PlayerMarkerTools(this);
-        Hotkey = new MenuHotkey(this);
+        Hotkey = new MenuHotkey(this, "F7");
+        Hotkey.EnsureLoaded();
+        Status = Hotkey.Display + " — настройки миникарты";
         Shortcuts = new ActionHotkeys(this);
         Navigation = new NavigationTools(this);
         Navigation.Load();
@@ -187,7 +190,18 @@ public sealed class ToolkitMod : MelonMod
             ("compass icons", Compass.LateTick), ("player marker", PlayerMarker.LateTick),
         };
         InstalledHooks = 0; // SlimeMap installs no Harmony hooks: the minimap is IMGUI + data polling.
-        LoggerInstance.Msg("SlimeMap " + Version + " initialized; minimap only, settings key F7.");
+        LoggerInstance.Msg("SlimeMap " + Version + " initialized; minimap only, settings key " + Hotkey.Key + ".");
+    }
+
+    // First run: write the mod's default so MenuHotkey loads F7, not the shared Insert default.
+    private void SeedHotkey(string key)
+    {
+        try
+        {
+            string file = Path.Combine(DataDirectory, MenuHotkeyPolicy.FileName);
+            if (!File.Exists(file)) File.WriteAllText(file, "# SlimeMap: settings key (UnityEngine.InputSystem.Key name)\n" + MenuHotkeyPolicy.Prefix + key + "\n");
+        }
+        catch (Exception e) { LoggerInstance.Warning("[hotkey] seed: " + e.Message); }
     }
 
     public override void OnUpdate()
@@ -205,7 +219,11 @@ public sealed class ToolkitMod : MelonMod
         var kb = Keyboard.current;
         if (kb != null)
         {
-            if (kb.f7Key.wasPressedThisFrame)
+            if (Hotkey.Capturing)
+            {
+                if (MenuOpen) Hotkey.TickCapture(kb); else Hotkey.CancelCapture();
+            }
+            else if (Hotkey.Pressed(kb) && !(MenuOpen && Hotkey.Typing && (_ui?.TextFieldFocused ?? false)))
             {
                 if (MenuOpen) CloseMenu(); else Input.Open();
             }

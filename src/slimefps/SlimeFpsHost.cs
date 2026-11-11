@@ -9,12 +9,12 @@ using MelonLoader.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "SlimeFPS", "1.0.0", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
+[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "SlimeFPS", "1.0.1", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: MelonGame("MonomiPark", "SlimeRancher2")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: AssemblyDescription("Standalone graphics optimization: textures, LOD, draw distance, decor, post-effects, runtime FPS and an FPS counter. Open settings with F8.\nОтдельная оптимизация графики: текстуры, LOD, дальность, декор, постэффекты, runtime FPS и счётчик FPS. Настройки — клавиша F8.")]
-[assembly: AssemblyMetadata("display_version", "1.0.0")]
+[assembly: AssemblyVersion("1.0.1.0")]
+[assembly: AssemblyFileVersion("1.0.1.0")]
+[assembly: AssemblyDescription("Standalone graphics optimization: textures, LOD, draw distance, decor, post-effects, runtime FPS and an FPS counter. Settings open with F8 by default; the key is rebindable in the settings window.\nОтдельная оптимизация графики: текстуры, LOD, дальность, декор, постэффекты, runtime FPS и счётчик FPS. Настройки — клавиша F8 по умолчанию, переназначается в окне настроек.")]
+[assembly: AssemblyMetadata("display_version", "1.0.1")]
 [assembly: AssemblyMetadata("source_code", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: AssemblyMetadata("SR2ModManager.CompatibleWith", "SR2MP;Lycoreia;Starlight;CreatorToolkit")]
 [assembly: AssemblyMetadata("SR2ModManager.HookPolicy", "cooperative")]
@@ -27,7 +27,7 @@ namespace CreatorToolkit;
 public sealed class ToolkitMod : MelonMod
 {
     internal static ToolkitMod I;
-    internal const string Version = "1.0.0";
+    internal const string Version = "1.0.1";
     internal readonly InputCapture Input = new();
     internal PlayerTools Player;
     internal MultiplayerBridge Coop;
@@ -122,6 +122,7 @@ public sealed class ToolkitMod : MelonMod
         I = this;
         DataDirectory = Path.Combine(MelonEnvironment.UserDataDirectory, "SlimeFPS");
         Directory.CreateDirectory(DataDirectory);
+        SeedHotkey("F8");
         _diagnosticIo = new DiagnosticIo(DataDirectory);
         HookCoexistence.Configure(HarmonyInstance, this);
         ModInterop.Configure(this);
@@ -150,7 +151,9 @@ public sealed class ToolkitMod : MelonMod
         Compass = new CompassMarkerTools(this);
         DroneToggle = new DroneToggleTools(this);
         PlayerMarker = new PlayerMarkerTools(this);
-        Hotkey = new MenuHotkey(this);
+        Hotkey = new MenuHotkey(this, "F8");
+        Hotkey.EnsureLoaded();
+        Status = Hotkey.Display + " — настройки графики";
         Shortcuts = new ActionHotkeys(this);
         Navigation = new NavigationTools(this);
         Capture = new CaptureTools(this);
@@ -174,7 +177,18 @@ public sealed class ToolkitMod : MelonMod
         };
         _lateTicks = new (string, Action)[] { ("camera fov", Capture.LateTick) };
         InstalledHooks = InstallLoadingHook();
-        LoggerInstance.Msg("SlimeFPS " + Version + " initialized; optimization only, settings key F8, hooks=" + InstalledHooks + ".");
+        LoggerInstance.Msg("SlimeFPS " + Version + " initialized; optimization only, settings key " + Hotkey.Key + ", hooks=" + InstalledHooks + ".");
+    }
+
+    // First run: write the mod's default so MenuHotkey loads F8, not the shared Insert default.
+    private void SeedHotkey(string key)
+    {
+        try
+        {
+            string file = Path.Combine(DataDirectory, MenuHotkeyPolicy.FileName);
+            if (!File.Exists(file)) File.WriteAllText(file, "# SlimeFPS: settings key (UnityEngine.InputSystem.Key name)\n" + MenuHotkeyPolicy.Prefix + key + "\n");
+        }
+        catch (Exception e) { LoggerInstance.Warning("[hotkey] seed: " + e.Message); }
     }
 
     // The one hook optimization needs: keep the smooth-loading budget after a turbo load.
@@ -207,7 +221,11 @@ public sealed class ToolkitMod : MelonMod
         var kb = Keyboard.current;
         if (kb != null)
         {
-            if (kb.f8Key.wasPressedThisFrame)
+            if (Hotkey.Capturing)
+            {
+                if (MenuOpen) Hotkey.TickCapture(kb); else Hotkey.CancelCapture();
+            }
+            else if (Hotkey.Pressed(kb) && !(MenuOpen && Hotkey.Typing && (_ui?.TextFieldFocused ?? false)))
             {
                 if (MenuOpen) CloseMenu(); else Input.Open();
             }
