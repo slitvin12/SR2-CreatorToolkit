@@ -10,13 +10,13 @@ using MelonLoader.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "Creator Toolkit", "0.8.8", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
+[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "Creator Toolkit", "0.9.0", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: MelonGame("MonomiPark", "SlimeRancher2")]
-[assembly: AssemblyVersion("0.8.8.0")]
-[assembly: AssemblyFileVersion("0.8.8.0")]
+[assembly: AssemblyVersion("0.9.0.0")]
+[assembly: AssemblyFileVersion("0.9.0.0")]
 // Starlight mod menu (StarlightPackageManager): description, links and the embedded CreatorToolkit.icon.png.
 [assembly: AssemblyDescription("Creator & quality-of-life toolkit: player cheats, spawning, atlas with markers, minimap, camera tools, FPS counter and graphics optimization. Open the menu with Insert.\nНабор создателя: читы игрока, спавн, атлас и метки, миникарта, камера, счётчик FPS и оптимизация графики. Меню — клавиша Insert.")]
-[assembly: AssemblyMetadata("display_version", "0.8.8")]
+[assembly: AssemblyMetadata("display_version", "0.9.0")]
 [assembly: AssemblyMetadata("source_code", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 // SR2 Mod Manager: hooks shared with these mods were checked together (co-op via Ranching Together).
 [assembly: AssemblyMetadata("SR2ModManager.CompatibleWith", "SR2MP;Lycoreia;Starlight;InfiniteHealth")]
@@ -29,7 +29,7 @@ namespace CreatorToolkit;
 public sealed class ToolkitMod : MelonMod
 {
     internal static ToolkitMod I;
-    internal const string Version = "0.8.8";
+    internal const string Version = "0.9.0";
     internal readonly InputCapture Input = new();
     internal PlayerTools Player;
     internal MultiplayerBridge Coop; // Ranching Together (SR2MP) / Lycoreia co-op rules; inert without the mod.
@@ -739,7 +739,35 @@ public sealed class ToolkitMod : MelonMod
                     case "capture": ScreenCapture.CaptureScreenshot(Path.Combine(DataDirectory,"capture.png")); break;
                     case "lang-en": Loc.SetOverride("en"); break;
                     case "lang-ru": Loc.SetOverride("ru"); break;
+                    case "lang-fr": Loc.SetOverride("fr"); break;
+                    case "lang-de": Loc.SetOverride("de"); break;
+                    case "lang-ja": Loc.SetOverride("ja"); break;
+                    case "lang-ko": Loc.SetOverride("ko"); break;
+                    case "lang-zh": Loc.SetOverride("zh"); break;
+                    case "lang-es": Loc.SetOverride("es"); break;
+                    case "lang-pt": Loc.SetOverride("pt"); break;
                     case "lang-auto": Loc.SetOverride(null); break;
+                    case "loc-locales":
+                    {
+                        var sb = new System.Text.StringBuilder();
+                        try
+                        {
+                            var items = Il2Cpp.SystemContext.Instance?.LocalizationDirector?.Locales?._items;
+                            if (items != null) for (int i = 0; i < items.Length; i++)
+                            {
+                                var loc = items[i];
+                                if (loc == null || loc.WasCollected) continue;
+                                string culture = null;
+                                try { culture = loc.Formatter.Cast<Il2CppSystem.Globalization.CultureInfo>()._name; } catch { }
+                                sb.Append(i).Append('\t').Append(culture ?? "-").Append('\n');
+                            }
+                        }
+                        catch (Exception e) { sb.Append("error: ").Append(e.Message).Append('\n'); }
+                        string lp = Path.Combine(DataDirectory, "loc-locales.txt");
+                        File.WriteAllText(lp, sb.ToString(), new System.Text.UTF8Encoding(false));
+                        Notify("Locales → " + lp);
+                        break;
+                    }
                     case "loc-misses": Notify("Loc: " + Loc.MissCount + " → " + Loc.DumpMisses(Path.Combine(DataDirectory,"loc-misses.txt"))); break;
                     default:
                         if(command.StartsWith("menu-tab ",StringComparison.Ordinal)&&int.TryParse(command.Substring(9),out int menuTab)&&menuTab>=0&&menuTab<ToolkitUi.TabCount)
@@ -790,7 +818,7 @@ public sealed class ToolkitMod : MelonMod
         details.Append(NativeUiPriority.Diagnostics());
         details.Append(InfiniteBuildHooks.Diagnostics());
         details.Append(Capture.Diagnostics());details.Append(FreePlacement.Diagnostics());details.Append(SaveNames.Diagnostics());
-        details.Append(StarlightBridge.Diagnostics());details.Append("UiLanguage: ").Append(Loc.English?"en":"ru").Append(" locale=").Append(Loc.LocaleCode).Append(" override=").Append(Loc.Override??"-").Append(" strings=").Append(Loc.TableSize).Append(" misses=").Append(Loc.MissCount).Append('\n');
+        details.Append(StarlightBridge.Diagnostics());details.Append("UiLanguage: ").Append(Loc.Language).Append(" locale=").Append(Loc.LocaleCode).Append(" override=").Append(Loc.Override??"-").Append(" strings=").Append(Loc.TableSize).Append(" misses=").Append(Loc.MissCount).Append('\n');
         details.Append(M26AcceptanceCore.Diagnostics(this,_ui));details.Append(M26AcceptanceIpc.Diagnostics(this,_ui));
         details.Append(M27AcceptanceIpc.Diagnostics(this,_ui));
         details.Append(M28TestIpc.Diagnostics(this));

@@ -253,6 +253,7 @@ internal sealed partial class ToolkitUi
         if(_logoTexture!=null&&!_logoTexture.WasCollected)UnityEngine.Object.Destroy(_logoTexture);
         _logoTexture=null;
         _iconAtlas=_slimeKnob=_badgeCircle=_headerGradient=null;
+        DisposeLocaleFonts();
         if(_ownsFont&&_font!=null&&!_font.WasCollected)UnityEngine.Object.Destroy(_font);
         _font=null;_ownsFont=false;
     }
@@ -532,6 +533,7 @@ internal sealed partial class ToolkitUi
         LoadIconAtlas();
         if(_textures.Count!=ThemeTextureBudget)throw new InvalidDataException("Shared jelly theme texture budget mismatch.");
         BuildLogo();
+        SyncLocaleFont();
     }
 
     private void LoadIconAtlas()
@@ -811,7 +813,7 @@ internal sealed partial class ToolkitUi
         if(_languageGeneration==Loc.Generation)return;
         _languageGeneration=Loc.Generation;
         _buttonLabels.Clear();_ellipsized.Clear();_confirmText=null;_footerSource=null;
-        OnLanguageChanged();
+        OnLanguageChanged();SyncLocaleFont();
     }
     partial void OnLanguageChanged();
     private GUIStyle ButtonTextStyle(GUIContent content,float width)

@@ -1,0 +1,2180 @@
+# CreatorToolkit UI localization: pt (keys are Russian source)
+Ожидание Слаймопедии	Aguardando a Slimepédia
+Гордо создаются по одному через нативную ловушку	Gordos são criados um de cada vez pela armadilha nativa
+Фрукты	Frutas
+Овощи	Vegetais
+Мясо	Carne
+Прочее питание	Outros alimentos
+Материалы	Materiais
+Прочее	Outros
+Гордо	Gordo
+Плорты	Plorts
+Ларго	Largos
+Слаймы	Slimes
+Еда	Comida
+Ресурсы	Recursos
+У типа нет нативного префаба.	Este tipo não possui prefab nativo.
+Тип не зарегистрирован в нативном каталоге этой версии.	Este tipo não está registrado no catálogo nativo desta versão do jogo.
+Незавершённый глитч-варр: нативный актор не принимает модель в этой версии.	Breu glitch inacabado: o ator nativo não aceita o modelo nesta versão.
+ · неготовый	 · inacabado
+Радиоактивный слайм · прототип	Slime radioativo · protótipo
+rad radioactive радиоактивный	rad radioactive radioativo
+Мозаичный слайм · прототип	Slime mosaico · protótipo
+mosaic мозаичный	mosaic mosaico
+Эксперименты	Experimentos
+Визуальный прототип	Protótipo visual
+Порядок Слаймопедии · 	Ordem da Slimepédia · 
+ типов	 tipos
+Порядок Слаймопедии недоступен · непроверенные типы по ID	Ordem da Slimepédia indisponível · tipos não verificados por ID
+Каталог: 	Catálogo: 
+ записей, включая явно помеченные прототипы и неготовые типы.	 entradas, incluindo protótipos e tipos inacabados marcados explicitamente.
+Нативный каталог ещё не готов.	O catálogo nativo ainda não está pronto.
+Лучистый · 	Radiante · 
+Лучистые	Radiantes
+Нативный лучистый вариант недоступен: 	Variante radiante nativa indisponível: 
+Лучистая запись устарела или отсутствует в текущем каталоге.	A entrada radiante está desatualizada ou ausente do catálogo atual.
+Нативная идентичность лучистого вида изменилась; обновите каталог.	A identidade nativa da espécie radiante mudou; atualize o catálogo.
+Игровая модель недоступна.	Modelo do jogo indisponível.
+Не удалось создать лучистый ActorModel.	Não foi possível criar o ActorModel radiante.
+Не удалось создать лучистый актор.	Não foi possível criar o ator radiante.
+Созданный актор не содержит единственный SlimeRadiant.	O ator criado não contém exatamente um SlimeRadiant.
+Нативный актор не подтвердил точный лучистый вариант.	O ator nativo não confirmou a variante radiante exata.
+Создано: 	Criados: 
+. Только эти объекты доступны для очистки.	. Apenas estes objetos podem ser limpos.
+ В коопе друзья видят обычный вариант: сияние не синхронизируется.	 No co-op seus amigos veem a variante comum: o brilho não é sincronizado.
+Лучистый спавн отменён; нативный rollback сообщил ошибки.	Geração radiante cancelada; a reversão nativa relatou erros.
+Нативный лучистый тип недоступен.	Tipo radiante nativo indisponível.
+ Создание отключено.	 Geração desativada.
+Выберите объект в каталоге.	Escolha um objeto no catálogo.
+ Создание отключено для защиты сейва.	 Geração desativada para proteger o save.
+Кооп: Гордо создаются через нативную ловушку, которую 	Co-op: Gordos são criados pela armadilha nativa, que o 
+ не синхронизирует. Доступно в одиночной игре.	 não sincroniza. Disponível no modo um jogador.
+Декорации требуют штатного размещения GadgetModel и не поддерживаются акторным спавнером.	Decorações exigem colocação padrão de GadgetModel e não são suportadas pelo gerador de atores.
+Дрон требует своей модели и станции; этот каталог создаёт слаймов, еду, плорты и ресурсы.	Um drone precisa de seu próprio modelo e estação; este catálogo gera slimes, comida, plorts e recursos.
+Тип префаба отличается от записи каталога. Выберите основную запись этого предмета.	O tipo do prefab difere da entrada do catálogo. Escolha a entrada principal deste item.
+Этот тип привязан к нативной сцене и не является свободно создаваемым актором.	Este tipo está vinculado a uma cena nativa e não é um ator livremente gerável.
+Игровая камера недоступна.	Câmera do jogo indisponível.
+Группа сцены игрока недоступна.	O grupo de cena do jogador está indisponível.
+Невалидное смещение спавна.	Deslocamento de geração inválido.
+Не удалось создать ActorModel: 	Não foi possível criar o ActorModel: 
+Не удалось создать актор: 	Não foi possível criar o ator: 
+ Настройки прототипа видны только вам.	 Configurações de protótipo são visíveis apenas para você.
+Гордо уже создаётся. Дождитесь завершения.	Um Gordo já está sendo criado. Aguarde concluir.
+Запись Гордо устарела или мир загружается.	A entrada do Gordo está desatualizada ou o mundo está carregando.
+Игровая сцена недоступна.	Cena do jogo indisponível.
+Нативный тип ловушки Гордо не найден.	Tipo nativo de armadilha de Gordo não encontrado.
+Перед игроком нет подтверждённой земли для Гордо.	Não há solo confirmado à frente do jogador para um Gordo.
+Другой Гордо слишком близко; выберите свободное место.	Outro Gordo está perto demais; escolha um local livre.
+Нативная ловушка не создала SnareModel.	A armadilha nativa não criou um SnareModel.
+Подготовка Гордо · 1 экземпляр	Preparando Gordo · 1 instância
+Подготовка Гордо прервана или истёк срок ожидания.	A preparação do Gordo foi interrompida ou expirou.
+Модель ловушки ещё не готова.	O modelo da armadilha ainda não está pronto.
+Нативная ловушка не подтвердила точный тип Гордо.	A armadilha nativa não confirmou o tipo exato de Gordo.
+Создан Гордо · 	Gordo criado · 
+ · на нативной ловушке	 · em armadilha nativa
+Создание Гордо отменено: 	Criação de Gordo cancelada: 
+Дождитесь завершения создания Гордо.	Aguarde até o Gordo ser criado.
+Игровая модель недоступна для очистки оставшейся лучистой модели.	Modelo do jogo indisponível para limpar o modelo radiante restante.
+Удалено созданных модом объектов: 	Objetos criados pelo mod removidos: 
+. Нативные объекты мира не затронуты.	. Objetos nativos do mundo não foram alterados.
+ Не удалось удалить: 	 Não foi possível remover: 
+ (моделей без объекта: 	 (modelos sem objeto: 
+); можно повторить очистку.	); você pode repetir a limpeza.
+Список валют недоступен.	Lista de moedas indisponível.
+Нью-баксы не найдены.	Newbucks não encontrados.
+Нью-баксы: 	Newbucks: 
+Выберите ресурс.	Escolha um recurso.
+Лучистый вариант пока нельзя выдавать в вакпак без нативной metadata.	A variante radiante ainda não pode ser colocada no vacpack sem metadados nativos.
+Вакпак ещё не инициализирован.	O vacpack ainda não foi inicializado.
+Выберите доступный слот вакпака.	Escolha um espaço disponível do vacpack.
+Выбранный слот ещё закрыт.	O espaço selecionado ainda está bloqueado.
+Этот ресурс несовместим с выбранным слотом.	Este recurso não é compatível com o espaço selecionado.
+Заменить содержимое слота?	Substituir o conteúdo do espaço?
+Содержимое выбранного слота будет заменено на 	O conteúdo do espaço selecionado será substituído por 
+» до лимита слота	» até o limite do espaço
+100 шт. «	100 × «
+. Изменение попадёт в сейв.	. A alteração será gravada no save.
+Выдача лучистого варианта в вакпак отключена: metadata не реализована.	Colocar variante radiante no vacpack está desativado: metadados não implementados.
+Слот больше не существует.	O espaço não existe mais.
+Слот закрыт.	O espaço está bloqueado.
+Этот ресурс несовместим с выбранным слотом. Содержимое не изменено.	Este recurso não é compatível com o espaço selecionado. Conteúdo inalterado.
+Этот тип нельзя хранить в выбранном слоте.	Este tipo não pode ser guardado no espaço selecionado.
+Нативный слот не принял 	O espaço nativo não aceitou 
+ шт.	 un.
+Слот 	Espaço 
+ (лимит слота).	 (limite do espaço).
+ (может превышать штатную ёмкость).	 (pode exceder a capacidade padrão).
+Доказательства подтверждены; запись основного сейва остаётся заблокированной до выхода.	Provas confirmadas; a gravação do save principal permanece bloqueada até sair.
+Капсулы	Cápsulas
+Ноды карты	Nós do mapa
+Дроны	Drones
+Капсула с сокровищами	Cápsula de tesouro
+Узел карты	Nó do mapa
+Поисковый дрон	Drone de pesquisa
+Призрачный дрон	Drone fantasma
+Название награды временно недоступно	Nome da recompensa temporariamente indisponível
+База содержимого ещё не загружена	Banco de conteúdo ainda não carregado
+Чертёж	Projeto
+Компонент улучшения	Componente de melhoria
+Предмет	Item
+Теневой тайник	Esconderijo sombrio
+Награды сверены с загруженной капсулой: вид, имя asset и количество.	As recompensas conferem com a cápsula carregada: tipo, nome do asset e quantidade.
+Расхождение с загруженной капсулой. Ниже отдельно база и нативный снимок; база не исправлялась.	Divergência com a cápsula carregada. Abaixo estão o banco e o instantâneo nativo separadamente; o banco não foi alterado.
+Нативная сверка не подтверждена. 	Verificação nativa não confirmada. 
+Данные базы для совпавшей версии; нативная капсула ещё не сверена.	Dados do banco para a versão correspondente; a cápsula nativa ainda não foi conferida.
+Нативный снимок прочитан; сопоставление базы для этого ID отсутствует.	Instantâneo nativo lido; não há mapeamento no banco para este ID.
+Для точного ID содержимое неизвестно.	Conteúdo desconhecido para o ID exato.
+\n\nБаза:\n	\n\nBanco de dados:\n
+Статические награды не указаны.	Nenhuma recompensa estática listada.
+\n\nНативный снимок:\n	\n\nInstantâneo nativo:\n
+Поддерживаемые награды не указаны.	Nenhuma recompensa suportada listada.
+\n\nОписание наград базы:\n	\n\nDescrição das recompensas do banco:\n
+Награды расходятся с базой	As recompensas diferem do banco de dados
+Точный ID не указан.	ID exato não especificado.
+Загруженная капсула недоступна.	Cápsula carregada indisponível.
+Точный нативный ID не совпадает; награды к этому ID не привязаны.	O ID nativo exato não coincide; nenhuma recompensa está vinculada a este ID.
+Чтение нативных наград недоступно: 	Leitura das recompensas nativas indisponível: 
+Есть неподдерживаемые appearance-награды, null-элементы или неполные данные; полное совпадение не заявляется.	Há recompensas de aparência não suportadas, itens nulos ou dados incompletos; correspondência total não declarada.
+Вид, имя asset или количество наград расходятся с базой.	Tipo, nome do asset ou quantidade das recompensas diferem do banco.
+Совпал multiset нативных наград; это не состояние открытия.	O multiconjunto nativo de recompensas coincidiu; isto não indica estado aberto.
+Для точного ID нет version-gated baked-сопоставления.	Sem mapeamento pré-gravado da versão para o ID exato.
+Загруженный тайник недоступен.	Esconderijo carregado indisponível.
+База 	Banco de 
+ капсул · версия совпала · нативных названий 	 cápsulas · versão compatível · nomes nativos 
+ · сверено 	 · conferidas 
+ · расхождений 	 · divergências 
+Version-gated база недоступна; награды не подтверждены	Banco vinculado à versão indisponível; recompensas não confirmadas
+СКМ	BM
+Слева сверху	Superior esquerdo
+Справа сверху	Superior direito
+Слева снизу	Inferior esquerdo
+Справа снизу	Inferior direito
+ мс	 ms
+ · пик 	 · pico 
+Свободная установка: ВКЛ	Colocação livre: LIG
+Свободная установка: ВЫКЛ	Colocação livre: DESL
+Камера и запись: все функции выключены	Câmera e captura: todas as funções desligadas
+Угол обзора мода: 	Campo de visão do mod: 
+Угол обзора: как в настройках игры	Campo de visão: como nas configurações do jogo
+Плавный зум: держите 	Zoom suave: segure 
+Плавный зум выключен	Zoom suave desligado
+Клавиша зума: 	Tecla de zoom: 
+Счётчик FPS включён	Contador de FPS ligado
+Счётчик FPS выключен	Contador de FPS desligado
+Счётчик FPS: 	Contador de FPS: 
+Ограничение FPS в фоне: 	Limite de FPS em segundo plano: 
+Ограничение FPS в фоне выключено	Limite de FPS em segundo plano desligado
+FPS в фоне: 	FPS em segundo plano: 
+Перехватчик актёров не установлен: 	Gancho de atores não instalado: 
+Плавная физика: интерполяция слаймов и предметов включена	Física suave: interpolação de slimes e itens ligada
+Плавная физика выключена, интерполяция возвращена	Física suave desligada, interpolação restaurada
+↖ Слева	↖ Esquerda
+↗ Справа	↗ Direita
+↙ Слева	↙ Esquerda
+↘ Справа	↘ Direita
+Камера и запись	Câmera e captura
+Назад	Voltar
+Всё выключено по умолчанию; выбор сохраняется в capture.cfg.	Tudo vem desligado por padrão; sua escolha é salva em capture.cfg.
+Угол обзора (FOV)	Campo de visão (FOV)
+Свой угол обзора: ВКЛ	FOV personalizado: LIG
+Свой угол обзора: ВЫКЛ	FOV personalizado: DESL
+Камера: 	Câmera: 
+ · зум и эффекты игры считаются от вашего угла.	 · o zoom e os efeitos do jogo usam o seu ângulo como base.
+Выкл — угол из настроек игры. Включите, чтобы задать 30–120°.	Desl. — usa o ângulo do jogo. Ligue para definir 30–120°.
+Плавный зум	Zoom suave
+Плавный зум: ВКЛ	Zoom suave: LIG
+Плавный зум: ВЫКЛ	Zoom suave: DESL
+Клавиша	Tecla
+Зум ×	Zoom ×
+M4 — боковая кнопка мыши. Держите — приближение.	M4 é o botão lateral do mouse. Segure para aproximar.
+Держите клавишу — приближение, отпустите — назад.	Segure a tecla para aproximar e solte para voltar.
+Счётчик FPS	Contador de FPS
+Счётчик FPS: ВКЛ	Contador de FPS: LIG
+Счётчик FPS: ВЫКЛ	Contador de FPS: DESL
+ · виден и в меню игры	 · visível também no menu do jogo
+Кадры в секунду и время кадра в углу экрана.	Quadros por segundo e tempo de quadro em um canto da tela.
+FPS в фоне	FPS em segundo plano
+Ограничение в фоне: ВКЛ	Limite em segundo plano: LIG
+Ограничение в фоне: ВЫКЛ	Limite em segundo plano: DESL
+Сейчас ограничено: 	Limitado agora: 
+Alt+Tab — меньше нагрузки; в игре — как было.	Alt+Tab — menos carga; no jogo — como antes.
+Плавная физика	Física suave
+Интерполяция включена · тел: 	Interpolação ligada · corpos: 
+. Слаймы и предметы не дрожат при высоком FPS.	. Slimes e itens não tremem em FPS alto.
+Интерполяция Rigidbody у слаймов и предметов: плавнее движение при FPS выше частоты физики.	Interpolação de Rigidbody em slimes e itens: movimento mais suave quando o FPS supera a taxa da física.
+Плавная физика: ВКЛ	Física suave: LIG
+Плавная физика: ВЫКЛ	Física suave: DESL
+Каталог	Catálogo
+Забота	Cuidado
+Гаджеты	Engenhocas
+Забота о слаймах · до 25 м	Cuidado de slimes · até 25 m
+Штатные гаджеты и декорации	Engenhocas e decorações padrão
+Инспектор: ВКЛ	Inspetor: LIG
+Инспектор: ВЫКЛ	Inspetor: DESL
+Обновить рядом	Atualizar por perto
+Накормить вокруг…	Alimentar ao redor…
+Любимая еда берётся из выбранного слота: до 8 порций, одна на голодного слайма. 	A comida favorita sai do espaço selecionado: até 8 porções, uma por slime faminto. 
+Штатные сон, сытость и препятствия учитываются; новая еда не выдаётся.	Sono, saciedade e obstáculos padrão são respeitados; nenhuma comida nova é criada.
+Слайм / дистанция	Slime / distância
+Любимая еда	Comida favorita
+Голод / возбуждение	Fome / agitação
+ м	 m
+Голоден	Faminto
+Сыт	Saciado
+Поблизости нет загруженных слаймов с нативными эмоциями.	Nenhum slime carregado com emoções nativas por perto.
+Включите инспектор или обновите список вручную.	Ligue o inspetor ou atualize a lista manualmente.
+Обновить чертежи	Atualizar projetos
+Нет полученных чертежей по этому запросу.\nОбновите каталог; скрытые чертежи мод не открывает.	Nenhum projeto obtido corresponde à busca.\nAtualize o catálogo; o mod não desbloqueia projetos ocultos.
+Выберите гаджет	Escolha uma engenhoca
+Неподвижная земля перед игроком, нормаль поверхности, полный контакт и отсутствие пересечений. 	Solo firme à frente do jogador, normal da superfície, contato total e sem interseções. 
+Связанные порталы подчиняются ограничениям игры.	Portais vinculados seguem as restrições do jogo.
+Разместить 1 экземпляр…	Colocar 1 unidade…
+Бесконечный режим: экземпляр не списывается, Преобразователь не трогается. 	Modo infinito: o item não é gasto e o Fabricador não é alterado. 
+Свободная установка: без проверки пересечений и уклона.	Colocação livre: sem verificação de interseções ou inclinação.
+Лимиты и проверки места — штатные.	Limites e verificações de local seguem o padrão.
+Нужен изготовленный экземпляр. Размещение — с подтверждением; удаление и возврат — через штатное строительство.	Requer uma unidade fabricada. A colocação pede confirmação; remoção e devolução usam o modo de construção padrão.
+Ресурсы Преобразователя…	Recursos do Fabricador…
+Нативная настройка HUD недоступна.	Configuração nativa do HUD indisponível.
+HUD и модель вакпака скрыты. Меню Creator Toolkit остаётся доступно.	HUD e modelo do vacpack ocultos. O menu do Creator Toolkit continua disponível.
+Нативный HUD восстановлен.	HUD nativo restaurado.
+Лимит — 5 точек. Удалите ненужную точку.	O limite é de 5 pontos. Exclua um ponto desnecessário.
+Мотор игрока ещё не готов.	O motor do jogador ainda não está pronto.
+Невалидные координаты точки.	Coordenadas do ponto inválidas.
+Точка 	Ponto 
+Сохранена точка «	Ponto salvo «
+Точка относится к другому сейву.	O ponto pertence a outro save.
+Невалидные координаты точки; телепортация отменена.	Coordenadas inválidas; teleporte cancelado.
+Телепортация недоступна.	Teleporte indisponível.
+Подготовка точки «	Preparando o ponto «
+» с проверкой безопасной посадки.	» com verificação de pouso seguro.
+Скорость времени: штатная	Velocidade do tempo: normal
+Ускорить симуляцию в 5 раз?	Acelerar a simulação em 5×?
+Ускоряются физика и игровые события. Это не оптимизация FPS. Прогресс мира может сохраниться; тестируйте на копии сейва. Нативная пауза или загрузка отключает режим.	A física e os eventos do jogo aceleram. Isto não é otimização de FPS. O progresso do mundo pode ser salvo; teste em uma cópia do save. Pausa nativa ou carregamento desliga o modo.
+Завершите загрузку, нативное меню, ускоренную перемотку или замер FPS.	Conclua o carregamento, o menu nativo, o avanço rápido ou a medição de FPS.
+Скорость уже изменена игрой; сначала восстановите режим.	O jogo já alterou a velocidade; restaure o modo primeiro.
+Игра не в обычном темпе. Пауза и сторонние изменения не переопределяются.	O jogo não está no ritmo normal. Pausas e alterações externas não são sobrescritas.
+Скорость симуляции ×	Velocidade da simulação ×
+ · временно	 · temporário
+Режим времени отключён: приоритет нативной паузы, загрузки или внешнего изменения	Modo de tempo desligado: pausa nativa, carregamento ou alteração externa tem prioridade
+Скорость времени: штатная; внешняя пауза не снимается	Velocidade do tempo: normal; pausa externa não é removida
+Кинематограф · скорость времени	Cinema · velocidade do tempo
+Замедление для кадров и ускорение симуляции. Выключено по умолчанию; это Unity TimeScale, не скрытая способность разработчиков.	Câmera lenta para capturas e aceleração da simulação. Desligado por padrão; usa Unity TimeScale, não uma habilidade oculta de desenvolvedor.
+×1 · Восстановить	×1 · Restaurar
+×5 · Ускорить…	×5 · Acelerar…
+Пауза игры имеет приоритет. При нативном меню, карте, загрузке или смене сейва режим отключается и сам не возобновляется. ×5 повышает нагрузку и влияет на игровой прогресс. fixedDeltaTime не изменяется.	A pausa do jogo tem prioridade. No menu nativo, mapa, carregamento ou troca de save o modo desliga e não volta sozinho. ×5 aumenta a carga e afeta o progresso. fixedDeltaTime não muda.
+Бессмертие	Modo Deus
+Бесконечная энергия	Energia infinita
+Заморозка времени	Congelar tempo
+Заморозка слаймов	Congelar slimes
+Управление меню Creator Toolkit	Controles do menu Creator Toolkit
+Бесконечный инвентарь	Inventário infinito
+Плавная загрузка	Carregamento suave
+Бесконечный режим строителя	Modo construtor infinito
+Функция Creator Toolkit	Função do Creator Toolkit
+Совместимость: «	Compatibilidade: «
+» отключена — её перехватчик сбоил рядом с другим модом. Убран только перехватчик Creator Toolkit, чужие моды не затронуты.	» foi desativada — seu gancho falhou junto de outro mod. Apenas o gancho do Creator Toolkit foi removido; outros mods não foram afetados.
+Исследователь	Explorador
+Кадр	Cena
+Нет	Nenhum
+Все читы выключены	Todas as trapaças desligadas
+Автопополнение выключено	Autorrecarga desligada
+Безопасная точка: 	Ponto seguro: 
+Встаньте на безопасную поверхность	Fique sobre uma superfície segura
+Дождитесь загрузки сцены или завершения телепортации.	Aguarde o carregamento da cena ou o fim do teleporte.
+Профиль выключен. Предыдущие настройки восстановлены.	Perfil desligado. Configurações anteriores restauradas.
+Профиль «	Perfil «
+» включён. Повторное нажатие восстановит прежние настройки.	» ligado. Pressione novamente para restaurar as configurações anteriores.
+SOS включён: записываются только проверенные наземные позиции. Ctrl + Home — возврат.	SOS ligado: apenas posições terrestres verificadas são gravadas. Ctrl + Home para voltar.
+SOS выключен. Наземная точка очищена.	SOS desligado. Ponto terrestre limpo.
+SOS — наземная точка	SOS — ponto terrestre
+Наземная точка ещё не записана в этом сейве.	Nenhum ponto terrestre gravado neste save ainda.
+Телепорты	Teleportadores
+Доступная неоткрытая капсула не найдена. Проверьте индекс версии карты.	Nenhuma cápsula fechada acessível encontrada. Verifique o índice da versão do mapa.
+Ближайшая капсула: 	Cápsula mais próxima: 
+. На карте можно выбрать безопасный телепорт. Автосбор не выполняется.	. Você pode escolher um teleporte seguro no mapa. Nada é coletado automaticamente.
+Выберите открытый непустой слот.	Escolha um espaço desbloqueado e não vazio.
+Сначала поместите ресурс в выбранный слот.	Coloque um recurso no espaço selecionado primeiro.
+Включить автопополнение?	Ligar autorrecarga?
+ будет пополняться 	 será recarregado 
+до лимита слота (его задаёт мод вакпака), когда останется четверть или меньше	até o limite do espaço (definido pelo mod do vacpack) quando restar um quarto ou menos
+до 100 шт., когда останется 25 или меньше	até 100 quando restarem 25 ou menos
+. Количество сохраняется игрой. При смене выбранного слота, ресурса или опустошении чит отключится.	. A quantidade é salva pelo jogo. Se o espaço ou recurso mudar, ou esvaziar, a trapaça desliga.
+Выбранный слот изменился; автопополнение не включено.	O espaço selecionado mudou; autorrecarga não ativada.
+Слот закрыт, пуст или его ресурс изменился; автопополнение не включено.	O espaço está bloqueado, vazio ou seu recurso mudou; autorrecarga não ativada.
+: порог 25 → 100	: limite 25 → 100
+Автопополнение включено только для выбранного ресурса. Смена слота отключит чит.	Autorrecarga ligada apenas para o recurso selecionado. Trocar de espaço desliga a trapaça.
+Отключено: выбранный слот или сейв изменился	Desligado: o espaço selecionado ou o save mudou
+Отключено: слот пуст, закрыт или ресурс изменился	Desligado: o espaço está vazio, bloqueado ou o recurso mudou
+Слот не принял пополнение.	O espaço não aceitou a recarga.
+Отключено: ошибка нативного пополнения	Desligado: erro na recarga nativa
+Неизвестная зона	Zona desconhecida
+Энергия ∞	Energia ∞
+Полёт	Voo
+Автослот	Auto-espaço
+Время ❚❚	Tempo ❚❚
+Слаймы ❚❚	Slimes ❚❚
+Без варров	Sem breus
+Включить автокормление загонов?	Ligar alimentação automática dos currais?
+Голодные слаймы в загонах прогруженной зоны (до 300 м) получают по одной порции еды из своего рациона: 	Slimes famintos nos currais da zona carregada (até 300 m) recebem uma porção de comida de sua dieta: 
+сначала любимую, иначе обычную. Еда создаётся бесплатно (режим создателя), не более 4 порций в секунду; 	primeiro a favorita, senão uma comum. A comida é criada de graça (modo criador), no máximo 4 porções/s; 
+пережёвывание, сытость и плорты — штатные. Плорты и превращающая еда (ларго, тарр) не выдаются. 	mastigação, saciedade e plorts seguem o padrão. Plorts e comidas transformadoras (largos, breus) não são dados. 
+При смене мира автокормление выключается.	Ao trocar de mundo, a alimentação automática desliga.
+Дождитесь загрузки мира и завершения перехода.	Aguarde o carregamento do mundo e o fim da transição.
+Автокормление включено · поиск загонов…	Alimentação automática ligada · procurando currais…
+Автокормление остановлено из-за ошибки: 	Alimentação automática parada por erro: 
+Автокормление включено · игрок ещё не готов	Alimentação automática ligada · o jogador ainda não está pronto
+Порция не получила нативную модель.	A porção não recebeu modelo nativo.
+Порция не получила нативный объект.	A porção não recebeu objeto nativo.
+Нативная порция не идентифицируется как выбранная еда.	A porção nativa não é identificada como a comida selecionada.
+Мои метки	Meus marcadores
+Метка	Marcador
+Метки хранятся отдельно для каждого сейва	Os marcadores são salvos separadamente para cada save
+Файл меток слишком велик.	O arquivo de marcadores é grande demais.
+Мои метки: 	Meus marcadores: 
+ · отдельно от игрового сейва	 · separado do save do jogo
+Файл меток не принят. Исходный файл не перезаписан: 	O arquivo de marcadores não foi aceito. O arquivo original não foi sobrescrito: 
+Метки недоступны во время смены мира или ошибки их файла.	Marcadores indisponíveis durante troca de mundo ou erro no arquivo.
+ · сохранены	 · salvos
+Метка 	Marcador 
+Проверьте имя, цвет, игровую зону и лимит 32 меток.	Verifique o nome, a cor, a zona do jogo e o limite de 32 marcadores.
+Сохраните точку, стоя на проверенной свободной земле, без NoClip.	Salve o ponto em solo livre verificado, sem NoClip.
+Пользовательская метка	Marcador personalizado
+Метка удалена.	Marcador excluído.
+Имя до 48 символов; выберите один из шести цветов.	Nome de até 48 caracteres; escolha uma das seis cores.
+Выберите свою метку.	Escolha seu marcador.
+ · другой остров	 · outra ilha
+Атлас	Atlas
+Радар	Radar
+Навигация	Navegação
+Розовый	Rosa
+Бирюза	Turquesa
+Золото	Dourado
+Лаванда	Lavanda
+Лайм	Lima
+Голубой	Azul-celeste
+Свои цветные метки · 	Seus marcadores coloridos · 
+Название новой метки…	Nome do novo marcador…
+Сохранить у игрока	Salvar no jogador
+Поставить на карте	Colocar no mapa
+Пока нет своих меток.\nСохраните позицию на земле или нажмите ЛКМ на карте.	Ainda não há marcadores próprios.\nSalve sua posição no chão ou clique com BE no mapa.
+Пока нет своих меток.	Ainda não há marcadores próprios.
+Выберите свою метку.\nИмя и цвет можно изменить; удаление требует подтверждения.	Escolha seu marcador.\nNome e cor podem ser alterados; excluir pede confirmação.
+Название метки…	Nome do marcador…
+Сохранить имя и цвет	Salvar nome e cor
+Зона этой метки сейчас недоступна. Телепорт отключён.	A zona deste marcador está indisponível agora. Teleporte desativado.
+Маяк + компас · проверенная наземная высота	Sinalizador + bússola · altura do solo verificada
+Компас · высота посадки будет проверена при телепорте	Bússola · altura de pouso será verificada ao teleportar
+На карте	No mapa
+Телепорт	Teleporte
+Выбрать этот маяк / компас	Selecionar este sinalizador / bússola
+Маяк / компас к метке	Sinalizador / bússola para o marcador
+Скрыть маяк	Ocultar sinalizador
+Удалить…	Excluir…
+Удалить свою метку?	Excluir seu marcador?
+Будет удалена только выбранная пользовательская метка. Капсулы и другие объекты игры не затрагиваются.	Apenas o marcador personalizado selecionado será excluído. Cápsulas e outros objetos do jogo não são afetados.
+Любимая еда и редкие материалы · до 100 м	Comida favorita e materiais raros · até 100 m
+Любимая еда:\n	Comida favorita:\n
+Любимая еда: ВКЛ	Comida favorita: LIG
+Любимая еда: ВЫКЛ	Comida favorita: DESL
+Редкие материалы: ВКЛ	Materiais raros: LIG
+Редкие материалы: ВЫКЛ	Materiais raros: DESL
+Метки на компасе: ВКЛ	Marcadores na bússola: LIG
+Метки на компасе: ВЫКЛ	Marcadores na bússola: DESL
+Ближайшая цель · обновление раз в секунду · только загруженная зона; скрытые залежи не угадываются.	Alvo mais próximo · atualiza 1× por segundo · apenas zona carregada; depósitos ocultos não são adivinhados.
+Настройки навигации недоступны	Configurações de navegação indisponíveis
+Мини-карта и компас · сохраняется сразу	Minimapa e bússola · salvo na hora
+Мини-карта	Minimapa
+Режим	Modo
+Размер	Tamanho
+Масштаб 	Zoom 
+Угол	Canto
+Прозр. 	Opac. 
+Ориентация	Orientação
+По взгляду	Seguir visão
+Север сверху	Norte acima
+ · фон 	 · fundo 
+ · север сверху	 · norte acima
+ · по взгляду	 · seguir visão
+ · масштаб 	 · zoom 
+Слои мини-карты — включённые слои атласа.	As camadas do minimapa seguem as camadas ativadas no atlas.
+Компас	Bússola
+Дальн. 	Alcance 
+Меток	Marcadores
+ из 	 de 
+Фантомы	Fantasmas
+Ближайший фантомный дрон зоны с наградой — всегда, без предела дальности.	O drone fantasma com recompensa mais próximo da zona — sempre, sem limite de alcance.
+Фантомные дроны раньше других слоёв, как свои метки.	Drones fantasmas antes das outras camadas, como seus marcadores.
+Фантомные дроны — наравне с другими дронами.	Drones fantasmas — igual aos outros drones.
+Сбросить вид и пределы	Redefinir visual e limites
+Компас недоступен	Bússola indisponível
+\nСначала по одной метке на каждый слой.	\nPrimeiro um marcador para cada camada.
+Сбор плортов	Coleta de plorts
+Купленный сборщик загона · до 30 м.	Coletor comprado do curral · até 30 m.
+Автосбор: ВКЛ · отключить	Autocoleta: LIG · desligar
+Автосбор: ВЫКЛ · включить…	Autocoleta: DESL · ligar…
+Пополнение кормушек	Abastecimento de comedouros
+Из выбранного слота в кормушку · до 4 шт./с.	Do espaço selecionado para o comedouro · até 4 un./s.
+Кормушки: ВКЛ · отключить	Comedouros: LIG · desligar
+Кормушки: ВЫКЛ · включить…	Comedouros: DESL · ligar…
+Автокормление загонов	Alimentação automática de currais
+Голодным слаймам в загонах — по порции из их рациона (сначала любимая) · до 300 м.	Slimes famintos nos currais recebem porções de sua dieta (favorita primeiro) · até 300 m.
+Автокорм: ВКЛ · отключить	Autoalimentar: LIG · desligar
+Автокорм: ВЫКЛ · включить…	Autoalimentar: DESL · ligar…
+Изменяет инвентарь · включение с подтверждением.	Altera o inventário · ligar pede confirmação.
+нет\nиконки	sem\nícone
+Своя метка · 	Marcador próprio · 
+Наземный маяк и компас	Sinalizador terrestre e bússola
+Компас; высота земли проверится при переходе	Bússola; a altura do solo será verificada na viagem
+Телепорт — через безопасную прогрузку зоны.	O teleporte faz pré-carregamento seguro da zona.
+Маяк / компас к этой метке	Sinalizador / bússola para este marcador
+Безопасный телепорт	Teleporte seguro
+Изменить имя / цвет / удалить…	Alterar nome / cor / excluir…
+Метка хранится отдельно\nот игрового сейва.	O marcador é salvo separadamente\ndo save do jogo.
+Ресурсы: ценные	Valiosos
+Редкое	Raro
+Источник: интерактивная карта Fandom-вики. Координаты пересчитаны с картинки, точность ≈5–10 м; высота неизвестна.	Fonte: mapa interativo da wiki Fandom. Coordenadas recalculadas da imagem, precisão ≈5–10 m; altura desconhecida.
+Координаты X/Y/Z взяты из данных игры (точно до метра).	Coordenadas X/Y/Z extraídas dos dados do jogo (precisão de 1 metro).
+не загружено	não carregado
+встроенный файл меток вики не найден	arquivo embutido de marcadores da wiki não encontrado
+доп. метки: 	marcadores extras: 
+, подсказки вики: 	, dicas da wiki: 
+ошибка чтения меток вики: 	erro ao ler marcadores da wiki: 
+Странный алмаз	Diamante Estranho
+Врата плортов	Portas de plort
+Фермерский помощник выключен	Assistente de fazenda desligado
+Включить фермерского помощника?	Ligar o assistente de fazenda?
+В радиусе 30 м будут использоваться только уже установленные нативные сборщики плортов и кормушки загонов. 	Em um raio de 30 m serão usados apenas coletores de plorts e comedouros nativos já instalados. 
+Еда перекладывается из выбранного слота вакпака, максимум 4 шт./с, без создания предметов и превышения ёмкости. 	A comida é movida do espaço selecionado do vacpack, máx. 4 un./s, sem criar itens nem exceder a capacidade. 
+Инвентарь и содержимое устройств сохраняются игрой. При смене мира помощник выключается.	O inventário e o conteúdo dos aparelhos são salvos pelo jogo. Ao trocar de mundo, o assistente desliga.
+Вакпак не подтвердил снятие одной порции.	O vacpack não confirmou a retirada de uma porção.
+Нативная передача не сохранила общее количество еды.	A transferência nativa não preservou o total de comida.
+Устройств в радиусе 30 м: сборщики 	Aparelhos em 30 m: coletores 
+ / кормушки 	 / comedouros 
+ · переложено 	 · movidos 
+ шт. · запусков сбора 	 un. · coletas 
+Сначала загрузите мир.	Carregue um mundo primeiro.
+Настройки штатного строительства недоступны.	Configurações da construção padrão indisponíveis.
+ · без проверки пересечений и уклона, дальность 	 · sem verificação de interseções ou inclinação, alcance 
+ · штатные проверки места	 · verificações padrão de local
+Каталог гаджетов ещё не открыт	O catálogo de engenhocas ainda não foi aberto
+Найдено несколько владельцев инструмента этого игрока; размещение отменено.	Vários donos de ferramenta encontrados para este jogador; colocação cancelada.
+Дождитесь завершения уже подтверждённого размещения.	Aguarde o término da colocação já confirmada.
+Нативные перехватчики режима не установлены: 	Ganchos nativos do modo não instalados: 
+ · известные гаджеты и декор: 999; при установке экземпляр и Преобразователь не тратятся	 · engenhocas e decorações conhecidas: 999; colocar não gasta o item nem o Fabricador
+ · обычный расход изготовленных экземпляров	 · consumo normal de itens fabricados
+Штатный владелец инструмента не найден.	Dono padrão da ferramenta não encontrado.
+Штатный режим строительства: 	Modo de construção padrão: 
+ВКЛ	LIG
+ВЫКЛ	DESL
+Сначала включите штатный режим строительства.	Ligue o modo de construção padrão primeiro.
+Штатный GadgetItem недоступен.	GadgetItem padrão indisponível.
+Нативный GadgetDirector ещё не готов	O GadgetDirector nativo ainda não está pronto
+Известных гаджетов и декора: 	Engenhocas e decorações conhecidas: 
+Полученных чертежей: 	Projetos obtidos: 
+ · бесконечный режим: экземпляры не тратятся	 · modo infinito: itens não são gastos
+ · размещаются только изготовленные экземпляры	 · apenas itens fabricados são colocados
+Мир сменился или ещё загружается; обновите каталог.	O mundo mudou ou ainda está carregando; atualize o catálogo.
+Выберите гаджет из текущего каталога.	Escolha uma engenhoca do catálogo atual.
+Гаджет ещё не известен: нужен чертёж, запись в Слаймопедии или установленный экземпляр.	A engenhoca ainda não é conhecida: requer projeto, entrada na Slimepédia ou item colocado.
+Нужен полученный чертёж и изготовленный экземпляр в нативном инвентаре.	Requer projeto obtido e unidade fabricada no inventário nativo.
+Завершите штатное строительство или уберите удерживаемый гаджет.	Conclua a construção padrão ou guarde a engenhoca segurada.
+Штатное строительство заблокировано в текущем состоянии игрока.	A construção padrão está bloqueada no estado atual do jogador.
+Мир ещё не готов	O mundo ainda não está pronto
+Игровая камера / GadgetItem недоступны	Câmera do jogo / GadgetItem indisponível
+Нативная дистанция размещения недоступна	Distância nativa de colocação indisponível
+Перед игроком нет твёрдой поверхности	Não há superfície sólida à frente do jogador
+Поверхность слишком близко к камере	A superfície está perto demais da câmera
+Между камерой и найденной землёй есть препятствие	Há um obstáculo entre a câmera e o solo encontrado
+Нужна неподвижная земля в нативной дистанции и допустимом уклоне	Requer solo firme dentro da distância nativa e inclinação permitida
+Вода, море слаймов и лава не подходят	Água, mar de slimes e lava não são adequados
+Не удалось определить направление на поверхности	Não foi possível determinar a direção na superfície
+Разместить «	Colocar «
+Бесконечный режим строителя: экземпляр не списывается, Преобразователь не трогается. 	Modo construtor infinito: o item não é gasto e o Fabricador não é alterado. 
+Один изготовленный экземпляр из нативного инвентаря. 	Uma unidade fabricada do inventário nativo. 
+Земля, уклон, полный контакт, 	Solo, inclinação, contato total, 
+пересечения и ограничения связанных порталов проверяются заново. Позиция: 	interseções e restrições de portais vinculados são verificados novamente. Posição: 
+. Гаджет будет сохраняться игрой; убирается штатным режимом строительства.	. A engenhoca será salva pelo jogo; remova-a pelo modo de construção padrão.
+Игрок или точка размещения сдвинулись; подтвердите новую позицию.	O jogador ou o ponto de colocação se moveu; confirme a nova posição.
+Нативный инвентарь отказался выбрать изготовленный гаджет.	O inventário nativo recusou selecionar a engenhoca fabricada.
+Штатный контроллер отказался включить строительство.	O controlador padrão recusou ativar a construção.
+Подтверждение принято; ожидаю штатную готовность инструмента (до 2 с)	Confirmação aceita; aguardando prontidão da ferramenta padrão (até 2 s)
+Мир изменился во время размещения; нативное событие не повторяется	O mundo mudou durante a colocação; o evento nativo não será repetido
+Нативный реестр и инвентарь не подтвердили один гаджет за 1 с. 	O registro e o inventário nativos não confirmaram uma engenhoca em 1 s. 
+Повтор и возврат экземпляра не выполнены; проверьте штатное строительство.	Nenhuma nova tentativa ou reembolso foi feito; verifique a construção padrão.
+Нативный инструмент или сцена изменились; повтор размещения не выполнен.	A ferramenta nativa ou a cena mudou; colocação não repetida.
+Штатный инструмент не завершил инициализацию за 2 с; размещение отменено.	A ferramenta padrão não terminou de inicializar em 2 s; colocação cancelada.
+Изготовленный экземпляр или чертёж больше недоступен.	O item fabricado ou o projeto não está mais disponível.
+Штатный предпросмотр не создан; размещение отменено.	A prévia padrão não foi criada; colocação cancelada.
+Штатный предпросмотр не подготовил поверхность за 2 с; размещение отменено.	A prévia padrão não preparou a superfície em 2 s; colocação cancelada.
+Точка изменилась после подтверждения: 	O ponto mudou após a confirmação: 
+Штатный предпросмотр гаджета не создан; размещение отменено.	A prévia padrão da engenhoca não foi criada; colocação cancelada.
+Поверхность принадлежит незарегистрированному предпросмотру; размещение отменено.	A superfície pertence a uma prévia não registrada; colocação cancelada.
+Штатный прицел отверг поверхность: наведите камеру на открытую землю в допустимой дистанции. Экземпляр не потрачен.	A mira padrão rejeitou a superfície: aponte a câmera para solo aberto na distância permitida. Nenhum item foi gasto.
+Нативная проверка отвергла место: контакт, пересечение, лимит или дальность портала. Экземпляр не потрачен.	A verificação nativa rejeitou o local: contato, interseção, limite ou alcance de portal. Nenhum item foi gasto.
+Размещение не завершено:	Colocação não concluída:
+Нативная модель создана, но положение/нормаль не совпадают с подтверждённой землёй. Повтор не выполнен.	O modelo nativo foi criado, mas posição/normal não coincidem com o solo confirmado. Não repetido.
+Размещено бесплатно: 	Colocado gratuitamente: 
+ · 1 зарегистрированный GadgetModel · инвентарь не изменён (	 · 1 GadgetModel registrado · inventário inalterado (
+Размещено: 	Colocado: 
+ · 1 зарегистрированный GadgetModel · остаток 	 · 1 GadgetModel registrado · restante 
+Геометрия LOD: выключено; API ещё не проверен в игре	Geometria LOD: desligado; a API ainda não foi verificada no jogo
+Некорректный lodBias: ожидается конечное положительное значение.	lodBias inválido: espera-se um valor positivo finito.
+Сначала завершите восстановление геометрии LOD.	Conclua primeiro a restauração da geometria LOD.
+lodBias изменён извне; изменение не перезаписано.	lodBias foi alterado externamente; a alteração não foi sobrescrita.
+Геометрия LOD: снижение уже применено	Geometria LOD: redução já aplicada
+Геометрия LOD: исходное значение уже минимально; без изменений	Geometria LOD: o valor original já é mínimo; sem alterações
+lodBias: запись не подтверждена чтением.	lodBias: a gravação não foi confirmada por leitura.
+Геометрия LOD: 0.75 × исходного lodBias; детализация вдали ниже	Geometria LOD: 0.75 × do lodBias original; menos detalhes à distância
+Геометрия LOD: ошибка	Geometria LOD: erro
+; восстановление требуется	; restauração necessária
+; без владения	; sem posse
+Геометрия LOD: стороннее изменение; автоматическая запись запрещена	Geometria LOD: alteração de terceiros; gravação automática proibida
+Геометрия LOD: чтение недоступно; владение сохранено · 	Geometria LOD: leitura indisponível; posse mantida · 
+Геометрия LOD: исходное значение подтверждено	Geometria LOD: valor original confirmado
+Геометрия LOD: стороннее значение сохранено; восстановление пропущено	Geometria LOD: valor externo mantido; restauração ignorada
+Исходный lodBias не подтверждён чтением.	O lodBias original não foi confirmado por leitura.
+Геометрия LOD: исходное значение восстановлено	Geometria LOD: valor original restaurado
+Геометрия LOD: восстановление не завершено; владение сохранено · 	Geometria LOD: restauração incompleta; posse mantida · 
+перехватчики отключены ради совместимости с другими модами	ganchos desativados para compatibilidade com outros mods
+Нативные перехватчики режима не установлены	Ganchos nativos do modo não instalados
+Нативный GadgetDirector ещё не готов.	O GadgetDirector nativo ainda não está pronto.
+ · сейв сменился	 · o save mudou
+Бесконечный режим строителя: ВКЛ	Modo construtor infinito: LIG
+Бесконечный режим строителя: ВЫКЛ	Modo construtor infinito: DESL
+Консоль / Инфо	Console / Info
+Назад к удобствам	Voltar às utilidades
+Мир: 	Mundo: 
+подготовка безопасного перехода	preparando transição segura
+загружен	carregado
+не загружен	não carregado
+\nОткрыть меню: Insert · закрыть: Esc	\nAbrir menu: Insert · fechar: Esc
+\nF1 не открывает мод	\nF1 não abre o mod
+\nНативных обработчиков: 	\nManipuladores nativos: 
+Оформление и ресурсы	Visual e recursos
+Шрифт: 	Fonte: 
+\nИсточник: 	\nOrigem: 
+игровой ресурс	recurso do jogo
+\nКириллица: 	\nCirílico: 
+проверена	verificado
+недоступна	indisponível
+\nИконки вкладок: 	\nÍcones das abas: 
+ / 8 · игровые спрайты	 / 8 · sprites do jogo
+Состояние	Estado
+Последних ошибок нет.	Sem erros recentes.
+Последняя ошибка: 	Último erro: 
+Временные эффекты сбрасываются при смене сейва. Полные диагностические сведения — в журнале мода.	Efeitos temporários são redefinidos ao trocar de save. Diagnósticos completos estão no log do mod.
+Сначала загрузите сейв.	Carregue um save primeiro.
+Игрок сейчас заморожен или игра на паузе.	O jogador está congelado agora ou o jogo está pausado.
+Нативные карты управления восстановлены.	Mapas de controle nativos restaurados.
+Горшочки	Vasos
+Спавнеры	Geradores
+\nНаграда дрона: 	\nRecompensa do drone: 
+Фантом · место появления	Fantasma · ponto de aparição
+ghost phantom фантом дрон компонент 	ghost phantom fantasma drone componente 
+Начало нативного маршрута, не текущее положение дрона. Условия появления и получение награды пока неизвестны.	Início da rota nativa, não a posição atual do drone. Condições de aparição e coleta da recompensa ainda são desconhecidas.
+Фантом · награда получена	Fantasma · recompensa obtida
+Награда уже получена (капсула дрона открыта). 	A recompensa já foi obtida (a cápsula do drone está aberta). 
+Начало нативного маршрута, не текущий дрон. Условия появления не подтверждены.	Início da rota nativa, não o drone atual. Condições de aparição não confirmadas.
+Точка возврата не задана · хранится только до смены сейва	Ponto de retorno não definido · mantido apenas até trocar de save
+Дождитесь загрузки мира.	Aguarde o mundo carregar.
+Здоровье и энергия восстановлены.	Vida e energia restauradas.
+Для точки возврата встаньте на землю и выключите полёт.	Para definir ponto de retorno, fique no chão e desligue o voo.
+Безопасная поверхность точки не подтверждена.	Superfície segura do ponto não confirmada.
+Точка возврата · 	Ponto de retorno · 
+ · текущий остров	 · ilha atual
+Нет точки возврата текущей сессии.	Sem ponto de retorno na sessão atual.
+Точка на другом острове. Используйте безопасный переход через карту.	O ponto fica em outra ilha. Use a transição segura pelo mapa.
+Место точки занято или земля больше не подтверждена.	O local do ponto está ocupado ou o solo não é mais confirmado.
+Возврат к временной точке.	Retornando ao ponto temporário.
+Максимум FPS выключен	FPS máximo desligado
+Максимум FPS	FPS máximo
+Своя графика	Gráficos personalizados
+ · тени: 	 · sombras: 
+ · декор: 	 · decoração: 
+ · эффекты: 	 · efeitos: 
+% · дальность 	% · alcance 
+игры	jogo
+Максимум FPS выключен · конфликты восстановления: 	FPS máximo desligado · conflitos de restauração: 
+Текстуры · 	Texturas · 
+Частицы декора · 	Partículas decorativas · 
+Только декоративные; опасные эффекты сохранены	Apenas decorativas; efeitos perigosos são mantidos
+Недоступно в этой сборке игры	Indisponível nesta compilação do jogo
+Фоновая загрузка	Carregamento em segundo plano
+Щадящие бюджеты работы за кадр	Orçamentos suaves de trabalho por quadro
+Щадящие бюджеты: ВКЛ	Orçamentos suaves: LIG
+Щадящие бюджеты: ВЫКЛ	Orçamentos suaves: DESL
+Защита изображения	Proteção da imagem
+Интерфейс и шрифты не размываются.\nМасштаб рендера и запись HDRP-структур отключены.\nТекстуры и частицы — после отпускания.	Interface e fontes não ficam borradas.\nEscala de renderização e gravação de estruturas HDRP estão desativadas.\nTexturas e partículas aplicam ao soltar.
+Игра	Jogo
+90 м	90 m
+180 м	180 m
+300 м	300 m
+600 м	600 m
+SSAO · объёмные тени	SSAO · sombras volumétricas
+SSR · отражения	SSR · reflexos
+SSGI · непрямой свет	SSGI · luz indireta
+Объёмные облака	Nuvens volumétricas
+Контактные тени	Sombras de contato
+Микротени	Microssombras
+Размытие движения	Desfoque de movimento
+Глубина резкости	Profundidade de campo
+Bloom · свечение	Bloom · brilho
+Детализация LOD · 	Detalhe LOD · 
+Доля исходного LOD · ниже = проще вдали	Fração do LOD original · menor = mais simples ao longe
+Дальность · 	Alcance · 
+Дальность · настройка игры	Alcance · configuração do jogo
+40–1000 м · не выше исходной дальности	40–1000 m · nunca acima do alcance original
+Инстанс-декор	Decoração instanciada
+Только отрисовка декора; предметы и коллизии сохранены	Apenas renderização da decoração; itens e colisões são mantidos
+Тени источников	Sombras de luzes
+Контактные и микротени настраиваются отдельно	Sombras de contato e microssombras são ajustadas separadamente
+«Игра» = исходное состояние. «ВЫКЛ» = отключить только этот эффект.	«Jogo» = estado original. «DESL» = desligar apenas este efeito.
+Если эффект отсутствует в текущей зоне, запрос сохранён до его появления. Небо, туман и экспозиция не меняются.	Se o efeito não existir na zona atual, o pedido fica salvo até ele aparecer. Céu, neblina e exposição não mudam.
+не проверен	não verificado
+Runtime FPS: настройки игры	Runtime FPS: configurações do jogo
+ · тени 	 · sombras 
+ м · декор 	 m · decoração 
+ м · raycasts ≤	 m · raycasts ≤
+ · сон 	 · sono 
+ · Недоступно: 	 · Indisponível: 
+Runtime FPS: настройки игры восстановлены	Runtime FPS: configurações do jogo restauradas
+Тени · 	Sombras · 
+Мелкий декор / трава	Decoração pequena / grama
+Игра · LOD Bias — вкладка «Дальность и декор»	Jogo · LOD Bias — aba «Alcance e decoração»
+ м · батчи декора и Terrain, не предметы/слаймы	 m · lotes de decoração e terreno, não itens/slimes
+0 = исходный бюджет · никогда не повышается	0 = orçamento original · nunca aumentado
+ / система	 / sistema
+Только безопасные декоративные частицы, не VFX Graph	Apenas partículas decorativas seguras, não VFX Graph
+Сон слаймов: ВКЛ	Sono dos slimes: LIG
+Сон слаймов: ВЫКЛ	Sono dos slimes: DESL
+Осторожный сон: почти неподвижные, за кадром, дальше 40 м.\nИИ/коллизии сохранены; видимые просыпаются. Меняет симуляцию · по умолчанию ВЫКЛ.	Sono cuidadoso: quase parados, fora da tela, além de 40 m.\nIA/colisões mantidas; os visíveis acordam. Altera a simulação · DESL por padrão.
+Контрольная строка M26 · очень длинное имя слайма для проверки переноса текста	Linha de teste M26 · um nome de slime bem longo para verificar quebra de linha
+Контрольная еда: Морковь, Пряная груша, Хряцеребрый лук, Медовая тыква, Призрачная репа	Comida de teste: Cenoura, Tofu Picante, Cebola Estranha, Abóbora de Mel, Nabo Fantasma
+Контрольная строка M26 №	Linha de teste M26 nº
+Контрольная еда	Comida de teste
+Метки на компасе: ожидание мира	Marcadores na bússola: aguardando o mundo
+значки: ожидание	ícones: aguardando
+Метки на компасе выключены	Marcadores na bússola desligados
+Метки на компасе включены	Marcadores na bússola ligados
+значки: 	ícones: 
+Метки на компасе отключены из-за ошибки: 	Marcadores na bússola desativados devido a erro: 
+Метки на компасе: игрок не готов	Marcadores na bússola: o jogador não está pronto
+Метки на компасе: 	Marcadores na bússola: 
+ · до 	 · até 
+ м · кандидатов 	 m · candidatos 
+ · слоёв 	 · camadas 
+ · без места: 	 · sem espaço: 
+ · значков 	 · ícones 
+Двери	Portas
+Компас игры не принимает метки — функция отключена	A bússola do jogo não aceita marcadores — função desativada
+значки: компас игры не найден	ícones: bússola do jogo não encontrada
+ · компас ещё не создал 	 · a bússola ainda não criou 
+Панель дронов не открыта	O painel de drones não está aberto
+Панель дронов недоступна	O painel de drones está indisponível
+Игра сама переставляет панель дронов — сдвиг отключён до следующего открытия карты	O próprio jogo reposiciona o painel de drones — deslocamento desligado até reabrir o mapa
+Панель дронов: RectTransform недоступен, сдвиг не применяется	Painel de drones: RectTransform indisponível, deslocamento não aplicado
+Панель дронов: размеры не определены, сдвиг не применяется	Painel de drones: tamanho desconhecido, deslocamento não aplicado
+Панель дронов не пересекает атлас	O painel de drones não sobrepõe o atlas
+Панель дронов сдвинута вниз на 	Painel de drones movido para baixo em 
+Панель дронов на месте	Painel de drones no lugar
+ · атлас свёрнут, пока открыта панель дронов	 · o atlas fica recolhido enquanto o painel de drones está aberto
+ · экран слишком низкий: перекрытие уменьшено, но не устранено	 · tela baixa demais: a sobreposição foi reduzida, mas não eliminada
+Стили слаймов: открыто 	Estilos de slime: desbloqueados 
+ · уже было 	 · já possuía 
+ · секретных стилей обнаружено 	 · estilos secretos descobertos 
+ · видов 	 · espécies 
+ · ошибок 	 · erros 
+ (подробности в логе)	 (detalhes no log)
+. Сохраняется в сейве.	. Salvo no save.
+Чертежи гаджетов: открыто 	Projetos de engenhocas: desbloqueados 
+ · проверено 	 · verificados 
+ · недоступно для чертежа 	 · indisponíveis como projeto 
+Все	Todos
+Открытые	Abertos
+Неоткрытые	Não abertos
+Лопнувшие	Estourados
+Живые	Vivos
+Закрытые	Fechados
+Заперта	Trancada
+Открыта	Aberta
+Закрыта	Fechada
+Состояние неизвестно	Estado desconhecido
+ · состояние неизвестно 	 · estado desconhecido 
+Капсулы: всего 	Cápsulas: total 
+ · открыто 	 · abertas 
+ · не открыто 	 · não abertas 
+Гордо: всего 	Gordos: total 
+ · лопнуло 	 · estourados 
+ · живых 	 · vivos 
+Двери (AccessDoor сейва): всего 	Portas (AccessDoor do save): total 
+ · закрыто 	 · fechadas 
+Точки телепортации атласа: 	Pontos de teleporte do atlas: 
+Автокормление выключено	Alimentação automática desligada
+Автокормление включено · загонов в прогруженной зоне нет	Alimentação automática ligada · sem currais na zona carregada
+Загонов 	Currais 
+ · слаймов 	 · slimes 
+ · голодных 	 · famintos 
+ · за такт 	 · por ciclo 
+ · всего порций 	 · total de porções 
+Недопустимые буферы мини-карты.	Buffers do minimapa inválidos.
+Кнопка дронов: карта не открыта	Botão de drones: o mapa não está aberto
+Кнопка дронов: ошибка поиска — 	Botão de drones: erro de busca — 
+ · поиск 	 · busca 
+Игра сама переставляет кнопку дронов — сдвиг отключён до следующего открытия карты	O próprio jogo reposiciona o botão de drones — deslocamento desligado até reabrir o mapa
+Кнопка дронов: размеры не определены	Botão de drones: tamanho desconhecido
+ · режим: 	 · modo: 
+ ур.)	 nív.)
+Метка игрока: откройте карту игры один раз — значок будет скопирован	Marcador do jogador: abra o mapa do jogo uma vez — o ícone será copiado
+ошибка: 	erro: 
+Метка игрока: не удалось скопировать с карты игры — 	Marcador do jogador: não foi possível copiar do mapa do jogo — 
+ (показана прежняя копия)	 (mostrando cópia anterior)
+Метка игрока: копия удалена — откройте карту игры, чтобы снять заново	Marcador do jogador: cópia excluída — abra o mapa do jogo para capturar novamente
+на этой странице карты нет маркера игрока	não há marcador do jogador nesta página do mapa
+не удалось определить направление игрока на карте	não foi possível determinar a direção do jogador no mapa
+: больше 	: mais de 
+ частей; 	 partes; 
+ошибка чтения: 	erro de leitura: 
+у маркера нет видимых картинок	o marcador não tem imagens visíveis
+ частей	 partes
+; пропущено: 	; ignoradas: 
+Метка игрока: 	Marcador do jogador: 
+ частей скопировано с карты игры 	 partes copiadas do mapa do jogo 
+ и сохранено	 e salvas
+: без спрайта	: sem sprite
+: спрайт без текстуры	: sprite sem textura
+ (9-slice/tile растянут целиком)	 (9-slice/tile esticado por inteiro)
+: RawImage без текстуры	: RawImage sem textura
+ не копируется	 não é copiado
+: пустой спрайт	: sprite vazio
+ уменьшено до 	 reduzido para 
+ не применён	 não aplicado
+неполные пиксели	pixels incompletos
+другой формат	formato diferente
+строка части: 	linha da parte: 
+нет частей	sem partes
+ частей загружено (копия с карты игры 	 partes carregadas (cópia do mapa do jogo 
+Метка игрока: сохранённая копия не прочитана (	Marcador do jogador: não foi possível ler a cópia salva (
+) — откройте карту игры	) — abra o mapa do jogo
+Кнопка дронов на карте не найдена — положение не меняется	Botão de drones não encontrado no mapa — posição inalterada
+Кнопка дронов не пересекает атлас	O botão de drones não sobrepõe o atlas
+Кнопка дронов опущена под атлас на 	Botão de drones movido abaixo do atlas em 
+Кнопка дронов сдвинута левее атласа на 	Botão de drones movido à esquerda do atlas em 
+ · экран слишком мал: перекрытие уменьшено, но не устранено	 · tela pequena demais: a sobreposição foi reduzida, mas não eliminada
+под атласом	abaixo do atlas
+левее атласа	à esquerda do atlas
+не двигать	não mover
+авто	auto
+замена спрайта	troca de sprite
+звёзды игры	estrelas do jogo
+значок поверх	ícone por cima
+Не открыта · участок ещё не загружался	Não aberta · área nunca carregada
+Не лопнул · участок ещё не загружался	Não estourado · área nunca carregada
+ (из них 	 (deles 
+ в ещё не загружавшихся участках)	 em áreas ainda nunca carregadas)
+Стили вакпака: открыто 	Estilos do vacpack: desbloqueados 
+ · всего 	 · total 
+ · записей Слаймопедии 	 · entradas da Slimepédia 
+магазин · таблица 	loja · tabela 
+ (фикс.)	 (fixo)
+ (случайн.)	 (aleat.)
+киоск наград · 	quiosque de recompensas · 
+ · взнос 	 · contribuição 
+ · всего с начала трека 	 · total desde o início da trilha 
+нет в загруженных таблицах магазина и треках киоска	ausente nas tabelas da loja e trilhas do quiosque carregadas
+ ньюбаксов	 newbucks
+компонент 	componente 
+бесплатно	grátis
+Выкл	Desl.
+Рельеф	Terreno
+Малая	Pequeno
+Средняя	Médio
+Большая	Grande
+справа сверху	superior direito
+слева сверху	superior esquerdo
+справа снизу	inferior direito
+слева снизу	inferior esquerdo
+Обычный	Normal
+Высокий	Alto
+Всегда	Sempre
+Фантомные дроны	Drones fantasmas
+Навигация: настройки ещё не загружены	Navegação: configurações ainda não carregadas
+Навигация: загружено из 	Navegação: carregado de 
+ · ключей 	 · chaves 
+ · пропущено 	 · ignoradas 
+Навигация: настройки по умолчанию (файл появится после первого изменения)	Navegação: configurações padrão (o arquivo aparece após a primeira alteração)
+Навигация: файл не прочитан (	Navegação: arquivo não lido (
+) · настройки по умолчанию	) · configurações padrão
+Навигация: сохранено в 	Navegação: salvo em 
+Навигация: не сохранено (	Navegação: não salvo (
+PNG: файл слишком короткий	PNG: arquivo curto demais
+PNG: нет сигнатуры	PNG: sem assinatura
+PNG: обрезанный блок	PNG: bloco truncado
+PNG: короткий IHDR	PNG: IHDR curto
+PNG: размер 	PNG: tamanho 
+PNG: нужен 8-битный без чересстрочности	PNG: requer 8 bits sem entrelaçamento
+PNG: тип цвета 	PNG: tipo de cor 
+PNG: IDAT до IHDR	PNG: IDAT antes de IHDR
+PNG: нет данных изображения	PNG: sem dados de imagem
+PNG: данных меньше, чем строк	PNG: menos dados que linhas
+PNG: фильтр строки 	PNG: filtro de linha 
+ПОИСК · 	BUSCA · 
+ НА КАРТЕ	 NO MAPA
+ПОИСК · НЕТ НА КАРТЕ	BUSCA · NADA NO MAPA
+поиск 	busca 
+ · свои метки на карте видны всегда	 · seus próprios marcadores ficam sempre visíveis no mapa
+зона по сцене маршрута	zona pela cena da rota
+зона по справочнику карты	zona pela referência do mapa
+зона по индексу маршрутов	zona pelo índice de rotas
+зона по единственной группе сцены	zona pelo único grupo de cena
+зона по живому дрону	zona pelo drone ativo
+зона не определена	zona não determinada
+ км	 km
+Состояние Гордо неизвестно	Estado do Gordo desconhecido
+Лопнул	Estourado
+Накормлен · 	Alimentado · 
+Не лопнул · 	Não estourado · 
+Не лопнул · цель кормления неизвестна	Não estourado · meta de alimentação desconhecida
+Состояние неизвестно · модель не загружена или конфликт ID	Estado desconhecido · modelo não carregado ou conflito de ID
+Механизмы	Mecanismos
+Ноды	Nós
+Ценные	Valiosos
+Отметки «собрано» ещё не загружены	Marcações «coletado» ainda não carregadas
+файл отметок слишком велик	o arquivo de marcações é grande demais
+неверная версия или сейв	versão ou save incorreto
+Отметки «собрано»: 	Marcações «coletado»: 
+ · отдельно для сейва	 · separado por save
+Файл отметок не принят и не перезаписан: 	O arquivo de marcações não foi aceito nem sobrescrito: 
+Эту метку нельзя отметить.	Este marcador não pode ser marcado.
+Отметки недоступны: 	Marcações indisponíveis: 
+Слишком много отметок.	Marcações demais.
+Отмечено вами: собрано	Marcado por você: coletado
+Пройдено (по сейву)	Concluído (pelo save)
+Не пройдено (по сейву)	Não concluído (pelo save)
+Врата	Portões
+Статуи	Estátuas
+Статуя для плорта	Estátua de plort
+Мои отметки 	Minhas marcações 
+Прогресс появится после загрузки сейва	O progresso aparece após carregar o save
+Теневые врата	Portas sombrias
+Сборщик теневых плортов	Coletor de plorts sombrios
+Приёмник плортов	Receptor de plorts
+Лучистый слайм	Slime radiante
+Золотой слайм	Slime dourado
+Слайм удачи	Slime sortudo
+Декор	Decoração
+Лучистая руда	Minério Radiante
+Желейный камень	Pedra Gelatinosa
+Жужжащий воск	Cera Zunidora
+Дикий мёд	Mel Silvestre
+Насыщенный солевой раствор	Salmoura Profunda
+Нектар лунной росы	Néctar de Orvalho Lunar
+Солнечный сок	Seiva Solar
+Место возможного появления еды, не подтверждённый живой предмет.	Possível ponto de aparição de comida, não um item vivo confirmado.
+Зона слаймов, дающих этот плорт (данные игры), не подтверждённый живой предмет.	Zona de slimes que produzem este plort (dados do jogo), não um item vivo confirmado.
+Место возможного появления ресурса, не подтверждённый живой предмет.	Possível ponto de aparição de recurso, não um item vivo confirmado.
+Индекс ещё не загружен	Índice ainda não carregado
+ЛКМ ставит обычную метку	BE coloca um marcador comum
+Выберите метку.	Escolha um marcador.
+Страница карты для этого источника не подтверждена.	A página do mapa para esta fonte não foi confirmada.
+Индекс совпадает с версией игры	O índice corresponde à versão do jogo
+Версия игры изменилась: статические метки отключены	A versão do jogo mudou: marcadores estáticos desativados
+Статический индекс недоступен	Índice estático indisponível
+\nТип: 	\nTipo: 
+Капсула	Cápsula
+Загруженная активная капсула; точная группа сцены	Cápsula ativa carregada; grupo de cena exato
+Загруженная капсула; группа сцены не подтверждена	Cápsula carregada; grupo de cena não confirmado
+Версия игры изменилась: точные доп. слои отключены (	A versão do jogo mudou: camadas extras exatas desativadas (
+Открыта · состояние текущего сохранения	Aberta · estado do save atual
+Закрыта · состояние текущего сохранения	Fechada · estado do save atual
+Состояние неизвестно · отсутствует модель/state или конфликт ID	Estado desconhecido · falta modelo/estado ou conflito de ID
+Выберите метку	Escolha um marcador
+ · состояние неизвестно	 · estado desconhecido
+Горшочек	Vaso
+Появление · 	Aparição · 
+Появление слаймов · видов: 	Aparição de slimes · espécies: 
+Место появления горшочков	Ponto de aparição de vasos
+Горшочек существует сейчас.	O vaso existe agora.
+Место появления, не живой объект. Условия появления не вычислялись.	Ponto de aparição, não um objeto vivo. Condições de aparição não calculadas.
+Сцена: 	Cena: 
+ · радиус 	 · raio 
+\nВремя: 	\nHorário: 
+\nИсточник сейчас неактивен.	\nA fonte está inativa agora.
+\nЧасть источников ещё не проверена.	\nAlgumas fontes ainda não foram verificadas.
+Исследовательский дрон	Drone de pesquisa
+Запись прочитана	Registro lido
+Запись ещё не прочитана	Registro ainda não lido
+Статическая точка исследовательского дрона; состояние неизвестно	Ponto estático de drone de pesquisa; estado desconhecido
+Фантом · награда не получена	Fantasma · recompensa não obtida
+. Позиция начала маршрута; состояние нативной модели.	. Posição inicial da rota; estado do modelo nativo.
+Награда уже получена	Recompensa já obtida
+Награда ещё не получена	Recompensa ainda não obtida
+. Текущее положение загруженного дрона; маршрут 	. Posição atual do drone carregado; rota 
+Дрон-компонент · фантом	Componente de drone · fantasma
+\nДвижущийся нативный объект · маршрут 	\nObjeto nativo em movimento · rota 
+ghost phantom компонент фантом 	ghost phantom componente fantasma 
+Телепорт отменён: выберите сушу внутри известной зоны.	Teleporte cancelado: escolha terra firme dentro de uma zona conhecida.
+Для этой области не найдена игровая сцена. Телепорт отменён.	Nenhuma cena de jogo encontrada para esta área. Teleporte cancelado.
+Точка карты	Ponto do mapa
+Телепорт недоступен: нет целевой игровой сцены или переход уже выполняется.	Teleporte indisponível: sem cena-alvo ou uma transição já está em andamento.
+Невалидные координаты карты.	Coordenadas do mapa inválidas.
+Игрок ещё не готов к телепортации.	O jogador ainda não está pronto para teleportar.
+Исходная сцена ещё не готова к безопасному возврату: 	A cena de origem ainda não está pronta para retorno seguro: 
+До телепорта по карте	Antes do teleporte pelo mapa
+У исходной позиции нет подтверждённой безопасной земли для возврата.	A posição original não tem solo seguro confirmado para retorno.
+Подготовка острова… Физика игрока удерживается.	Preparando ilha… A física do jogador está retida.
+Повторная проверка земли после загрузки…	Verificando o solo novamente após o carregamento…
+Цель небезопасна. Игрок возвращён на проверенную землю.	O destino é inseguro. O jogador voltou ao solo verificado.
+Остров готов. Безопасная посадка подтверждена; доступен возврат.	Ilha pronta. Pouso seguro confirmado; retorno disponível.
+Возврат ещё небезопасен. Физика и автосохранение удерживаются; повторите возврат.	O retorno ainda não é seguro. Física e salvamento automático retidos; tente retornar novamente.
+Время подготовки земли истекло.	Tempo de preparação do solo esgotado.
+Проверка коллизий земли · 	Verificando colisões do solo · 
+ / 0,75 с	 / 0,75 s
+Подготовка сцены и безопасного сектора…	Preparando cena e setor seguro…
+Посадка подтверждена. Стабилизация физики…	Pouso confirmado. Estabilizando física…
+Проверка перехода завершилась ошибкой.	A verificação da transição falhou.
+Переход остановлен безопасно; требуется повторить возврат.	A transição parou com segurança; tente retornar novamente.
+ Физика удерживается до безопасного возврата.	 A física permanece retida até o retorno seguro.
+ Возвращаемся на проверенную землю.	 Retornando ao solo verificado.
+Отмена запрошена. Дождитесь окончания нативной загрузки.	Cancelamento solicitado. Aguarde o fim do carregamento nativo.
+Переход отменён.	Transição cancelada.
+Нет точки возврата текущего сейва.	Sem ponto de retorno no save atual.
+Возврат к позиции до телепорта.	Retornando à posição anterior ao teleporte.
+Рельеф мини-карты выключен	Terreno do minimapa desligado
+Рельеф мини-карты включён	Terreno do minimapa ligado
+Рельеф: у этой зоны нет страницы атласа	Terreno: esta zona não possui página no atlas
+Рельеф: откройте карту игры один раз, чтобы определить страницу	Terreno: abra o mapa do jogo uma vez para detectar a página
+Рельеф: откройте карту игры на этой странице один раз для калибровки	Terreno: abra o mapa do jogo nesta página uma vez para calibrar
+Рельеф: страница «	Terreno: página «
+» откалибрована по карте игры · слоёв 	» calibrada pelo mapa do jogo · camadas 
+Рельеф: здесь на странице «	Terreno: na página «
+» нет рисунка	» não há imagem aqui
+» · слоёв 	» · camadas 
+ · сборка 	 · montagem 
+ · слой «	 · camada «
+» не загружен — откройте карту игры	» não carregada — abra o mapa do jogo
+Рельеф: страница изменилась, откройте карту для повторной калибровки	Terreno: a página mudou, abra o mapa para recalibrar
+Рельеф: не удалось прочитать слой карты: 	Terreno: não foi possível ler a camada do mapa: 
+пустая текстура	textura vazia
+неполные пиксели страницы	pixels da página incompletos
+С	N
+ · слоёв атласа: 	 · camadas do atlas: 
+ · север	 · norte
+рельеф: откройте карту игры в этой зоне	terreno: abra o mapa do jogo nesta zona
+до лимита слота	até o limite do espaço
+¼ лимита → лимит слота	¼ do limite → limite do espaço
+Кооп завершён — все функции Creator Toolkit снова доступны.	Co-op encerrado — todas as funções do Creator Toolkit estão disponíveis novamente.
+Кооп (	Co-op (
+): вы 	): você é o 
+хост	anfitrião
+гость	convidado
+, читы сервера разрешены.	, trapaças do servidor permitidas.
+, читы сервера выключены — читы CT тоже.	, trapaças do servidor desligadas — as do CT também.
+ Заморозка времени/мобов и ускорение недоступны.	 Congelar tempo/criaturas e aceleração estão indisponíveis.
+Кооп: автопополнение выключено	Co-op: autorrecarga desligada
+): заморозка времени, мобов и ускорение симуляции выключены — они не синхронизируются.	): congelar tempo, criaturas e acelerar simulação foram desligados — não sincronizam.
+Дождаться твёрдой фазы Aurora?	Aguardar a fase sólida da Aurora?
+Открыть дверь?	Abrir a porta?
+Заполнить Преобразователь?	Preencher o Fabricador?
+Добавить ресурсы Преобразователя?	Adicionar recursos do Fabricador?
+Накормить голодных слаймов вокруг?	Alimentar slimes famintos ao redor?
+Открыть весь атлас?	Desbloquear todo o atlas?
+Открыть всю Слаймопедию	Desbloquear toda a Slimepédia
+Открыть карту и ноды	Desbloquear mapa e nós
+Применить все улучшения	Aplicar todas as melhorias
+Открыть все двери	Abrir todas as portas
+Открыть все стили слаймов	Desbloquear todos os estilos de slimes
+Открыть все чертежи гаджетов	Desbloquear todos os projetos de engenhocas
+Открыть все стили вакпака	Desbloquear todos os estilos do vacpack
+): заморозка времени, мобов и ускорение симуляции не синхронизируются — доступно только в одиночной игре.	): congelar tempo, criaturas e acelerar simulação não sincronizam — disponível apenas para um jogador.
+Кооп: погодой и временем управляет хост — попросите его.	Co-op: clima e tempo pertencem ao anfitrião — peça a ele.
+Кооп: читы на сервере выключены. Включите «Allow Cheats» в настройках 	Co-op: trapaças estão desligadas no servidor. Ative «Allow Cheats» nas configurações de 
+ и перезапустите сервер.	 e reinicie o servidor.
+Кооп: хост не разрешил читы (	Co-op: o anfitrião não permitiu trapaças (
+Кооп · хост · читы вкл	Co-op · anfitrião · trapaças lig.
+Кооп · хост · без читов	Co-op · anfitrião · sem trapaças
+Кооп · гость · читы вкл	Co-op · convidado · trapaças lig.
+Кооп · гость · без читов	Co-op · convidado · sem trapaças
+Лимонная метка	Marcador limão
+Фантом	Fantasma
+Оригинальные игровые иконки ещё не прочитаны	Ícones originais do jogo ainda não lidos
+CATEGORY Ноды карты = Fandom atlas cell 	CATEGORY Nós do mapa = célula do atlas Fandom 
+Игрок	Jogador
+Спавн	Gerar
+Мир	Mundo
+Открытия	Desbloqueios
+Съёмка	Captura
+Карта	Mapa
+Удобство	Utilidade
+Нативный каталог иконок превысил ограничение.	O catálogo nativo de ícones excedeu o limite.
+Игровые спрайты: вкладки 	Sprites do jogo: abas 
+ / 8 · категории 	 / 8 · categorias 
+ · награды 	 · recompensas 
+ · находки 	 · achados 
+-гордо	Gordo
+Нативная клавиатура или безопасный формат текстовых событий недоступны.	Teclado nativo ou formato seguro de eventos de texto indisponível.
+Розовый слайм Ёё Йй 0123456789	Slime rosa Áá Éé Çç Ãã 0123456789
+Не проверено	Não verificado
+Подлинный источник Pedia: 	Fonte genuína da Pedia: 
+ · округлый	 · arredondada
+ · кириллическая локализация; не Mikado	 · localização cirílica; não Mikado
+TMP-шрифты Pedia прочитаны; пригодный Unity Font с кириллицей не экспортирован. Подмена не выполнялась.	Fontes TMP da Pedia lidas; nenhuma Unity Font utilizável com cirílico foi exportada. Nenhuma substituição feita.
+Полный размер	Tamanho completo
+½ исходного размера	½ do tamanho original
+¼ исходного размера	¼ do tamanho original
+⅛ исходного размера	⅛ do tamanho original
+1/16 исходного размера	1/16 do tamanho original
+Полная дальность 3D	Alcance 3D total
+Проверяется перед изменением	Verificado antes de alterar
+Недоступно: запись HDRP-структур через IL2CPP отключена после аварии 0xc0000005.	Indisponível: gravação de estruturas HDRP via IL2CPP desativada após falha 0xc0000005.
+Недоступно: detour DrawDecoMeshes отключён после NaN в отрисовке.	Indisponível: desvio de DrawDecoMeshes desativado após NaN na renderização.
+Выключено · настройки игры не изменены	Desligado · configurações do jogo inalteradas
+Настройки не менялись	As configurações não foram alteradas
+Дождитесь завершения загрузки или телепортации.	Aguarde o fim do carregamento ou teleporte.
+Дождитесь завершения защитного возврата из проверочной копии.	Aguarde o fim do retorno protetor da cópia de teste.
+Картофельный режим включён · текстуры, LOD, загрузка и доступные частицы	Modo Batata ligado · texturas, LOD, carregamento e partículas disponíveis
+Картофельный режим · LOD и загрузка; текстуры сохранены ради UI	Modo Batata · LOD e carregamento; texturas mantidas pela UI
+Текстуры: 	Texturas: 
+ · частицы: 	 · partículas: 
+ · фоновая загрузка	 · carregamento em segundo plano
+ · текстуры сохранены ради UI	 · texturas mantidas pela UI
+Лимит защиты UI достигнут; снижение текстур отменено.	Limite de proteção da UI atingido; redução de texturas cancelada.
+Нечитаемая UI-текстура: 	Textura de UI ilegível: 
+. Исходный mip-уровень сохранён.	. Nível mip original mantido.
+Нативное исключение UI-текстуры не подтвердилось.	Exceção nativa de textura de UI não confirmada.
+Используемые UI-текстуры защищены; без чтения пикселей и GPU-копий.	Texturas de UI em uso protegidas; sem leitura de pixels nem cópias na GPU.
+Растительность: без изменений · частицы декора: 	Vegetação: inalterada · partículas decorativas: 
+ (ограничено 	 (limitado a 
+VFX Graph и опасные эффекты не меняются.	VFX Graph e efeitos perigosos não são alterados.
+Проверка частиц недоступна: они не меняются.	Verificação de partículas indisponível: não serão alteradas.
+Mip-уровень восстановлен ради нового UI. 	Nível mip restaurado para a nova UI. 
+Игровая камера недоступна	Câmera do jogo indisponível
+Некорректная дальность камеры	Alcance da câmera inválido
+Камера не приняла дальность	A câmera não aceitou o alcance
+3D до 	3D até 
+ м · дальние объекты обрезаются	 m · objetos distantes são cortados
+Не все настройки восстановлены: 	Nem todas as configurações foram restauradas: 
+Восстановлено; сторонние изменения не перезаписаны: 	Restaurado; alterações externas não sobrescritas: 
+Исходные настройки восстановлены · модуль выключен	Configurações originais restauradas · módulo desligado
+Полные	Completo
+Графика и производительность	Gráficos e desempenho
+Текстуры и загрузка	Texturas e carregamento
+Дальность и декор	Alcance e decoração
+Постэффекты	Pós-efeitos
+Применить своё	Aplicar personalizado
+Сбалансированный	Equilibrado
+Восстановить всё	Restaurar tudo
+Применение…	Aplicando…
+Есть изменения · нажмите «Применить своё»	Há alterações · clique em «Aplicar personalizado»
+Настройки временные · «Игра» возвращает исходное состояние	Configurações temporárias · «Jogo» restaura o estado original
+Исследование феноменов выключено	Pesquisa de fenômenos desligada
+Дождитесь окончания загрузки сцены	Aguarde o fim do carregamento da cena
+Локальная антигравитация	Antigravidade local
+Работает	Ativa
+Выключена	Desligada
+В загруженной сцене нативные Aurora / ReverseGravityZone не обнаружены	Nenhum Aurora / ReverseGravityZone nativo encontrado na cena carregada
+Нативных объектов: 	Objetos nativos: 
+ · исследование не включает и не создаёт эффекты	 · a pesquisa não ativa nem cria efeitos
+Феномен относится к другой сцене; обновите исследование.	O fenômeno pertence a outra cena; atualize a pesquisa.
+Нативное окно Aurora больше недоступно.	A janela nativa da Aurora não está mais disponível.
+Игровое время продвинется только вперёд к 	O tempo do jogo avançará apenas para a frente até 
+ ч. 	 h. 
+Игра сама управляет своим переходом, звуком и коллизиями. Объекты, шейдеры и локальная гравитация вручную не меняются.	O próprio jogo controla sua transição, som e colisões. Objetos, shaders e gravidade local não mudam manualmente.
+Локальный объём больше не загружен.	O volume local não está mais carregado.
+Группа этой сцены недоступна.	O grupo desta cena está indisponível.
+Феномены	Fenômenos
+Обсерватория нативных феноменов	Observatório de fenômenos nativos
+Назад к съёмке	Voltar à captura
+Aurora: настоящие суточные окна и состояние. Антигравитация: только существующие локальные объёмы. 	Aurora: janelas diárias e estado reais. Antigravidade: apenas volumes locais existentes. 
+Исследование не создаёт неиспользуемые префабы и не меняет физику мира.	A pesquisa não cria prefabs não usados nem altera a física do mundo.
+Исследование: ВКЛ	Pesquisa: LIG
+Исследование: ВЫКЛ	Pesquisa: DESL
+Обновить сцену	Atualizar cena
+\nТвёрдая фаза 	\nFase sólida 
+ ч	 h
+Безопасно к месту…	Ir com segurança ao local…
+Дождаться штатной фазы…	Aguardar fase normal…
+Ожидание полёта	Aguardando voo
+Невалидные координаты полёта; перемещение отменено.	Coordenadas de voo inválidas; movimento cancelado.
+Остров загружен: 	Ilha carregada: 
+Прогрузка не подтверждена; повторная попытка через 5 с	Carregamento não confirmado; nova tentativa em 5 s
+Зона полёта не определена; чужая сцена не подставляется	Zona de voo não determinada; outra cena não será substituída
+Прогрузка текущего острова: 	Carregando ilha atual: 
+Загрузка острова в полёте: 	Carregando ilha em voo: 
+Сначала восстановите коллизии NoClip перед безопасным переходом.	Restaure as colisões do NoClip antes de uma transição segura.
+Физика игрока ещё недоступна.	Física do jogador ainda indisponível.
+Параметры нативного контроллера пока недоступны.	Parâmetros do controlador nativo ainda indisponíveis.
+Нативная способность прыжка ещё не инициализирована.	A habilidade nativa de pulo ainda não foi inicializada.
+Живая нативная способность прыжка не найдена.	Habilidade nativa ativa de pulo não encontrada.
+Нативные параметры прыжка невалидны.	Parâmetros nativos de pulo inválidos.
+Массив личных способностей недоступен.	Matriz de habilidades pessoais indisponível.
+Безопасный переход удерживает физику. Дождитесь посадки или возврата.	Uma transição segura está retendo a física. Aguarde o pouso ou retorno.
+Включён NoClip Starlight — выключите его в меню читов Starlight.	O NoClip do Starlight está ativo — desligue-o no menu de trapaças do Starlight.
+Полёт выключен; коллизии и гравитация восстановлены.	Voo desligado; colisões e gravidade restauradas.
+Нативный контроллер игрока недоступен.	Controlador nativo do jogador indisponível.
+Мотор игрока имеет невалидные координаты; полёт запрещён.	O motor do jogador tem coordenadas inválidas; voo não permitido.
+Полёт / NoClip включён. Закройте меню: WASD, Space вверх, Shift вниз.	Voo / NoClip ligado. Feche o menu: WASD, Espaço sobe, Shift desce.
+Место посадки занято.	O local de pouso está ocupado.
+Не найден материал тела для визуального прототипа.	Material do corpo não encontrado para o protótipo visual.
+Выберите слайма	Escolha um slime
+Любимая еда ещё не выбрана	Nenhuma comida favorita escolhida ainda
+Радар выключен	Radar desligado
+Выберите нативного слайма.	Escolha um slime nativo.
+Название любимой еды недоступно	Nome da comida favorita indisponível
+У этого слайма нет нативной любимой еды	Este slime não tem comida favorita nativa
+Ищем только в текущей нативной зоне · до 100 м	Buscando apenas na zona nativa atual · até 100 m
+Текущая зона ещё не определена	A zona atual ainda não foi determinada
+Нативный индекс предметов ещё не готов	O índice nativo de itens ainda não está pronto
+Найдено в текущей зоне: 	Encontrado na zona atual: 
+ · любимая еда / редкие материалы	 · comida favorita / materiais raros
+Радар · цели поблизости не найдены	Radar · nenhum alvo próximo encontrado
+лучист лучистый radiant shimmering glowing 	radiant shimmering glowing radiante brilhante 
+Хлопковый	Algodão
+Мяуровый	Tigrado
+Фосфорный	Fósforo
+Удильщик	Pescador
+Скалистый	Rocha
+Нетопырёк	Morcego
+Порхающий	Borboleta
+Кольцехвостый	Cauda-Anelada
+Бум	Cabum
+Медовый	Mel
+Лужица	Poça
+Кристальный	Cristal
+Охотник	Caçador
+Огненный	Fogo
+Саблезубый	Dente-de-Sabre
+Вьюнок	Emaranhado
+Дервиш	Dervixe
+Слайм-желток	Gema
+Дремотный	Sonolento
+Сиамский	Gêmeo
+Гиперслайм	Hiperslime
+Нативный базовый тип не зарегистрирован в этой версии.	O tipo base nativo não está registrado nesta versão.
+Неоднозначный нативный базовый тип; создание отключено.	Tipo base nativo ambíguo; geração desativada.
+Нативная регистрация не совпадает с точным базовым типом.	O registro nativo não corresponde ao tipo base exato.
+Лучистый каталог принимает только базовый вид, не ларго.	O catálogo radiante aceita apenas espécies base, não largos.
+У базового вида отсутствует нативный RadiantBase appearance.	A espécie base não possui a aparência nativa RadiantBase.
+У базового вида отсутствует нативный префаб.	A espécie base não possui prefab nativo.
+В нативном префабе отсутствует SlimeRadiant.	O prefab nativo não possui SlimeRadiant.
+Неоднозначный SlimeRadiant в нативном префабе.	SlimeRadiant ambíguo no prefab nativo.
+Откройте каталог Преобразователя	Abra o catálogo do Fabricador
+Мир загружается или выполняется защитный возврат.	O mundo está carregando ou um retorno protetor está em execução.
+Нативное хранилище Преобразователя недоступно.	O armazenamento nativo do Fabricador está indisponível.
+Непредвиденный размер каталога Преобразователя.	Tamanho inesperado do catálogo do Fabricador.
+Нативных ресурсов: 	Recursos nativos: 
+ · лимит 	 · limite 
+ · значения из GadgetDirector	 · valores de GadgetDirector
+Ресурс больше не доступен.	O recurso não está mais disponível.
+Все зарегистрированные ресурсы	Todos os recursos registrados
+: довести до 	: completar até 
+: добавить до 100 шт. к текущему количеству.	: adicionar até 100 un. à quantidade atual.
+ Изменение реальное и сохранится игрой. Предметы вакпака и изготовленные гаджеты не меняются. Отмены нет.	 A alteração é real e será salva pelo jogo. Itens do vacpack e engenhocas fabricadas não mudam. Não há como desfazer.
+Сеанс изменился: пополнение отменено.	A sessão mudou: recarga cancelada.
+Ресурс отсутствует в новом каталоге.	O recurso está ausente do novo catálogo.
+Недопустимый ресурс.	Recurso inválido.
+Количество ресурса изменилось во время операции.	A quantidade do recurso mudou durante a operação.
+Нативное чтение после AddItem не подтвердило количество: 	A leitura nativa após AddItem não confirmou a quantidade: 
+Операция остановлена; подтверждено ресурсов: 	Operação interrompida; recursos confirmados: 
+, единиц: 	, unidades: 
+. Текущий ресурс мог измениться частично. Автоотката нет: 	. O recurso atual pode ter mudado parcialmente. Sem reversão automática: 
+Преобразователь: изменено ресурсов 	Fabricador: recursos alterados 
+, добавлено 	, adicionados 
+ шт. · проверено нативным GetItemCount	 un. · verificado pelo GetItemCount nativo
+Ресурсы Преобразователя	Recursos do Fabricador
+Назад к гаджетам	Voltar às engenhocas
+Настоящее хранилище Лаборатории. Каждое пополнение требует подтверждения и сохраняется игрой.	O armazenamento real do Laboratório. Cada recarga pede confirmação e é salva pelo jogo.
++100 ко всем ресурсам…	+100 em todos os recursos…
+Заполнить все до 	Preencher todos até 
+Точечное пополнение · выберите ресурс	Recarga pontual · escolha um recurso
+Выберите ресурс ▾	Escolha um recurso ▾
++100 выбранному…	+100 no selecionado…
+Выбранный до 	Selecionado até 
+Обновить количества	Atualizar quantidades
+Не уменьшает запасы выше лимита. Не добавляет слаймов, гаджеты или неизвестные ID. Нативные ограничения ёмкости сохранены.	Não reduz estoques acima do limite. Não adiciona slimes, engenhocas nem IDs desconhecidos. Limites nativos mantidos.
+Имя видно в главном меню вместо «Файл N»	O nome aparece no menu principal em vez de «Arquivo N»
+Имя текущего сейва недоступно.	O nome do save atual está indisponível.
+Имя убрано: в меню снова «Файл 	Nome removido: o menu volta a exibir «Arquivo 
+Сейв «	Save «
+» · так он будет подписан в главном меню	» · assim será exibido no menu principal
+Имя сейва	Nome do save
+Текущий сейв: «Файл 	Save atual: «Arquivo 
+ · сейчас «	 · agora «
+ · без имени	 · sem nome
+Текущий сейв не определён — загрузите мир.	O save atual não foi determinado — carregue um mundo.
+Например: Ферма на Радужных полях	Por exemplo: Fazenda nos Campos Arco-Íris
+Сохранить имя	Salvar nome
+Убрать имя	Remover nome
+В главном меню («Файлы сохранений») вместо «Файл 	No menu principal («Arquivos salvos»), em vez de «Arquivo 
+» будет это имя. До 	» aparecerá este nome. Até 
+ символов. Сами сейвы не меняются: имена хранятся в UserData\\CreatorToolkit\\save-names.cfg, удаление мода вернёт обычные подписи.	 caracteres. Os saves em si não mudam: os nomes ficam em UserData\\CreatorToolkit\\save-names.cfg; remover o mod restaura os rótulos normais.
+Инспектор выключен	Inspetor desligado
+Нет любимой еды	Sem comida favorita
+Нативный индекс слаймов ещё не готов	O índice nativo de slimes ainda não está pronto
+Слаймов до 25 м: 	Slimes até 25 m: 
+ · ближайшие 	 · mais próximos 
+ · достигнут предел просмотра индекса	 · limite de visualização do índice atingido
+Только любимая еда из выбранного слота вакпака, до 8 порций за нажатие и одна на слайма до 25 м. 	Usa apenas a comida favorita do espaço selecionado do vacpack, até 8 porções por clique e uma por slime em até 25 m. 
+Без еды, при сытости, сне или препятствии ничего не расходуется. Кормление и получение плортов выполняет сама игра.	Sem comida, cheio, dormindo ou atrás de obstáculo nada é gasto. O próprio jogo realiza a alimentação e gera os plorts.
+Мир не готов к кормлению.	O mundo não está pronto para alimentar.
+Подождите 2 секунды между кормлениями	Aguarde 2 segundos entre alimentações
+Выберите слот с любимой едой; пустой слот не расходуется	Escolha um espaço com comida favorita; espaço vazio não é gasto
+Вакпак не подтвердил расход ровно одной порции.	O vacpack não confirmou o gasto de exatamente uma porção.
+Передано любимых порций: 	Porções favoritas entregues: 
+ · штатное пережёвывание и плорты	 · mastigação e plorts normais
+Подходящих голодных слаймов в прямой видимости не найдено; еда не потрачена	Nenhum slime faminto adequado em linha de visão direta; nenhuma comida gasta
+Starlight: уже включено — 	Starlight: já ativado — 
+бессмертие	modo deus
+бесконечная энергия	energia infinita
+сохранение инвентаря	manter inventário
+карта без тумана	mapa sem neblina
+Полёт Creator Toolkit выключен: включён NoClip Starlight.	Voo do Creator Toolkit desligado: NoClip do Starlight está ativo.
+Creator & quality-of-life toolkit: player cheats, spawning, atlas with markers, minimap, camera tools, FPS counter and graphics optimization. Open the menu with Insert.\nНабор создателя: читы игрока, спавн, атлас и метки, миникарта, камера, счётчик FPS и оптимизация графики. Меню — клавиша Insert.	Kit de criação e utilidades: trapaças do jogador, geração, atlas com marcadores, minimapa, câmera, contador de FPS e otimização gráfica. Abra o menu com Insert.
+Insert — открыть меню	Insert — abrir menu
+Сейв загружен. Временные эффекты сброшены.	Save carregado. Efeitos temporários redefinidos.
+Дождитесь завершения безопасной телепортации перед выходом.	Aguarde o fim do teleporte seguro antes de sair.
+Сохранение не подтверждено: выход из игры отменён.	Salvamento não confirmado: saída do jogo cancelada.
+Сейв изменился: операция отменена.	O save mudou: operação cancelada.
+Сейв изменился: подтверждение отменено.	O save mudou: confirmação cancelada.
+Ошибка: 	Erro: 
+Скорость  × 	Velocidade × 
+Усиление × 	Impulso × 
+Здоровье	Vida
+Энергия	Energia
+Здоровье  	Vida  
+Энергия  	Energia  
+Эффекты игрока сброшены.	Efeitos do jogador redefinidos.
+Ясно	Limpo
+Дождь	Chuva
+Гроза	Tempestade
+Слаймодождь	Chuva de slimes
+Пыльца	Pólen
+Ветер	Vento
+Лава	Lava
+Блики	Brilhos
+Поиск · метки · настройки	Busca · marcadores · ajustes
+Не найден игровой или округлый шрифт с кириллицей.	Nenhuma fonte do jogo ou arredondada com cirílico encontrada.
+Вики: 	Wiki: 
+ · нет иконки	 · sem ícone
+Закрыть	Fechar
+Безопасный переход между островами	Transição segura entre ilhas
+Гравитация удерживается. Посадка — только после прогрузки и повторных проверок коллизий.	A gravidade está retida. O pouso ocorre apenas após carregar e repetir verificações de colisão.
+Отменить / повторить возврат	Cancelar / tentar retorno
+Сначала загрузите игровой мир	Carregue um mundo de jogo primeiro
+Функции станут доступны после загрузки игрока и нативных компонентов игры.	As funções ficam disponíveis após o carregamento do jogador e dos componentes nativos do jogo.
+Поиск по названию или ID…	Buscar por nome ou ID…
+Игрок · защита, движение, строительство	Jogador · proteção, movimento, construção
+Скрыть подсказки	Ocultar dicas
+Подсказки	Dicas
+Поддерживать максимум здоровья.	Manter vida no máximo.
+Спринт и способности без расхода.	Corrida e habilidades sem custo.
+Полёт / NoClip	Voo / NoClip
+WASD · Space вверх · Shift вниз.	WASD · Espaço sobe · Shift desce.
+Не тратить предметы из непустых слотов.	Não gastar itens de espaços não vazios.
+Гаджеты и декор ×999 · установка без расхода.	Engenhocas e decoração ×999 · colocar sem custo.
+Свободная установка	Colocação livre
+Без проверок пересечений и уклона · дальше.	Sem verificar interseções ou inclinação · maior alcance.
+Высокий прыжок	Pulo alto
+Восстановить силы	Restaurar forças
+Запомнить место	Lembrar local
+К точке возврата	Ao ponto de retorno
+Сбросить эффекты	Redefinir efeitos
+Р	R
+М	M
+Л	R
+ · нативный	 · nativo
+Ничего не найдено.\nИзмените название или категорию.	Nada encontrado.\nAltere o nome ou a categoria.
+ЛКМ — перетаскивание полоски · колесо — прокрутка	BE — arrasta a barra · roda — rola
+Создание · каталог игры	Geração · catálogo do jogo
+Обновить	Atualizar
+Выберите объект	Escolha um objeto
+Нажмите карточку слева	Clique em um cartão à esquerda
+1. Выберите вид Гордо.\n2. Наведите камеру на свободную землю в 9 м перед собой.\n3. Нажмите «Разместить Гордо».	1. Escolha a espécie de Gordo.\n2. Aponte a câmera para solo livre 9 m à frente.\n3. Clique em «Colocar Gordo».
+Наведите камеру на свободную землю в 9 м перед собой.	Aponte a câmera para solo livre 9 m à frente.
+Один Гордо на нативной ловушке	Um Gordo em armadilha nativa
+Количество · 	Quantidade · 
+Разместить Гордо	Colocar Gordo
+Создать перед камерой	Gerar à frente da câmera
+Очистить созданное (	Limpar gerados (
+Только визуальный Pink-прототип, без уникальных способностей.	Apenas protótipo visual Rosa, sem habilidades únicas.
+Нативный лучистый вариант. Вакпак не поддерживается.	Variante radiante nativa. O vacpack não é suportado.
+В 2,5 м перед камерой. Очистка удаляет только созданное этим модом.	A 2,5 m à frente da câmera. A limpeza remove apenas o que este mod criou.
+Лучистый · нативный	Radiante · nativo
+Нативный объект	Objeto nativo
+Недоступен в этой версии	Indisponível nesta versão
+Ничего не найдено. Измените поиск или категорию.	Nada encontrado. Altere a busca ou a categoria.
+Выберите карточку · колесо — прокрутка	Escolha um cartão · roda — rola
+Максимум денег	Dinheiro máximo
+Деньги и вакпак сохраняются игрой.	O dinheiro e o vacpack são salvos pelo jogo.
+Заполнить выбранный слот вакпака	Preencher o espaço selecionado do vacpack
+Выберите совместимый ресурс	Escolha um recurso compatível
+Заполнить 	Preencher 
+Замена — с подтверждением. Лимит слота задаёт мод вакпака.	A substituição pede confirmação. O limite do espaço é definido pelo mod do vacpack.
+Замена — с подтверждением. 100 шт. могут превысить ёмкость.	A substituição pede confirmação. 100 un. podem exceder a capacidade.
+Время · 	Tempo · 
++1 час	+1 hora
++6 часов	+6 horas
+Продолжить время	Retomar tempo
+Остановить время	Parar tempo
+Перемотать к 	Avançar para 
+Утро · 06:00	Manhã · 06:00
+День · 12:00	Dia · 12:00
+Закат · 18:00	Pôr do sol · 18:00
+Ночь · 00:00	Noite · 00:00
+Только вперёд · таймеры сохраняются	Apenas para a frente · cronômetros mantidos
+Погода	Clima
+Нативные варианты	Variantes nativas
+Отключить Варров	Desativar Breus
+Запрет появления; существующие Варры не удаляются.	Bloqueia a aparição; Breus existentes não são removidos.
+Заморозить слаймов	Congelar slimes
+Эффект обратим; только загруженные слаймы.	Reversível; apenas slimes carregados.
+Скорость времени…	Velocidade do tempo…
+Камера и запись…	Câmera e captura…
+Чистый кадр / скрыть HUD	Cena limpa / ocultar HUD
+Убирает игровой интерфейс и вакпак. Меню остаётся доступно по Insert.	Oculta a interface do jogo e o vacpack. O menu continua acessível por Insert.
+Точки телепортации · 	Pontos de teleporte · 
+Название новой точки…	Nome do novo ponto…
+Сохранить позицию	Salvar posição
+Первая точка — ваш быстрый возврат	O primeiro ponto é seu retorno rápido
+Введите название и сохраните текущую позицию. Можно держать до пяти точек.	Digite um nome e salve a posição atual. Você pode manter até cinco pontos.
+Телепортироваться	Teleportar
+Точки хранятся в текущем сеансе и не переносятся между сейвами.	Os pontos ficam na sessão atual e não passam entre saves.
+Нативные феномены	Fenômenos nativos
+Фермерский помощник · установленные устройства	Assistente de fazenda · aparelhos instalados
+Удобство · профили, HUD и автоматизация	Utilidade · perfis, HUD e automação
+Все новые функции выключены по умолчанию. Включайте только то, что нужно сейчас.	Todas as novas funções vêm desligadas por padrão. Ligue apenas o que precisar agora.
+Профили · 	Perfis · 
+Исследователь: защита, энергия, ×2.\nКадр: полёт, пауза, без HUD.	Explorador: proteção, energia, ×2.\nCena: voo, pausa, sem HUD.
+Восстановить прежние настройки	Restaurar configurações anteriores
+Исследование и SOS	Exploração e SOS
+SOS: запись ВКЛ	SOS: gravação LIG
+SOS: запись ВЫКЛ	SOS: gravação DESL
+Вернуться · Ctrl + Home	Voltar · Ctrl + Home
+Записываются только проверенные наземные точки.	Apenas pontos terrestres verificados são gravados.
+Найти неоткрытую капсулу · без автосбора	Encontrar cápsula fechada · sem autocoleta
+Автопополнение вакпака	Autorrecarga do vacpack
+Отключить автопополнение	Desligar autorrecarga
+Включить для выбранного слота…	Ligar para o espaço selecionado…
+Порог: 	Limite: 
+Сохраняется игрой · пустой или другой слот — стоп.	Salvo pelo jogo · espaço vazio ou trocado — para.
+Инфо-HUD и счётчик FPS	Info-HUD e contador de FPS
+Инфо-HUD: ВКЛ	Info-HUD: LIG
+Инфо-HUD: ВЫКЛ	Info-HUD: DESL
+Справа	Direita
+Слева	Esquerda
+Внизу	Embaixo
+Зона, XYZ, время и эффекты · FPS и время кадра в выбранном углу.	Zona, XYZ, hora e efeitos · FPS e tempo de quadro no canto escolhido.
+Ферма…	Fazenda…
+Имя сейва…	Nome do save…
+Оптимизация / Potato Mode	Otimização / Modo Batata
+SOS и инфо-HUD — на сеанс · счётчик FPS сохраняется в capture.cfg.	SOS e info-HUD valem por sessão · contador de FPS salvo em capture.cfg.
+Безопасная телепортация	Teleporte seguro
+Отменить переход / повторить возврат	Cancelar transição / tentar retorno
+Карта и исследование мира	Mapa e exploração do mundo
+Открыть атлас	Abrir atlas
+Вернуться до телепорта	Voltar ao ponto pré-teleporte
+Поиск капсулы, ресурса, имени или ID…	Buscar cápsula, recurso, nome ou ID…
+Только существующие	Apenas existentes
+Места появления тоже	Pontos de aparição também
+Сорт.: ближе	Ord.: mais perto
+Сорт.: имя	Ord.: nome
+Ближайшая непройденная	Não concluído mais próximo
+В текущем фильтре нет непройденных меток.	Não há marcadores pendentes no filtro atual.
+Позиция игрока ещё неизвестна.	A posição do jogador ainda é desconhecida.
+Найдено: 	Encontrados: 
+только загруженные сцены	apenas cenas carregadas
+Пройденное скрыто	Concluídos ocultos
+Пройденное видно	Concluídos visíveis
+Ничего не найдено. Измените поиск или включите нужный слой.	Nada encontrado. Altere a busca ou ative a camada desejada.
+\nВики: 	\nWiki: 
+Показать на карте	Mostrar no mapa
+Снять отметку	Desmarcar
+Отметить: собрано	Marcar: coletado
+до метки 	até o marcador 
+Прогресс: 	Progresso: 
+ · Телепорт — через режим ЛКМ в атласе.	 · Teleporte pelo modo de BE no atlas.
+Расхождение · ниже нативные награды	Divergência · recompensas nativas abaixo
+Native-сверка неполная · награды базы	Verificação nativa incompleta · recompensas do banco
+Награды сверены с загруженной капсулой	As recompensas conferem com a cápsula carregada
+База совпавшей версии · native-сверки нет	Banco da versão compatível · sem verificação nativa
+Награды неизвестны	Recompensas desconhecidas
+конфликт	conflito
+нет иконки	sem ícone
+расстояние неизвестно	distância desconhecida
+АТЛАС СОЗДАТЕЛЯ	ATLAS DO CRIADOR
+ЛКМ: моя цветная метка	BE: meu marcador colorido
+ЛКМ: телепорт	BE: teleporte
+ЛКМ: обычная метка	BE: marcador comum
+Нажмите ЛКМ по суше: сохранится своя метка	Clique com BE em terra firme: salva seu marcador
+Нажмите ЛКМ по суше на карте	Clique com BE em terra firme no mapa
+РАЗМЕР ЗНАЧКОВ · 	TAMANHO DOS ÍCONES · 
+ОБЪЕКТЫ	OBJETOS
+НАХОДКИ И СПАВНЫ	ACHADOS E APARIÇÕES
+Выберите метку на карте.\n	Escolha um marcador no mapa.\n
+Снять отметку «собрано»	Remover marca «coletado»
+Отметить «собрано»	Marcar «coletado»
+Среди включённых слоёв нет непройденных меток.	Não há marcadores pendentes entre as camadas ativadas.
+Своя метка: 	Marcador próprio: 
+Посадка — на свободной суше.\nМоре и препятствия — отказ.	Pouso apenas em terra livre.\nMar e obstáculos são recusados.
+Значки стоят точно на своих\nместах и не смещаются.	Os ícones ficam exatamente em seus\nlugares e não se deslocam.
+К метке	Ao marcador
+Вернуться	Voltar
+Подтвердить	Confirmar
+Отмена	Cancelar
+Каталог стилей слаймов ещё не загружен	O catálogo de estilos de slimes ainda não foi carregado
+Каталог стилей вакпака ещё не загружен	O catálogo de estilos do vacpack ainda não foi carregado
+Слаймопедия: открыто новых записей — 	Slimepédia: novas entradas desbloqueadas — 
+. Изменение сохраняется в сейве.	. A alteração é salva no save.
+Все нативные улучшения применены. Изменено типов: 	Todas as melhorias nativas aplicadas. Tipos alterados: 
+Открыто зарегистрированных в сейве дверей: 	Portas registradas no save abertas: 
+. Сюжетные ограничения могут быть изменены.	. Restrições de história podem ter sido alteradas.
+Открывается игровая карта для регистрации нативных событий тумана…	Abrindo o mapa do jogo para registrar eventos nativos de neblina…
+Карта не загрузилась: 	O mapa não carregou: 
+Нативные данные карты не готовы: 	Dados nativos do mapa não estão prontos: 
+Атлас открыт: зон — 	Atlas desbloqueado: zonas — 
+, событий тумана — 	, eventos de neblina — 
+. Подписи локаций и все нативные страницы карты доступны.	. Rótulos de locais e todas as páginas nativas do mapa estão disponíveis.
+Разблокировка	Desbloqueios
+Трекинг мира	Rastreamento do mundo
+Все зарегистрированные записи, включая редких слаймов.	Todas as entradas registradas, incluindo slimes raros.
+Открытие карты, нод и тумана. Будет показана игровая карта.	Desbloqueia mapa, nós e neblina. O mapa do jogo será exibido.
+Все зарегистрированные улучшения вакпака и персонажа.	Todas as melhorias registradas do vacpack e da personagem.
+Все модели AccessDoor в текущем сейве, включая незагруженные двери.	Todos os modelos AccessDoor no save atual, incluindo portas não carregadas.
+Классические и секретные стили всех видов слаймов; секретные отмечаются обнаруженными.	Estilos clássicos e secretos de todas as espécies de slimes; secretos marcados como descobertos.
+Все чертежи гаджетов и декора с префабом; уже полученные пропускаются.	Todos os projetos de engenhocas e decorações com prefab; já obtidos são ignorados.
+Все раскраски вакпака (VacPalette) из каталога игры; уже полученные пропускаются.	Todas as cores do vacpack (VacPalette) do catálogo; já obtidas são ignoradas.
+Все записи, включая редких слаймов.	Todas as entradas, incluindo slimes raros.
+Карта, ноды и туман; откроется игровая карта.	Mapa, nós e neblina; o mapa do jogo será aberto.
+Все улучшения вакпака и персонажа.	Todas as melhorias do vacpack e da personagem.
+Все двери сейва, даже незагруженные.	Todas as portas do save, mesmo não carregadas.
+Классические и секретные стили всех слаймов.	Estilos clássicos e secretos de todos os slimes.
+Чертежи гаджетов и декора; полученные пропускаются.	Projetos de engenhocas e decorações; obtidos são ignorados.
+Все раскраски вакпака; полученные пропускаются.	Todas as cores do vacpack; obtidas são ignoradas.
+Постоянные изменения сейва · каждое действие с подтверждением	Alterações permanentes no save · cada ação pede confirmação
+Разблокировать…	Desbloquear…
+\nЭто постоянное изменение текущего сейва. Автоматического отката нет. Подтвердите намерение.	\nEsta é uma alteração permanente no save atual. Não há reversão automática. Confirme sua intenção.
+Поиск по названию, зоне или ID…	Buscar por nome, zona ou ID…
+ · в фильтре 	 · no filtro 
+Отметки — из сейва; расстояние — от игрока	Marcações vêm do save; distância a partir do jogador
+В этом фильтре ничего нет.	Não há nada neste filtro.
+Показать на атласе	Mostrar no atlas
+Открыть дверь…	Abrir porta…
+Дверь 	A porta 
+ будет открыта в модели сейва (AccessDoor). 	 será aberta no modelo do save (AccessDoor). 
+Это постоянное изменение текущего сейва; автоматического отката нет.	Esta é uma alteração permanente no save atual; não há reversão automática.
+Выберите строку списка.	Escolha uma linha da lista.
+Место этой записи на карте неизвестно.	O local desta entrada no mapa é desconhecido.
+Группа сцены не подтверждена — телепорт отключён.	Grupo de cena não confirmado — teleporte desativado.
+Наблюдения отсутствуют; отсутствие объектов не установлено.	Sem observações; a ausência de objetos não foi estabelecida.
+Превышен срок census; старые actual/potential observations сняты.	Tempo do censo excedido; observações reais/potenciais antigas removidas.
+Native census прерван: 	Censo nativo interrompido: 
+Загруженные сцены · реальные горшочки отдельно от мест появления	Cenas carregadas · vasos reais separados dos pontos de aparição
+Registered-type census недоступен или превышает лимит.	Censo de tipos registrados indisponível ou acima do limite.
+Неканоничная registered gold identity: 	Identidade dourada registrada não canônica: 
+Registered-type registry изменился во время census.	O registro de tipos mudou durante o censo.
+Конфликт native identities	Conflito de identidades nativas
+Неоднозначный gold type: 	Tipo dourado ambíguo: 
+Отсутствует registered type	Tipo registrado ausente
+Gold type не зарегистрирован: 	Tipo dourado não registrado: 
+Prefab identity не подтверждена	Identidade do prefab não confirmada
+Gold prefab identity не подтверждена: 	Identidade do prefab dourado não confirmada: 
+Native model index недоступен.	Índice nativo de modelos indisponível.
+Gold registration изменилась.	O registro dourado mudou.
+Actual model/row budget исчерпан.	Orçamento de modelos/linhas reais esgotado.
+Gold model list изменился во время census.	A lista de modelos dourados mudou durante o censo.
+Live container census budget исчерпан.	Orçamento do censo de contêineres ativos esgotado.
+Model/type identity не подтверждена.	Identidade de modelo/tipo não confirmada.
+Live GO type identity не подтверждена.	Identidade de tipo do GO ativo não confirmada.
+ActorId collision: actual observation снято.	Colisão de ActorId: observação real removida.
+Loaded ZoneDirector registry недоступен.	Registro de ZoneDirector carregado indisponível.
+ZoneDirector list отсутствует.	Lista de ZoneDirector ausente.
+ZoneDirector budget исчерпан.	Orçamento de ZoneDirector esgotado.
+Zone identity не подтверждена.	Identidade da zona não confirmada.
+Crate source tables недоступны.	Tabelas de fontes de caixas indisponíveis.
+Gold source budget исчерпан.	Orçamento de fontes douradas esgotado.
+Crate source owner не подтверждён.	Dono da fonte de caixa não confirmado.
+Crate table обрезана budget.	Tabela de caixas cortada pelo orçamento.
+Некорректный crate weight.	Peso de caixa inválido.
+Potential row budget исчерпан.	Orçamento de linhas potenciais esgotado.
+Crate registry изменился.	Registro de caixas mudou.
+ZoneDirector list изменился.	Lista de ZoneDirector mudou.
+Zone registry изменился.	Registro de zonas mudou.
+Loaded CellDirector registry недоступен.	Registro de CellDirector carregado indisponível.
+CellDirector budget исчерпан.	Orçamento de CellDirector esgotado.
+Slime spawner list отсутствует.	Lista de geradores de slimes ausente.
+Slime source budget исчерпан.	Orçamento de fontes de slimes esgotado.
+Slime constraints отсутствуют.	Restrições de slimes ausentes.
+Slime constraints обрезаны budget.	Restrições de slimes cortadas pelo orçamento.
+SlimeSet не готов; prefab conversion не вызывается.	SlimeSet não está pronto; conversão de prefab não chamada.
+SlimeSet members обрезаны budget.	Membros do SlimeSet cortados pelo orçamento.
+Exact registered slime member не подтверждён.	Membro exato registrado de slime não confirmado.
+SpawnLocs обрезаны budget.	SpawnLocs cortados pelo orçamento.
+Configured SpawnLoc не загружен.	SpawnLoc configurado não carregado.
+Slime source numeric metadata некорректны.	Metadados numéricos da fonte de slimes inválidos.
+Slime spawner list изменился.	Lista de geradores de slimes mudou.
+CellDirector registry изменился.	Registro de CellDirector mudou.
+Активная погода ещё не прочитана	Clima ativo ainda não lido
+Модель мирового времени недоступна.	Modelo do tempo do mundo indisponível.
+Мировое время заморожено. Физика и интерфейс продолжают работать.	Tempo do mundo congelado. Física e interface continuam funcionando.
+Мировое время восстановлено.	Tempo do mundo restaurado.
+Время вперёд на 	Tempo avançado em 
+ ч.	 h.
+Установлено ближайшее время суток: 	Definido para o horário mais próximo: 
+Нативная настройка Варров недоступна.	Configuração nativa de Breus indisponível.
+Появление Варров отключено. Уже существующие Варры не удаляются.	Aparição de Breus desativada. Breus existentes não são removidos.
+Нативная настройка Варров восстановлена.	Configuração nativa de Breus restaurada.
+ИИ и физика загруженных слаймов заморожены.	IA e física dos slimes carregados congeladas.
+ИИ и физика слаймов восстановлены.	IA e física dos slimes restauradas.
+В этой зоне погодные режимы недоступны	Modos climáticos indisponíveis nesta zona
+Погодный директор текущей зоны недоступен	Diretor de clima da zona atual indisponível
+ · уровень 	 · nível 
+Сейчас: ясно · активных нативных явлений нет	Agora: limpo · nenhum fenômeno nativo ativo
+Завершение погоды · нативных эффектов ещё активно: 	Encerrando clima · efeitos nativos ainda ativos: 
+Сейчас: 	Agora: 
+слайм	slime
+дожд	chuva
+гроза	tempestade
+пыльц	pólen
+ветер	vento
+лав	lava
+солнеч	sol
+Такой режим не зарегистрирован для текущей зоны. Выберите нативный режим ниже.	Este modo não está registrado para a zona atual. Escolha um modo nativo abaixo.
+Зона изменилась. Обновите погодный каталог и выберите режим заново.	A zona mudou. Atualize o catálogo climático e escolha o modo novamente.
+Погода: 	Clima: 
+Текущая погода очищена. Будущие нативные прогнозы сохранены.	Clima atual limpo. Previsões nativas futuras mantidas.
+Нативная погода завершается. Будущие прогнозы сохранены.	O clima nativo está terminando. Previsões futuras mantidas.
+Погода в текущей зоне недоступна.	Clima indisponível na zona atual.
+Списки обновляются, пока открыт раздел «Трекинг мира»	As listas atualizam enquanto a seção «Rastreamento do mundo» está aberta
+Дождитесь загрузки мира	Aguarde o mundo carregar
+Обновлено: точек атласа 	Atualizado: pontos do atlas 
+ · дверей сейва 	 · portas do save 
+ · позиция игрока неизвестна	 · posição do jogador desconhecida
+ · названия зон появятся после открытия карты игры	 · nomes das zonas aparecem após abrir o mapa do jogo
+Зона неизвестна	Zona desconhecida
+Статичный узел	Nó estático
+Точка телепортации	Ponto de teleporte
+Дверь	Porta
+ · место на карте не найдено	 · local no mapa não encontrado
+Дверь · 	Porta · 
+Загруженная дверь AccessDoor; группа сцены не подтверждена	AccessDoor carregada; grupo de cena não confirmado
+ · в сейве: телепортеров 	 · no save: teleportadores 
+ · узлов 	 · nós 
+Выберите дверь.	Escolha uma porta.
+ не найдена в сейве.	 não encontrada no save.
+Дверь уже открыта	A porta já está aberta
+Дверь открыта: 	Porta aberta: 
+ · сцена обновлена	 · cena atualizada
+Может появиться прямо перед входом в пещеру у статуи медового слайма.	Pode aparecer bem em frente à entrada da caverna perto da estátua do slime de mel.
+Может появиться в пещере напротив капсулы с сокровищами.	Pode aparecer na caverna em frente à cápsula de tesouro.
+Может появиться в пещере возле фонаря.	Pode aparecer na caverna perto da lanterna.
+Может появиться в пещере за вратами рядом с квадратным камнем.	Pode aparecer na caverna atrás dos portões ao lado da pedra quadrada.
+Может появиться в пещере открываемой скалистым плортом.	Pode aparecer na caverna aberta com um plort de rocha.
+Может появиться в пещере за открывающимися скалистым плортом вратами. Находится в конце заваленного тоннеля.	Pode aparecer na caverna atrás dos portões abertos com plort de rocha. Fica no fim do túnel bloqueado.
+Может появиться на короткой тупой ветке у подножия дерева.	Pode aparecer em um galho curto e grosso na base da árvore.
+Может появиться на ближайшем к поваленному стволу дереве.	Pode aparecer na árvore mais próxima do tronco caído.
+На дереве. Вокруг ещё 4	Em uma árvore. Mais 4 ao redor
+На корнях у основания камня	Nas raízes na base da rocha
+Может появиться на одном из камней разрушенного моста, недалеко от корней дерева.	Pode aparecer em uma das pedras da ponte arruinada, perto das raízes da árvore.
+Может появиться на небольшом корне торчащем из скалы прямо над табличкой предупреждающей об одичавших слаймах.	Pode aparecer em uma pequena raiz saindo do penhasco bem acima da placa de aviso de slimes ferozes.
+Может появиться на арке из гигантского корня недалеко от таблички предупреждающей об одичавших слаймах.	Pode aparecer no arco de uma raiz gigante perto da placa de aviso de slimes ferozes.
+Может появиться на короткой тупой ветке растущей из корня проходящего из одной скалы в другую.	Pode aparecer em um galho curto que nasce de uma raiz ligando um penhasco a outro.
+Может появиться в пещере с корнями на высоком уступе.	Pode aparecer na caverna com raízes em uma saliência alta.
+Может появиться в пещере с корнями и грибами под деревом.	Pode aparecer na caverna com raízes e cogumelos sob a árvore.
+Может появиться на выходе из пещеры.	Pode aparecer na saída da caverna.
+Может появиться на короткой тупой ветке на вершине арки созданной гигантским корнем дерева.	Pode aparecer em um galho curto no topo do arco formado por uma raiz gigante.
+Может появиться на стволе поваленного дерева, которое расположено над другим поваленным стволом.	Pode aparecer no tronco de uma árvore caída sobre outro tronco caído.
+Может появиться на камне над корнями вросшими в землю.	Pode aparecer na pedra acima das raízes fincadas no chão.
+Может появиться на небольшом корешке свисающем сверху прямо перед пропастью.	Pode aparecer em uma pequena raiz pendurada no alto bem antes do abismo.
+Может появиться на арке из корня дерева.	Pode aparecer no arco de uma raiz de árvore.
+Может появиться на высокой горе, рядом с капсулой.	Pode aparecer em uma montanha alta, ao lado da cápsula.
+На скале перед пропастью	No penhasco antes do abismo
+У основания дерева на возвышенности	Na base da árvore na colina
+На дереве у подъёма к арке	Na árvore na subida para o arco
+На скале у кубники	No penhasco perto da cubamora
+На возвышенности у капсулы	Na colina perto da cápsula
+На дереве у арки	Na árvore perto do arco
+На колонне перед кольцехвостым гордо	Na coluna em frente ao Gordo Cauda-Anelada
+На скале слева от кольцехвостого гордо	No penhasco à esquerda do Gordo Cauda-Anelada
+На дереве рядом с кубникой	Na árvore ao lado da cubamora
+На дереве на возвышенности у основания арки	Na árvore na colina na base do arco
+На скале под деревом	No penhasco sob a árvore
+На скале у лианы	No penhasco perto do cipó
+На дереве под аркой	Na árvore sob o arco
+На скале с лианой	No penhasco com cipó
+На дереве прямо под каменной аркой	Na árvore bem debaixo do arco de pedra
+На скале у водопада	No penhasco perto da cachoeira
+На дереве у статуй	Na árvore perto das estátuas
+На центральной статуе	Na estátua central
+На дереве на третьей ступени	Na árvore no terceiro degrau
+На дереве у порхающего гордо	Na árvore perto do Gordo Borboleta
+В пещере с капсулах с сокровищами находятся два странных алмаза	Há dois diamantes estranhos na caverna com cápsulas de tesouro
+Может появиться за углом у входа в пещеру, после портала.	Pode aparecer virando a esquina na entrada da caverna, após o portal.
+Центральная ель перед камнем	O abeto central em frente à rocha
+На накренённой над краем ели	No abeto inclinado sobre a borda
+На вершине высокой ели. С земли почти незаметен, легче заметить забравшись выше	No topo de um abeto alto. Quase invisível do chão; mais fácil de ver subindo mais alto
+На высокой ели	Em um abeto alto
+На высоком дереве	Em uma árvore alta
+На стволе поваленного дерева	No tronco de uma árvore caída
+На ближайшем дереве к поваленному. Оно самое высокое на этом островке	Na árvore mais próxima da caída. É a mais alta desta ilhota
+Вблизи ледяного кубика	Perto do cubo de gelo
+Под сосулькой. На самом высоком дереве Сыпучих обрывов. Дерево почти голое и хорошо заметно среди более пышных	Sob um pingente de gelo. Na árvore mais alta dos Penhascos Nevados. Quase sem folhas, destaca-se entre as mais frondosas
+Центральное дерево рядом с кубиком льда	A árvore central ao lado do cubo de gelo
+На высоком толстом дереве	Em uma árvore alta e grossa
+Ближайшее дерево к кубику льда	A árvore mais próxima do cubo de gelo
+У двух пальм и куста	Perto de duas palmeiras e um arbusto
+Над маленькой пальмой. Вблизи саблезубого гордо	Acima de uma pequena palmeira. Perto do Gordo Dente-de-Sabre
+На пальме на возвышенности	Na palmeira sobre a colina
+Под листьями маленькой пальмы под статуей слайма. Легче разглядеть со стороны пропасти вниз, где лицевая часть статуи	Sob as folhas de uma pequena palmeira abaixo de uma estátua de slime. Mais fácil de ver pelo lado do abismo abaixo, onde fica o rosto da estátua
+На сталактите под потолком. Мост появляется ночью	Em uma estalactite no teto. A ponte aparece à noite
+На сталагмите перед 2 цветками	Em uma estalagmite em frente a 2 flores
+У основания огненного цветка	Na base da flor de fogo
+В конце призрачного моста. Под входом	No fim da ponte fantasma. Abaixo da entrada
+Может появиться прямо перед телепортом в центре круга	Pode aparecer bem em frente ao teleportador no centro do círculo
+Находится на куче статуй слаймов в пещере рядом с лужей	Sobre uma pilha de estátuas de slimes na caverna ao lado da poça
+Над входом в расколе на голове слаймовой статуи	Acima da entrada, em uma rachadura na cabeça de uma estátua de slime
+Может появиться рядом капсулой внутри руинной колонны.	Pode aparecer ao lado da cápsula dentro de uma coluna em ruínas.
+Может появиться на уступе ,рядом с капсулой, на который можно подняться с гейзера под скалистым гордо.	Pode aparecer em uma saliência ao lado da cápsula, acessível pelo gêiser sob o Gordo Rocha.
+В углу, под спуском к лавовым озерам	No canto, abaixo da descida para os lagos de lava
+Может появиться в пещере на выступе напротив капсулы.	Pode aparecer na caverna em uma saliência em frente à cápsula.
+Может появиться на стене неподалёку от капсулы. Хорошо заметен если идти по пути у стены.	Pode aparecer na parede perto da cápsula. Fácil de notar seguindo o caminho junto à parede.
+Может появиться на левом выступе напротив нетопырька-гордо.	Pode aparecer na saliência esquerda em frente ao Gordo Morcego.
+Может появиться в пещерке рядом с капсулой	Pode aparecer em uma pequena caverna ao lado da cápsula
+Снизу у опоры "моста" на стене и на выступе могут появиться залежи лучистой руды. Ещё одни можно найти среди жар-цветов на самом мосту. Все 3 возможных места находятся почти в одной точке, но на разных высотах.	Depósitos de minério radiante podem aparecer na base do suporte da «ponte», na parede e na saliência. Outro pode surgir entre as flores de fogo na própria ponte. Os 3 pontos ficam quase no mesmo local, em alturas diferentes.
+Может появиться у рыжего куста среди каменных руин служащих переправой наверх	Pode aparecer perto do arbusto laranja entre as ruínas de pedra que servem de subida
+Может появиться почти на самой вершине скалы	Pode aparecer quase no topo do penhasco
+Может появиться на краю обрыва.	Pode aparecer na beira do penhasco.
+Может появиться у края обрыва перед пещерой в лабораторию.	Pode aparecer na beira do penhasco em frente à caverna para o laboratório.
+Может появиться на краю обрыва рядом с пещерой в лабораторию.	Pode aparecer na beira do penhasco ao lado da caverna para o laboratório.
+Может появиться у обрыва прямо перед входом в пещеру.	Pode aparecer no penhasco bem em frente à entrada da caverna.
+Может появиться перед пещерой в лабораторию.	Pode aparecer em frente à caverna para o laboratório.
+Может появиться на скале между телепортом и пещерой в лабораторию.	Pode aparecer no penhasco entre o teleportador e a caverna para o laboratório.
+Может появиться на стене напротив дерева.	Pode aparecer na parede em frente à árvore.
+Может появиться на скале перед входом в пещеру.	Pode aparecer no penhasco em frente à entrada da caverna.
+Может появиться над гирляндой и диванами в лаборатории.	Pode aparecer acima do cordão de luzes e dos sofás no laboratório.
+Может появиться на выходе из лаборатории.	Pode aparecer na saída do laboratório.
+Может появиться на каменной колонне п середине длинного коридора с трубами, который ведёт из лаборатории наружу.	Pode aparecer em uma coluna de pedra no meio do corredor longo com canos que leva do laboratório para fora.
+Может появиться на краю скалы перед слаймовым морем.	Pode aparecer na beira do penhasco em frente ao mar de slimes.
+Может появиться в подземной пещере напротив капсулы с сокровищами.	Pode aparecer na caverna subterrânea em frente à cápsula de tesouro.
+В подземной пещере, прямо напротив мяуровой статуи.	Na caverna subterrânea, bem em frente à estátua tigrada.
+Может появиться у обрыва.	Pode aparecer no penhasco.
+Может появиться на скале под погофруктовым деревом.	Pode aparecer no penhasco sob a árvore de pogofruta.
+Может появиться перед обрывом.	Pode aparecer em frente ao penhasco.
+Может появиться в пещере под хлопковым гордо.	Pode aparecer na caverna sob o Gordo Algodão.
+Может появиться рядом рядом с капсулой с сокровищами.	Pode aparecer ao lado da cápsula de tesouro.
+Может появиться над водой напротив капсулы с сокровищами.	Pode aparecer sobre a água em frente à cápsula de tesouro.
+Может появиться в глубине маленькой пещеры, которая расположена перед капсулой с сокровищами.	Pode aparecer no fundo da pequena caverna situada em frente à cápsula de tesouro.
+Может появиться у скалы.	Pode aparecer perto do penhasco.
+Может появиться между пещерами в пропасти слаймового моря.	Pode aparecer entre as cavernas no abismo do mar de slimes.
+Может появиться между стеной и землёй на повороте к выходу из пещеры.	Pode aparecer entre a parede e o chão na curva para a saída da caverna.
+Может появиться напротив телепорта.	Pode aparecer em frente ao teleportador.
+Может появиться между стеной и землёй перед телепортом.	Pode aparecer entre a parede e o chão em frente ao teleportador.
+Может появиться рядом с капсулой с сокровищами.	Pode aparecer ao lado da cápsula de tesouro.
+Может появиться рядом с одной из колонн перед телепортом.	Pode aparecer ao lado de uma das colunas em frente ao teleportador.
+Между двумя входами в пещере	Entre duas entradas na caverna
+Может появиться радом с капсулой с сокровищами	Pode aparecer ao lado da cápsula de tesouro
+Под каменной аркой	Sob o arco de pedra
+Гарантированно появляется в этом месте, но только один раз.	Aparição garantida neste ponto, mas apenas uma vez.
+Находятся внутри пещеры фосфорного гордо. Для открытия нужно в статую мяурового слайма вложить плорт.	Dentro da caverna do Gordo Fósforo. Para abrir, coloque um plort na estátua do slime tigrado.
+Находятся рядом с древним телепортом. Для открытия нужно в расположенную с другой стороны статую охотник-слайма вложить плорт.	Ao lado do teleportador antigo. Para abrir, coloque um plort na estátua do slime caçador do outro lado.
+Находятся в голубой части, откуда идёт ручей. Для открытия нужно в статую медового слайма вложить плорт.	Na parte azul, onde nasce o riacho. Para abrir, coloque um plort na estátua do slime de mel.
+Находятся в розовой части, куда идёт ручей. Для открытия нужно в статую скалистого слайма вложить плорт.	Na parte rosa, para onde corre o riacho. Para abrir, coloque um plort na estátua do slime rocha.
+Находятся под большим проходом. Для открытия нужно в статую охотник-слайма вложить плорт.	Sob a grande passagem. Para abrir, coloque um plort na estátua do slime caçador.
+Находятся в пещере. Для открытия нужно сначала открыть врата статуи скалистого слайма, а затем в статую охотник-слайма вложить плорт.	Na caverna. Para abrir, primeiro abra os portões da estátua do slime rocha e depois coloque um plort na estátua do slime caçador.
+Находятся в конце тропинки, под руинными арками. Для открытия нужно в статую скалистого слайма вложить плорт.	No fim da trilha, sob os arcos em ruínas. Para abrir, coloque um plort na estátua do slime rocha.
+Находятся посреди узкого прохода. Для открытия нужно вложить плорт в статую фосфорного слайма, расположенную в пещере медового гордо.	No meio de uma passagem estreita. Para abrir, coloque um plort na estátua do slime fósforo localizada na caverna do Gordo Mel.
+Находятся в скале на возвышенности. Для открытия нужно в статую порхающего слайма вложить плорт.	No penhasco sobre a colina. Para abrir, coloque um plort na estátua do slime borboleta.
+Находятся недалеко от медового гордо. Для открытия нужно вложить плорт в статую фосфорного слайма, расположенную в пещере медового гордо.	Não muito longe do Gordo Mel. Para abrir, coloque um plort na estátua do slime fósforo localizada na caverna do Gordo Mel.
+Находятся в пещере за водопадом. Для открытия нужно в статую удильщик-слайма вложить плорт.	Na caverna atrás da cachoeira. Para abrir, coloque um plort na estátua do slime pescador.
+Находятся недалеко от двуцветного дерева. Для открытия нужно в статую розового слайма вложить плорт.	Não muito longe da árvore de duas cores. Para abrir, coloque um plort na estátua do slime rosa.
+Находятся в углублении рядом с огромной руинной окружностью. Для открытия нужно в статую порхающего слайма вложить плорт.	Em uma depressão ao lado do enorme círculo em ruínas. Para abrir, coloque um plort na estátua do slime borboleta.
+Гарантированно появляется в этом месте, но только один раз. Находится в пещере одичавших саблезубых слаймов.	Aparição garantida neste ponto, mas apenas uma vez. Fica na caverna dos slimes dente-de-sabre ferozes.
+Находятся под порталом. Для открытия нужно в статую нетопырька-слайма вложить плорт.	Sob o portal. Para abrir, coloque um plort na estátua do slime morcego.
+Находятся под мостом для открытия нужен плорт удильщика-слайма. Сама статуя находиться слева за углом от врат у моря.	Sob a ponte; abrir exige um plort de slime pescador. A estátua fica à esquerda, virando a esquina dos portões junto ao mar.
+Находятся в пещере за каменистым гордо. Для открытия нужны бум-плорты 3х.	Na caverna atrás do Gordo Rocha. Para abrir, são necessários 3 plorts cabum.
+Открывают путь к телепорту в Сыпучие обрывы.   Требуется:   - бум-плорт   - мяуровый плорт   - плорт нетопырька   Слаймов, которые дают этот плорт можно найти на территории Тлеющей долины	Abre caminho para o teleportador rumo aos Penhascos Nevados.   Requer:   - plort cabum   - plort tigrado   - plort morcego   Os slimes que dão esses plorts podem ser encontrados no Vale das Brasas
+Может выпрыгнуть на поле из точки на стене вместе с другими слаймами.	Pode saltar para o campo a partir de um ponto na parede junto com outros slimes.
+Может появиться у камня в центре зоны.	Pode aparecer perto da pedra no centro da zona.
+Может появиться на пустыре между пальмами и входом в пещеру.	Pode aparecer no terreno baldio entre as palmeiras e a entrada da caverna.
+Может появиться в воде	Pode aparecer na água
+Может выпрыгнуть из скалы.	Pode saltar do penhasco.
+Может появиться возле шайбообразного камня перед телепортом.	Pode aparecer perto da pedra em forma de disco em frente ao teleportador.
+Cкамейка из оранжереи	Banco do Conservatório
+Среднее красное пепельное дерево	Árvore de cinzas vermelha média
+Розовый гордо. Находится в конце тропинки, к которой можно попасть через низкую арку недалеко от древнего телепорта.	Gordo Rosa. Fica no fim da trilha acessível pelo arco baixo perto do teleportador antigo.
+Фосфорный гордо. Находится внутри пещеры с левой стороны от главного выхода из оранжереи.	Gordo Fósforo. Fica dentro da caverna à esquerda da saída principal do Conservatório.
+Хлопковый гордо. Находится на вершине подъёма на Радужных полях.	Gordo Algodão. Fica no topo da subida nos Campos Arco-Íris.
+Медовый гордо. Находится на розовой стороне побережья Звёздного Света, в зоне за пещерой, закрытой с обеих сторон слаймовыми статуями.	Gordo Mel. Fica no lado rosa da Costa da Luz Estelar, na área atrás da caverna fechada dos dois lados por estátuas de slimes.
+Кольцехвостый гордо. Находится на розовой стороне побережья Звёздного Света, в основной зоне прорастания нектара лунной росы.	Gordo Cauda-Anelada. Fica no lado rosa da Costa da Luz Estelar, na área principal de crescimento do Néctar de Orvalho Lunar.
+Удильщик-гордо. Находится на розовой стороне побережья Звёздного Света, внутри пещеры, вход в которую находится неподалёку от телепорта кольцехвостого гордо.	Gordo Pescador. Fica no lado rosa da Costa da Luz Estelar, dentro de uma caverna cuja entrada fica perto do teleportador do Gordo Cauda-Anelada.
+Порхающий гордо. Находится в конце побережья Звёздного Света, на возвышенности, между синей и розовой сторонами.	Gordo Borboleta. Fica no fim da Costa da Luz Estelar, em uma colina entre os lados azul e rosa.
+Нетопырёк-гордо. Находится в нижней части сети пещер в Тлеющей долине.	Gordo Morcego. Fica na parte inferior da rede de cavernas no Vale das Brasas.
+Скалистый гордо. Находится в Тлеющей долине, в северо-восточной пещере с несколькими входами. Для удобства необходимо вставить в статуи трёх бум-слаймов их плорты, в ином случае придётся активно использовать реактивный ранец.	Gordo Rocha. Fica no Vale das Brasas, na caverna nordeste com várias entradas. Por conveniência, coloque plorts cabum nas três estátuas de slime cabum; caso contrário será preciso usar bastante o propulsor.
+Кристальный гордо. Находится в Тлеющей долине, в конце подъёма на зелёную сторону локации.	Gordo Cristal. Fica no Vale das Brasas, no fim da subida para o lado verde da área.
+Саблезубый гордо. Находится в тропической части Сыпучих обрывов, над пещерой за водопадом, гейзером в котором можно воспользоваться чтобы добраться до гордо.	Gordo Dente-de-Sabre. Fica na parte tropical dos Penhascos Nevados, acima da caverna atrás da cachoeira; o gêiser lá dentro leva até o gordo.
+Ведёт на побережье Звёздного Света. Доступ открывается переключателем на противоположном берегу.	Leva à Costa da Luz Estelar. O acesso abre com um interruptor na margem oposta.
+Площадка телепорта изначально закрыта.	A plataforma do teleportador fica fechada no início.
+Ведёт в Тлеющую долину. Доступ открывается переключателем на возвышенности неподалёку.	Leva ao Vale das Brasas. O acesso abre com um interruptor em uma colina próxima.
+Телепорт на Радужные поля. Открыт изначально.	Teleportador para os Campos Arco-Íris. Aberto desde o início.
+Телепорт в Радужные поля. Открыт изначально	Teleportador para os Campos Arco-Íris. Aberto desde o início
+Ведёт в сыпучие обрывы. Изначально не работает.	Leva aos Penhascos Nevados. Não funciona no início.
+Изначально не работает. Ведёт в Тлеющую долину.	Não funciona no início. Leva ao Vale das Brasas.
+Изначально не работает. Ведёт в побережье Звёздного света.	Não funciona no início. Leva à Costa da Luz Estelar.
+Работает только на выход.	Funciona apenas como saída.
+Находится в северной части зоны красных деревьев.	Na parte norte da área das árvores vermelhas.
+Находится недалеко от кристального гордо.	Não muito longe do Gordo Cristal.
+В тропической зоне, недалеко от входа в пещеру.	Na área tropical, perto da entrada da caverna.
+Находится недалеко от поискового дрона в открытой зоне с гейзерами.	Perto do drone de pesquisa na área aberta com gêiseres.
+Находится на возвышенности, рядом с тропинкой с арками, ведущей к телепорту в Тлеющую долину.	Em uma colina ao lado da trilha com arcos que leva ao teleportador para o Vale das Brasas.
+Находится между проходом к хлопковому гордо и скалой розовых бонсаев.	Entre a passagem para o Gordo Algodão e o penhasco dos bonsais rosas.
+Находится недалеко от дальнего острова в приливных бассейнах.	Perto da ilha distante nas piscinas naturais.
+Находится в зоне двухуровневого водопада.	Na área da cachoeira de dois níveis.
+У входа в ущелье диких саблезубых ларго	Na entrada do desfiladeiro dos largos dente-de-sabre ferozes
+За колонной в пещере огненных цветов	Atrás de uma coluna na caverna das flores de fogo
+Недалеко от древнего телепорта	Perto do teleportador antigo
+На коралловом острове	Na ilha de coral
+Рядом с коллектором преобразователя	Ao lado do coletor do Fabricador
+Недалеко от скалы розовых бонсаев	Perto do penhasco dos bonsais rosas
+В убежище	No esconderijo
+На арочной террасе	No terraço em arcos
+В приливных бассейнах	Nas piscinas naturais
+В овраге	Na ravina
+Над входом в овраг	Acima da entrada da ravina
+В конце первой зоны	No fim da primeira área
+По другую сторону от медового гордо	Do outro lado do Gordo Mel
+Неподалёку от двуцветного дерева	Perto da árvore de duas cores
+В стороне от дорожки с несколькими бассейнами	Fora do caminho com várias lagoas
+В центре зоны огромных грибов	No meio da área dos cogumelos gigantes
+В пещере порхающего гордо	Na caverna do Gordo Borboleta
+Находится на выступе за островком, туда можно попасть с помощью призрачной дорожки вечером, начало которой находится над аркой в виде наклонённого ствола дерева. Содержит: Три древицы	Em uma saliência atrás da ilhota, acessível à noite pelo caminho fantasma que começa acima do arco em forma de tronco inclinado. Contém: Três Arvorezinhas
+Пройдя из горячих источников на север, к спуску вниз, нужно дойти до снежной арки и обойти её справа. Капсула находится в углу обрыва. Содержит: Королевская снежинка	Indo para o norte a partir das fontes termais até a descida, siga até o arco de neve e contorne-o pela direita. A cápsula fica no canto do penhasco. Contém: Floco de Neve Real
+Находится в нижней части ледяной колонны, до которой можно дойти с помощью призрачной дорожки из вершины леса красных деревьев. Содержит: Снежный шар	Na base da coluna de gelo, acessível pelo caminho fantasma a partir do topo da floresta de árvores vermelhas. Contém: Globo de Neve
+Используя гейзер в пещере, подняться на площадку с телепортом саблезубого гордо, и отправиться к водопаду. Капсула находится ниже, на скале слева от водопада. Содержит: Накопительный элемент	Use o gêiser na caverna para subir até a plataforma do teleportador do Gordo Dente-de-Sabre e siga para a cachoeira. A cápsula fica mais abaixo, no penhasco à esquerda da cachoeira. Contém: Célula de Armazenamento
+Пройдя из пещеры огненных цветов в пещеру с гейзером, нужно пройти в сторону выхода за водопадом, а затем, приблизившись, обернуться назад. Капсула будет легка видна у ледяной скалы слева. Содержит: Гидродуш	Indo da caverna das flores de fogo para a caverna do gêiser, siga rumo à saída atrás da cachoeira e olhe para trás ao se aproximar. A cápsula é fácil de ver junto ao penhasco de gelo à esquerda. Contém: Hidrochuveiro
+Будучи на распутье пещер, нужно пройти в сторону северной пещеры, вечером к ней также ведёт призрачный мост. Капсула находится в углублении у перехода в пещеру огненных цветов. Содержит: Машина для снежков	Na encruzilhada das cavernas, siga rumo à caverna norte; à noite uma ponte fantasma também leva até lá. A cápsula fica em uma depressão na passagem para a caverna das flores de fogo. Contém: Máquina de Bolas de Neve
+Находится за вулканической скалой в бассейне рядом с входами в пещеры с гейзерами и огненными цветами. Содержит: Замёрзшее пламя	Atrás da rocha vulcânica na lagoa ao lado das entradas para as cavernas de gêiseres e flores de fogo. Contém: Chama Congelada
+Находится под мостом в виде упавшего ствола дерева между островами красных деревьев, также к нему ведёт дорожка из камней в море между теми же островами. Содержит: Заснеженный куст	Sob a ponte em forma de tronco caído entre as ilhas de árvores vermelhas; um caminho de pedras no mar entre as mesmas ilhas também leva até lá. Contém: Arbusto Nevado
+Находится на высоком выступе в конце ущелья диких саблезубых ларго: к поисковому дрону, а затем пролететь к капсуле вниз, либо пройдя по призрачному мосту, начало которого находится у спуска из ущелья. Содержит: Северносияющая сосна	Em uma saliência alta no fim do desfiladeiro dos largos dente-de-sabre ferozes: vá até o drone de pesquisa e voe para baixo até a cápsula, ou passe pela ponte fantasma que começa na descida do desfiladeiro. Contém: Pinheiro da Aurora
+Пройдя назад от горячего источника, можно увидеть выступ к одному из входов в пещеру огненных цветов. Взобравшись и пройдя по красной траве, нужно подняться на высокий выступ справа от входа в пещеру огненных цветов. Содержит: Заснеженная скамейка	Voltando da fonte termal, vê-se uma saliência para uma das entradas da caverna das flores de fogo. Suba, passe pela grama vermelha e alcance a saliência alta à direita da entrada. Contém: Banco Nevado
+Пройдя из ущелья диких саблезубых ларго наверх к поисковому дрону, нужно сделать пролёт к подъёму напротив. Далее вверх по выступам с куриными гнёздами. Капсула находится на вершине горы вокруг мерцающих кусков льда. Содержит: Модуль меткого выстрела	Do desfiladeiro dos largos dente-de-sabre ferozes, suba até o drone de pesquisa e voe até a subida em frente. Depois suba pelas saliências com ninhos de galinha. A cápsula fica no topo da montanha entre blocos de gelo cintilantes. Contém: Módulo de Tiro Potente
+Обойдя гору, можно увидеть маленькую щель в пещеру диких саблезубых ларго. Войдя в пещеру, нужно просто идти до первой призрачной пальмы слева, а затем повернуться налево к выступу с капсулой. Содержит: Снежный телепорт	Contornando a montanha, vê-se uma fenda pequena para a caverna dos largos dente-de-sabre ferozes. Lá dentro, siga até a primeira palmeira fantasma à esquerda e vire à esquerda para a saliência com a cápsula. Contém: Teleportador Nevado
+На высоком выступе в пещере огненных цветов, до которого добраться можно лишь двумя способами: пролетев со стороны входа в пещеру с гейзером, либо пройдя по призрачному мосту, начало которого находится у той же пещеры. Содержит: Портал на Сыпучие обрывы	Em uma saliência alta na caverna das flores de fogo, acessível de apenas dois modos: voando da entrada da caverna do gêiser ou pela ponte fantasma que começa na mesma caverna. Contém: Portal para os Penhascos Nevados
+Находится на вершине ледяного куба, на который можно легко взобраться с помощью ледяных глыб и скал вокруг. Содержит: Ледяной куб	No topo do cubo de gelo, fácil de escalar usando os blocos de gelo e rochas ao redor. Contém: Cubo de Gelo
+Обойдя ледяной куб по тропинке красной травы, можно увидеть крутой спуск вниз к капсуле. Содержит: Кучка снежных слаймов	Contornando o cubo de gelo pela trilha de grama vermelha, vê-se uma descida íngreme até a cápsula. Contém: Monte de Slimes de Neve
+Будучи на распутье пещер, нужно пролететь в сторону западной пещеры. Капсула находится в конце неё, на другой стороне обрыва. Содержит: Замерзшая раковина	Na encruzilhada das cavernas, voe em direção à caverna oeste. A cápsula fica no final dela, do outro lado do abismo. Contém: Concha Congelada
+Находится на ледяной колонне рядом с поисковым дроном. Туда легко взобраться с помощью розовых кораллов. Содержит: Силовой чип	Na coluna de gelo ao lado do drone de pesquisa. Fácil de subir usando os corais rosas. Contém: Chip de Potência
+Пройдя в нижнюю часть острова кораллов, нужно пройти до обрыва рядом с камнем, на котором 2 коралловых растения, и аккуратно опуститься вниз к выступу с капсулой. Содержит: Ледяная лампа	Vá para a parte baixa da ilha de coral, caminhe até o penhasco ao lado da rocha com 2 plantas de coral e desça com cuidado até a saliência com a cápsula. Contém: Lâmpada de Gelo
+Спустившись в пещеру справа от портала, нужно взобраться вверх, а затем идти влево до прохода к спуску, пройти путь вниз, пройти к тропинке слева, в конце которой капсула в углу. Содержит: Кристаллы	Desça na caverna à direita do portal, suba, siga à esquerda até a passagem de descida, desça e pegue a trilha à esquerda; a cápsula fica no canto ao final. Contém: Cristais
+Пройдя мимо портала в пещере в сторону прохода наружу и пролетев за скалу с двумя кубами справа от неё, капсулу легко будет обнаружить у подножья скалы. Содержит: Ледниковый кристалл	Passe pelo portal na caverna rumo à saída e voe para trás da rocha com dois cubos à direita; a cápsula aparece facilmente ao pé da rocha. Contém: Cristal Glacial
+Двигаясь со стороны гейзера кристального гордо вперёд, можно увидеть путь к колонне с порталом. Долетев до неё, нужно спуститься, чтобы увидеть в углу кирпичный куб, одна из сторон которого не закрыта. Содержит: Синее варп-хранилище	Avançando a partir do gêiser do Gordo Cristal, vê-se o caminho até a coluna com o portal. Voe até ela e desça para ver no canto um cubo de tijolos com um lado aberto. Contém: Depósito Warp Azul
+Выйдя из зоны горячих источников, можно увидеть небольшой спуск вниз, который приведёт в открытое пространство. Дальше нужно просто забраться на возвышенность, покрытой листьями, и двигаться вправо в сторону капсулы. Содержит: Бампер для пинбола	Saindo da área das fontes termais, há uma pequena descida que leva a um espaço aberto. Suba a colina coberta de folhas e siga à direita rumo à cápsula. Contém: Rebatedor de Pinball
+Выйдя из пещеры скалистого гордо и постоянно двигаясь вперёд и смотря при этом вправо, то можно дойти до обрыва, внизу которого находится небольшой выступ. Содержит: Розовая лампа в полоску	Saindo da caverna do Gordo Rocha e seguindo em frente olhando à direita, chega-se a um penhasco com uma pequena saliência na base. Contém: Lâmpada Listrada Rosa
+Пройдя к подъёму в зону гейзера кристального гордо, нужно подойти к обрыву и посмотреть, тем самым увидев небольшой выступ на другой стороне, с помощью которого можно добраться до пещеры с капсулой. Содержит: Счастливая статуя	Vá até a subida para a área do gêiser do Gordo Cristal, aproxime-se do penhasco e olhe: você verá uma pequena saliência do outro lado que leva à caverna com a cápsula. Contém: Estátua Feliz
+Пройдя мимо гейзера кристального гордо, можно увидеть широкую арку, а рядом с ней - спуск к капсуле. Содержит: Сердечный элемент	Passando pelo gêiser do Gordo Cristal, vê-se um arco largo e, ao lado dele, a descida para a cápsula. Contém: Célula de Coração
+Под кристальным гордо, есть гейзер, поднимитесь на нём на равнину выше. Там будет небольшой подъём справа, который ведёт к горячим источникам. Там, можно увидеть два водопада, за одним из которых и находится капсула. Содержит: Золотая статуя удильщика	Sob o Gordo Cristal há um gêiser; suba nele até a planície acima. À direita há uma pequena subida para as fontes termais, onde ficam duas cachoeiras; a cápsula está atrás de uma delas. Contém: Estátua Dourada do Pescador
+Нужно использовать гейзеры, чтобы подняться на платформу с капсулой. Содержит: Колокольчики	Use os gêiseres para subir até a plataforma com a cápsula. Contém: Sinos de Vento
+Выйдя из маленькой пещеры у моря, нужно передвигаться по выступам, пока не будет видна капсула в углу. Содержит: Лампа в оранжерею	Saindo da pequena caverna junto ao mar, siga pelas saliências até ver a cápsula no canto. Contém: Lâmpada do Conservatório
+Лопнув скалистого гордо в пещере, появляется гейзер, используя который можно выбраться на поверхность и найти капсулу. Содержит: Привод реактивного ранца	Após estourar o Gordo Rocha na caverna, surge um gêiser; use-o para subir à superfície e achar a cápsula. Contém: Propulsor a Jato
+Войдя в скрытый проход, нужно взобраться наверх с помощью булыжников перед входом в пещеру и невысоких кипарисов. Содержит: Каменная лампа «Яйцо»	Entrando na passagem oculta, suba usando os pedregulhos em frente à entrada da caverna e os ciprestes baixos. Contém: Lâmpada de Pedra «Ovo»
+Обойдя портал на Радужные поля, можно увидеть спуск к каменной двери, требующей плорт нетопырька. После вставки плорта в статую открывается путь к пещере, в центре которой за колонной находится капсула. Содержит: Накопительный элемент	Contornando o portal para os Campos Arco-Íris, há uma descida até uma porta de pedra que pede um plort morcego. Colocando o plort na estátua, abre-se o caminho para a caverna; a cápsula fica atrás da coluna central. Contém: Célula de Armazenamento
+Войдя со стороны телепорта в приливные бассейны, нужно залезть на холм у входа, чтобы добраться до разрушенной колонны с капсулой внутри. Содержит: Приманка для плотоядных слаймов	Entrando pelo lado do teleportador nas piscinas naturais, suba a colina na entrada para alcançar a coluna arruinada com a cápsula dentro. Contém: Isca para Slimes Carnívoros
+Пройдя до гейзера в центре полукруга неподалёку от поискового дрона, выше можно заметить высокую колонну, внутри которой и находится капсула. Содержит: Рывковая площадка	Caminhe até o gêiser no meio do semicírculo perto do drone de pesquisa; acima vê-se uma coluna alta com a cápsula dentro. Contém: Plataforma de Impulso
+Выйдя из разрушенной колонны и повернув в сторону кубничного дерева, можно увидеть прямой путь к капсуле в углу. Содержит: Группа янтарных кипарисов	Saindo da coluna arruinada e virando rumo à árvore de cubamora, vê-se um caminho reto até a cápsula no canto. Contém: Grupo de Ciprestes Âmbar
+Увидев табличку с предупреждением об опасности, нужно залезть на возвышенность слева от неё, чтобы увидеть капсулу за розовым кораллом. Содержит: Огромная чашка	Ao ver a placa de aviso de perigo, suba a colina à esquerda dela para ver a cápsula atrás do coral rosa. Contém: Xícara Gigante
+Обойдя высокую арку из голубого коралла, можно увидеть обрыв, под которым находится небольшое углубление с капсулой, куда также ведёт спуск. Содержит: Тачка	Contornando o arco alto de coral azul, vê-se um penhasco com uma pequena cavidade contendo a cápsula abaixo, aonde também leva uma descida. Contém: Carrinho de Mão
+Осмотревшись вокруг бассейна с светящейся травой, можно увидеть тропинку за водопадом, пройдя по которой можно попасть в пещеру с гейзером, ведущую к бассейну с капсулой в дальнем углу. Содержит: Вакотсек	Olhando ao redor da lagoa com grama brilhante, vê-se uma trilha atrás da cachoeira que leva a uma caverna com gêiser e adiante à lagoa com a cápsula no canto distante. Contém: Tanque Vac
+За вратами удильщика-слайма Содержит: Модуль меткого выстрела	Atrás dos portões do slime pescador Contém: Módulo de Tiro Potente
+Недалеко от входа в пещеру есть башенка из бассейнов с магмой, забравшись на которую можно увидеть капсулу. Содержит: Серое варп-хранилище	Perto da entrada da caverna há uma pequena torre de poças de magma; suba nela para ver a cápsula. Contém: Depósito Warp Cinza
+Двигаясь по тропинке со стороны пещеры с пальмами, можно наткнуться на небольшой мост, ведущий к проходу за заросшей листвой наверху. Содержит: Приманка для фруктоядных слаймов	Seguindo a trilha vinda da caverna das palmeiras, você encontra uma pequena ponte que leva a uma passagem atrás da folhagem densa acima. Contém: Isca para Slimes Frugívoros
+Двигаясь вперёд со стороны пещеры бум-гордо, можно наткнуться на скалу с пальмой, используя которую можно подняться на выступ с капсулой. Содержит: Средняя пальма	Avançando a partir da caverna do Gordo Cabum, há um penhasco com uma palmeira; use-a para subir na saliência com a cápsula. Contém: Palmeira Média
+Двигаясь по реке лавы со стороны лавопада, можно увидеть развилку, которую разделяет скала, на которой есть выступ с капсулой. Содержит: Крупный сгусток магмы	Seguindo pelo rio de lava a partir da cascata de lava, vê-se uma bifurcação dividida por uma rocha com uma saliência onde está a cápsula. Contém: Grande Aglomerado de Magma
+Двигаясь в сторону лавопада и спустившись к реке лавы, рядом с гейзером можно увидеть платформу с капсулой. Содержит: Бассейн с магмой	Indo rumo à cascata de lava e descendo até o rio de lava, vê-se uma plataforma com a cápsula ao lado do gêiser. Contém: Poça de Magma
+Спустившись с руин в сторону вулканической зоны, можно сразу увидеть обрыв. Содержит: Цветы в горшках	Descendo das ruínas rumo à zona vulcânica, vê-se logo o penhasco. Contém: Flores em Vasos
+Используя выступы вокруг пещеры в конце приливных бассейнов, можно подняться к руинам с телепортом в Сыпучие обрывы. Поднявшись, можно использовать стены и колонны руин, чтобы добраться до возвышенности с капсулой в углу. Содержит: Золотая статуя курицы	Use as saliências ao redor da caverna no fim das piscinas naturais para subir até as ruínas com o teleportador para os Penhascos Nevados. Lá em cima, use muros e colunas para chegar à colina com a cápsula no canto. Contém: Estátua Dourada de Galinha
+Пройдясь по длинному мосту со стороны портала на побережье Звёздного Света и спустившись вниз, справа можно увидеть небольшую пещеру. Содержит: Изумрудный кипарис	Atravesse a ponte longa a partir do portal para a Costa da Luz Estelar e desça; à direita há uma pequena caverna. Contém: Cipreste Esmeralda
+Отойдя влево от входа в пещеру и посмотрев вниз, можно увидеть песчаную дорожку, ведущую в пещеру с капсулой. Содержит: Силовой чип	Afaste-se à esquerda da entrada da caverna e olhe para baixo para ver uma trilha de areia levando à caverna com a cápsula. Contém: Chip de Potência
+Поднимаясь вверх по листве деревьев можно взобраться на вершину скалы и оттуда посмотреть на наличие выступа с капсулой под розовым бонсаем. Содержит: Почётное место слайма № 1	Subindo pela folhagem das árvores até o topo do penhasco, procure lá de cima uma saliência com a cápsula sob o bonsai rosa. Contém: Slime de Honra Nº 1
+Перемещаясь вверх по холму с дикими мяуровыми хлопковыми ларго, можно почти на вершине залезть на большой булыжник. Содержит: Небольшой валун	Subindo a colina dos largos tigrados de algodão ferozes, quase no topo é possível subir em um grande pedregulho. Contém: Pequeno Pedregulho
+Проходя по протоптанной дорожке со стороны пещеры, слева можно заметить небольшую ямку, окружённую скалами. Содержит: Сердечный элемент	Seguindo pela trilha batida vinda da caverna, à esquerda nota-se uma pequena cova cercada por rochas. Contém: Célula de Coração
+Пройдя путь по песку в сторону пещеры с порталом, можно увидеть у подножья капсулу. Содержит: Гидротурель	Seguindo pela areia rumo à caverna com o portal, vê-se a cápsula ao pé da encosta. Contém: Hidrotorre
+Выйдя из пещеры, можно заметить высокую платформу слева. Содержит: Скамейка в оранжерею	Saindo da caverna, nota-se uma plataforma alta à esquerda. Contém: Banco do Conservatório
+Спускаясь в пещеру со стороны таблички, предупреждающей об опасности, нужно сделать пролёт влево. Содержит: Розовое варп-хранилище	Descendo na caverna pelo lado da placa de aviso de perigo, voe para a esquerda. Contém: Depósito Warp Rosa
+Пройдя мимо портала, можно увидеть недалеко от берега высокую колонну, подлетев к которой понадобится немного пройтись по каменной дорожке. Содержит: Пляжный зонтик	Passando pelo portal, vê-se uma coluna alta perto da costa; após voar até ela, caminhe um pouco pela trilha de pedra. Contém: Guarda-sol de Praia
+Выйдя из длинной пещеры и свернув направо, можно заметить выступ слева, взобравшись на который можно дойти до капсулы. Содержит: Флажок «Овощи»	Saindo da caverna longa e virando à direita, nota-se uma saliência à esquerda; suba nela e caminhe até a cápsula. Contém: Bandeira «Vegetais»
+В конце арочной террасы есть разрушенная конструкция с треугольным отверстием в центре, на вершине которой можно приметить капсулу. Содержит: Флажок «Фрукты»	No fim do terraço em arcos há uma estrutura arruinada com um furo triangular no centro, com a cápsula no topo. Contém: Bandeira «Frutas»
+Выйдя из пещеры со стороны оранжереи и повернув налево, можно увидеть высокую скалу, один из выступов которой зарос бордовой листвой. Содержит: Флажок «Мясо»	Saindo da caverna pelo lado do Conservatório e virando à esquerda, vê-se um penhasco alto com uma saliência coberta de folhagem bordô. Contém: Bandeira «Carne»
+Спустившись вниз и осмотрев пространство под порталом, можно заметить углубление, в котором и находится капсула. Содержит: Качели	Desça e observe o espaço sob o portal para notar uma cavidade onde está a cápsula. Contém: Balanço
+Дойдя в конце приливных бассейнов до подъёма к синим кораллам, можно увидеть справа от неё узкую тропинку вниз. Пройдя до конца тропинки, нужно повернуть налево и войти в небольшое отверстие к капсуле. Содержит: Садовая арка	No fim das piscinas naturais, junto à subida para os corais azuis, há uma trilha estreita descendo à direita. Siga até o fim, vire à esquerda e entre na pequena abertura até a cápsula. Contém: Arco de Jardim
+Пролетев из зоны синих кораллов на остров, нужно пройти через арку до первой скалы справа, а затем обойти её. Содержит: Пляжная лампа	Voe da área dos corais azuis até a ilha, passe pelo arco até o primeiro penhasco à direita e contorne-o. Contém: Lâmpada de Praia
+Пройдя вперёд со стороны ущелья с трещиной в земле, можно увидеть развилку в большую зону синих кораллов и небольшую с красными, а между ними широкая скала, за которой находится капсула. Содержит: Каменная колонна с берега	Avançando a partir do desfiladeiro com uma fenda no chão, há uma bifurcação entre a grande área de corais azuis e a pequena de vermelhos, separadas por uma rocha larga; a cápsula fica atrás dela. Contém: Coluna de Pedra Costeira
+Пролетев с острова обратно, нужно идти вперёд и всё время смотреть вправо, пока не появится подъём из блоков с лазурной травой. Дальше нужно просто идти по ним, пока не появится телепорт, а затем повернуться вправо к капсуле. Содержит: Радостная статуя	Voando da ilha de volta, siga em frente olhando sempre à direita até surgir uma subida de blocos com grama celeste. Siga por eles até o teleportador e vire à direita para a cápsula. Contém: Estátua Alegre
+Двигаясь со стороны портала на Радужные поля влево, заметен высокий заросший выступ. Забравшись на него, следует повернуться направо и двигаться вперёд до небольшой платформы с древесной аркой, за которой находится капсула. Содержит: Фиолетовое варп-хранилище	Indo à esquerda a partir do portal para os Campos Arco-Íris, vê-se uma saliência alta coberta de vegetação. Suba nela, vire à direita e avance até uma pequena plataforma com um arco de madeira; a cápsula fica atrás dele. Contém: Depósito Warp Roxo
+Попав на лазурную сторону побережья и увидев огромный вход из кубов с круглым отверстием в центре, нужно повернуть направо, чтобы увидеть рядом с источником воды тропинку, которая заворачивает за скалу в сторону капсулы. Содержит: Обычный вентилятор	No lado celeste da costa, ao ver a enorme entrada de cubos com um furo redondo no centro, vire à direita para achar perto da fonte de água uma trilha que dobra atrás da rocha rumo à cápsula. Contém: Ventilador Comum
+Пройдя мимо пещеры медового гордо в сторону приливных бассейнов, сделайте поворот влево и идите до трещины в земле. Справа, рядом с погофруктовым деревом, находится скала, на которой расположена капсула. Содержит: Приманка для овощеядных слаймов	Passe pela caverna do Gordo Mel rumo às piscinas naturais, vire à esquerda e siga até a fenda no chão. À direita, ao lado da árvore de pogofruta, fica a rocha com a cápsula. Contém: Isca para Slimes Vegetarianos
+Пройдя обратно до выхода из пещеры, можно увидеть руинный выступ на скале. Запрыгнув на него, нужно посмотреть в обратную сторону и вниз, чтобы увидеть платформу у моря. Попав на неё, можно увидеть капсулу в кораллах. Содержит: Обшивка для отсеков	Voltando até a saída da caverna, vê-se uma saliência em ruínas no penhasco. Pule nela e olhe para trás e para baixo para ver uma plataforma junto ao mar, onde a cápsula está entre os corais. Contém: Revestimento de Curral
+Лопнув медового гордо, появляется проход вниз. Войдя в него, нужно повернуть направо и пройти до фосфорной статуи. Содержит: Высокие розовые коралловые колонны	Após estourar o Gordo Mel, surge uma passagem para baixo. Entre nela, vire à direita e siga até a estátua de fósforo. Contém: Colunas Altas de Coral Rosa
+Пройдя мимо пещеры медового гордо в сторону приливных бассейнов, сделайте поворот в сторону арки из скал. Добравшись берега, пролетите к дальней части арки, а затем поднимайтесь вверх, пока не будет видна капсула. Содержит: Мшистая статуя курицы	Passe pela caverna do Gordo Mel rumo às piscinas naturais e vire na direção do arco de rochas. Na costa, voe até a parte distante do arco e suba até avistar a cápsula. Contém: Estátua Musgosa de Galinha
+Войдя в пещеру двуцветного дерева, нужно двигаться вперёд, пока не появиться выход с левой стороны. На противоположной стороне от выхода находится небольшой выступ, на котором и расположена капсула. Содержит: Переплетение корней	Entrando na caverna da árvore de duas cores, siga em frente até aparecer uma saída à esquerda. Do lado oposto à saída há uma pequena saliência com a cápsula. Contém: Emaranhado de Raízes
+Увидев огромное двуцветное дерево, нужно обойти его с розовой стороны, чтобы увидеть капсулу у дыры в пещеру. Содержит: Модуль сапог-скороходов	Ao ver a enorme árvore de duas cores, contorne-a pelo lado rosa para achar a cápsula junto ao buraco da caverna. Contém: Módulo de Botas de Impulso
+Проходя по розовой стороне между двуцветным деревом и концом побережья, можно увидеть холм, на вершине которого расположен небольшой бассейн с капсулой в углу. Содержит: Золотая статуя порхающего слайма	Caminhando pelo lado rosa entre a árvore de duas cores e o fim da costa, vê-se uma colina com uma pequena lagoa no topo e a cápsula no canto. Contém: Estátua Dourada do Slime Borboleta
+Вставив плорт охотника в статую на огромном входе, внизу открывается дверь в комнату с капсулой. Содержит: Ловушка на гордо для начинающих	Colocando um plort caçador na estátua da enorme entrada, abre-se lá embaixo a porta para a sala com a cápsula. Contém: Armadilha de Gordo para Iniciantes
+Пройдя огромный вход, нужно повернуться направо, подняться вверх и дойти до дерева на краю обрыва. Дойдя до него, можно заметить слева заросшую листву над выступом с капсулой. Содержит: Золотая статуя хлопкового слайма	Passe pela enorme entrada, vire à direita, suba e siga até a árvore na beira do penhasco. À esquerda vê-se folhagem densa sobre a saliência com a cápsula. Contém: Estátua Dourada do Slime Algodão
+Спустившись к приливным бассейнам в конце лазурной стороны побережья, сверните на тропинку с гейзером и дойдите до двери. Войдя поверните направо и поднимитесь на колонну посреди пещеры. Содержит: Высокий фиолетовый витой гриб	Descendo às piscinas naturais no fim do lado celeste da costa, pegue a trilha com o gêiser até a porta. Lá dentro, vire à direita e suba na coluna no meio da caverna. Contém: Cogumelo Retorcido Roxo Alto
+Выйдя из пещеры сбоку от кольца, можно сразу же увидеть маленькую дорожку из блоков вверх, в конце которой нужно спуститься к капсуле. Содержит: Лазурный мангр	Saindo da caverna ao lado do anel, vê-se logo um pequeno caminho de blocos subindo; no final dele, desça até a cápsula. Contém: Mangue Celeste
+Вернувшись к приливным бассейнам лазурной стороны побережья, нужно обойти слева двойную арку из синего коралла, чтобы увидеть подъём к капсуле на выступе между кораллами. Содержит: Силовой чип	De volta às piscinas naturais do lado celeste da costa, contorne pela esquerda o arco duplo de coral azul para ver a subida até a cápsula na saliência entre os corais. Contém: Chip de Potência
+Пройдя вправо со стороны входа в пещеру порхающего гордо, можно увидеть возвышенность, на которой расположена огромная слаймовая статуя, сзади которой находится вход в пещеру вниз. В конце пещеры расположена капсула. Содержит: Пружинная площадка	Indo à direita da entrada da caverna do Gordo Borboleta, vê-se uma colina com uma enorme estátua de slime; atrás dela fica uma entrada de caverna descendo, com a cápsula no final. Contém: Plataforma Elástica
+Пройдя вперёд со стороны входа в пещеру порхающего гордо, можно увидеть большой проход из блоков, пройдя который можно увидеть возвышенность с капсулой в углу. Содержит: Звездоцветы	Seguindo em frente a partir da entrada da caverna do Gordo Borboleta, passe pela grande passagem de blocos para ver uma colina com a cápsula no canto. Contém: Flores-Estrela
+Проходя со стороны холма к порталу кольцехвостого гордо, можно увидеть большую дыру вниз, в пещеру с удильщик-гордо. Спустившись в неё, нужно пройти влево, пока не будет видна капсула за колонной. Содержит: Грибница	Vindo da colina até o portal do Gordo Cauda-Anelada, há um grande buraco descendo para a caverna do Gordo Pescador. Desça e siga à esquerda até ver a cápsula atrás de uma coluna. Contém: Canteiro de Cogumelos
+Пройдя мимо портала кольцехвостого гордо направо, нужно пройти мимо небольшой руинной арки и до самого холма в конце, рядом с ним находится источник воды. Добравшись до холма, взобраться на вершину. Содержит: Обшивка для отсеков	Passe pelo portal do Gordo Cauda-Anelada à direita, passe por um pequeno arco em ruínas até a colina no final com uma fonte de água ao lado e suba até o topo. Contém: Revestimento de Curral
+Лопнув фосфорного гордо, открывается путь к пещере. Содержит: Камень с берега	Estourar o Gordo Fósforo abre o caminho para a caverna. Contém: Pedra Costeira
+Выйдя из пещеры с порталом, можно увидеть зону, в конце которой находятся сложенные друг на друга скалы. Содержит: Бумбокс	Saindo da caverna com o portal, vê-se uma área com rochas empilhadas umas sobre as outras no final. Contém: Som Portátil
+Находится в конце нижней дорожки за большим огненным цветком. Рядом с капсулой растёт огненный цветок. Содержит: Огненный цветок	No fim da trilha inferior atrás da grande flor de fogo. Uma flor de fogo cresce ao lado da cápsula. Contém: Flor de Fogo
+Находится в углублении под островком, к которому можно попасть с помощью призрачной дорожки вечером, начало которой находится на острове красных деревьев. Содержит: Северносияющие цветы	Em uma cavidade sob a ilhota acessível à noite pelo caminho fantasma que começa na ilha de árvores vermelhas. Contém: Flores da Aurora
+Войдя в комнату с вратами к телепорту в Сыпучие обрывы, справа от них можно увидеть капсулу. Содержит: Высокий янтарный кипарис	Entrando na sala com os portões para o teleportador dos Penhascos Nevados, vê-se a cápsula à direita deles. Contém: Cipreste Âmbar Alto
+Пройдя на юг от бассейна со светящейся травой и пролетев за скалу, можно увидеть капсулу. Содержит: Ускоритель	Siga para o sul a partir da lagoa de grama brilhante e voe atrás da rocha para ver a cápsula. Contém: Acelerador
+Обойдя телепорт внутри руинной колонны, за ним можно увидеть круглую платформу с деревом и кустами внизу. Внутри неё капсула. Содержит: Стеклянный шкаф	Contornando o teleportador dentro da coluna em ruínas, vê-se atrás dele uma plataforma redonda com árvore e arbustos embaixo; a cápsula está lá dentro. Contém: Armário de Vidro
+Пройдя по тропинке из розово-красной травы от руин с телепортом в Сыпучие руины, внизу можно увидеть огромный руинный купол, за которым находится капсула. Содержит: Карусель	Seguindo a trilha de grama rosa-avermelhada a partir das ruínas com o teleportador para os Penhascos Nevados, vê-se abaixo uma enorme cúpula em ruínas; a cápsula fica atrás dela. Contém: Carrossel
+Двигаясь на юго-запад от развилки реки лавы, можно увидеть зону с очередной рекой лавы, в начале которой и спрятана капсула. Содержит: Золотая статуя дервиша	Seguindo para sudoeste a partir da bifurcação do rio de lava, vê-se outra área com rio de lava, em cujo início a cápsula está escondida. Contém: Estátua Dourada do Dervixe
+Пройдя зону с двойной аркой, можно увидеть руинное побережье. Если двигаться всё время у стены, то можно попасть в пещеру с капсулой. Содержит: Пушка для трюков	Após a área do arco duplo, vê-se a costa em ruínas. Seguindo sempre junto à parede, chega-se à caverna com a cápsula. Contém: Canhão de Acrobacias
+Пролетев мимо арки со стороны руинного берега, можно увидеть руины. Если подняться по стене, то в конце пути можно увидеть капсулу. Содержит: Колесо обозрения	Voando pelo arco a partir da costa em ruínas, avistam-se ruínas. Subindo pela parede, você verá a cápsula no fim do caminho. Contém: Roda-Gigante
+Пролетев на юг с кораллового острова, можно попасть на небольшой остров, на вершине которого расположена капсула. Содержит: Золотая статуя вьюнка	Voando para o sul a partir da ilha de coral, chega-se a uma pequena ilha com a cápsula no topo. Contém: Estátua Dourada do Emaranhado
+Поднявшись по арке в виде наклонённого ствола дерева, нужно повернуть направо и спуститься вниз, к капсуле. Содержит: Солнечный сок ×3	Suba pelo arco em forma de tronco inclinado, vire à direita e desça até a cápsula. Contém: Seiva Solar ×3
+Находится прямо возле телепорта под крупным сталактитом.(Появляется после активации портала) Содержит: странный алмаз, 3 желейных камня, 2 насыщенных солевых раствора	Bem ao lado do teleportador sob uma grande estalactite. (Aparece após ativar o portal) Contém: diamante estranho, 3 pedras gelatinosas, 2 salmouras profundas
+Находится прямо перед телепортом в побережье Звёздного Света. (Появляется после активации портала) Содержит: странный алмаз, 3 желейных камня, 2 насыщенных солевых раствора	Bem em frente ao teleportador para a Costa da Luz Estelar. (Aparece após ativar o portal) Contém: diamante estranho, 3 pedras gelatinosas, 2 salmouras profundas
+После взрыва кристального гордо на гейзере подлететь на гору. Содержит: Странный алмаз х1; Шелковистый песок х2; Лучистая руда х3	Após estourar o Gordo Cristal, suba voando a montanha pelo gêiser. Contém: Diamante Estranho ×1; Areia Sedosa ×2; Minério Radiante ×3
+Сразу за гордо нетопырька-слайма. Содержит: Странный алмаз 1х; Пранефть 3х; Лавовый пепел 2х	Logo atrás do Gordo Morcego. Contém: Diamante Estranho ×1; Óleo Primordial ×3; Poeira de Lava ×2
+Открывает доступ к телепорту на побережье Звёздного Света	Abre o acesso ao teleportador para a Costa da Luz Estelar
+Открывает доступ к телепорту в Тлеющую долину.	Abre o acesso ao teleportador para o Vale das Brasas.
+Точка из данных игры: 	Ponto dos dados do jogo: 
+. Ресурс появляется не всегда.	. O recurso nem sempre aparece.
+ Вики: 	 Wiki: 
+Окаменелость слайма	Fóssil de Slime
+Оловянный лепесток	Pétala de Estanho
+мяуровый	tigrado
+скалистый	rocha
+бум	cabum
+удильщик	pescador
+нетопырь	morcego
+двойняшка	gêmeo
+теневой	sombrio
+сламбер	sonolento
+охотник	caçador
+медовый	mel
+фосфорный	fósforo
+розовый	rosa
+порхающий	borboleta
+Точка появления только лучистых слаймов (данные игры). Появление не гарантировано.	Ponto de aparição exclusivo de slimes radiantes (dados do jogo). Aparição não garantida.
+Вложите 	Coloque um plort 
+ плорт. Открывает: врата плортов в 	 . Abre: portas de plort em 
+ плорт.	 .
+Нужно 	Requer 
+ плортов. Открывает: теневые врата в 	 plorts. Abre: portas sombrias em 
+ плортов. Открывает: сборщик теневых плортов в 	 plorts. Abre: coletor de plorts sombrios em 
+Теневые врата (точка из данных игры). Нужно: приёмник ×	Portas sombrias (ponto dos dados do jogo). Requer: receptor ×
+Сборщик теневых плортов (точка из данных игры). Нужно: приёмник ×	Coletor de plorts sombrios (ponto dos dados do jogo). Requer: receptor ×
+Врата плортов (точка из данных игры). Нужно: статуя «	Portas de plort (ponto dos dados do jogo). Requer: estátua «
+Врата плортов (точка из данных игры). Нужно: нет данных.	Portas de plort (ponto dos dados do jogo). Requer: sem dados.
+» в 	» a 
+ м; статуя «	 m; estátua «
+ в 	 a 
+ м.	 m.
+Ближайшая к отметке вики точка появления слаймов из данных игры (	Ponto de aparição de slimes dos dados do jogo mais próximo da marca da wiki (
+ м от отметки).	 m da marca).
+Примерно, по картинке вики.	Aproximado, pela imagem da wiki.
+Механизм	Mecanismo
+Нода карты	Nó do mapa
+Телепорт · 	Teleportador · 
+Капсула · 	Cápsula · 
+Сокровища	Tesouros
+Пути	Rotas
+Метки игры	Marcadores do jogo
+Сокровищницы	Cápsulas de tesouro
+Сокровищница	Cápsula de tesouro
+Поисковые дроны	Drones de pesquisa
+Призрачные дроны	Drones fantasmas
+Статуи для плортов	Estátuas de plort
+Узлы карты	Nós do mapa
+Ценное	Valiosos
+Ценный ресурс	Recurso valioso
+Материал	Material
+Плорт	Plort
+Приёмники плортов	Receptores de plorts
+Места появления	Locais de aparição
+Место появления	Local de aparição
+Лучистые слаймы	Slimes radiantes
+Редкие слаймы	Slimes raros
+Редкий слайм	Slime raro
+Своя метка	Marcador próprio
+Ближайшая	Mais próxima
+на карте	no mapa
+нет на карте	nada no mapa
+ не открыто	 não aberta
+ и ещё 	 +
+ресурсы	recursos
+чертёж	projeto
+компонент улучшения	componente de melhoria
+По расстоянию	Por distância
+По порядку	Por ordem
+Открытое скрыто	Abertos ocultos
+Открытое видно	Abertos visíveis
+Только живые	Apenas vivos
+И места появления	Locais de aparição também
+Показано: 	Exibidos: 
+Отмечено вами	Marcado por você
+Не открыта	Não aberta
+Пройдено	Concluído
+Не пройдено	Não concluído
+Выберите метку в списке.	Escolha um marcador na lista.
+Выберите метку в списке.\nГруппы и чипы сверху включают слои: включённое видно здесь, на карте, на мини-карте и в компасе.	Escolha um marcador na lista.\nGrupos e chips acima ativam camadas: o que estiver ativo aparece aqui, no mapa, no minimapa e na bússola.
+высота точная	altura exata
+Цель компаса	Alvo da bússola
+Компас выключен: включите его в «Навигации».	A bússola está desligada: ative-a em «Navegação».
+Отметить открытой	Marcar como aberta
+Внутри	Conteúdo
+предмет	item
+предмета	itens
+предметов	itens
+Координаты: 	Coordenadas: 
+Что ищем: «сердечный», «алмаз», «гордо»…	Buscar: «coração», «diamante», «gordo»…
+Ничего не найдено. Измените поиск или включите нужные слои в группах выше.	Nada encontrado. Altere a busca ou ative as camadas necessárias nos grupos acima.
+Расхождение с базой · показано то, что в игре	Difere do banco · exibindo o que está no jogo
+Сверка неполная · награды из базы мода	Parcialmente verificado · recompensas do banco do mod
+Сверено с капсулой в игре	Verificado com a cápsula no jogo
+Из базы мода · в игре ещё не сверено	Do banco do mod · ainda não verificado no jogo
+Слои карты	Camadas do mapa
+Минимум	Mínimo
+Всё	Tudo
+Скрывать открытое и собранное	Ocultar abertos e coletados
+Скрывать в тумане (неисследованное)	Ocultar na neblina (inexplorado)
+Значки	Ícones
+ЛКМ	BE
+Моя	Meu
+Цель	Alvo
+Отметить	Marcar
+Слои выключены	Camadas desligadas
+Слои	Camadas
+открытое скрыто	abertos ocultos
+в тумане скрыто	ocultos na neblina
+прогресс сейва	progresso do save
+Поиск в атласе	Buscar no atlas
+Ближайшая неоткрытая	Não aberta mais próxima
+Настройки навигации	Configurações de navegação
+Среди включённых слоёв нет неоткрытых меток на этой странице.	Não há marcadores fechados entre as camadas ativadas nesta página.
+открыта	aberta
+пройдено	concluído
+ЛКМ по суше — своя метка	BE em terra firme — marcador próprio
+ЛКМ по суше — телепорт	BE em terra firme — teleporte
++ Любимая еда слаймов из моих загонов	+ Comida favorita dos slimes nos meus currais
+Ближайший призрачный дрон зоны с наградой — всегда, без предела дальности.	O drone fantasma com recompensa mais próximo da zona — sempre, sem limite de alcance.
+ВЫБРАННАЯ МЕТКА	MARCADOR SELECIONADO
+Дальность	Alcance
+Зона не найдена	Zona não encontrada
+Изменения сохраняются сразу	As alterações são salvas imediatamente
+Изменить →	Alterar →
+Каталог ещё загружается…	O catálogo ainda está carregando…
+ЛКМ — отметить или снять · ПКМ по отмеченной плитке — другой цвет.	BE — marcar ou desmarcar · BD no bloco marcado — outra cor.
+Максимум меток	Máximo de marcadores
+Маяк в мире	Sinalizador no mundo
+Метки целей на полосе компаса	Marcadores de alvos na faixa da bússola
+На радаре	No radar
+Непрозрачность	Opacidade
+Очистить	Limpar
+Очистить радар?	Limpar o radar?
+Подсвечивать в мире	Destacar no mundo
+Пока пусто. Нажмите на плитку слева — она появится здесь со своим цветом.	Vazio por enquanto. Clique em um bloco à esquerda — ele aparecerá aqui com sua cor.
+Показывать на компасе и мини-карте	Mostrar na bússola e no minimapa
+Поставить здесь	Colocar aqui
+Предпросмотр · как будет в игре	Prévia · como ficará no jogo
+Призрачные дроны раньше других слоёв, как свои метки.	Drones fantasmas antes das outras camadas, como marcadores próprios.
+Призрачные дроны — наравне с другими дронами.	Drones fantasmas — em pé de igualdade com outros drones.
+Радар включён	Radar ligado
+Радар: добавлено любимой еды — 	Radar: comidas favoritas adicionadas — 
+Радар: новой любимой еды в загонах не найдено	Radar: nenhuma nova comida favorita encontrada nos currais
+Радиус	Raio
+С радара будут сняты все цели этого сейва.	Todos os alvos deste save serão removidos do radar.
+Сбросить вид и лимиты	Redefinir vista e limites
+Создайте первую метку слева.	Crie o primeiro marcador à esquerda.
+Точка с карты: маяк появится после проверки высоты при телепорте.	Ponto do mapa: o sinalizador aparece após verificar a altura no teleporte.
+Угол экрана	Canto da tela
+Удалить	Excluir
+Указать на карте	Escolher no mapa
+ЦВЕТ	COR
+Цель на компасе	Alvo na bússola
+Что отметить? Слайм, еда, ресурс, игрушка, гордо…	O que marcar? Slime, comida, recurso, brinquedo, gordo…
+высота не проверена	altura não verificada
+другой остров	outra ilha
+сохраняется сразу	salvo imediatamente
+цель	alvo
+ + радар	 + radar
+ · ближайший 	 · mais próximo 
+ · любимая: 	 · favorita de: 
+ · хранятся отдельно от сейва	 · salvos separadamente do save
+ на радаре	 no radar
+ рядом	 por perto
+Важно	Importante
+Значки = слои атласа: 	Ícones = camadas do atlas: 
+Обычно	Normal
+По имени	Por nome
+Ресурс	Recurso
+Север вверх	Norte acima
+Слайм	Slime
+Сначала новые	Mais recentes
+нет рядом	nenhum por perto
+создана 	criado em 
+мини-карта выключена	minimapa desligado
+ · текущая зона, до 	 · zona atual, até 
+ · целей на радаре: 	 · alvos no radar: 
+ целей.	 alvos.
+Загоны ещё не загружены.	Os currais ainda não foram carregados.
+Загоны не загружены: вернитесь на ранчо.	Currais não carregados: volte ao rancho.
+Ищем только в текущей нативной зоне · до 	Buscando apenas na zona nativa atual · até 
+На радаре не больше 	O radar comporta no máximo 
+На радаре: 	No radar: 
+Радар · выберите, что отметить	Radar · escolha o que marcar
+Радар станет доступен после загрузки сейва.	O radar ficará disponível após carregar um save.
+Радар: настройки не сохранены (	Radar: configurações não salvas (
+Рядом: 	Por perto: 
+Файл радара не принят, исходный файл не перезаписан: 	Arquivo do radar recusado; o original não foi sobrescrito: 
+Файл радара слишком велик.	O arquivo do radar é grande demais.
+Этот предмет нельзя отметить на радаре.	Este item não pode ser marcado no radar.
+На компасе и мини-карте	Na bússola e no minimapa
+выключены	desligados
+свои (	próprios (
+Клавиша меню	Tecla do menu
+Клавиша меню: 	Tecla do menu: 
+Клавиша меню не изменена	Tecla do menu inalterada
+ (не сохранено)	 (não salvo)
+ — открыть меню	 — abrir menu
+ · закрыть: Esc	 · fechar: Esc
+Открыть меню: 	Abrir menu: 
+  ·  изменить…	  ·  alterar…
+Esc — отмена · F1, Tab, Enter, пробел и стрелки не подходят	Esc — cancelar · F1, Tab, Enter, Espaço e setas não podem ser usados
+SOS и инфо-HUD — на сеанс · FPS и клавиша меню сохраняются.	SOS e info-HUD valem por sessão · FPS e tecla do menu são salvos.
+Вернуть Insert	Voltar para Insert
+Нажмите клавишу…	Pressione uma tecla…
+Убирает игровой интерфейс и вакпак. Меню остаётся доступно по 	Oculta a interface do jogo e o vacpack. O menu continua acessível por 
+Мои ×	Meus ×
+Все ×	Todos ×
+Точно?	Certeza?
+Удалить всех куриц	Remover todas as galinhas
+Нажмите ещё раз: удалить ВСЕХ куриц	Clique de novo: remover TODAS as galinhas
+Добавить	Adicionar
+Максимум	Máximo
+Сумма…	Valor…
+Введите сумму — целое число больше нуля.	Digite um valor — número inteiro maior que zero.
+Настройки	Ajustes
+Настройки · клавиши, зум, FPS и графика	Ajustes · teclas, zoom, FPS e gráficos
+Горячие клавиши	Teclas de atalho
+Назначить…	Atribuir…
+ · занята меню	 · usada pelo menu
+Клавиши работают в игре и в меню · Ctrl/Alt + клавиша не срабатывает · сохраняются сразу.	Teclas funcionam no jogo e no menu · Ctrl/Alt + tecla não dispara · salvas na hora.
+Держите клавишу — приближение · сила зума — во вкладке «Съёмка».	Segure a tecla para aproximar · força do zoom na aba «Captura».
+M4 — боковая кнопка мыши · сила зума — во вкладке «Съёмка».	M4 é o botão lateral do mouse · força do zoom na aba «Captura».
+Кадры в секунду и время кадра в выбранном углу.	Quadros por segundo e tempo de quadro no canto escolhido.
+Графика и консоль	Gráficos e console
+Пресеты, дальность, текстуры и эффекты · версия, статус и последние ошибки.	Predefinições, alcance, texturas e efeitos · versão, estado e erros recentes.
+Инфо-HUD	Info-HUD
+Зона, XYZ, время и активные эффекты поверх игры.	Zona, XYZ, hora e efeitos ativos sobre o jogo.
+Клавиши, FPS, графика и консоль →	Teclas, FPS, gráficos e console →
+SOS и инфо-HUD — на сеанс · клавиши, FPS и графика — во вкладке «Настройки».	SOS e info-HUD valem por sessão · teclas, FPS e gráficos ficam em «Ajustes».
+Назад к настройкам	Voltar aos ajustes
+ · игровые спрайты	 · sprites do jogo
+Чистый кадр	Cena limpa
+: клавиша снята	: tecla removida
+Клавиша не изменена	Tecla inalterada
+ · снята с «	 · movida de «
+Эта клавиша не подходит: Esc, F1, Tab, Enter, пробел и стрелки заняты.	Esta tecla não pode ser usada: Esc, F1, Tab, Enter, Espaço e setas são reservados.
+Эта клавиша уже открывает меню.	Esta tecla já abre o menu.
+Нет такого действия.	Não existe tal ação.
+Бессмертие: ВКЛ	Modo Deus: LIG
+Бессмертие: ВЫКЛ	Modo Deus: DESL
+Бесконечная энергия: ВКЛ	Energia infinita: LIG
+Бесконечная энергия: ВЫКЛ	Energia infinita: DESL
+Прототип	Protótipo
+Лучистый	Radiante
+Недоступен	Indisponível
+Нативные феномены…	Fenômenos nativos…
+Подсказки включены · пояснения под кнопками	Dicas ligadas · explicações sob os botões
+Подсказки скрыты	Dicas ocultas
+Автопополнение и ферма	Autorrecarga e fazenda
+Фермерский помощник…	Assistente de fazenda…
+Нажмите клавишу · Esc — отмена	Pressione uma tecla · Esc cancela
+Поиск чертежа…	Buscar projetos…
+Слева — полученные чертежи	À esquerda — projetos obtidos
+В наличии	Em estoque
+Экземпляр не списывается	Nenhum item é gasto
+Списывается 1 экземпляр	Gasta 1 item
+Без проверки пересечений и уклона	Sem verificar sobreposição ou inclinação
+Штатные проверки места	Verificações padrão de local
+Бесконечный режим: Преобразователь не трогается.	Modo infinito: o Fabricador não é alterado.
+Нужен изготовленный экземпляр. Удаление и возврат — через штатное строительство.	Requer um item fabricado. Remoção e devolução usam o modo de construção do jogo.
+Неподвижная земля перед игроком, нормаль поверхности, полный контакт и отсутствие пересечений. Связанные порталы подчиняются ограничениям игры.	Solo firme à frente do jogador, normal da superfície, contato total e sem sobreposições. Portais vinculados seguem os limites do jogo.
+Установить	Definir
+Обнулить	Zerar
+Введите сумму — целое число, можно 0.	Digite um valor — número inteiro, pode ser 0.
+Уменьшить нью-баксы?	Reduzir seus newbucks?
+Обнулить нью-баксы?	Zerar seus newbucks?
+Баланс нью-баксов: 	Saldo de newbucks: 
+Выбрать место…	Escolher local…
+1. Выберите вид Гордо.\n2. «Выбрать место…» — курсором, с поворотом,\nили «Разместить Гордо» — в 9 м перед собой.	1. Escolha a espécie de Gordo.\n2. «Escolher local…» — com cursor e rotação,\nou «Colocar Gordo» — 9 m à sua frente.
+Курсором с поворотом или в 9 м перед собой.	Com cursor e rotação, ou 9 m à sua frente.
+Скорость симуляции	Velocidade da simulação
+Ниже ×1 — замедление для кадров, выше — ускорение симуляции (спросит подтверждение). Это Unity TimeScale, не скрытая способность разработчиков; пауза игры всегда главнее.	Abaixo de ×1 — câmera lenta para capturas; acima — simulação mais rápida (pede confirmação). Usa Unity TimeScale, não uma função oculta; a pausa do jogo sempre vence.
+Закрепить скорость	Fixar velocidade
+Не сбрасывается после Esc и паузы, карты, загрузки и смены сейва — возвращается сама. Запоминается между запусками.	Não reseta após Esc/pausa, mapa, carregamento ou troca de save — volta sozinha e é lembrada entre sessões.
+Плавная физика замедления	Física suave em câmera lenta
+Шаг физики уменьшается вместе со скоростью: слаймы, и из Classic Slimes тоже, движутся без рывков.	O passo da física diminui junto com a velocidade: os slimes, inclusive do Classic Slimes, movem-se sem engasgos.
+закреплено	fixado
+Разрешить ускорение симуляции?	Permitir acelerar a simulação?
+Ускоряются физика и игровые события. Это не оптимизация FPS. Прогресс мира может сохраниться; тестируйте на копии сейва. Разрешение действует до смены сейва; пауза игры по-прежнему главнее.	Física e eventos do jogo aceleram. Isto não é otimização de FPS. O progresso pode ser salvo; teste em uma cópia do save. Vale até trocar de save; a pausa do jogo ainda vence.
+Скорость закреплена: вернётся сама после паузы, карты и загрузки	Velocidade fixada: volta sozinha após pausa, mapa e carregamento
+Скорость больше не закреплена	A velocidade não está mais fixada
+Плавная физика замедления включена	Física suave em câmera lenta ligada
+Плавная физика замедления выключена	Física suave em câmera lenta desligada
+Дождитесь автосохранения.	Aguarde o salvamento automático.
+Кооп: Гордо доступны только в одиночной игре.	Co-op: Gordos estão disponíveis apenas para um jogador.
+Место для Гордо: ЛКМ — поставить, колесо или Q/E — поворот, ПКМ — назад.	Local do Gordo: BE — colocar, roda ou Q/E — girar, BD — voltar.
+Место и поворот: ЛКМ — поставить, колесо или Q/E — поворот, ПКМ — назад.	Local e direção: BE — colocar, roda ou Q/E — girar, BD — voltar.
+Выбор места прерван: мир изменился.	Escolha de local interrompida: o mundo mudou.
+Выбор места завершён.	Escolha de local concluída.
+Выбор места закрыт.	Escolha de local fechada.
+Каталог обновился; выберите объект заново.	O catálogo mudou; escolha o objeto novamente.
+Мышь или камера недоступны	Mouse ou câmera indisponível
+Выбор места отменён.	Escolha de local cancelada.
+Игрок ещё не готов	O jogador ainda não está pronto
+Курсор вне окна	O cursor está fora da janela
+Гордо уже создаётся	Um Gordo já está sendo criado
+Наведите курсор на землю ближе 60 м	Aponte o cursor para solo em até 60 m
+Слишком крутой склон для Гордо	Íngreme demais para um Gordo
+Нет свободной устойчивой земли	Sem solo firme e livre aqui
+Другой Гордо ближе 8 м	Outro Gordo a menos de 8 m
+Море слаймов и лава не подходят	O mar de slimes e a lava não são adequados
+Мало места: сдвиньте курсор	Pouco espaço: mova o cursor
+Место не подходит	Este local não é adequado
+Место для Гордо	Local do Gordo
+Место и поворот	Local e direção
+Можно поставить	Pronto para colocar
+Наведите курсор на землю	Aponte o cursor para o solo
+ЛКМ — поставить · колесо или Q/E — поворот (Shift — точнее) · R — лицом к вам · ПКМ — назад · Esc — закрыть меню	BE — colocar · roda ou Q/E — girar (Shift — mais fino) · R — virar para você · BD — voltar · Esc — fechar menu
+Гордо размещается на нативной ловушке, отдельным действием.	Um Gordo é colocado sobre uma armadilha nativa, como ação separada.
+Запись каталога устарела; выберите объект заново.	Entrada do catálogo desatualizada; escolha o objeto novamente.
+Невалидная точка размещения.	Ponto de colocação inválido.
+Невалидная точка размещения Гордо.	Ponto de colocação do Gordo inválido.
+Выбранное место больше не подходит для Гордо; выберите другое.	O local escolhido não serve mais para um Gordo; escolha outro.
+Выберите Гордо в каталоге.	Escolha um Gordo no catálogo.
+Миникарта	Minimapa
+ — настройки миникарты	 — configurações do minimapa
+ — настройки графики	 — configurações de gráficos
+ · изменить…	 · alterar…
+Масштаб	Zoom
+Прозрачность фона	Transparência do fundo
+Иначе карта поворачивается вместе с камерой	Caso contrário, o mapa gira junto com a câmera
+Полоса меток над миникартой	Faixa de marcadores acima do minimapa
+Дальность компаса	Alcance da bússola
+Меток компаса	Marcadores da bússola
+Сбросить вид	Redefinir vista
+Графикой и счётчиком FPS управляет мод SlimeFPS.\nВ Creator Toolkit эти настройки отключены, пока загружен SlimeFPS.\nОткройте меню SlimeFPS клавишей F8.	Os gráficos e o contador de FPS são gerenciados pelo mod SlimeFPS.\nEsses ajustes ficam desativados no Creator Toolkit enquanto o SlimeFPS estiver carregado.\nAbra o menu do SlimeFPS com F8.
+Навигацией управляет мод SlimeMap	A navegação é gerenciada pelo mod SlimeMap
+Мини-карта и компас отключены в Creator Toolkit, пока загружен SlimeMap.\nВсе метки и настройки — в меню SlimeMap (клавиша F7).	O minimapa e a bússola ficam desativados no Creator Toolkit enquanto o SlimeMap estiver carregado.\nTodos os marcadores e ajustes estão no menu do SlimeMap (tecla F7).
+Пока нет своих меток.\n«Поставить здесь» — где стоит игрок, «Указать на карте» — щелчком по атласу.	Ainda não há marcadores personalizados.\n«Colocar aqui» — onde o jogador está, «Escolher no mapa» — clique no atlas.
+Выберите метку в списке.\nИмя и цвет сохраняются сразу; удаление — с подтверждением.	Escolha um marcador na lista.\nNome e cor são salvos na hora; excluir pede confirmação.
+Standalone minimap & compass markers for Slime Rancher 2: terrain, radar, custom waypoints, corner/size/opacity/zoom settings. F7 opens settings (rebindable).\nОтдельная миникарта со всеми метками атласа, рельефом, маркером игрока и настройками навигации. Настройки — клавиша F7 по умолчанию, переназначается в окне настроек.	Minimapa e marcadores na bússola independentes para Slime Rancher 2: terreno, radar, marcadores próprios, ajustes de canto/tamanho/opacidade/zoom. F7 abre ajustes (reconfigurável).
+Standalone FPS optimizer & frame counter for Slime Rancher 2: presets, LOD/decor range, shadow & post-effect toggles, background FPS cap, smooth physics. F8 opens settings (rebindable).\nОтдельная оптимизация графики и счётчик FPS: пресеты, дальность декора и LOD, тени и постэффекты, лимит FPS в фоне и плавная физика. Настройки — клавиша F8 по умолчанию, переназначается в окне настроек.	Otimizador de FPS e contador de quadros independente para Slime Rancher 2: predefinições, alcance de LOD/decoração, sombras e pós-efeitos, limite de FPS em 2º plano e física suave. F8 abre ajustes (reconfigurável).

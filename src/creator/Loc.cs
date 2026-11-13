@@ -7,12 +7,14 @@ using UnityEngine;
 
 namespace CreatorToolkit;
 
-// 0.8.0: the mod UI follows the game language. Russian is the source language (identity, zero cost);
-// every other game locale falls back to English from the embedded LocEnglish.tsv. Text is translated at
-// draw time (L.Label/L.Box, ButtonContent), so a language switch in the game options applies live.
+// 0.9.0: the mod UI follows the game language. Russian is the source language (identity, zero cost);
+// every other locale uses its embedded culture-neutral table (LocFrench.tsv, …) and falls back to English (LocEnglish.tsv)
+// until that table ships. Text is translated at draw time (L.Label/L.Box, ButtonContent), so a language
+// switch in the game options applies live.
 internal static class Loc
 {
-    internal static bool English { get; private set; }
+    internal static string Language { get; private set; } = "ru";
+    internal static bool English => Language != "ru";
     internal static string LocaleCode { get; private set; } = "";
     internal static int Generation { get; private set; }
     // Diagnostics only (cmd.txt «lang-en» / «lang-ru» / «lang-auto»): forces a language over the game locale.
@@ -29,6 +31,7 @@ internal static class Loc
     private static Dictionary<string, string> _table;
     private static Dictionary<int, Fragment[]> _fragments;
     private static bool _loaded;
+    private static string _loadedLang;
     private static readonly Dictionary<string, string> _cache = new(StringComparer.Ordinal);
     private static readonly HashSet<string> _misses = new(StringComparer.Ordinal);
     private static float _nextPoll;
@@ -43,8 +46,7 @@ internal static class Loc
         if (!_initialized)
         {
             _initialized = true;
-            bool russian = Application.systemLanguage is SystemLanguage.Russian or SystemLanguage.Ukrainian or SystemLanguage.Belarusian;
-            Apply(russian ? "ru" : "en", "system");
+            Apply(SystemCode(Application.systemLanguage), "system");
         }
         float now = Time.unscaledTime;
         if (now < _nextPoll) return;
@@ -86,23 +88,52 @@ internal static class Loc
     internal static bool IsRussianCode(string code)
         => code != null && code.Trim().StartsWith("ru", StringComparison.OrdinalIgnoreCase);
 
+    // Game locale codes carry region suffixes (pt-BR, zh-Hans, es-419...); the tables are per language family.
+    internal static string MapLocale(string code)
+    {
+        if (string.IsNullOrEmpty(code)) return "en";
+        code = code.Trim().ToLowerInvariant();
+        if (code.StartsWith("ru")) return "ru";
+        if (code.StartsWith("zh")) return "zh";
+        if (code.StartsWith("es")) return "es";
+        if (code.StartsWith("pt")) return "pt";
+        if (code.StartsWith("fr")) return "fr";
+        if (code.StartsWith("de")) return "de";
+        if (code.StartsWith("ja")) return "ja";
+        if (code.StartsWith("ko")) return "ko";
+        return "en";
+    }
+
+    private static string SystemCode(SystemLanguage lang) => lang switch
+    {
+        SystemLanguage.Russian or SystemLanguage.Ukrainian or SystemLanguage.Belarusian => "ru",
+        SystemLanguage.French => "fr",
+        SystemLanguage.German => "de",
+        SystemLanguage.Japanese => "ja",
+        SystemLanguage.Korean => "ko",
+        SystemLanguage.ChineseSimplified or SystemLanguage.ChineseTraditional => "zh",
+        SystemLanguage.Spanish => "es",
+        SystemLanguage.Portuguese => "pt",
+        _ => "en",
+    };
+
     private static void Apply(string code, string source)
     {
         if (string.Equals(code, LocaleCode, StringComparison.Ordinal)) return;
         LocaleCode = code;
-        bool english = !IsRussianCode(code);
-        if (english == English && Generation > 0) return;
-        English = english;
-        if (english) EnsureLoaded();
+        string lang = MapLocale(code);
+        if (lang == Language && Generation > 0) return;
+        Language = lang;
+        if (lang != "ru") EnsureLoaded(lang);
         _cache.Clear();
         Generation++;
-        try { ToolkitMod.I?.LoggerInstance.Msg("UI language: " + (english ? "English" : "Русский") + " (" + source + " locale «" + code + "», " + TableSize + " strings)."); }
+        try { ToolkitMod.I?.LoggerInstance.Msg("UI language: " + lang + " (" + source + " locale «" + code + "», " + TableSize + " strings)."); }
         catch { }
     }
 
     internal static string T(string text)
     {
-        if (!English || string.IsNullOrEmpty(text) || !HasCyrillic(text)) return text;
+        if (Language == "ru" || string.IsNullOrEmpty(text) || !HasCyrillic(text)) return text;
         if (_cache.TryGetValue(text, out var result)) return result;
         result = Translate(text);
         if (_cache.Count >= 8192) _cache.Clear();
@@ -118,7 +149,7 @@ internal static class Loc
 
     private static string Translate(string text)
     {
-        EnsureLoaded();
+        EnsureLoaded(Language);
         if (_table == null) return text;
         if (_table.TryGetValue(text, out var exact)) return exact;
         int a = 0, b = text.Length;
@@ -154,19 +185,43 @@ internal static class Loc
         used = 0; return false;
     }
 
-    private static void EnsureLoaded()
+    private static void EnsureLoaded(string lang)
     {
-        if (_loaded) return;
+        if (_loaded && _loadedLang == lang) return;
         _loaded = true;
+        _loadedLang = lang;
         try
         {
-            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("CreatorToolkit.LocEnglish.tsv");
-            if (stream == null) { try { ToolkitMod.I?.LoggerInstance.Warning("LocEnglish.tsv: embedded table missing"); } catch { } return; }
+            string name = "CreatorToolkit." + TableName(lang) + ".tsv";
+            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(name);
+            if (stream == null && lang != "en")
+            {
+                // table not shipped yet: English until it lands
+                using var fallback = Assembly.GetExecutingAssembly().GetManifestResourceStream("CreatorToolkit.LocEnglish.tsv");
+                if (fallback == null) { try { ToolkitMod.I?.LoggerInstance.Warning("LocEnglish.tsv: embedded table missing"); } catch { } return; }
+                using var fr = new StreamReader(fallback, Encoding.UTF8);
+                Load(fr.ReadToEnd());
+                return;
+            }
+            if (stream == null) { try { ToolkitMod.I?.LoggerInstance.Warning(name + ": embedded table missing"); } catch { } return; }
             using var reader = new StreamReader(stream, Encoding.UTF8);
             Load(reader.ReadToEnd());
         }
-        catch (Exception e) { try { ToolkitMod.I?.LoggerInstance.Warning("LocEnglish.tsv: " + e.Message); } catch { } }
+        catch (Exception e) { try { ToolkitMod.I?.LoggerInstance.Warning(TableName(lang) + ".tsv: " + e.Message); } catch { } }
     }
+
+    // Culture-neutral file names: «Loc.fr.tsv» would make MSBuild emit a satellite assembly.
+    private static string TableName(string lang) => lang switch
+    {
+        "fr" => "LocFrench",
+        "de" => "LocGerman",
+        "ja" => "LocJapanese",
+        "ko" => "LocKorean",
+        "zh" => "LocChinese",
+        "es" => "LocSpanish",
+        "pt" => "LocPortuguese",
+        _ => "LocEnglish"
+    };
 
     // Test seam and loader: «key<TAB>value» per line, \n \t \\ escaped, '#' comments.
     internal static void Load(string tsv)
@@ -206,11 +261,16 @@ internal static class Loc
             pair.Value.Sort((x, y) => y.Key.Length.CompareTo(x.Key.Length));
             fragments[pair.Key] = pair.Value.ToArray();
         }
-        _table = table; _fragments = fragments; _loaded = true;
+        _table = table; _fragments = fragments; _loaded = true; _loadedLang = Language;
         _cache.Clear(); _misses.Clear();
     }
 
-    internal static void ForceForTest(bool english) { English = english; _cache.Clear(); Generation++; }
+    internal static void ForceForTest(bool english)
+    {
+        Language = english ? "en" : "ru";
+        if (_loaded) _loadedLang = Language;
+        _cache.Clear(); Generation++;
+    }
 
     private static string Unescape(string s)
     {

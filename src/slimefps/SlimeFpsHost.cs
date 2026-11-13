@@ -9,12 +9,12 @@ using MelonLoader.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "SlimeFPS", "1.0.1", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
+[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "SlimeFPS", "1.1.0", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: MelonGame("MonomiPark", "SlimeRancher2")]
-[assembly: AssemblyVersion("1.0.1.0")]
-[assembly: AssemblyFileVersion("1.0.1.0")]
+[assembly: AssemblyVersion("1.1.0.0")]
+[assembly: AssemblyFileVersion("1.1.0.0")]
 [assembly: AssemblyDescription("Standalone graphics optimization: textures, LOD, draw distance, decor, post-effects, runtime FPS and an FPS counter. Settings open with F8 by default; the key is rebindable in the settings window.\nОтдельная оптимизация графики: текстуры, LOD, дальность, декор, постэффекты, runtime FPS и счётчик FPS. Настройки — клавиша F8 по умолчанию, переназначается в окне настроек.")]
-[assembly: AssemblyMetadata("display_version", "1.0.1")]
+[assembly: AssemblyMetadata("display_version", "1.1.0")]
 [assembly: AssemblyMetadata("source_code", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: AssemblyMetadata("SR2ModManager.CompatibleWith", "SR2MP;Lycoreia;Starlight;CreatorToolkit")]
 [assembly: AssemblyMetadata("SR2ModManager.HookPolicy", "cooperative")]
@@ -27,7 +27,7 @@ namespace CreatorToolkit;
 public sealed class ToolkitMod : MelonMod
 {
     internal static ToolkitMod I;
-    internal const string Version = "1.0.1";
+    internal const string Version = "1.1.0";
     internal readonly InputCapture Input = new();
     internal PlayerTools Player;
     internal MultiplayerBridge Coop;
@@ -214,6 +214,7 @@ public sealed class ToolkitMod : MelonMod
 
     private void UpdateFrame()
     {
+        Loc.Tick();
         BindSession();
         Coop.Poll();
         Input.TickNativeHandoff();

@@ -25,6 +25,15 @@ internal static class M31Regression
           "package: table and icon are embedded (no culture suffix, no satellite assembly)");
         C(loc.Contains("_sceneReady ? ReadGameLocale() : null")&&loc.Contains("loader.IsSceneLoadInProgress")&&loc.Contains("if (code != _candidate) { _candidate = code; return; }")&&
           mod.Contains("OnSceneWasLoaded(int buildIndex,string sceneName)=>Loc.SceneLoaded(sceneName)"),"language: the boot default locale is ignored until a real scene, two polls agree");
+        string mapHost=File.ReadAllText(Path.Combine(root,"src","slimemap","SlimeMapHost.cs")),fpsHost=File.ReadAllText(Path.Combine(root,"src","slimefps","SlimeFpsHost.cs"));
+        C(mapHost.Contains("Loc.Tick();")&&fpsHost.Contains("Loc.Tick();"),"language: standalone hosts tick the locale poll every frame");
+        C(loc.Contains("internal static string MapLocale(")&&loc.Contains("private static string TableName(")&&loc.Contains("\"CreatorToolkit.\" + TableName(lang) + \".tsv\"")&&loc.Contains("internal static string Language"),
+          "language: per-locale tables with English fallback");
+        foreach(System.Text.RegularExpressions.Match m in System.Text.RegularExpressions.Regex.Matches(project,"LogicalName=\"CreatorToolkit\\.(Loc[A-Za-z]+\\.tsv)\""))
+        {
+            string name=m.Groups[1].Value;if(name=="LocEnglish.tsv")continue;
+            LangTable(C,File.ReadAllText(Path.Combine(dir,name)),R("LocEnglish.tsv"),name);
+        }
         // Every visible label goes through the table; typed text stays raw.
         foreach(var f in Directory.GetFiles(dir,"*.cs"))
         {
@@ -57,7 +66,7 @@ internal static class M31Regression
         C(bridge.Contains("Starlight.Managers.StarlightSaveManager")&&bridge.Contains("\"inGameData\"")&&bridge.Contains("Starlight.Components.NoClipComponent")&&
           player.Contains("StarlightBridge.NoClipActive"),"starlight: cheat flags shown, flight refuses while NoClip is on");
         C(bridge.Contains("Starlight.Buttons.CustomPauseMenuButton")&&bridge.Contains("\"AddTranslation\""),"starlight: pause-menu button through the public API");
-        C(mod.Contains("StarlightBridge.Configure(this)")&&mod.Contains("AssemblyVersion(\"0.8.8.0\")"),"starlight: configured; release 0.8.8");
+        C(mod.Contains("StarlightBridge.Configure(this)")&&mod.Contains("AssemblyVersion(\"0.9.0.0\")"),"starlight: configured; release 0.9.0");
     }
 
     private static void Table(Action<bool,string> C,string tsv)
@@ -81,5 +90,49 @@ internal static class M31Regression
         C(tsv.Contains("\nУдобство\tUtility\r")&&tsv.Contains("\nРесурсы: ценные\tValuables\r"),"table: short labels for the narrow tab and filter buttons");
         foreach(string k in new[]{"Бесконечный режим строителя","Свободная установка","Счётчик FPS: ВКЛ","Подтвердить","Отмена"})
             C(keys.Contains(k),"table: has \""+k+"\"");
+    }
+
+    private static void LangTable(Action<bool,string> C,string tsv,string en,string name)
+    {
+        var enRows=new Dictionary<string,string>(StringComparer.Ordinal);
+        foreach(string raw in en.Split('\n'))
+        {
+            string line=raw.TrimEnd('\r');
+            if(line.Length==0||line[0]=='#')continue;
+            int tab=line.IndexOf('\t');if(tab<=0)continue;
+            enRows[line.Substring(0,tab)]=line.Substring(tab+1);
+        }
+        var keys=new HashSet<string>(StringComparer.Ordinal);int bad=0,cyr=0,rows=0,ws=0,ph=0;
+        foreach(string raw in tsv.Split('\n'))
+        {
+            string line=raw.TrimEnd('\r');
+            if(line.Length==0||line[0]=='#')continue;
+            rows++;
+            int tab=line.IndexOf('\t');
+            if(tab<=0||line.IndexOf('\t',tab+1)>=0){bad++;continue;}
+            string key=line.Substring(0,tab),value=line.Substring(tab+1);
+            keys.Add(key);
+            if(value.Any(ch=>ch>='Ѐ'&&ch<='ӿ'))cyr++;
+            if(enRows.TryGetValue(key,out var ev))
+            {
+                if(Lead(value)!=Lead(ev)||Trail(value)!=Trail(ev))ws++;
+                if(Placeholders(value)!=Placeholders(ev))ph++;
+            }
+        }
+        int missing=enRows.Keys.Count(k=>!keys.Contains(k)),extra=keys.Count(k=>!enRows.ContainsKey(k));
+        C(bad==0,name+": key<TAB>value on every row ("+bad+" bad)");
+        C(missing==0&&extra==0,name+": same keys as English ("+missing+" missing, "+extra+" extra)");
+        C(cyr<=2,name+": no Cyrillic left ("+cyr+")");
+        C(ws==0,name+": leading/trailing spaces preserved ("+ws+" broken)");
+        C(ph==0,name+": {N} placeholders preserved ("+ph+" broken)");
+        C(rows>=1500,name+": "+rows+" rows");
+    }
+    private static string Lead(string s){int i=0;while(i<s.Length&&char.IsWhiteSpace(s[i]))i++;return s.Substring(0,i);}
+    private static string Trail(string s){int i=s.Length;while(i>0&&char.IsWhiteSpace(s[i-1]))i--;return s.Substring(i);}
+    private static string Placeholders(string s)
+    {
+        var sb=new System.Text.StringBuilder();
+        foreach(System.Text.RegularExpressions.Match m in System.Text.RegularExpressions.Regex.Matches(s, @"\{\d+\}"))sb.Append(m.Value).Append(',');
+        return sb.ToString();
     }
 }

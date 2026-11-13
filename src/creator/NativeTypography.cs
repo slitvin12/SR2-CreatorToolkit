@@ -80,7 +80,7 @@ internal sealed partial class ToolkitUi
     {
         if(candidate==null||!FontHasCyrillic(candidate))return;
         var previous=_font;bool owned=_ownsFont;
-        _font=candidate;_ownsFont=false;_fontDisplayName=candidate.name;
+        _font=_baseFont=candidate;_ownsFont=false;_fontDisplayName=candidate.name;
         _fontSource="native-loaded Font";_fontCyrillic=true;
         _fontRoundRank=UiThemePolicy.NativeFontRank(candidate.name,candidate.dynamic);
         GUIStyle[] styles={_label,_muted,_heading,_title,_button,_accentButton,_selectedButton,
@@ -94,5 +94,40 @@ internal sealed partial class ToolkitUi
         if(owned&&previous!=null&&previous!=candidate&&!previous.WasCollected)UnityEngine.Object.Destroy(previous);
         if(candidate.dynamic)foreach(int size in new[]{14,15,16,17,18,20,26,30})
             candidate.RequestCharactersInTexture(UiThemePolicy.CyrillicProbe,size,FontStyle.Bold);
+    }
+
+    private Font _baseFont;
+    private string _activeFontLang="";
+    private readonly Dictionary<string,(Font Font,bool Owned)> _localeFonts=new(StringComparer.Ordinal);
+    private void DisposeLocaleFonts(){foreach(var kv in _localeFonts.Values)if(kv.Owned&&kv.Font!=null&&!kv.Font.WasCollected)UnityEngine.Object.Destroy(kv.Font);_localeFonts.Clear();_baseFont=null;_activeFontLang="";}
+    private void SyncLocaleFont(){
+        if(_label==null||_font==null||_font.WasCollected)return;
+        if(_baseFont==null||_baseFont.WasCollected)_baseFont=_font;
+        string lang=Loc.Language??"ru";
+        string group=(lang=="zh"||lang=="ja"||lang=="ko")?lang:"default";
+        if(group==_activeFontLang)return;
+        _activeFontLang=group;
+        if(group=="default"){ApplyStyleFont(_baseFont);return;}
+        char probe=lang switch{"zh"=>'\u53F2',"ja"=>'\u30B9',_=>'\uC2AC'};
+        string sample=lang switch{"zh"=>"\u53F2\u83B1\u59C6\u7267\u573A\u5730\u56FE\u8BBE\u7F6E\u786E\u8BA4\u53D6\u6D88","ja"=>"\u30B9\u30E9\u30A4\u30E0\u30E9\u30F3\u30C1\u30E3\u30FC\u8A2D\u5B9A\u78BA\u8A8D\u30DE\u30C3\u30D7",_=>"\uC2AC\uB77C\uC784\uD53C\uB514\uC544\uC124\uC815\uD655\uC778\uCDE8\uC18C\uBBF8\uB2C8\uB9F5"};
+        if(FontSupportsProbe(_baseFont,probe,sample)){ApplyStyleFont(_baseFont);return;}
+        if(!_localeFonts.TryGetValue(lang,out var entry)||entry.Font==null||entry.Font.WasCollected){entry=ResolveCjkFont(lang,probe,sample);if(entry.Font!=null)_localeFonts[lang]=entry;}
+        ApplyStyleFont(entry.Font??_baseFont);
+    }
+    private static bool FontSupportsProbe(Font font,char probe,string sample){if(font==null||font.WasCollected)return false;try{if(font.dynamic)font.RequestCharactersInTexture(sample,20,FontStyle.Bold);return font.HasCharacter(probe);}catch{return false;}}
+    private (Font Font,bool Owned) ResolveCjkFont(string lang,char probe,string sample){
+        try{foreach(var c in Resources.FindObjectsOfTypeAll<Font>())if(c!=null&&!c.WasCollected&&FontSupportsProbe(c,probe,sample))return (c,false);}catch{}
+        string[] fams=lang switch{"ja"=>new[]{"Yu Gothic UI","Meiryo UI","Meiryo","MS UI Gothic","Microsoft YaHei UI"},"ko"=>new[]{"Malgun Gothic","Gulim","Dotum","Batang","Microsoft YaHei UI"},_=>new[]{"Microsoft YaHei UI","Microsoft YaHei","DengXian","SimHei","SimSun"}};
+        var inst=new HashSet<string>(StringComparer.OrdinalIgnoreCase);try{foreach(string n in Font.GetOSInstalledFontNames())inst.Add(n);}catch{}
+        foreach(string fam in fams){if(inst.Count>0&&!inst.Contains(fam))continue;Font df=null;try{df=Font.CreateDynamicFontFromOSFont(fam,20);if(FontSupportsProbe(df,probe,sample)){foreach(int sz in new[]{12,13,14,15,16,17,18,20,23,26,30}){df.RequestCharactersInTexture(sample,sz,FontStyle.Bold);df.RequestCharactersInTexture(sample,sz,FontStyle.Normal);}_app.LoggerInstance.Msg("Toolkit CJK font ("+lang+"): "+fam);return (df,true);}}catch{}if(df!=null&&!df.WasCollected)UnityEngine.Object.Destroy(df);}
+        return (null,false);
+    }
+    private void ApplyStyleFont(Font target){
+        if(target==null||target.WasCollected)return;
+        GUIStyle[] styles={_label,_muted,_heading,_title,_button,_accentButton,_selectedButton,_field,_card,_tabStyle,_wrap,_badge,_zoneLabel,_hudFrame,_hudLabel,_hudEffects,_atlasDetail,_atlasHelp,_atlasChipHead,_atlasChip,_small,_iconTab,_iconTabCompact,_iconTabSmall,_goldButton,_violetButton,_shadowBox,_glowBox,_trackStyle,_fillStyle,_tableHeading,_buttonText17,_buttonText16,_buttonText15,_buttonText14,_selectedRowText,_frame,_atlasGroupText,_atlasChipTitle,_atlasRowTitle,_atlasRowMore,_atlasRowSub,_atlasCaps,_atlasRight,_atlasBadge,_atlasPill,_atlasCardTitle,_atlasCount,_mapBarTitle,_mapLegend,_mapTipTitle,_mapTipSub,_mapGroupHead,_mapGroupSub,_mapChipText,_mapSegment,_explorerLabel,_explorerRowLabel,_explorerTile,_explorerRightMuted,_explorerCenter,_explorerLink,_explorerPillText,_explorerPillTextWhite};
+        foreach(var st in styles)if(st!=null)st.font=target;
+        foreach(var st in _textShadows.Values)if(st!=null)st.font=target;
+        if(_titleGradient!=null)foreach(var st in _titleGradient)if(st!=null)st.font=target;
+        _tabWidthsFor=-1;_atlasWidthLanguage=-1;
     }
 }

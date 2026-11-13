@@ -26,6 +26,13 @@
     <EmbeddedResource Include="$(CreatorDir)FandomMarkers.tsv" LogicalName="CreatorToolkit.FandomMarkers.tsv" />
     <EmbeddedResource Include="$(CreatorDir)FandomAtlas.rgba" LogicalName="CreatorToolkit.FandomAtlas.rgba" />
     <EmbeddedResource Include="$(CreatorDir)LocEnglish.tsv" LogicalName="CreatorToolkit.LocEnglish.tsv" />
+    <EmbeddedResource Include="$(CreatorDir)LocFrench.tsv" LogicalName="CreatorToolkit.LocFrench.tsv" />
+    <EmbeddedResource Include="$(CreatorDir)LocGerman.tsv" LogicalName="CreatorToolkit.LocGerman.tsv" />
+    <EmbeddedResource Include="$(CreatorDir)LocSpanish.tsv" LogicalName="CreatorToolkit.LocSpanish.tsv" />
+    <EmbeddedResource Include="$(CreatorDir)LocChinese.tsv" LogicalName="CreatorToolkit.LocChinese.tsv" />
+    <EmbeddedResource Include="$(CreatorDir)LocJapanese.tsv" LogicalName="CreatorToolkit.LocJapanese.tsv" />
+    <EmbeddedResource Include="$(CreatorDir)LocKorean.tsv" LogicalName="CreatorToolkit.LocKorean.tsv" />
+    <EmbeddedResource Include="$(CreatorDir)LocPortuguese.tsv" LogicalName="CreatorToolkit.LocPortuguese.tsv" />
     <EmbeddedResource Include="$(CreatorDir)icon.png" LogicalName="CreatorToolkit.icon.png" />
   </ItemGroup>
 </Project>

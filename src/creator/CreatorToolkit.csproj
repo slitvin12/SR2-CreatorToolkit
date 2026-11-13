@@ -23,6 +23,13 @@
     <EmbeddedResource Include="FandomAtlas.rgba" LogicalName="CreatorToolkit.FandomAtlas.rgba" />
     <!-- Not «Loc.en.tsv»: MSBuild would treat «.en» as a culture and move it into a satellite assembly. -->
     <EmbeddedResource Include="LocEnglish.tsv" LogicalName="CreatorToolkit.LocEnglish.tsv" />
+    <EmbeddedResource Include="LocFrench.tsv" LogicalName="CreatorToolkit.LocFrench.tsv" />
+    <EmbeddedResource Include="LocGerman.tsv" LogicalName="CreatorToolkit.LocGerman.tsv" />
+    <EmbeddedResource Include="LocSpanish.tsv" LogicalName="CreatorToolkit.LocSpanish.tsv" />
+    <EmbeddedResource Include="LocChinese.tsv" LogicalName="CreatorToolkit.LocChinese.tsv" />
+    <EmbeddedResource Include="LocJapanese.tsv" LogicalName="CreatorToolkit.LocJapanese.tsv" />
+    <EmbeddedResource Include="LocKorean.tsv" LogicalName="CreatorToolkit.LocKorean.tsv" />
+    <EmbeddedResource Include="LocPortuguese.tsv" LogicalName="CreatorToolkit.LocPortuguese.tsv" />
     <EmbeddedResource Include="icon.png" LogicalName="CreatorToolkit.icon.png" />
   </ItemGroup>
 </Project>

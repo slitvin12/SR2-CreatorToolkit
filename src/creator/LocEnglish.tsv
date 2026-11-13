@@ -154,7 +154,6 @@ Version-gated база недоступна; награды не подтвер�
 Свободная установка: ВКЛ	Free placement: ON
 Свободная установка: ВЫКЛ	Free placement: OFF
 Камера и запись: все функции выключены	Camera & capture: all features off
-# Creator Toolkit: камера и запись\n	# Creator Toolkit: camera & capture\n
 Угол обзора мода: 	Mod field of view: 
 Угол обзора: как в настройках игры	Field of view: as in game settings
 Плавный зум: держите 	Smooth zoom: hold 
@@ -2039,7 +2038,6 @@ Cкамейка из оранжереи	A bench from the Conservatory
 На компасе и мини-карте	On the compass and minimap
 выключены	off
 свои (	custom (
-# 0.8.1 menu key
 Клавиша меню	Menu key
 Клавиша меню: 	Menu key: 
 Клавиша меню не изменена	Menu key unchanged
@@ -2062,7 +2060,6 @@ SOS и инфо-HUD — на сеанс · FPS и клавиша меню сох
 Максимум	Maximum
 Сумма…	Amount…
 Введите сумму — целое число больше нуля.	Enter an amount — a whole number above zero.
-# 0.8.3 settings tab, action keys
 Настройки	Settings
 Настройки · клавиши, зум, FPS и графика	Settings · keys, zoom, FPS and graphics
 Горячие клавиши	Hotkeys
@@ -2094,14 +2091,12 @@ SOS и инфо-HUD — на сеанс · клавиши, FPS и графика
 Прототип	Prototype
 Лучистый	Radiant
 Недоступен	Unavailable
-# 0.8.4 hints and compact pages
 Нативные феномены…	Native phenomena…
 Подсказки включены · пояснения под кнопками	Hints on · explanations under the buttons
 Подсказки скрыты	Hints hidden
 Автопополнение и ферма	Auto-refill & farm
 Фермерский помощник…	Farm helper…
 Нажмите клавишу · Esc — отмена	Press a key · Esc cancels
-# 0.8.5 polish: tracker, gadgets
 Поиск чертежа…	Search blueprints…
 Слева — полученные чертежи	Received blueprints are listed on the left
 В наличии	In stock
@@ -2112,7 +2107,6 @@ SOS и инфо-HUD — на сеанс · клавиши, FPS и графика
 Бесконечный режим: Преобразователь не трогается.	Infinite mode: the Refinery is not touched.
 Нужен изготовленный экземпляр. Удаление и возврат — через штатное строительство.	Needs a crafted item. Removing and returning it uses the game's own build mode.
 Неподвижная земля перед игроком, нормаль поверхности, полный контакт и отсутствие пересечений. Связанные порталы подчиняются ограничениям игры.	Still ground in front of the player, the surface normal, full contact and no overlaps. Linked portals follow the game's limits.
-# 0.8.6 currency: set and clear
 Установить	Set
 Обнулить	Clear
 Введите сумму — целое число, можно 0.	Enter an amount — a whole number, 0 is fine.
@@ -2166,3 +2160,21 @@ SOS и инфо-HUD — на сеанс · клавиши, FPS и графика
 Невалидная точка размещения Гордо.	Invalid Gordo placement point.
 Выбранное место больше не подходит для Гордо; выберите другое.	The chosen spot no longer suits a Gordo; pick another.
 Выберите Гордо в каталоге.	Pick a Gordo in the catalog.
+Миникарта	Minimap
+ — настройки миникарты	 — minimap settings
+ — настройки графики	 — graphics settings
+ · изменить…	 · change…
+Масштаб	Zoom
+Прозрачность фона	Background transparency
+Иначе карта поворачивается вместе с камерой	Otherwise the map rotates with the camera
+Полоса меток над миникартой	Marker strip above the minimap
+Дальность компаса	Compass range
+Меток компаса	Compass markers
+Сбросить вид	Reset view
+Графикой и счётчиком FPS управляет мод SlimeFPS.\nВ Creator Toolkit эти настройки отключены, пока загружен SlimeFPS.\nОткройте меню SlimeFPS клавишей F8.	Graphics and the FPS counter are managed by the SlimeFPS mod.\nThese settings are disabled in Creator Toolkit while SlimeFPS is loaded.\nOpen the SlimeFPS menu with F8.
+Навигацией управляет мод SlimeMap	Navigation is managed by the SlimeMap mod
+Мини-карта и компас отключены в Creator Toolkit, пока загружен SlimeMap.\nВсе метки и настройки — в меню SlimeMap (клавиша F7).	The minimap and compass are disabled in Creator Toolkit while SlimeMap is loaded.\nAll markers and settings are in the SlimeMap menu (F7 key).
+Пока нет своих меток.\n«Поставить здесь» — где стоит игрок, «Указать на карте» — щелчком по атласу.	No custom markers yet.\n«Place here» — where the player stands, «Pick on the map» — click on the atlas.
+Выберите метку в списке.\nИмя и цвет сохраняются сразу; удаление — с подтверждением.	Pick a marker in the list.\nName and color are saved immediately; deleting asks for confirmation.
+Standalone minimap & compass markers for Slime Rancher 2: terrain, radar, custom waypoints, corner/size/opacity/zoom settings. F7 opens settings (rebindable).\nОтдельная миникарта со всеми метками атласа, рельефом, маркером игрока и настройками навигации. Настройки — клавиша F7 по умолчанию, переназначается в окне настроек.	Standalone minimap & compass markers for Slime Rancher 2: terrain, radar, custom waypoints, corner/size/opacity/zoom settings. F7 opens settings (rebindable).
+Standalone FPS optimizer & frame counter for Slime Rancher 2: presets, LOD/decor range, shadow & post-effect toggles, background FPS cap, smooth physics. F8 opens settings (rebindable).\nОтдельная оптимизация графики и счётчик FPS: пресеты, дальность декора и LOD, тени и постэффекты, лимит FPS в фоне и плавная физика. Настройки — клавиша F8 по умолчанию, переназначается в окне настроек.	Standalone FPS optimizer & frame counter for Slime Rancher 2: presets, LOD/decor range, shadow & post-effect toggles, background FPS cap, smooth physics. F8 opens settings (rebindable).

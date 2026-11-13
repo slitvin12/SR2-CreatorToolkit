@@ -4,7 +4,7 @@
 
 > *English:* Creator Toolkit is a MelonLoader mod for Slime Rancher 2 that adds an in-game toolkit menu (map atlas with pods, gordos, drones and resources, minimap and compass, waypoints, radar for any object, farm helper, spawner, time/weather controls, unlocks, a photo mode with FOV and smooth zoom, FPS counter and background FPS limit, smoother physics, custom save names, free gadget placement, a world tracker and optional action hotkeys). The mod UI follows the game language: Russian for Russian, English for every other language. The menu opens with **Insert**; the key can be changed in *Settings → Menu key*.
 
-**Автор:** [slitvin12](https://github.com/slitvin12) · **Версия:** 0.8.8 · Неофициальный фанатский мод, не связан с Monomi Park.
+**Автор:** [slitvin12](https://github.com/slitvin12) · **Версия:** 0.9.0 · Неофициальный фанатский мод, не связан с Monomi Park.
 
 ## Требования
 
@@ -18,7 +18,7 @@
 3. Положите файл в `<папка игры>\Mods\`.
 4. Загрузите сохранение и нажмите **Insert** (на ноутбуке может понадобиться **Fn + Insert**). **Esc** закрывает меню. Клавишу открытия можно сменить: **Настройки → «Клавиша меню»**.
 
-Язык интерфейса мода следует языку игры (русский или английский) и переключается вместе с ней. Настройки и метки хранятся в `<папка игры>\UserData\CreatorToolkit\`. Действия, которые навсегда меняют прогресс (открытия, разблокировки, атлас), требуют отдельного подтверждения. Перед ними лучше сделать копию сохранения.
+Язык интерфейса мода следует языку игры (9 языков игры: русский, английский, французский, немецкий, испанский, китайский, японский, корейский, португальский) и переключается вместе с ней. Настройки и метки хранятся в `<папка игры>\UserData\CreatorToolkit\`. Действия, которые навсегда меняют прогресс (открытия, разблокировки, атлас), требуют отдельного подтверждения. Перед ними лучше сделать копию сохранения.
 
 ## Новое в 0.8.8
 

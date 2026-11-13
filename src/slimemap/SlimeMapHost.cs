@@ -8,12 +8,12 @@ using MelonLoader.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "SlimeMap", "1.0.2", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
+[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "SlimeMap", "1.1.0", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: MelonGame("MonomiPark", "SlimeRancher2")]
-[assembly: AssemblyVersion("1.0.2.0")]
-[assembly: AssemblyFileVersion("1.0.2.0")]
+[assembly: AssemblyVersion("1.1.0.0")]
+[assembly: AssemblyFileVersion("1.1.0.0")]
 [assembly: AssemblyDescription("Standalone minimap with all atlas markers, terrain, player marker and navigation settings. Settings open with F7 by default; the key is rebindable in the settings window.\nОтдельная миникарта со всеми метками атласа, рельефом, маркером игрока и настройками навигации. Настройки — клавиша F7 по умолчанию, переназначается в окне настроек.")]
-[assembly: AssemblyMetadata("display_version", "1.0.2")]
+[assembly: AssemblyMetadata("display_version", "1.1.0")]
 [assembly: AssemblyMetadata("source_code", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: AssemblyMetadata("SR2ModManager.CompatibleWith", "SR2MP;Lycoreia;Starlight;CreatorToolkit")]
 [assembly: AssemblyMetadata("SR2ModManager.HookPolicy", "cooperative")]
@@ -27,7 +27,7 @@ namespace CreatorToolkit;
 public sealed class ToolkitMod : MelonMod
 {
     internal static ToolkitMod I;
-    internal const string Version = "1.0.2";
+    internal const string Version = "1.1.0";
     internal readonly InputCapture Input = new();
     internal PlayerTools Player;
     internal MultiplayerBridge Coop;
@@ -212,6 +212,7 @@ public sealed class ToolkitMod : MelonMod
 
     private void UpdateFrame()
     {
+        Loc.Tick();
         BindSession();
         Coop.Poll();
         Input.TickNativeHandoff();
