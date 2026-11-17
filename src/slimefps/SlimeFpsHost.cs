@@ -224,7 +224,7 @@ public sealed class ToolkitMod : MelonMod
         var kb = Keyboard.current;
         if (kb != null)
         {
-            bool chatOpen = Coop?.ChatOpen ?? false;
+            bool chatOpen = (Coop?.ChatOpen ?? false) || (Coop?.UiOpen ?? false);
             bool textFocused = chatOpen || NativeUiPriority.ExternalTextFocused || (MenuOpen && (_ui?.TextFieldFocused ?? false));
             if (Hotkey.Capturing)
             {

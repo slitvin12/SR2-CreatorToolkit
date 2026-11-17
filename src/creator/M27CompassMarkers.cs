@@ -444,9 +444,9 @@ internal sealed class CompassMarkerTools
     {
         var primary=anchor.Primary;
         if(primary==null||primary.WasCollected)return false;
-        if(anchor.Replaced)return primary.sprite!=null&&primary.sprite.Pointer==anchor.StyledSprite;
+        if(anchor.Replaced)return primary.sprite!=null&&primary.sprite.Pointer==anchor.StyledSprite&&primary.color==anchor.StyledTint;
         var icon=anchor.Icon;
-        return icon!=null&&!icon.WasCollected&&!primary.enabled&&icon.sprite!=null&&icon.sprite.Pointer==anchor.StyledSprite;
+        return icon!=null&&!icon.WasCollected&&!primary.enabled&&icon.sprite!=null&&icon.sprite.Pointer==anchor.StyledSprite&&icon.color==anchor.StyledTint;
     }
     // Our child image centred on the star, same layer, a little larger than the star.
     private static Image CreateIcon(RectTransform instance,Image primary)

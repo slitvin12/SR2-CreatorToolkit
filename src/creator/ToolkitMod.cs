@@ -245,7 +245,7 @@ public sealed class ToolkitMod : MelonMod
                 {
                     if (MenuOpen) Shortcuts.TickCapture(kb); else Shortcuts.CancelCapture();
                 }
-                else if (Hotkey.Pressed(kb) && !(MenuOpen && Hotkey.Typing && (_ui?.TextFieldFocused ?? false)) && !chatOpen && !(Hotkey.Typing && NativeUiPriority.ExternalTextFocused))
+                else if (Hotkey.Pressed(kb) && !(MenuOpen && Hotkey.Typing && (_ui?.TextFieldFocused ?? false)) && !chatOpen && !(Hotkey.Typing && NativeUiPriority.ExternalTextFocused) && !(Coop?.UiOpen ?? false))
                 {
                     if (MenuOpen) CloseMenu(); else Input.Open();
                 }
@@ -323,10 +323,13 @@ public sealed class ToolkitMod : MelonMod
             try { _ui.Draw(); Tests?.Rendered(); }
             catch (Exception e) { Tests?.GuiFailed(e); Fail("GUI", e); CloseMenu(); }
         }
-        else if (!StarlightBridge.MenuOpen) // a Starlight menu on screen: our overlays step aside
+        else if (!StarlightBridge.MenuOpen) // a Starlight/Lycoreia UI on screen: our overlays step aside
         {
-            try { _ui.DrawTransitStatus();_ui.DrawSessionHud();_ui.DrawExplorerHud();_ui.DrawMiniMap();_ui.DrawMapOverlay();Audit?.DrawNativeFontSwatch(); } catch(Exception e) { Fail("HUD / map overlay",e); }
-            try { _ui.DrawTimeRateBadge(); } catch(Exception e) { Fail("time rate badge",e); }
+            if (!(Coop?.UiOpen ?? false))
+            {
+                try { _ui.DrawTransitStatus();_ui.DrawSessionHud();_ui.DrawExplorerHud();_ui.DrawMiniMap();_ui.DrawMapOverlay();Audit?.DrawNativeFontSwatch(); } catch(Exception e) { Fail("HUD / map overlay",e); }
+                try { _ui.DrawTimeRateBadge(); } catch(Exception e) { Fail("time rate badge",e); }
+            }
         }
         // One FPS counter on top of everything, with or without the menu (0.8.3: was three copies).
         try { _ui.DrawFpsCounter(); } catch(Exception e) { Fail("FPS counter",e); }

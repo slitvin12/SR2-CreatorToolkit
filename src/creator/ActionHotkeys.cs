@@ -83,7 +83,7 @@ internal sealed class ActionHotkeys
     internal void Tick(Keyboard kb,bool textFocused)
     {
         if(kb==null||Capturing>=0)return;
-        if(_app.Coop?.ChatOpen==true)return;
+        if(_app.Coop?.ChatOpen==true||_app.Coop?.UiOpen==true)return;
         textFocused|=NativeUiPriority.ExternalTextFocused;
         EnsureLoaded();
         if(kb.leftCtrlKey.isPressed||kb.rightCtrlKey.isPressed||kb.leftAltKey.isPressed||kb.rightAltKey.isPressed)return;

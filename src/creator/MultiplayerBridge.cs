@@ -21,14 +21,16 @@ internal readonly struct CoopPeer
 //    actors through GameModel.InstantiateActorModel, which SR2MP does not intercept on its own.
 // Lycoreia 2.x (the renamed mod, assembly "Lycoreia"): Lycoreia.Compat.ModFacade.Server.IsRunning /
 // Client.IsConnected, the live Lycoreia.Mod.Session cheat rule (host: AllowCheats, guest:
-// HostAllowsCheats) and its own InstantiateActor spawn-publishing postfix for CT spawns.
+// HostAllowsCheats), its own uGUI overlays (ChatHud, InputGate, LycoreiaMenu, CoopWheel, WhatsNewPopup)
+// and its own InstantiateActor spawn-publishing postfix (plus VacuumExpelHook for CT guest spawns).
 // Polled twice a second through cached delegates (no per-frame reflection).
 internal sealed class MultiplayerBridge
 {
     private readonly ToolkitMod _app;
-    private Func<bool> _isHost, _isClient, _cheats, _chatOpen;
+    private Func<bool> _isHost, _isClient, _cheats, _chatOpen, _uiOpen, _streamerMode;
     private Func<string> _hostId;
     private Action<GameObject> _announce;
+    private FieldInfo _vacExpelDepth;
     private IDictionary _remoteAvatars;
     private FieldInfo _avatarId, _avatarName, _avatarRoot, _avatarTransform, _avatarColor;
     private readonly List<CoopPeer> _peers = new();
@@ -42,6 +44,7 @@ internal sealed class MultiplayerBridge
     internal string Footer { get; private set; } = "";
     internal bool CanSyncSpawns => _announce != null;
     internal bool ChatOpen { get { if (!_bound || _chatOpen == null) return false; try { return _chatOpen(); } catch { return false; } } }
+    internal bool UiOpen { get { if (!_bound || _uiOpen == null) return false; try { return _uiOpen(); } catch { return false; } } }
     internal string CoopSaveKey { get; private set; } = "";
     internal IReadOnlyList<CoopPeer> Peers => _peers;
 
@@ -52,6 +55,7 @@ internal sealed class MultiplayerBridge
     {
         float now = Time.unscaledTime;
         if (!_bound && now >= _nextProbe) { _nextProbe = now + 10f; try { Probe(); } catch (Exception e) { _bound = false; _app.Fail("coop probe", e); } }
+        if (_bound && _app.MenuOpen && UiOpen) _app.CloseMenu();
         if (!_bound || now < _nextPoll) return;
         _nextPoll = now + 0.5f;
         CoopRole role; bool cheats;
@@ -89,6 +93,8 @@ internal sealed class MultiplayerBridge
 
         _peers.Clear();
         if (role == CoopRole.Offline || _remoteAvatars == null || _avatarRoot == null || _avatarTransform == null) return;
+        bool hideNames = false;
+        try { hideNames = _streamerMode != null && _streamerMode(); } catch { }
         try
         {
             foreach (DictionaryEntry entry in _remoteAvatars)
@@ -99,7 +105,7 @@ internal sealed class MultiplayerBridge
                 var tr = _avatarTransform.GetValue(av) as Transform;
                 if (root == null || root.WasCollected || tr == null || tr.WasCollected) continue;
                 string id = _avatarId?.GetValue(av) as string ?? entry.Key as string ?? "";
-                string name = _avatarName?.GetValue(av) as string ?? "";
+                string name = hideNames ? "Player" : (_avatarName?.GetValue(av) as string ?? "");
                 Color color = _avatarColor?.GetValue(av) is Color c ? c : Color.cyan;
                 _peers.Add(new CoopPeer(id, name, root, tr, color));
             }
@@ -200,7 +206,29 @@ internal sealed class MultiplayerBridge
             var hostIdReader = StringReader(sessionType, "HostId");
             if (hostIdReader != null) _hostId = () => { object live = GetSession(); return live == null ? null : hostIdReader(live); };
         }
-        _chatOpen ??= StaticFlagOrField(asm.GetType("SR2MP.Components.UI.ChatHud"), "IsOpen", "open");
+        if (_chatOpen == null)
+        {
+            var chatFlag = StaticFlagOrField(asm.GetType("Lycoreia.Owned.Components.UI.ChatHud"), "IsOpen", "open")
+                ?? StaticFlagOrField(asm.GetType("SR2MP.Components.UI.ChatHud"), "IsOpen", "open");
+            var gateFlag = StaticFlagOrField(asm.GetType("Lycoreia.Owned.Components.UI.InputGate"), "Blocked", "blocked");
+            if (chatFlag != null || gateFlag != null)
+                _chatOpen = () => (chatFlag != null && chatFlag()) || (gateFlag != null && gateFlag());
+        }
+        if (_uiOpen == null)
+        {
+            var lycMenu = StaticFlagOrField(asm.GetType("Lycoreia.Owned.Components.UI.LycoreiaMenu"), "IsOpen", "_isOpen");
+            var coopWheel = StaticFlagOrField(asm.GetType("Lycoreia.Owned.Components.UI.CoopWheel"), "Busy", "open");
+            var whatsNew = StaticFlagOrField(asm.GetType("Lycoreia.Owned.Components.UI.WhatsNewPopup"), "IsOpen", null);
+            if (lycMenu != null || coopWheel != null || whatsNew != null)
+                _uiOpen = () => (lycMenu != null && lycMenu()) || (coopWheel != null && coopWheel()) || (whatsNew != null && whatsNew());
+        }
+        _streamerMode ??= StaticFlagOrField(asm.GetType("Lycoreia.Compat.ModFacade"), "StreamerMode", null)
+            ?? StaticFlagOrField(asm.GetType("Lycoreia.Game.Prefs"), "StreamerMode", null);
+        if (_vacExpelDepth == null)
+        {
+            var depthFld = asm.GetType("Lycoreia.Game.Hooks.VacuumExpelHook")?.GetField("Depth", S);
+            if (depthFld?.FieldType == typeof(int)) _vacExpelDepth = depthFld;
+        }
         if (_remoteAvatars == null)
         {
             try
@@ -347,10 +375,27 @@ internal sealed class MultiplayerBridge
     internal void AnnounceSpawn(GameObject go)
     {
         if (Role == CoopRole.Offline || _announce == null || go == null || go.WasCollected) return;
-        try { _announce(go); }
+        bool bumped = false;
+        try
+        {
+            if (_vacExpelDepth != null)
+            {
+                int depth = (int)_vacExpelDepth.GetValue(null);
+                _vacExpelDepth.SetValue(null, depth + 1);
+                bumped = true;
+            }
+            _announce(go);
+        }
         catch (Exception e)
         {
             if (!_announceFailed) { _announceFailed = true; _app.Fail("coop spawn sync", e); }
+        }
+        finally
+        {
+            if (bumped)
+            {
+                try { int depth = (int)_vacExpelDepth.GetValue(null); _vacExpelDepth.SetValue(null, Math.Max(0, depth - 1)); } catch { }
+            }
         }
     }
 }

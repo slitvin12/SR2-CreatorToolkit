@@ -123,7 +123,7 @@ internal sealed class CaptureTools
 
     private bool ZoomHeld()
     {
-        if (_app.MenuOpen || _app.Map.NativeMapOpen || NativeUiPriority.HasNativeFocus || StarlightBridge.MenuOpen || (_app.Coop?.ChatOpen ?? false) || NativeUiPriority.ExternalTextFocused || !WindowFocused()) return false;
+        if (_app.MenuOpen || _app.Map.NativeMapOpen || NativeUiPriority.HasNativeFocus || StarlightBridge.MenuOpen || (_app.Coop?.ChatOpen ?? false) || (_app.Coop?.UiOpen ?? false) || NativeUiPriority.ExternalTextFocused || !WindowFocused()) return false;
         var kb = Keyboard.current; var mouse = Mouse.current;
         switch (ZoomKey)
         {

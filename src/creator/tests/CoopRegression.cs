@@ -73,6 +73,9 @@ internal static class CoopRegression
         Check(gordo>=0&&gordo<actors.IndexOf("BeginGordoSpawn(entry);return;",StringComparison.Ordinal),"unsynchronised gordo snare is refused in co-op");
         Check(bridge.Contains("StartsWith(\"SR2MP,\",StringComparison.Ordinal)")&&bridge.Contains("\"CheatsEnabled\"")&&bridge.Contains("\"RegisterSpawnOverNetwork\"")&&
             bridge.Contains("Bind(main,\"Server\",\"IsRunning\")")&&bridge.Contains("Bind(main,\"Client\",\"IsConnected\")"),"bridge binds the SR2MP session API by reflection");
+        Check(bridge.Contains("\"Lycoreia.Owned.Components.UI.ChatHud\"")&&bridge.Contains("\"Lycoreia.Owned.Components.UI.InputGate\"")&&
+            bridge.Contains("\"Lycoreia.Owned.Components.UI.LycoreiaMenu\"")&&bridge.Contains("\"Lycoreia.Owned.Components.UI.CoopWheel\"")&&
+            bridge.Contains("\"Lycoreia.Game.Hooks.VacuumExpelHook\""),"bridge binds Lycoreia 2.x / 2.1.0-rc4 UI gates and guest spawn protection");
         Check(!bridgeRaw.Contains("using SR2MP")&&!bridgeRaw.Contains("typeof(SR2MP")&&!bridgeRaw.Contains("using Starlight"),"bridge has no compile-time SR2MP/Starlight dependency");
         Check(bridge.Contains("_nextPoll=now+0.5f;")&&bridge.Contains("_nextProbe=now+10f;"),"session poll is throttled (0.5 s, probe every 10 s)");
         Check(bridge.Contains("if(Role==CoopRole.Offline)returnnull;")&&bridge.Contains("if(Role==CoopRole.Offline)return;"),"offline bridge is inert");

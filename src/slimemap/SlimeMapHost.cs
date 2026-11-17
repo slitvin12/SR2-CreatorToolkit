@@ -222,7 +222,7 @@ public sealed class ToolkitMod : MelonMod
         var kb = Keyboard.current;
         if (kb != null)
         {
-            bool chatOpen = Coop?.ChatOpen ?? false;
+            bool chatOpen = (Coop?.ChatOpen ?? false) || (Coop?.UiOpen ?? false);
             bool textFocused = chatOpen || NativeUiPriority.ExternalTextFocused || (MenuOpen && (_ui?.TextFieldFocused ?? false));
             if (Hotkey.Capturing)
             {
@@ -272,7 +272,7 @@ public sealed class ToolkitMod : MelonMod
             try { _ui.DrawSlimeMapSettings(); }
             catch (Exception e) { Fail("settings GUI", e); CloseMenu(); }
         }
-        else if (!StarlightBridge.MenuOpen)
+        else if (!StarlightBridge.MenuOpen && !(Coop?.UiOpen ?? false))
         {
             try { _ui.DrawMiniMap(); } catch (Exception e) { Fail("minimap", e); }
         }
