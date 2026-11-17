@@ -47,7 +47,8 @@ internal static class OptimizationPolicy
         if(collision||trigger)return false;
         string n=(name??"").ToLowerInvariant();
         foreach(string critical in new[]{"slime","tarr","damage","attack","danger","warning","hit","portal",
-            "teleport","shock","lightning","electric","explosion","boom","hazard","lava","drone","beacon","marker","gadget"})
+            "teleport","shock","lightning","electric","explosion","boom","hazard","lava","drone","beacon","marker","gadget",
+            "glint","fire","rad","quantum","glitch","phase","mosaic"})
             if(n.Contains(critical))return false;
         foreach(string ambient in new[]{"ambient","dust","pollen","leaves","leaf","grass","wind",
             "cloud","snow","rain","waterfall","foam","sparkle","firefly","butterfly"})

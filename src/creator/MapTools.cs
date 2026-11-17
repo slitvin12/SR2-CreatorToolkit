@@ -181,6 +181,9 @@ internal sealed partial class MapTools
     private SceneGroup _destinationGroup;
     private bool _exactHeight,_allowNearbyLanding,_oldGod,_oldFlight,_oldAutosave,_restoreAutosave;
     private IntPtr _transitSession;
+    private float _supplementGordosAt=-1f,_nextGordoCountCheck;
+    private IntPtr _lastGordoSceneGroup;
+    private int _lastAllGordosCount=-1;
     private CinemaTools.Waypoint _origin,_return;
     internal MapTools(ToolkitMod app){_app=app;Icons=new NativeIconTools(app);}
 
@@ -220,6 +223,23 @@ internal sealed partial class MapTools
         if(!_app.Ready){OpenNativeInputGate();return;}
         Capsules.Tick();
         if(_indexedSession!=_app.Session)RefreshIndex();
+        if(Time.unscaledTime>=_nextGordoCountCheck)
+        {
+            _nextGordoCountCheck=Time.unscaledTime+0.5f;
+            var curGroup=SystemContext.Instance?.SceneLoader?.CurrentSceneGroup;
+            IntPtr gp=curGroup!=null&&!curGroup.WasCollected?curGroup.Pointer:IntPtr.Zero;
+            int gc=_app.Context?.GameModel?.AllGordos()?.Count??-1;
+            if(gp!=_lastGordoSceneGroup||gc!=_lastAllGordosCount)
+            {
+                _lastGordoSceneGroup=gp;_lastAllGordosCount=gc;
+                if(_supplementGordosAt<0f)_supplementGordosAt=Time.unscaledTime+0.35f;
+            }
+        }
+        if(_supplementGordosAt>0f&&Time.unscaledTime>=_supplementGordosAt)
+        {
+            _supplementGordosAt=-1f;
+            try{SupplementNativeGordos();}catch(Exception e){_app.Fail("supplement gordos",e);}
+        }
         Icons.Tick(this);
         TickMiniMap();
         TickSourceObservations();TickDroneObservations();
@@ -536,6 +556,7 @@ internal sealed partial class MapTools
     }
     internal void InvalidateScene()
     {
+        _supplementGordosAt=-1f;_nextGordoCountCheck=0f;_lastGordoSceneGroup=IntPtr.Zero;_lastAllGordosCount=-1;
         Capsules.InvalidateScene();Icons.RequestRebind();Sources.InvalidateScene();
         ResetGordos();
         _sourceSnapshot=null;_sourceMaps.Clear();_nextSourceMaps=0;
@@ -1503,6 +1524,7 @@ internal sealed partial class MapTools
     }
     internal void Reset()
     {
+        _supplementGordosAt=-1f;_nextGordoCountCheck=0f;_lastGordoSceneGroup=IntPtr.Zero;_lastAllGordosCount=-1;
         Sources.InvalidateSession();_sourceSnapshot=null;_sourceMaps.Clear();_nextSourceMaps=0;
         _flightUiDiscoveryAttempted=false;ResetGordos();
         Icons.Reset();

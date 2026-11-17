@@ -25,12 +25,13 @@ internal static class MultiplayerPolicy
     private static readonly HashSet<string> SoloOnly = new(StringComparer.Ordinal)
     {
         "freeze time", "freeze mobs", "cinematic time rate", "m26 acceptance time rate", "Ускорить симуляцию в 5 раз?",
-        "cinematic time pin", "cinematic smooth step", "Разрешить ускорение симуляции?",
+        "cinematic time pin", "cinematic smooth step", "Разрешить ускорение симуляции?", "frame profile",
     };
     private static readonly HashSet<string> HostWorld = new(StringComparer.Ordinal)
     {
         "weather", "clear weather", "native weather", "set hour", "set time", "time +1", "time +6", "tarr",
         "Дождаться твёрдой фазы Aurora?",
+        "Включить автокормление загонов?", "Включить фермерского помощника?", "Накормить голодных слаймов вокруг?",
     };
     private static readonly HashSet<string> Cheat = new(StringComparer.Ordinal)
     {
@@ -38,14 +39,14 @@ internal static class MultiplayerPolicy
         "spawn", "fill ammo", "currency max", "currency add", "currency set", "currency 100000", "currency 10000", "refill vitals",
         "auto refill request", "infinite builder", "free placement", "flight", "hotkey god mode", "hotkey infinite energy",
         "refinery fill request", "refinery all +100 request", "refinery selected fill request", "refinery selected +100 request",
-        "m26 acceptance refinery request",
+        "m26 acceptance refinery request", "explorer profile",
         // movement (SR2MP: warp / position / noclip)
         "teleport waypoint", "map click teleport", "custom map teleport", "safe custom teleport", "tracking teleport",
         "m27 acceptance tracking teleport", "teleport atlas marker", "recall checkpoint", "safe native phenomenon travel",
         "atlas return", "return from atlas",
         // confirmations: permanent save changes and free items
-        "Заменить содержимое слота?", "Уменьшить нью-баксы?", "Обнулить нью-баксы?", "Включить автопополнение?", "Включить автокормление загонов?", "Включить фермерского помощника?",
-        "Открыть дверь?", "Заполнить Преобразователь?", "Добавить ресурсы Преобразователя?", "Накормить голодных слаймов вокруг?",
+        "Заменить содержимое слота?", "Уменьшить нью-баксы?", "Обнулить нью-баксы?", "Включить автопополнение?",
+        "Открыть дверь?", "Заполнить Преобразователь?", "Добавить ресурсы Преобразователя?",
         "Открыть весь атлас?", "Открыть всю Слаймопедию", "Открыть карту и ноды", "Применить все улучшения", "Открыть все двери",
         "Открыть все стили слаймов", "Открыть все чертежи гаджетов", "Открыть все стили вакпака",
     };
@@ -54,7 +55,7 @@ internal static class MultiplayerPolicy
     private static readonly HashSet<string> FreeKnown = new(StringComparer.Ordinal)
     {
         "toggle map mark", "runtime sleep", "refinery catalog", "refinery refresh", "compass markers", "tracking refresh", "tracking atlas",
-        "temporary FPS cap removal", "runtime FPS", "restore FPS cap", "maximum FPS", "frame profile", "LOD only",
+        "temporary FPS cap removal", "runtime FPS", "restore FPS cap", "maximum FPS", "LOD only",
         "slime inspector", "slime inspection", "select radar slime", "radar rare materials", "radar favorite food",
         "phenomena inspector", "phenomena census", "native phenomena census", "native gadget menu", "native build mode", "gadget catalog", "catalog",
         "show custom map marker", "create custom map waypoint", "custom rename", "custom placement map", "custom navigation goal",
@@ -65,7 +66,7 @@ internal static class MultiplayerPolicy
         // 0.8.2 spawn tiles: own removal is free; world-wide removals refuse a co-op session themselves
         // with a precise reason (they would delete other players' actors without synchronisation).
         "cleanup type owned", "cleanup type all", "cleanup chickens",
-        "restore profile", "explorer profile", "reset player", "info HUD", "hide HUD",
+        "restore profile", "reset player", "info HUD", "hide HUD",
         "graphics preset", "graphics optimization", "detailed graphics",
         "m19-graphics-shadows", "m19-graphics-full", "m19-graphics-effects", "m19-graphics-decor", "m19-graphics-custom",
         "diagnostic potato", "diagnostic graphics restore", "diagnostic geometry restore", "diagnostic geometry low",

@@ -2,8 +2,10 @@ using System;
 using Il2Cpp;
 using Il2CppMonomiPark.SlimeRancher.UI;
 using Il2CppMonomiPark.SlimeRancher.UI.Framework.Displays;
+using Il2CppTMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace CreatorToolkit;
 
@@ -13,6 +15,35 @@ namespace CreatorToolkit;
 internal static class NativeUiPriority
 {
     internal static string LastReadError="";
+    private static IntPtr _selectedObj;
+    private static TMP_InputField _selectedTmp;
+    private static InputField _selectedLegacyInput;
+    internal static bool ExternalTextFocused
+    {
+        get
+        {
+            try
+            {
+                var events=EventSystem.current;
+                var go=events==null||events.WasCollected?null:events.currentSelectedGameObject;
+                if(go==null||go.WasCollected||!go.activeInHierarchy)
+                {
+                    _selectedObj=IntPtr.Zero;_selectedTmp=null;_selectedLegacyInput=null;
+                    return false;
+                }
+                if(go.Pointer!=_selectedObj)
+                {
+                    _selectedObj=go.Pointer;
+                    _selectedTmp=go.GetComponent<TMP_InputField>();
+                    _selectedLegacyInput=_selectedTmp==null?go.GetComponent<InputField>():null;
+                }
+                if(_selectedTmp!=null&&!_selectedTmp.WasCollected&&_selectedTmp.isFocused)return true;
+                if(_selectedLegacyInput!=null&&!_selectedLegacyInput.WasCollected&&_selectedLegacyInput.isFocused)return true;
+                return false;
+            }
+            catch{return false;}
+        }
+    }
     private static bool WantsFocus(UIRuntimeDisplay display)=>
         display!=null&&!display.WasCollected&&display.DisplayConfig!=null&&
         display.DisplayConfig.FocusMode!=UIDisplayFocusMode.NO_FOCUS;

@@ -1463,6 +1463,13 @@ internal sealed partial class ToolkitUi
         return true;
     }
 
+    private bool AllowPlayerCheat()
+    {
+        if (MultiplayerPolicy.PlayerCheats(_app.Coop.Role, _app.Coop.ServerCheats)) return true;
+        _app.Notify(MultiplayerPolicy.Deny(CoopKind.Cheat, _app.Coop.Role, _app.Coop.ServerCheats));
+        return false;
+    }
+
     private void PlayerPage(Rect area)
     {
         long bytes=GC.GetAllocatedBytesForCurrentThread();
@@ -1481,13 +1488,16 @@ internal sealed partial class ToolkitUi
             var p=_app.Player;
             // 0.8.0: six compact rows; the builder switches are the same ones as in «Спавн → Гаджеты».
             const float rowH=56,stride=61,top=52;
-            p.GodMode=Toggle(new Rect(0,top,col,rowH),"Бессмертие",p.GodMode,"Поддерживать максимум здоровья.");
-            p.InfiniteEnergy=Toggle(new Rect(0,top+stride,col,rowH),"Бесконечная энергия",p.InfiniteEnergy,"Спринт и способности без расхода.");
+            bool god=Toggle(new Rect(0,top,col,rowH),"Бессмертие",p.GodMode,"Поддерживать максимум здоровья.");
+            if(god!=p.GodMode&&(!god||AllowPlayerCheat()))p.GodMode=god;
+            bool infEnergy=Toggle(new Rect(0,top+stride,col,rowH),"Бесконечная энергия",p.InfiniteEnergy,"Спринт и способности без расхода.");
+            if(infEnergy!=p.InfiniteEnergy&&(!infEnergy||AllowPlayerCheat()))p.InfiniteEnergy=infEnergy;
             AllocationMark(11,ref allocationStamp);
             bool fly=Toggle(new Rect(0,top+2*stride,col,rowH),"Полёт / NoClip",p.Flight,"WASD · Space вверх · Shift вниз.");
             if(fly!=p.Flight)QueuePlayerFlight(fly);
             AllocationMark(12,ref allocationStamp);
-            p.InfiniteItems=Toggle(new Rect(0,top+3*stride,col,rowH),"Бесконечный инвентарь",p.InfiniteItems,"Не тратить предметы из непустых слотов.");
+            bool infItems=Toggle(new Rect(0,top+3*stride,col,rowH),"Бесконечный инвентарь",p.InfiniteItems,"Не тратить предметы из непустых слотов.");
+            if(infItems!=p.InfiniteItems&&(!infItems||AllowPlayerCheat()))p.InfiniteItems=infItems;
             var gadgets=_app.Gadgets;bool infinite=gadgets!=null&&gadgets.InfiniteBuilder;
             bool builder=Toggle(new Rect(0,top+4*stride,col,rowH),"Бесконечный режим строителя",infinite,"Гаджеты и декор ×999 · установка без расхода.");
             if(gadgets!=null&&builder!=infinite)QueueInfiniteBuilder(builder);
@@ -1497,15 +1507,17 @@ internal sealed partial class ToolkitUi
             float x=col+24;
             L.Box(new Rect(x,52,col,190),GUIContent.none,_card);
             L.Label(new Rect(x+20,70,col-40,42),SpeedReadouts[Mathf.Clamp(Mathf.RoundToInt(p.SpeedMultiplier*100)-100,0,SpeedReadouts.Length-1)],_heading);
-            p.SpeedMultiplier=SafetyPolicy.Speed(Slider(1,new Rect(x+20,129,col-40,32),p.SpeedMultiplier,1,10));
+            float nextSpeed=SafetyPolicy.Speed(Slider(1,new Rect(x+20,129,col-40,32),p.SpeedMultiplier,1,10));
+            if(Math.Abs(nextSpeed-p.SpeedMultiplier)>1e-4f&&(nextSpeed<=1.001f||AllowPlayerCheat()))p.SpeedMultiplier=nextSpeed;
             float bw=(col-56)/5;
-            for(int i=0;i<PlayerSpeeds.Length;i++)if(Button(new Rect(x+20+i*(bw+4),183,bw,44),PlayerSpeedNames[i],Math.Abs(p.SpeedMultiplier-PlayerSpeeds[i])<.01f?_selectedButton:_button))p.SpeedMultiplier=PlayerSpeeds[i];
+            for(int i=0;i<PlayerSpeeds.Length;i++)if(Button(new Rect(x+20+i*(bw+4),183,bw,44),PlayerSpeedNames[i],Math.Abs(p.SpeedMultiplier-PlayerSpeeds[i])<.01f?_selectedButton:_button)){float preset=PlayerSpeeds[i];if(preset<=1.001f||AllowPlayerCheat())p.SpeedMultiplier=preset;}
             AllocationMark(13,ref allocationStamp);
             L.Box(new Rect(x,254,col,162),GUIContent.none,_card);
             L.Label(new Rect(x+20,266,col-154,32),"Высокий прыжок",_tableHeading);
-            if(SlimeSwitch(new Rect(x+col-124,263,104,44),p.HighJump))p.HighJump=!p.HighJump;
+            if(SlimeSwitch(new Rect(x+col-124,263,104,44),p.HighJump)){bool nextHj=!p.HighJump;if(!nextHj||AllowPlayerCheat())p.HighJump=nextHj;}
             L.Label(new Rect(x+20,308,col-40,30),JumpReadouts[Mathf.Clamp(Mathf.RoundToInt(p.JumpHeightMultiplier*10)-10,0,JumpReadouts.Length-1)],_muted);
-            p.JumpHeightMultiplier=PlayerMovementPolicy.JumpHeight(Slider(2,new Rect(x+20,350,col-40,28),p.JumpHeightMultiplier,1,5));
+            float nextJump=PlayerMovementPolicy.JumpHeight(Slider(2,new Rect(x+20,350,col-40,28),p.JumpHeightMultiplier,1,5));
+            if(Math.Abs(nextJump-p.JumpHeightMultiplier)>1e-4f&&(nextJump<=1.001f||AllowPlayerCheat()))p.JumpHeightMultiplier=nextJump;
             AllocationMark(14,ref allocationStamp);
             L.Box(new Rect(0,432,area.width,64),GUIContent.none,_card);
             L.Label(new Rect(20,439,col-30,30),_healthReadout,_label);

@@ -33,14 +33,23 @@ internal sealed class CustomWaypointTools
     // M28: the custom marker shown as the compass goal (empty when hidden).
     internal string GoalId=>ShowCompass?_goal:"";
     internal string SaveKey=>_store.Save;
+    private string _loadedSaveKey="";
     internal CustomWaypointTools(ToolkitMod app)=>_app=app;
     internal void EnsureLoaded()
     {
-        if(_session!=IntPtr.Zero&&_session==_app.Session)return;
         if(!_app.Ready)return;
-        var metadata=NativeSaveMetadata.Read(GameContext.Instance.AutoSaveDirector);
-        if(metadata==null||!metadata.HasValue||!WaypointStore.SaveKey(metadata.Value.GameName))return;
-        _session=_app.Session;_store=new WaypointStore{Save=metadata.Value.GameName};
+        string coopKey=_app.Coop?.Role==CoopRole.Client?(_app.Coop.CoopSaveKey??""):"";
+        bool useCoop=coopKey.Length>0&&WaypointStore.SaveKey(coopKey);
+        if(_session!=IntPtr.Zero&&_session==_app.Session&&(useCoop?_loadedSaveKey==coopKey:!_loadedSaveKey.StartsWith("coop_",StringComparison.Ordinal)))return;
+        string saveName;
+        if(useCoop)saveName=coopKey;
+        else
+        {
+            var metadata=NativeSaveMetadata.Read(GameContext.Instance.AutoSaveDirector);
+            if(metadata==null||!metadata.HasValue||!WaypointStore.SaveKey(metadata.Value.GameName))return;
+            saveName=metadata.Value.GameName;
+        }
+        _session=_app.Session;_loadedSaveKey=saveName;_store=new WaypointStore{Save=saveName};
         _file=Path.Combine(_app.DataDirectory,"waypoints-"+_store.Save+".json");_writable=true;
         try
         {
@@ -180,7 +189,7 @@ internal sealed class CustomWaypointTools
     }
     internal void Reset()
     {
-        _session=IntPtr.Zero;_store=new();_file=_goal="";_writable=false;_camera=null;
+        _session=IntPtr.Zero;_loadedSaveKey="";_store=new();_file=_goal="";_writable=false;_camera=null;
         ShowCompass=false;BeaconVisible=false;Heading="";_nextHud=0;Beacon=true;LastAddedId="";
     }
 }

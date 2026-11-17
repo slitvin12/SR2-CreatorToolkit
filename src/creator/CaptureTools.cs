@@ -123,7 +123,7 @@ internal sealed class CaptureTools
 
     private bool ZoomHeld()
     {
-        if (_app.MenuOpen || _app.Map.NativeMapOpen || NativeUiPriority.HasNativeFocus || !WindowFocused()) return false;
+        if (_app.MenuOpen || _app.Map.NativeMapOpen || NativeUiPriority.HasNativeFocus || StarlightBridge.MenuOpen || (_app.Coop?.ChatOpen ?? false) || NativeUiPriority.ExternalTextFocused || !WindowFocused()) return false;
         var kb = Keyboard.current; var mouse = Mouse.current;
         switch (ZoomKey)
         {
@@ -267,10 +267,12 @@ internal sealed class CaptureTools
         }
     }
 
+    private int EffectiveBackgroundFps => _app.Coop?.InSession == true ? Math.Max(30, BackgroundFps) : BackgroundFps;
+
     private void ApplyLimit()
     {
         _vsyncLease = new M25ScalarLease<int>(() => QualitySettings.vSyncCount, v => QualitySettings.vSyncCount = v, 0);
-        _rateLease = new M25ScalarLease<int>(() => Application.targetFrameRate, v => Application.targetFrameRate = v, BackgroundFps);
+        _rateLease = new M25ScalarLease<int>(() => Application.targetFrameRate, v => Application.targetFrameRate = v, EffectiveBackgroundFps);
         try { _vsyncLease.Apply(); _rateLease.Apply(); _limited = true; }
         catch { ReleaseLimit(); throw; }
     }
@@ -287,7 +289,7 @@ internal sealed class CaptureTools
     private int _relimits;
     private void KeepLimit()
     {
-        if (!_limited || (Application.targetFrameRate == BackgroundFps && QualitySettings.vSyncCount == 0)) return;
+        if (!_limited || (Application.targetFrameRate == EffectiveBackgroundFps && QualitySettings.vSyncCount == 0)) return;
         _relimits++;
         _rateLease = _vsyncLease = null; _limited = false;
         try { ApplyLimit(); }

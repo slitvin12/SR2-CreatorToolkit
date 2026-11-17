@@ -8,12 +8,12 @@ using MelonLoader.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "SlimeMap", "1.1.0", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
+[assembly: MelonInfo(typeof(CreatorToolkit.ToolkitMod), "SlimeMap", "1.1.1", "slitvin12", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: MelonGame("MonomiPark", "SlimeRancher2")]
-[assembly: AssemblyVersion("1.1.0.0")]
-[assembly: AssemblyFileVersion("1.1.0.0")]
+[assembly: AssemblyVersion("1.1.1.0")]
+[assembly: AssemblyFileVersion("1.1.1.0")]
 [assembly: AssemblyDescription("Standalone minimap with all atlas markers, terrain, player marker and navigation settings. Settings open with F7 by default; the key is rebindable in the settings window.\nОтдельная миникарта со всеми метками атласа, рельефом, маркером игрока и настройками навигации. Настройки — клавиша F7 по умолчанию, переназначается в окне настроек.")]
-[assembly: AssemblyMetadata("display_version", "1.1.0")]
+[assembly: AssemblyMetadata("display_version", "1.1.1")]
 [assembly: AssemblyMetadata("source_code", "https://github.com/slitvin12/SR2-CreatorToolkit")]
 [assembly: AssemblyMetadata("SR2ModManager.CompatibleWith", "SR2MP;Lycoreia;Starlight;CreatorToolkit")]
 [assembly: AssemblyMetadata("SR2ModManager.HookPolicy", "cooperative")]
@@ -27,7 +27,7 @@ namespace CreatorToolkit;
 public sealed class ToolkitMod : MelonMod
 {
     internal static ToolkitMod I;
-    internal const string Version = "1.1.0";
+    internal const string Version = "1.1.1";
     internal readonly InputCapture Input = new();
     internal PlayerTools Player;
     internal MultiplayerBridge Coop;
@@ -126,6 +126,7 @@ public sealed class ToolkitMod : MelonMod
         _diagnosticIo = new DiagnosticIo(DataDirectory);
         HookCoexistence.Configure(HarmonyInstance, this);
         ModInterop.Configure(this);
+        StarlightBridge.Configure(this);
         // All shared tools are constructed so the linked code has the same object graph as Creator
         // Toolkit; only the map/navigation ones below are ticked. The rest stay inert.
         Coop = new MultiplayerBridge(this);
@@ -175,7 +176,7 @@ public sealed class ToolkitMod : MelonMod
         _readyTicks = new (string, Action)[]
         {
             // Player.Tick binds the controller (cheats stay off); terrain and waypoints read Player.Controller.Motor.
-            ("player", Player.Tick),
+            ("player", Player.Tick), ("actors", Actors.Tick),
             ("custom waypoints", Custom.Tick), ("zone radar", Radar.Tick),
             ("compass markers", Compass.Tick),
         };
@@ -183,7 +184,7 @@ public sealed class ToolkitMod : MelonMod
         {
             ("navigation settings", Navigation.Tick), ("atlas", Map.Tick),
             ("minimap terrain", MiniMapTerrain.Tick), ("hook coexistence", HookCoexistence.Tick),
-            ("mod interop", ModInterop.Tick),
+            ("mod interop", ModInterop.Tick), ("starlight bridge", StarlightBridge.Tick),
         };
         _lateTicks = new (string, Action)[]
         {
@@ -215,16 +216,19 @@ public sealed class ToolkitMod : MelonMod
         Loc.Tick();
         BindSession();
         Coop.Poll();
+        if (MenuOpen && NativeUiPriority.HasNativeFocus) YieldToNativeUi();
         Input.TickNativeHandoff();
         Input.TickDeferredOpen();
         var kb = Keyboard.current;
         if (kb != null)
         {
+            bool chatOpen = Coop?.ChatOpen ?? false;
+            bool textFocused = chatOpen || NativeUiPriority.ExternalTextFocused || (MenuOpen && (_ui?.TextFieldFocused ?? false));
             if (Hotkey.Capturing)
             {
                 if (MenuOpen) Hotkey.TickCapture(kb); else Hotkey.CancelCapture();
             }
-            else if (Hotkey.Pressed(kb) && !(MenuOpen && Hotkey.Typing && (_ui?.TextFieldFocused ?? false)))
+            else if (Hotkey.Pressed(kb) && !chatOpen && !(Hotkey.Typing && textFocused))
             {
                 if (MenuOpen) CloseMenu(); else Input.Open();
             }
@@ -313,6 +317,7 @@ public sealed class ToolkitMod : MelonMod
             RestoreTransient();
             Pending = null;
             _jobs.Clear();
+            Actors?.ResetTracking();
             _ui?.ResetSession();
             Session = session;
         }

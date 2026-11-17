@@ -72,6 +72,7 @@ internal sealed class CorralAutoFeedTools
     {
         if(!Enabled)return;
         if(_session!=_app.Session){Reset();return;}
+        if(_app.Coop?.Role==CoopRole.Client){Set(false);return;}
         if(_app.Map.Busy||Time.timeScale<=0)return;
         float now=Time.unscaledTime;
         if(now<_nextTick)return;
@@ -244,6 +245,7 @@ internal sealed class CorralAutoFeedTools
             portion=model.GetGameObject()??InstantiationHelpers.InstantiateActorFromModel(model);
             if(portion==null)throw new InvalidOperationException("Порция не получила нативный объект.");
             if(eater.ExtractOtherId(portion)!=food)throw new InvalidOperationException("Нативная порция не идентифицируется как выбранная еда.");
+            _app.Coop?.AnnounceSpawn(portion);
             // The normal chomp path owns animation, hunger, favourite bonus, plorts
             // and destruction. No direct emotion or plort writes here.
             attempted=true;

@@ -114,30 +114,93 @@ internal sealed partial class MapTools
         // Native markers may add a loaded/snared instance not baked into the
         // index. Require its exact GameModel ID, never a Gordo-looking prefab.
         var models=_app.Context.GameModel.AllGordos();
-        var markers=_app.Context.MapDirector.Markers;
-        if(models==null||markers==null)return;
+        var markers=_app.Context.MapDirector?.Markers;
+        if(models==null)return;
+        bool added=false;
+        if(markers!=null)
+        {
+            foreach(var pair in models)
+            {
+                if(!markers.TryGetValue(pair.Key,out var marker)||marker==null||marker.WasCollected)continue;
+                var source=marker.Source;
+                var group=source?.SceneGroup;
+                if(source==null||source.WasCollected||group==null||group.WasCollected||!group.IsGameplay)continue;
+                var model=pair.Value;if(model==null||model.WasCollected)continue;
+                var position=source.MapPosition;
+                if(!float.IsFinite(position.x)||!float.IsFinite(position.y)||!float.IsFinite(position.z))continue;
+                if(_gordoPoints.TryGetValue(pair.Key,out var existing))
+                {
+                    // Same persistent instance: update one row, never append it again.
+                    existing.Group=group;existing.GroupName=group.name;existing.Position=position;existing.GordoRank=2;
+                    _gordoConflicts.Remove(pair.Key);continue;
+                }
+                var type=model.identifiableType;
+                string name=type?.LocalizedName?.GetLocalizedString();
+                if(string.IsNullOrWhiteSpace(name)||name.StartsWith("!!",StringComparison.Ordinal))name=type?.name??"Гордо";
+                var point=new Point{Id=pair.Key,Category="Гордо",Name=name,Group=group,GroupName=group.name,
+                    Position=position,ExactHeight=true,GordoTarget=model.targetCount,GordoRank=2,Detail="Native MapDirector marker / GameModel persistent ID"};
+                _gordoPoints[pair.Key]=point;Points.Add(point);added=true;
+            }
+        }
+        bool needActorScan=false;
         foreach(var pair in models)
         {
-            if(!markers.TryGetValue(pair.Key,out var marker)||marker==null||marker.WasCollected)continue;
-            var source=marker.Source;
-            var group=source?.SceneGroup;
-            if(source==null||source.WasCollected||group==null||group.WasCollected||!group.IsGameplay)continue;
-            var model=pair.Value;if(model==null||model.WasCollected)continue;
-            var position=source.MapPosition;
-            if(!float.IsFinite(position.x)||!float.IsFinite(position.y)||!float.IsFinite(position.z))continue;
-            if(_gordoPoints.TryGetValue(pair.Key,out var existing))
-            {
-                // Same persistent instance: update one row, never append it again.
-                existing.Group=group;existing.GroupName=group.name;existing.Position=position;existing.GordoRank=2;
-                _gordoConflicts.Remove(pair.Key);continue;
-            }
-            var type=model.identifiableType;
-            string name=type?.LocalizedName?.GetLocalizedString();
-            if(string.IsNullOrWhiteSpace(name)||name.StartsWith("!!",StringComparison.Ordinal))name=type?.name??"Гордо";
-            var point=new Point{Id=pair.Key,Category="Гордо",Name=name,Group=group,GroupName=group.name,
-                Position=position,ExactHeight=true,GordoRank=2,Detail="Native MapDirector marker / GameModel persistent ID"};
-            _gordoPoints[pair.Key]=point;Points.Add(point);
+            string key=GordoMapPolicy.Key(pair.Key);
+            if(key!=null&&!_gordoPoints.ContainsKey(key)){needActorScan=true;break;}
         }
+        if(needActorScan)
+        {
+            Dictionary<string,GordoEat> eats=null;
+            foreach(var pair in models)
+            {
+                string id=GordoMapPolicy.Key(pair.Key);
+                if(id==null||_gordoPoints.ContainsKey(id))continue;
+                var model=pair.Value;if(model==null||model.WasCollected)continue;
+                var go=model.gameObj;
+                GordoEat eat=null;
+                if(go==null||go.WasCollected)
+                {
+                    if(eats==null)
+                    {
+                        eats=new Dictionary<string,GordoEat>(StringComparer.Ordinal);
+                        foreach(var candidate in UnityEngine.Object.FindObjectsOfType<GordoEat>())
+                        {
+                            if(candidate==null||candidate.WasCollected)continue;
+                            string cid=GordoMapPolicy.Key(candidate.Id);
+                            if(cid!=null&&!eats.ContainsKey(cid))eats[cid]=candidate;
+                        }
+                    }
+                    eats.TryGetValue(id,out eat);
+                    go=eat?.gameObject;
+                }
+                if(go==null||go.WasCollected)continue;
+                var position=go.transform.position;
+                if(!float.IsFinite(position.x)||!float.IsFinite(position.y)||!float.IsFinite(position.z))continue;
+                SceneGroup group=null;
+                var gScene=go.scene;
+                if(gScene.IsValid()&&gScene.isLoaded)
+                {
+                    string path=ScenePath(gScene.path);
+                    foreach(var sp in _gordoScenes)
+                        if(_gordoSceneComplete.Contains(sp.Key)&&sp.Value.Contains(path)&&_groups.TryGetValue(sp.Key,out group))
+                            break;
+                }
+                if(group==null)
+                {
+                    var loaderGroup=SystemContext.Instance?.SceneLoader?.CurrentSceneGroup;
+                    if(loaderGroup!=null&&!loaderGroup.WasCollected&&loaderGroup.IsGameplay)group=loaderGroup;
+                }
+                if(group==null||group.WasCollected||!group.IsGameplay)continue;
+                var type=model.identifiableType;
+                string name=type?.LocalizedName?.GetLocalizedString();
+                if(string.IsNullOrWhiteSpace(name)||name.StartsWith("!!",StringComparison.Ordinal))name=type?.name??"Гордо";
+                int target=model.targetCount>0?model.targetCount:(eat??go.GetComponent<GordoEat>())?.TargetCount??0;
+                var point=new Point{Id=id,Category="Гордо",Name=name,Group=group,GroupName=group.name,
+                    Position=position,ExactHeight=true,GordoTarget=target,GordoRank=2,Detail="Native GordoEat / GameModel persistent ID"};
+                _gordoPoints[id]=point;Points.Add(point);added=true;
+            }
+        }
+        if(added){_filterResult=null;RefreshGordos();}
     }
     // 0.8.1 radar: the atlas row of a persistent gordo model (null when not indexed).
     internal Point GordoPoint(string id)=>id!=null&&_gordoPoints.TryGetValue(id,out var point)?point:null;

@@ -34,6 +34,9 @@ internal static class CoopRegression
         Check(P.Classify("Разместить «Тест»?")==CoopKind.Cheat&&P.Known("Разместить «Тест»?"),"free gadget placement is a cheat");
         Check(P.Classify("cleanup owned")==CoopKind.Free&&P.Classify("SOS rescue")==CoopKind.Free&&P.Classify("safe transit return")==CoopKind.Free&&P.Classify("cancel safe transit")==CoopKind.Free,"cleanup and rescue stay available");
         Check(P.Classify("graphics preset")==CoopKind.Free&&P.Classify("open atlas")==CoopKind.Free&&P.Classify("info HUD")==CoopKind.Free,"graphics, atlas and HUD stay available");
+        Check(P.Classify("frame profile")==CoopKind.SoloOnly&&P.Classify("explorer profile")==CoopKind.Cheat,"frame profile stays solo-only and explorer profile is a cheat");
+        Check(P.Classify("Включить автокормление загонов?")==CoopKind.HostWorld&&P.Classify("Включить фермерского помощника?")==CoopKind.HostWorld&&
+            P.Classify("Накормить голодных слаймов вокруг?")==CoopKind.HostWorld,"autofeed, farm helper and feed-nearby belong to the host");
         Check(!P.Known("unknown label")&&!P.Known("")&&!P.Known(null),"unclassified labels are reported");
         Check(P.Footer(CoopRole.Host,false)=="Кооп · хост · без читов"&&P.Footer(CoopRole.Client,true)=="Кооп · гость · читы вкл","footer wording");
 

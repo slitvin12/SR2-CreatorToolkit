@@ -256,7 +256,17 @@ internal sealed class CompassMarkerTools
             _catalogCount=count;_catalogIcons.Clear();
             if(catalog!=null)
                 foreach(var entry in catalog)
-                    if(entry?.Reference!=null&&!_catalogIcons.ContainsKey(entry.Reference))_catalogIcons[entry.Reference]=entry.Icon;
+                    if(entry?.Reference!=null&&!_catalogIcons.ContainsKey(entry.Reference))
+                    {
+                        var icon=entry.Icon??entry.Type?.icon;
+                        if(icon==null)
+                        {
+                            var slimeDef=entry.Type?.TryCast<SlimeDefinition>();
+                            if(slimeDef!=null&&slimeDef.IsLargo&&slimeDef.BaseSlimes!=null&&slimeDef.BaseSlimes.Length>0)
+                                icon=slimeDef.BaseSlimes[0]?.Icon??slimeDef.BaseSlimes[0]?.icon;
+                        }
+                        if(icon!=null)_catalogIcons[entry.Reference]=icon;
+                    }
         }
         return _catalogIcons.TryGetValue(reference,out var sprite)&&sprite!=null?sprite:null;
     }

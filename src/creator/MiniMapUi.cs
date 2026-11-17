@@ -250,6 +250,33 @@ internal sealed partial class ToolkitUi
                     if(hit.Icon!=null)DrawSprite(new Rect(at.x-8,at.y-8,16,16),hit.Icon);
                 }
             }
+            var peers=_app.Coop?.Peers;
+            if(peers!=null&&peers.Count>0)
+            {
+                for(int i=0;i<peers.Count;i++)
+                {
+                    var peer=peers[i];
+                    if(peer.Root==null||peer.Root.WasCollected||!peer.Root.activeInHierarchy||peer.Transform==null||peer.Transform.WasCollected)continue;
+                    Vector3 pPos=peer.Transform.position;
+                    float dx=pPos.x-player.x,dz=pPos.z-player.z;
+                    var at=Project(dx,dz);
+                    MapExplorerPolicy.Rim(at.x-center.x,at.y-center.y,radius-12f,out float rx,out float ry);
+                    at=new Vector2(center.x+rx,center.y+ry);
+                    Color pc=new(peer.Color.r,peer.Color.g,peer.Color.b,0.95f*fade);
+                    Dot(new Rect(at.x-9f,at.y-9f,18f,18f),Color.white);
+                    Dot(new Rect(at.x-7f,at.y-7f,14f,14f),pc);
+                    float peerTurn=look.NorthUp?peer.Transform.eulerAngles.y:peer.Transform.eulerAngles.y-(float)(map.MiniMapYaw*180.0/Math.PI);
+                    if(peerTurn!=0f)
+                    {
+                        M27MiniMapPolicy.PivotTranslation(at.x+clip.x,at.y+clip.y,peerTurn,out double px,out double py);
+                        GUI.matrix=baseMatrix*Matrix4x4.TRS(new Vector3((float)px,(float)py,0f),Quaternion.Euler(0f,0f,peerTurn),Vector3.one);
+                    }
+                    MapGlyph(new Rect(at.x-8f,at.y-8f,16f,16f),MapChromePolicy.Arrow,Color.white);
+                    GUI.matrix=baseMatrix;
+                    if(!string.IsNullOrEmpty(peer.Name))
+                        L.Label(new Rect(at.x-42f,at.y-24f,84f,16f),ButtonContent(peer.Name),_badge);
+                }
+            }
             MiniMapGoal(center,radius,scale,player,Project);
             // 0.8.1: a pink «N» badge on the rim.
             var north=Project(0,range);

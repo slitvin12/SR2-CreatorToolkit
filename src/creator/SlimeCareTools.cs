@@ -196,6 +196,7 @@ internal sealed class SlimeCareTools
                 if (portion == null) throw new InvalidOperationException("Порция не получила нативный объект.");
                 var portionId=eater.ExtractOtherId(portion);
                 if(portionId!=food)throw new InvalidOperationException("Нативная порция не идентифицируется как выбранная еда.");
+                _app.Coop?.AnnounceSpawn(portion);
                 // The normal chomp path owns animation, hunger, favorite bonus,
                 // plorts and destruction. No direct emotion/plort writes here.
                 handoffAttempted = true;

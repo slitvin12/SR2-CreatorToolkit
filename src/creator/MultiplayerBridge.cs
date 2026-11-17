@@ -1,7 +1,18 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 namespace CreatorToolkit;
+internal readonly struct CoopPeer
+{
+    internal readonly string Id, Name;
+    internal readonly GameObject Root;
+    internal readonly Transform Transform;
+    internal readonly Color Color;
+    internal CoopPeer(string id, string name, GameObject root, Transform transform, Color color)
+    { Id = id; Name = name; Root = root; Transform = transform; Color = color; }
+}
 // Live link to Ranching Together (SR2MP) through reflection only: Creator Toolkit has no
 // reference to SR2MP/Starlight, works the same without them, and friends do not need CT.
 //  • role: SR2MP.Main.Server.IsRunning (host) / SR2MP.Main.Client.IsConnected (guest);
@@ -15,10 +26,14 @@ namespace CreatorToolkit;
 internal sealed class MultiplayerBridge
 {
     private readonly ToolkitMod _app;
-    private Func<bool> _isHost, _isClient, _cheats;
+    private Func<bool> _isHost, _isClient, _cheats, _chatOpen;
+    private Func<string> _hostId;
     private Action<GameObject> _announce;
+    private IDictionary _remoteAvatars;
+    private FieldInfo _avatarId, _avatarName, _avatarRoot, _avatarTransform, _avatarColor;
+    private readonly List<CoopPeer> _peers = new();
     private float _nextProbe, _nextPoll;
-    private bool _bound, _announceFailed, _lycoreiaWarned;
+    private bool _bound, _announceFailed, _lycoreiaWarned, _lycoreiaCheatsFallbackWarned;
 
     internal CoopRole Role { get; private set; } = CoopRole.Offline;
     internal bool ServerCheats { get; private set; }
@@ -26,6 +41,9 @@ internal sealed class MultiplayerBridge
     internal bool InSession => Role != CoopRole.Offline;
     internal string Footer { get; private set; } = "";
     internal bool CanSyncSpawns => _announce != null;
+    internal bool ChatOpen { get { if (!_bound || _chatOpen == null) return false; try { return _chatOpen(); } catch { return false; } } }
+    internal string CoopSaveKey { get; private set; } = "";
+    internal IReadOnlyList<CoopPeer> Peers => _peers;
 
     internal MultiplayerBridge(ToolkitMod app) => _app = app;
 
@@ -42,7 +60,8 @@ internal sealed class MultiplayerBridge
             role = _isHost() ? CoopRole.Host : _isClient() ? CoopRole.Client : CoopRole.Offline;
             cheats = role != CoopRole.Offline && _cheats();
         }
-        catch (Exception e) { _bound = false; _app.Fail("coop state", e); return; }
+        catch (Exception e) { _bound = false; _peers.Clear(); CoopSaveKey = ""; _app.Fail("coop state", e); return; }
+        RefreshCoopContext(role);
         if (role == Role && cheats == ServerCheats) return;
         var previous = Role;
         Role = role; ServerCheats = cheats;
@@ -53,6 +72,53 @@ internal sealed class MultiplayerBridge
             _app.Notify("Кооп (" + MultiplayerPolicy.ModName + "): вы " + (role == CoopRole.Host ? "хост" : "гость") +
                 (cheats ? ", читы сервера разрешены." : ", читы сервера выключены — читы CT тоже.") +
                 (previous == CoopRole.Offline ? " Заморозка времени/мобов и ускорение недоступны." : ""));
+    }
+
+    private void RefreshCoopContext(CoopRole role)
+    {
+        try
+        {
+            if (role == CoopRole.Client)
+            {
+                string raw = _hostId?.Invoke();
+                CoopSaveKey = BuildCoopSaveKey(raw);
+            }
+            else CoopSaveKey = "";
+        }
+        catch { CoopSaveKey = role == CoopRole.Client ? "coop_guest" : ""; }
+
+        _peers.Clear();
+        if (role == CoopRole.Offline || _remoteAvatars == null || _avatarRoot == null || _avatarTransform == null) return;
+        try
+        {
+            foreach (DictionaryEntry entry in _remoteAvatars)
+            {
+                object av = entry.Value;
+                if (av == null) continue;
+                var root = _avatarRoot.GetValue(av) as GameObject;
+                var tr = _avatarTransform.GetValue(av) as Transform;
+                if (root == null || root.WasCollected || tr == null || tr.WasCollected) continue;
+                string id = _avatarId?.GetValue(av) as string ?? entry.Key as string ?? "";
+                string name = _avatarName?.GetValue(av) as string ?? "";
+                Color color = _avatarColor?.GetValue(av) is Color c ? c : Color.cyan;
+                _peers.Add(new CoopPeer(id, name, root, tr, color));
+            }
+        }
+        catch { }
+    }
+
+    private static string BuildCoopSaveKey(string raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw)) return "coop_guest";
+        var chars = new char[Math.Min(raw.Length, 48)];
+        int n = 0;
+        for (int i = 0; i < raw.Length && n < chars.Length; i++)
+        {
+            char c = raw[i];
+            chars[n++] = (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9' || c == '_' || c == '-') ? c : '_';
+        }
+        string candidate = n > 0 ? "coop_" + new string(chars, 0, n) : "coop_guest";
+        return WaypointStore.SaveKey(candidate) ? candidate : "coop_guest";
     }
 
     private void Probe()
@@ -76,6 +142,7 @@ internal sealed class MultiplayerBridge
         if (_cheats == null && cheats != null) _cheats = (Func<bool>)Delegate.CreateDelegate(typeof(Func<bool>), cheats);
         _isHost ??= Bind(main, "Server", "IsRunning");
         _isClient ??= Bind(main, "Client", "IsConnected");
+        _chatOpen ??= StaticFlagOrField(asm.GetType("SR2MP.Components.UI.ChatHud"), "IsOpen", "open");
         if (_announce == null)
         {
             try // Optional: without it co-op rules still apply, only CT spawns stay local.
@@ -98,23 +165,58 @@ internal sealed class MultiplayerBridge
         MultiplayerPolicy.ModName = "Lycoreia";
         const BindingFlags S = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
         const BindingFlags I = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-        _isHost ??= StaticFlag(asm.GetType("Lycoreia.Compat.ModFacade+Server"), "IsRunning");
-        _isClient ??= StaticFlag(asm.GetType("Lycoreia.Compat.ModFacade+Client"), "IsConnected");
+        _isHost ??= StaticFlagOrField(asm.GetType("Lycoreia.Compat.ModFacade+Server"), "IsRunning", null);
+        _isClient ??= StaticFlagOrField(asm.GetType("Lycoreia.Compat.ModFacade+Client"), "IsConnected", null);
+        var sessionProp = asm.GetType("Lycoreia.Mod")?.GetProperty("Session", S);
+        var sessionField = sessionProp == null ? asm.GetType("Lycoreia.Mod")?.GetField("Session", S) : null;
+        var sessionType = sessionProp?.PropertyType ?? sessionField?.FieldType;
+        object GetSession() => sessionProp != null ? sessionProp.GetValue(null) : sessionField?.GetValue(null);
+
         if (_cheats == null)
         {
-            var session = asm.GetType("Lycoreia.Mod")?.GetProperty("Session", S);
-            var sessionType = session?.PropertyType;
-            var hostRule = sessionType?.GetField("AllowCheats", I);
-            var guestRule = sessionType?.GetProperty("HostAllowsCheats", I);
+            var hostRule = BoolReader(sessionType, "AllowCheats");
+            var guestRule = BoolReader(sessionType, "HostAllowsCheats");
             var isHost = _isHost;
-            if (session != null && isHost != null && hostRule?.FieldType == typeof(bool) && guestRule?.PropertyType == typeof(bool))
+            if ((sessionProp != null || sessionField != null) && isHost != null && hostRule != null && guestRule != null)
                 _cheats = () =>
                 {
                     // Host: the rule it sends to guests; guest: the rule the host approved it with.
-                    object live = session.GetValue(null);
+                    object live = GetSession();
                     if (live == null) return false;
-                    return isHost() ? (bool)hostRule.GetValue(live) : (bool)guestRule.GetValue(live);
+                    return isHost() ? hostRule(live) : guestRule(live);
                 };
+            else if (_isHost != null && _isClient != null)
+            {
+                _cheats = () => false;
+                if (!_lycoreiaCheatsFallbackWarned)
+                {
+                    _lycoreiaCheatsFallbackWarned = true;
+                    _app.LoggerInstance.Warning("Lycoreia session cheat rule not found; defaulting co-op cheats to OFF.");
+                }
+            }
+        }
+        if (_hostId == null && (sessionProp != null || sessionField != null) && sessionType != null)
+        {
+            var hostIdReader = StringReader(sessionType, "HostId");
+            if (hostIdReader != null) _hostId = () => { object live = GetSession(); return live == null ? null : hostIdReader(live); };
+        }
+        _chatOpen ??= StaticFlagOrField(asm.GetType("SR2MP.Components.UI.ChatHud"), "IsOpen", "open");
+        if (_remoteAvatars == null)
+        {
+            try
+            {
+                _remoteAvatars = asm.GetType("Lycoreia.Game.Avatars.RemoteAvatars")?.GetField("All", S)?.GetValue(null) as IDictionary;
+                var avType = asm.GetType("Lycoreia.Game.Avatars.RemoteAvatar");
+                if (avType != null)
+                {
+                    _avatarId = avType.GetField("PlayerId", I);
+                    _avatarName = avType.GetField("Name", I);
+                    _avatarRoot = avType.GetField("Root", I);
+                    _avatarTransform = avType.GetField("transform", I);
+                    _avatarColor = avType.GetField("Colour", I);
+                }
+            }
+            catch { _remoteAvatars = null; }
         }
         if (_announce == null)
         {
@@ -136,11 +238,41 @@ internal sealed class MultiplayerBridge
         }
     }
 
-    private static Func<bool> StaticFlag(Type holder, string name)
+    private static Func<object, bool> BoolReader(Type holder, string name)
     {
+        if (holder == null) return null;
+        const BindingFlags I = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+        var p = holder.GetProperty(name, I);
+        if (p?.PropertyType == typeof(bool)) return obj => p.GetValue(obj) is true;
+        var f = holder.GetField(name, I);
+        if (f?.FieldType == typeof(bool)) return obj => f.GetValue(obj) is true;
+        return null;
+    }
+
+    private static Func<object, string> StringReader(Type holder, string name)
+    {
+        if (holder == null) return null;
+        const BindingFlags I = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+        var p = holder.GetProperty(name, I);
+        if (p?.PropertyType == typeof(string)) return obj => p.GetValue(obj) as string;
+        var f = holder.GetField(name, I);
+        if (f?.FieldType == typeof(string)) return obj => f.GetValue(obj) as string;
+        return null;
+    }
+
+    private static Func<bool> StaticFlagOrField(Type holder, string propName, string fieldName)
+    {
+        if (holder == null) return null;
         const BindingFlags S = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
-        var getter = holder?.GetProperty(name, S)?.GetGetMethod(true);
-        return getter == null || getter.ReturnType != typeof(bool) ? null : (Func<bool>)Delegate.CreateDelegate(typeof(Func<bool>), getter);
+        var getter = holder.GetProperty(propName, S)?.GetGetMethod(true);
+        if (getter != null && getter.ReturnType == typeof(bool))
+            return (Func<bool>)Delegate.CreateDelegate(typeof(Func<bool>), getter);
+        if (fieldName != null)
+        {
+            var f = holder.GetField(fieldName, S);
+            if (f?.FieldType == typeof(bool)) return () => f.GetValue(null) is true;
+        }
+        return null;
     }
 
     private static Func<bool> Bind(Type main, string holder, string flag)
@@ -193,15 +325,18 @@ internal sealed class MultiplayerBridge
             var p = _app.Player;
             if (p != null)
             {
-                if (p.GodMode || p.InfiniteEnergy || p.InfiniteItems || p.HighJump || p.SpeedMultiplier > 1.001f)
-                { p.GodMode = p.InfiniteEnergy = p.InfiniteItems = p.HighJump = false; p.SpeedMultiplier = 1f; off = true; }
+                if (p.GodMode || p.InfiniteEnergy || p.InfiniteItems || p.HighJump || p.SpeedMultiplier > 1.001f || p.JumpHeightMultiplier > 1.001f)
+                { p.GodMode = p.InfiniteEnergy = p.InfiniteItems = p.HighJump = false; p.SpeedMultiplier = 1f; p.JumpHeightMultiplier = 1f; off = true; }
                 if (p.Flight) { p.SetFlight(false); off = true; }
             }
             if (_app.Gadgets?.InfiniteBuilder == true) { _app.Gadgets.SetInfiniteBuilder(false); off = true; }
             if (_app.FreePlacement?.Enabled == true) { _app.FreePlacement.Set(false); off = true; }
+            if (_app.Convenience?.Refilling == true) { _app.Convenience.StopRefill("Кооп: автопополнение выключено"); off = true; }
+        }
+        if (!MultiplayerPolicy.Allows(CoopKind.HostWorld, Role, ServerCheats))
+        {
             if (_app.AutoFeed?.Enabled == true) { _app.AutoFeed.Set(false); off = true; }
             if (_app.Farm?.Enabled == true && _app.Map?.Busy != true) { _app.Farm.SetModes(false, false); off = true; }
-            if (_app.Convenience?.Refilling == true) { _app.Convenience.StopRefill("Кооп: автопополнение выключено"); off = true; }
         }
         if (off)
             _app.Notify(MultiplayerPolicy.Deny(CoopKind.Cheat, Role, ServerCheats) ??

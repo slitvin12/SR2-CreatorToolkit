@@ -599,6 +599,12 @@ internal sealed class NativeIconTools
         }
         if(point.Category=="Гордо")
         {
+            var allGordos=_app.Context?.GameModel?.AllGordos();
+            if(point.Id!=null&&allGordos!=null&&allGordos.TryGetValue(point.Id,out var gm)&&gm!=null&&!gm.WasCollected)
+            {
+                var gSprite=gm.identifiableType?.Icon??gm.identifiableType?.icon;
+                if(Live(gSprite))return gSprite;
+            }
             string kind=point.Name.Split("-гордо",StringSplitOptions.None)[0];
             var entry=_app.Actors.Catalog.FirstOrDefault(e=>e.Category=="Слаймы"&&!e.IsPrototype&&
                 (e.Reference?.EndsWith("."+kind,StringComparison.OrdinalIgnoreCase)==true||
