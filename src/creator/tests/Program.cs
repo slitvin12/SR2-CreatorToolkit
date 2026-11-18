@@ -363,7 +363,7 @@ using (var pe = new PEReader(File.OpenRead(dll)))
     Check(!refs.Any(n => n.Contains("Minecraft", StringComparison.OrdinalIgnoreCase) || n.Contains("McHud", StringComparison.OrdinalIgnoreCase) || n.Contains("WebSocket", StringComparison.OrdinalIgnoreCase)), "no Minecraft/bridge/socket assembly dependency");
     Check(refs.Contains("MelonLoader") && refs.Contains("Assembly-CSharp"), "native MelonLoader and game API references");
     var types = md.TypeDefinitions.Where(h => md.GetTypeDefinition(h).GetDeclaringType().IsNil).ToDictionary(h => md.GetString(md.GetTypeDefinition(h).Namespace) + "." + md.GetString(md.GetTypeDefinition(h).Name));
-    Check(md.GetAssemblyDefinition().Version==new Version(0,9,1,0),"release assembly version is 0.9.1");
+    Check(md.GetAssemblyDefinition().Version==new Version(0,9,2,0),"release assembly version is 0.9.2");
     foreach (string name in new[] { "ToolkitMod", "ToolkitUi", "InputCapture", "PlayerTools", "ActorTools", "WorldTools", "UnlockTools", "CinemaTools", "MapTools", "PrototypeTools", "NativeUiProbe", "NativeAtlasProbe", "ConvenienceTools", "StressSuite", "DiagnosticIo", "NativeHooks", "EngineFrameProbe", "StressComparisonPlan", "TransitSafety", "CatalogOrder", "CapsuleDatabase", "CapsuleTools","ExplorerPolicy","WaypointStore","WaypointRecord","CustomWaypointTools","RadarTools","FarmTools","UiThemePolicy","CarePolicy","SlimeCareTools","GadgetTools","NativeIconTools","PhenomenaTools","PhenomenaWindowPolicy","AuditSaveGuard","AuditSavePolicy","AuditImmutableBaseline","AuditCheckpointStore" })
         Check(types.ContainsKey("CreatorToolkit." + name), "packaged module " + name);
     var mod = md.GetTypeDefinition(types["CreatorToolkit.ToolkitMod"]);
@@ -1305,16 +1305,20 @@ Directory.CreateDirectory(ioDirectory);
 string ioMarker=Path.Combine(ioDirectory,"selftest.request"),ioStatus=Path.Combine(ioDirectory,"status.txt"),ioCommands=Path.Combine(ioDirectory,"cmd.txt");
 void WaitIoStatus(DiagnosticIo io,string expected)
 {
-    bool published=SpinWait.SpinUntil(()=>
+    long deadline=Environment.TickCount64+10000;
+    bool published=false;
+    while(Environment.TickCount64<deadline)
     {
+        Thread.Sleep(25);
         try
         {
+            if(!File.Exists(ioStatus))continue;
             using var stream=new FileStream(ioStatus,FileMode.Open,FileAccess.Read,FileShare.ReadWrite|FileShare.Delete);
             using var reader=new StreamReader(stream);
-            return reader.ReadToEnd()==expected;
+            if(reader.ReadToEnd()==expected){published=true;break;}
         }
-        catch(IOException){return false;}
-    },10000);
+        catch(Exception ex) when (ex is IOException || ex is UnauthorizedAccessException){}
+    }
     if(!published)throw new InvalidOperationException("Diagnostic worker did not publish "+expected+"; worker error: "+(io.TakeError()?.ToString()??"none"));
 }
 try

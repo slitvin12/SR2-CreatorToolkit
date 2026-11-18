@@ -389,7 +389,9 @@ internal static class Spawner
     private static void WriteEntry(JsonWriter w, object e, int index)
     {
         bool can = Reflect.Get(e, "CanSpawn", false);
-        w.Obj().P("index", index).P("name", S(e, "Name")).P("reference", S(e, "Reference")).P("category", S(e, "Category")).P("canSpawn", can);
+        bool rad = Reflect.Get(e, "IsRadiant", false);
+        string key = S(e, "CatalogKey");
+        w.Obj().P("index", index).P("name", S(e, "Name")).P("reference", S(e, "Reference")).P("catalogKey", key).P("isRadiant", rad).P("category", S(e, "Category")).P("canSpawn", can);
         if (!can) w.P("unavailable", S(e, "UnavailableReason"));
         w.EndObj();
     }
@@ -414,7 +416,9 @@ internal static class Spawner
             categories[cat] = categories.TryGetValue(cat, out int c) ? c + 1 : 1;
             if (category.Length > 0 && Commands.Norm(cat) != category) continue;
             if (filter.Length > 0 && !Commands.Norm(S(e, "Name")).Contains(filter, StringComparison.Ordinal)
-                && !Commands.Norm(S(e, "Reference")).Contains(filter, StringComparison.Ordinal)) continue;
+                && !Commands.Norm(S(e, "Reference")).Contains(filter, StringComparison.Ordinal)
+                && !Commands.Norm(S(e, "CatalogKey")).Contains(filter, StringComparison.Ordinal)
+                && !Commands.Norm(S(e, "Search")).Contains(filter, StringComparison.Ordinal)) continue;
             if (onlySpawnable && !Reflect.Get(e, "CanSpawn", false)) continue;
             matched++;
             if (shown >= limit) continue;
@@ -440,8 +444,11 @@ internal static class Spawner
         if (string.IsNullOrWhiteSpace(item)) throw new ArgumentException("Укажите item=<имя или reference> или index=N (см. /spawn/list).");
         if (item.StartsWith("#", StringComparison.Ordinal) && int.TryParse(item.Substring(1), out int hash)) return Find(list, null, hash, out found, out alternatives);
         string norm = Commands.Norm(item);
+        string trimmed = item.Trim();
         for (int i = 0; i < list.Count; i++)
-            if (list[i] != null && S(list[i], "Reference").Equals(item.Trim(), StringComparison.OrdinalIgnoreCase)) { found = i; return list[i]; }
+            if (list[i] != null && S(list[i], "CatalogKey").Equals(trimmed, StringComparison.OrdinalIgnoreCase)) { found = i; return list[i]; }
+        for (int i = 0; i < list.Count; i++)
+            if (list[i] != null && S(list[i], "Reference").Equals(trimmed, StringComparison.OrdinalIgnoreCase)) { found = i; return list[i]; }
         for (int i = 0; i < list.Count; i++)
             if (list[i] != null && Commands.Norm(S(list[i], "Name")) == norm) { found = i; return list[i]; }
         object first = null;
@@ -462,7 +469,7 @@ internal static class Spawner
         Gates.RequireTestSave("spawn");
         var actors = Actors();
         var list = Catalog(actors, false);
-        var entry = Find(list, r.Args.First("item", "name", "reference", "ref", "body"), r.Args.Int("index", -1), out int found, out var alternatives);
+        var entry = Find(list, r.Args.First("item", "catalogKey", "key", "name", "reference", "ref", "body"), r.Args.Int("index", -1), out int found, out var alternatives);
         if (!Reflect.Get(entry, "CanSpawn", false))
             throw new GateException(409, "'" + S(entry, "Name") + "' недоступен для создания: " + S(entry, "UnavailableReason"));
         int count = Math.Clamp(r.Args.Int("count", 1), 1, 50);

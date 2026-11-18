@@ -240,6 +240,41 @@ internal sealed class ActorTools
         _app.Notify("Каталог: " + Catalog.Count + " записей, включая явно помеченные прототипы и неготовые типы.");
     }
 
+    private static SlimeDefinition ResolveDynamicRadiantBase(string reference, string token, out string reason)
+    {
+        reason=null;
+        var lookup=GameContext.Instance?.LookupDirector;
+        if(lookup==null||!lookup._initialized||lookup._identifiableTypeByRefId==null)
+        { reason="Нативный реестр IdentifiableType ещё не инициализирован."; return null; }
+        int matches=0;
+        SlimeDefinition definition=null;
+        foreach(var pair in lookup._identifiableTypeByRefId)
+        {
+            var type=pair.Value;
+            if(type==null)continue;
+            var slime=type.TryCast<SlimeDefinition>();
+            if(slime==null)continue;
+            if(string.Equals(pair.Key,reference,StringComparison.Ordinal)||
+               string.Equals(slime.ReferenceId,reference,StringComparison.Ordinal)||
+               string.Equals(slime.name,token,StringComparison.Ordinal))
+            { matches++; definition=slime; }
+        }
+        IdentifiableType registered=null;
+        if(reference!=null)lookup._identifiableTypeByRefId.TryGetValue(reference,out registered);
+        bool exact=definition!=null&&registered!=null&&registered.Pointer==definition.Pointer&&
+            string.Equals(definition.ReferenceId,reference,StringComparison.Ordinal)&&
+            string.Equals(definition.name,token,StringComparison.Ordinal);
+        if(matches!=1||!exact||definition.IsLargo)
+        {
+            reason=RadiantCatalogPolicy.Availability(matches,exact,definition?.IsLargo==true,false,false,0);
+            return definition;
+        }
+        var prefab=definition.prefab;
+        var components=prefab==null?null:prefab.GetComponents<SlimeRadiant>();
+        reason=RadiantCatalogPolicy.Availability(1,true,false,definition.RadiantBase!=null,prefab!=null,components==null?0:components.Length);
+        return definition;
+    }
+
     // Resolve only exact registry identities. Never infer a species from prefab/order.
     private static SlimeDefinition ResolveRadiantBase(RadiantCatalogPolicy.Species species, out string reason)
     {
@@ -307,20 +342,82 @@ internal sealed class ActorTools
             { entry.UnavailableReason="Нативный лучистый вариант недоступен: "+e.Message; }
             entries.Add(entry);
         }
+        var lookup=GameContext.Instance?.LookupDirector;
+        if(lookup==null||!lookup._initialized||lookup._identifiableTypeByRefId==null)return;
+        var extra=new List<SlimeDefinition>();
+        var seen=new HashSet<IntPtr>();
+        foreach(var pair in lookup._identifiableTypeByRefId)
+        {
+            var slime=pair.Value?.TryCast<SlimeDefinition>();
+            if(slime==null||slime.IsLargo||slime.IsPlayer||slime.IsSceneObject||slime.RadiantBase==null)continue;
+            string token=slime.name;
+            if(!RadiantCatalogPolicy.IsDynamicTokenValid(token))continue;
+            if(!string.Equals(slime.ReferenceId,"SlimeDefinition."+token,StringComparison.Ordinal))continue;
+            if(seen.Add(slime.Pointer))extra.Add(slime);
+        }
+        extra.Sort((a,b)=>string.CompareOrdinal(a.ReferenceId,b.ReferenceId));
+        foreach(var slime in extra)
+        {
+            string token=slime.name;
+            string reference=slime.ReferenceId;
+            string key=RadiantCatalogPolicy.CatalogKey(reference,true);
+            string fallbackName=token;
+            var entry=new Entry { IsRadiant=true,RadiantToken=token,
+                Name="Лучистый · "+fallbackName,Category="Слаймы",Family="Лучистые",
+                Order=new CatalogOrder(CatalogOrder.CategoryRank("Слаймы"),1,index++,0,key),
+                Search=RadiantCatalogPolicy.DynamicSearch(token,fallbackName,reference) };
+            try
+            {
+                var definition=ResolveDynamicRadiantBase(reference,token,out string reason);
+                entry.Type=definition;
+                entry.Reference=definition?.ReferenceId??reference;
+                entry.UnavailableReason=reason;
+                string name=fallbackName;
+                if(definition!=null)
+                {
+                    try
+                    {
+                        string localized=definition.LocalizedName?.GetLocalizedString();
+                        if(!string.IsNullOrWhiteSpace(localized)&&!localized.StartsWith("!!"))name=localized;
+                    }
+                    catch { /* Honest token fallback when localized string is missing. */ }
+                    if(icons.TryGetValue(definition.Pointer,out var icon))entry.RadiantIcon=icon;
+                    else if(definition.RadiantBase?._icon!=null)entry.RadiantIcon=definition.RadiantBase._icon;
+                }
+                entry.Name="Лучистый · "+name;
+                entry.Search=RadiantCatalogPolicy.DynamicSearch(token,name,entry.Reference);
+            }
+            catch(Exception e)
+            { entry.UnavailableReason="Нативный лучистый вариант недоступен: "+e.Message; }
+            entries.Add(entry);
+        }
     }
 
     private SlimeDefinition RequireRadiantEntry(Entry entry)
     {
-        if(entry==null||!entry.IsRadiant||entry.IsPrototype||!Catalog.Contains(entry)||
-            !RadiantCatalogPolicy.TryGet(entry.RadiantToken,out var species))
+        if(entry==null||!entry.IsRadiant||entry.IsPrototype||!Catalog.Contains(entry))
             throw new InvalidOperationException("Лучистая запись устарела или отсутствует в текущем каталоге.");
-        var definition=ResolveRadiantBase(species,out string reason);
-        if(reason!=null)throw new InvalidOperationException(reason);
-        if(entry.Type==null||definition==null||entry.Type.Pointer!=definition.Pointer||
-            !string.Equals(entry.Reference,definition.ReferenceId,StringComparison.Ordinal)||
-            !string.Equals(entry.CatalogKey,species.Key,StringComparison.Ordinal))
+        if(RadiantCatalogPolicy.TryGet(entry.RadiantToken,out var species))
+        {
+            var definition=ResolveRadiantBase(species,out string reason);
+            if(reason!=null)throw new InvalidOperationException(reason);
+            if(entry.Type==null||definition==null||entry.Type.Pointer!=definition.Pointer||
+                !string.Equals(entry.Reference,definition.ReferenceId,StringComparison.Ordinal)||
+                !string.Equals(entry.CatalogKey,species.Key,StringComparison.Ordinal))
+                throw new InvalidOperationException("Нативная идентичность лучистого вида изменилась; обновите каталог.");
+            return definition;
+        }
+        if(!RadiantCatalogPolicy.IsDynamicTokenValid(entry.RadiantToken))
+            throw new InvalidOperationException("Лучистая запись устарела или отсутствует в текущем каталоге.");
+        string dynRef="SlimeDefinition."+entry.RadiantToken;
+        var dynDef=ResolveDynamicRadiantBase(dynRef,entry.RadiantToken,out string dynReason);
+        if(dynReason!=null)throw new InvalidOperationException(dynReason);
+        string dynKey=RadiantCatalogPolicy.CatalogKey(dynRef,true);
+        if(entry.Type==null||dynDef==null||entry.Type.Pointer!=dynDef.Pointer||
+            !string.Equals(entry.Reference,dynDef.ReferenceId,StringComparison.Ordinal)||
+            !string.Equals(entry.CatalogKey,dynKey,StringComparison.Ordinal))
             throw new InvalidOperationException("Нативная идентичность лучистого вида изменилась; обновите каталог.");
-        return definition;
+        return dynDef;
     }
 
     // Batch is committed to ownership only after every native variant verifies.

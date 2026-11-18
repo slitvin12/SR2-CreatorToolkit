@@ -4,7 +4,7 @@
 
 > *English:* Creator Toolkit is a MelonLoader mod for Slime Rancher 2 that adds an in-game toolkit menu (map atlas with pods, gordos, drones and resources, minimap and compass, waypoints, radar for any object, farm helper, spawner, time/weather controls, unlocks, a photo mode with FOV and smooth zoom, FPS counter and background FPS limit, smoother physics, custom save names, free gadget placement, a world tracker and optional action hotkeys). Supports all 9 game languages (RU/EN/FR/DE/ES/ZH/JA/KO/PT) with CJK typography, Lycoreia 2.x co-op peers/rules, and Classic Slimes integration. The menu opens with **Insert**; the key can be changed in *Settings → Menu key*.
 
-**Автор:** [slitvin12](https://github.com/slitvin12) · **Версия:** 0.9.1 · Неофициальный фанатский мод, не связан с Monomi Park.
+**Автор:** [slitvin12](https://github.com/slitvin12) · **Версия:** 0.9.2 · Неофициальный фанатский мод, не связан с Monomi Park.
 
 ## Требования
 
@@ -19,6 +19,10 @@
 4. Загрузите сохранение и нажмите **Insert** (на ноутбуке может понадобиться **Fn + Insert**). **Esc** закрывает меню. Клавишу открытия можно сменить: **Настройки → «Клавиша меню»**.
 
 Язык интерфейса мода следует языку игры (9 языков игры: русский, английский, французский, немецкий, испанский, китайский, японский, корейский, португальский) и переключается вместе с ней. Настройки и метки хранятся в `<папка игры>\UserData\CreatorToolkit\`. Действия, которые навсегда меняют прогресс (открытия, разблокировки, атлас), требуют отдельного подтверждения. Перед ними лучше сделать копию сохранения.
+
+## Новое в 0.9.2
+
+- **Динамический каталог лучистых слаймов.** Вкладка спавна **«Лучистые»** и Agent Director (`/spawn/list`, `/spawn`) автоматически подхватывают модовых не-ларго лучистых слаймов с `RadiantBase` (включая `ClassicSlimes`: Мозаичный, Рад, Глитч, Ртутный) с корректными иконками `RadiantBase._icon` и раздельными ключами `SlimeDefinition.<Имя>|radiant`.
 
 ## Новое в 0.9.1
 

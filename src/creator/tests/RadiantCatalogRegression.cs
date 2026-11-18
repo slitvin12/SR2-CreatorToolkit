@@ -55,6 +55,14 @@ internal static class RadiantCatalogRegression
             P.Availability(1,true,false,true,true,0),P.Availability(1,true,false,true,true,2)};
         for(int i=0;i<reasons.Length;i++)
             Check(!string.IsNullOrWhiteSpace(reasons[i])&&reasons.Where((_,j)=>j!=i).All(r=>r!=reasons[i]),"pure distinct missing ambiguity identity largo appearance prefab component reason "+i);
+        foreach(string dyn in new[]{"Mosaic","Rad","Glitch","Quicksilver"})
+        {
+            Check(P.IsDynamicTokenValid(dyn),"0.9.2 dynamic radiant token valid "+dyn);
+            string dynSearch=P.DynamicSearch(dyn,"Мозаичный","SlimeDefinition."+dyn);
+            Check(dynSearch.Contains("radiant")&&dynSearch.Contains(dyn.ToLowerInvariant())&&dynSearch.Contains("мозаичный"),"0.9.2 dynamic radiant search "+dyn);
+        }
+        foreach(string bad in new[]{null,"","Pink"," Mosaic","Mosaic ","SlimeDefinition.Mosaic|radiant","GlitchTarr","glitchtarr"})
+            Check(!P.IsDynamicTokenValid(bad),"0.9.2 dynamic radiant rejects invalid token "+(bad??"<null>"));
         StaticWiring(Check,root);
     }
 
@@ -96,5 +104,6 @@ internal static class RadiantCatalogRegression
         Check(draw.Contains("UiThemePolicy.TryFitSprite(")&&draw.Contains("GUI.DrawTexture(")&&!draw.Contains("GUI.DrawTextureWithTexCoords("),"static wiring UI3 contain fit and safe clipped DrawTexture retained");
         string button=Section(ui,"privateboolButton(Rectrect,GUIContentcontent", "privatefloatHoverOffset(");
         Check(button.Contains("returnPressed(rect);")&&button.Contains("HoverChildRect(visual,"),"static wiring button visuals transform separately from unchanged pointer rectangle");
+        Check(actors.Contains("ResolveDynamicRadiantBase")&&actors.Contains("IsDynamicTokenValid"),"0.9.2 static wiring supports dynamic modded radiant slimes");
     }
 }

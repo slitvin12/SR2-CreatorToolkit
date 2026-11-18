@@ -44,6 +44,13 @@ internal static class RadiantCatalogPolicy
     internal static string CatalogKey(string reference, bool radiant) =>
         reference == null ? null : reference + (radiant ? "|radiant" : "");
 
+    internal static bool IsDynamicTokenValid(string token) =>
+        !string.IsNullOrWhiteSpace(token) && token.Trim() == token && token.IndexOf('|') < 0 &&
+        !string.Equals(token, "GlitchTarr", StringComparison.OrdinalIgnoreCase) && !TryGet(token, out _);
+
+    internal static string DynamicSearch(string token, string localized, string reference) =>
+        ("лучист лучистый radiant shimmering glowing " + (token ?? "") + " " + (localized ?? "") + " " + (reference ?? "")).ToLowerInvariant();
+
     internal static bool TryGet(string token, out Species species)
     {
         foreach (var candidate in Ordered)
