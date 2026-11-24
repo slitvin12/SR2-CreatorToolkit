@@ -1,175 +1,173 @@
-# Creator Toolkit для Slime Rancher 2
+# Creator Toolkit for Slime Rancher 2
 
-Мод для **Slime Rancher 2** на **MelonLoader**: одно меню с инструментами для игры, исследования мира и съёмки. В нём есть атлас карты с капсулами, гордо, дронами и ресурсами, мини-карта и компас, свои метки, радар, помощник для фермы, спавн, управление временем и погодой, открытия и режим съёмки.
+An in-game creator, exploration, and quality-of-life menu mod for **Slime Rancher 2** built on **MelonLoader**. Includes a live world atlas (treasure pods, gordos, drones, resources), minimap and compass, custom waypoints, an object/favorite-food radar, farm helpers, a full spawner (including Radiant slimes and Gordos), time & weather controls, unlock toggles, photo mode with FOV/smooth zoom, an FPS counter & background limiter, smooth slow-motion physics, and optional action hotkeys.
 
-> *English:* Creator Toolkit is a MelonLoader mod for Slime Rancher 2 that adds an in-game toolkit menu (map atlas with pods, gordos, drones and resources, minimap and compass, waypoints, radar for any object, farm helper, spawner, time/weather controls, unlocks, a photo mode with FOV and smooth zoom, FPS counter and background FPS limit, smoother physics, custom save names, free gadget placement, a world tracker and optional action hotkeys). Supports all 9 game languages (RU/EN/FR/DE/ES/ZH/JA/KO/PT) with CJK typography, Lycoreia 2.x co-op peers/rules, and Classic Slimes integration. The menu opens with **Insert**; the key can be changed in *Settings → Menu key*.
+**Author:** [slitvin12](https://github.com/slitvin12) · **Version:** 0.9.2 · Unofficial fan mod, not affiliated with Monomi Park.
 
-**Автор:** [slitvin12](https://github.com/slitvin12) · **Версия:** 0.9.2 · Неофициальный фанатский мод, не связан с Monomi Park.
+> **No text commands to memorize:** Creator Toolkit is controlled entirely through a visual point-and-click in-game menu opened with **Insert** (rebindable under **Settings → Menu key**). The interface automatically follows your in-game language across all **9 supported languages** (`EN`, `RU`, `FR`, `DE`, `ES`, `ZH`, `JA`, `KO`, `PT`) with CJK font support.
 
-## Требования
+---
 
-- Slime Rancher 2 **1.3.0** (Windows).
-- [MelonLoader](https://github.com/LavaGang/MelonLoader) **0.7.x** (проверено на 0.7.3).
+## Requirements
 
-## Установка
+- **Slime Rancher 2 `1.3.0`** (Windows)
+- **[MelonLoader](https://github.com/LavaGang/MelonLoader) `0.7.x`** (tested on `0.7.3`)
 
-1. Установите MelonLoader в папку игры и один раз запустите игру.
-2. Скачайте `CreatorToolkit.dll` со страницы [Releases](https://github.com/slitvin12/SR2-CreatorToolkit/releases/latest).
-3. Положите файл в `<папка игры>\Mods\`.
-4. Загрузите сохранение и нажмите **Insert** (на ноутбуке может понадобиться **Fn + Insert**). **Esc** закрывает меню. Клавишу открытия можно сменить: **Настройки → «Клавиша меню»**.
+## Installation
 
-Язык интерфейса мода следует языку игры (9 языков игры: русский, английский, французский, немецкий, испанский, китайский, японский, корейский, португальский) и переключается вместе с ней. Настройки и метки хранятся в `<папка игры>\UserData\CreatorToolkit\`. Действия, которые навсегда меняют прогресс (открытия, разблокировки, атлас), требуют отдельного подтверждения. Перед ними лучше сделать копию сохранения.
+1. Install MelonLoader into your Slime Rancher 2 folder and launch the game once so `Mods\` and `UserData\` are generated.
+2. Download `CreatorToolkit.dll` from [Releases](https://github.com/slitvin12/SR2-CreatorToolkit/releases/latest).
+3. Place `CreatorToolkit.dll` into `<game folder>\Mods\`.
+4. Load any save and press **Insert** (**Fn + Insert** on some laptops). Press **Esc** to close the menu, or rebind the key in **Settings → Menu key**.
 
-## Новое в 0.9.2
+Settings and custom waypoints are stored per save / mod profile under `<game folder>\UserData\CreatorToolkit\`. Actions that permanently change save progression (unlocks, atlas discoveries, reducing Newbucks, etc.) ask for confirmation first — backing up your save beforehand is always recommended.
 
-- **Динамический каталог лучистых слаймов.** Вкладка спавна **«Лучистые»** и Agent Director (`/spawn/list`, `/spawn`) автоматически подхватывают модовых не-ларго лучистых слаймов с `RadiantBase` (включая `ClassicSlimes`: Мозаичный, Рад, Глитч, Ртутный) с корректными иконками `RadiantBase._icon` и раздельными ключами `SlimeDefinition.<Имя>|radiant`.
+---
 
-## Новое в 0.9.1
+## Quick Start & Spawning Recipes
 
-Обновление совместимости с **Lycoreia 2.x**, **Classic Slimes**, **Starlight**, **SlimeMap** и **SlimeFPS**.
+Because everything uses the visual UI rather than chat/console commands, here is how to do the most common tasks right away:
 
-- **Напарники на мини-карте (Lycoreia 2.0.0 / 2.1.0-rc4).** Игроки в текущей зоне отображаются на мини-карте: цветная точка, стрелка взгляда, прижим к ободку диска и никнейм (с поддержкой Streamer Mode).
-- **Совместимость с новым UI Lycoreia 2.x и 2.1.0-rc4.** Отслеживаются `Lycoreia.Owned.Components.UI.ChatHud`, `InputGate`, меню мультиплеера `LycoreiaMenu`, окно «Что нового» `WhatsNewPopup` и радиальное меню кооп-доски `CoopWheel` на удержании СКМ: оверлеи CT автоматически отступают, меню CT само закрывается, а клавиша меню (`Insert`), горячие клавиши действий и плавный зум камеры не перехватывают ввод.
-- **Честные и устойчивые правила коопа.** Прямые тумблеры и ползунки вкладки «Игрок» проверяют серверное правило `Allow Cheats` прямо в меню (включая высокий прыжок); профиль «Кадр» ограничен одиночной игрой, профиль «Исследователь» требует `Allow Cheats`, автокормление загонов, фермерский помощник и кормление вокруг работают только у хоста с сетевой публикацией созданных порций еды, а спавны у гостя синхронизируются с защитой от отбраковки (`VacuumExpelHook`). У гостя свои метки сохраняются отдельно по ключу сервера (`waypoints-coop_<HostId>.json`).
-- **Сетевой ритм в фоне и компас.** При запущенном фоновом ограничении FPS во время кооп-сессии частота кадров не опускается ниже **30 FPS**, чтобы не тормозить обмен пакетами при сворачивании окна; собственные метки компаса восстанавливают свой цвет, если другой игрок подходит вплотную.
-- **Интеграция с Classic Slimes (1.3.5+).** Гордо мода (`Rad`, `Quantum`, `Mosaic`) и их иконки автоматически подхватываются атласом, мини-картой и трекером мира; компас показывает иконку родительского вида для ларго без собственной иконки; фильтр частиц в оптимизации сохраняет эффекты, блики и ауры классических слаймов.
+### 1. Respawn Tangle Slimes (or any regular Slime / Largo / Food / Plort)
 
-## Новое в 0.9.0
+1. Load your save and press **Insert** to open Creator Toolkit.
+2. Open the **Spawn** tab.
+3. Keep **Slimes** selected in the left category list (or use the search bar at the top and type `Tangle`).
+4. Click **Tangle Slime** (or any Tangle Largo in the list).
+5. Choose **Amount** (`1–25` via the slider or `1 / 5 / 10 / 25` quick buttons) on the right panel.
+6. Click **Spawn in front of the camera** (~2.5 m ahead), or click **Pick a spot…** to place directly with your cursor:
+   - Green ring = valid ground surface
+   - Mouse wheel or `Q` / `E` = rotate facing (`Hold Shift` for fine rotation, `R` = face toward you)
+   - `Left Click` = spawn (`Right Click` = exit placement mode)
 
-- **Локализация на все 9 языков игры.** Полный перевод интерфейса на русский, английский, французский, немецкий, испанский, упрощённый китайский, японский, корейский и португальский — по **2 179** строк во встроенных таблицах без внешних файлов.
-- **Живое переключение и CJK-шрифты.** Смена языка в настройках игры применяется мгновенно без перезапуска; для китайского, японского и корейского автоматически подбираются динамические шрифты с сохранением вёрстки.
+### 2. Spawn Pure Radiant Slimes (Vanilla + Modded)
 
-## Совместимость с модами
+1. Open **Spawn** → **Slimes**.
+2. Click the **Radiant** filter chip at the top of the list (or type `radiant` in the search box).
+3. Select any of the **22** native Radiant slimes (`Pink` through `Hyper`) or any supported modded pure Radiant slime with `RadiantBase` (such as `Mosaic`, `Rad`, `Glitch`, and `Quicksilver` when **[Classic Slimes](https://github.com/slitvin12/ClassicSlimes) 1.3.9+** is installed).
+4. Set your count (`1–25`) and click **Spawn in front of the camera** or **Pick a spot…**.
 
-- **Lycoreia 2.x (и Ranching Together / SR2MP):** интеграция через рефлексию без жёсткой зависимости; друзья без Creator Toolkit играют без ограничений.
-- **Starlight (ex-SR2E):** меню не открываются одновременно, в меню паузы игры добавляется кнопка `Creator Toolkit`, отображаются активные переключатели Starlight, полёт уступает NoClip.
-- **[Classic Slimes](https://github.com/slitvin12/ClassicSlimes) (1.3.5+):** полная поддержка классических слаймов, ларго, еды SR1, гордо на карте/в атласе и эффектов при оптимизации.
-- **[SlimeMap](https://github.com/slitvin12/SlimeMap) (1.1.1+) и [SlimeFPS](https://github.com/slitvin12/SlimeFPS) (1.1.1+):** при установке рядом Creator Toolkit автоматически уступает миникарту, компас, оптимизацию и счётчик FPS (см. ниже).
+> *Note:* To keep native save data clean, Radiant slimes cannot be vacuumed into the vacpack directly (`SlimeRadiant` state restriction in-game), and the **Radiant** filter spawns pure base species rather than pre-built Radiant Largos.
 
-## Новое в 0.8.8
+### 3. Create Any Radiant Largo (2-Step Recipe)
 
-- **Единые кнопки.** Кнопки, вкладки, чипы, переключатели, ползунки и полосы рисуются одной цельной поверхностью без швов: пропали тонкие «палочки» по краям середины кнопок, заметные при наведении. Наведение у всех одинаковое — кнопка приподнимается, чуть растёт и мягко светится, при нажатии проседает; цвет при этом не меняется. Убраны полоска у переключателей и полоска под открытой вкладкой.
-- **Исправлено масштабирование поверхностей в IL2CPP-сборке игры.** Ползунки больше не выезжают далеко за трек (ручка и заполнение всегда на дорожке), тонкие полосы прогресса видны на всю ширину, кнопки и подвкладки закрашены целиком. Исправление общее для Creator Toolkit, SlimeMap и SlimeFPS.
+Since the Radiant filter spawns pure Radiant species cleanly, you can turn any of them into a **Radiant Largo** in seconds using real game fusion:
 
-## SlimeMap и SlimeFPS — отдельные моды
+1. In **Spawn → Slimes → Radiant**, spawn the first parent as a pure Radiant slime (for example, **Radiant · Tangle Slime**).
+2. Switch to **Spawn → Plorts**, select the second parent's plort (for example, **Honey Plort** or **Mosaic Plort**), and click **Spawn in front of the camera**.
+3. The Radiant slime eats the plort and natively becomes a **Radiant Largo** (e.g., Radiant Tangle-Honey Largo) while keeping its shimmering Radiant look.
 
-Миникарту и оптимизацию графики можно поставить как два самостоятельных мода — **SlimeMap** и **SlimeFPS**. Они собраны из того же исходного кода, что и Creator Toolkit, и работают **без Creator Toolkit**: достаточно положить `SlimeMap.dll` или `SlimeFPS.dll` в `Mods`.
+### 4. Place Gordos & Clean Up Spawned Objects
 
-- **SlimeMap** ([репозиторий](https://github.com/slitvin12/SlimeMap) · [скачать](https://github.com/slitvin12/SlimeMap/releases/latest)) — миникарта со всеми метками атласа (слои, радар, свои метки, гордо, дроны, ресурсы), рельефом, маркером игрока и компасом. Настройки — клавиша **F7**; хранятся в `UserData\SlimeMap\navigation.cfg`.
-- **SlimeFPS** ([репозиторий](https://github.com/slitvin12/SlimeFPS) · [скачать](https://github.com/slitvin12/SlimeFPS/releases/latest)) — оптимизация графики (текстуры, LOD, дальность, декор, постэффекты, runtime FPS) и счётчик FPS. Настройки — клавиша **F8**; хранятся в `UserData\SlimeFPS`.
+- **Gordos:** Open **Spawn → Gordo**, pick a Gordo species, and click **Place Gordo** (spawns on a native snare 9 m ahead) or **Pick a spot…**.
+- **Cleanup:** Each catalog tile has **Mine ×** (removes only actors spawned by the mod from that tile) and **All ×** (double-click to confirm removing all matching actors in the world). The right panel also includes **Clear spawned (N)** for mod-owned actors and double-click **Remove all chickens**.
 
-**Creator Toolkit остаётся полным** и ничего не теряет: если рядом загружен SlimeMap, CT сам отключает свою миникарту и компас (в «Карта → Навигация» появляется заметка), а если загружен SlimeFPS — свою оптимизацию и счётчик FPS. Двойных меток и двух счётчиков не бывает. Без новых модов CT работает как раньше.
+---
 
-## Новое в 0.8.7
+## Toolset Overview (9 Tabs)
 
-- **Телепорт без застревания.** Безопасная телепортация, возврат к временной точке и выход из полёта больше не ставят игрока внутрь камней, стволов и скал: место посадки проверяется не только на пересечение капсулы, но и на то, не окружено ли оно геометрией. После телепорта прыжок работает сразу.
-- **Съёмка → «Скорость времени…»: ползунок от ×0.05 до ×5** и быстрые кнопки. «Закрепить скорость»: выбранная скорость не сбрасывается после Esc, паузы, карты, загрузки и смены сейва — пауза игры по-прежнему главнее, а потом скорость возвращается сама; настройка запоминается между запусками. «Плавная физика замедления» уменьшает шаг физики вместе со скоростью: слаймы, в том числе из Classic Slimes, двигаются без рывков.
-- **Спавн → «Выбрать место…».** Гордо и любые объекты каталога можно поставить курсором: кольцо показывает место (зелёное — можно), стрелка — поворот (колесо или Q/E, Shift — точнее, R — лицом к вам), ЛКМ — поставить, ПКМ — назад. Слаймов можно ставить несколько раз подряд.
-
-## Новое в 0.8.6
-
-- **Ресурсы → нью-баксы.** Кроме «Добавить» и «Максимум» появились «Установить» — баланс становится ровно введённой суммой (можно 0) — и «Обнулить». Перед уменьшением баланса мод спрашивает подтверждение: списанные деньги попадут в сейв. В кооперативе это считается читом и подчиняется правилам хоста.
-
-## Новое в 0.8.5
-
-Сводка изменений 0.8.2–0.8.5.
-
-- **Трекинг мира** (Открытия → «Трекинг мира»). Значки и пометки «собрано / осталось / не посещено», награды капсул, стрелка-направление и расстояние до цели, полоса прогресса с процентами.
-- **Гаджеты** (Спавн → «Гаджеты»). Список и карточка выбранного гаджета, пояснения к режимам, кнопки режима строителя в один ряд.
-- **Вкладка «Настройки».** Клавиша меню и необязательные горячие клавиши для шести действий: полёт / NoClip, бессмертие, бесконечная энергия, инфо-HUD, счётчик FPS, чистый кадр. Esc — отмена, занятые клавиши и клавиша меню не принимаются, выбор хранится в `UserData\CreatorToolkit\`. Здесь же плавный зум, счётчик FPS и «Оптимизация / Potato Mode».
-- **Ресурсы.** Значок монеты и компактная строка валют: сумму можно ввести с клавиатуры (с разделителями разрядов) или выставить игровой максимум.
-- **Карта.** Отдельные метки удаляются прямо с плитки («Мои ×»), «Слои карты» на карте игры подсвечиваются при наведении. Телепорт на острова стал надёжнее (безопасный перелёт), NoClip не уводит под море.
-- **Кооп Lycoreia 2.x.** Мод учитывает правила кооператива: если хост запретил читы, у гостя они выключены.
-- **Интерфейс.** Меню открывается мягким «подскоком», окна подтверждения плавно появляются, кнопки плавно меняют цвет при наведении и нажатии, переключатели скользят, выбор в сегментах и открытая вкладка плавно переезжают, полоса прогресса заполняется плавно. Новый пиксельный логотип. Карусели листаются перетаскиванием.
-- **Исправления.** Пропала светлая полоска на правом краю кнопок-«таблеток». После выхода из NoClip или полёта снова работает обычный прыжок. Один счётчик FPS вместо двух. Кнопка «?» везде работает одинаково. Длинные подписи и список гаджетов больше не пересчитываются на каждое событие интерфейса — меню меньше нагружает кадр.
-
-## Новое в 0.8.1
-
-Новый интерфейс вкладки «Карта» и карты игры.
-
-- **Атлас.** Поиск с кнопкой «Ближайшая», семь групп слоёв (сокровища, пути, ресурсы, еда, слаймы, метки игры, мои метки) с прогрессом по сейву («0/19»). Капсулы с сокровищами подписаны содержимым. В карточке точки: «Внутри», цель компаса, телепорт и своя отметка «открыто».
-- **Карта игры.** Панель «Атлас» в правом верхнем углу: «Слои карты» с пресетами («Минимум», «Сокровища», «Ресурсы», «Всё»), поиск, ближайшая точка, мои метки. Значки под неисследованным туманом по умолчанию скрыты (переключатель «Скрывать в тумане» в «Слоях карты»).
-- **Мои метки.** Сортировка по расстоянию, имени или дате, 6 цветов, маяк в мире, цель компаса.
-- **Радар.** Любые объекты по категориям (слаймы, ларго, гордо, еда, плорты, ресурсы), кнопка «любимая еда» для слаймов в загонах, свой цвет у каждой цели, радиус 25–250 м, подсветка в мире, показ на компасе и мини-карте.
-- **Навигация.** Живой предпросмотр мини-карты: режим, размер S/M/L, масштаб, непрозрачность, угол экрана, «по взгляду» или «север сверху».
-- **Мини-карта.** Тёмный диск с тонким ободком, значок «N», цель компаса на краю с расстоянием, цели радара. Значок Беатрикс пересчитывается под точный размер на экране и стал чётче.
-- **Клавиша меню.** Удобство → «Клавиша меню»: нажмите кнопку и затем нужную клавишу (Esc — отмена, «Вернуть Insert» — сброс). Подходят F2–F12, Insert, Home, End, Page Up/Down, Delete, буквы, цифры и Num-клавиши. Выбор хранится в `UserData\CreatorToolkit\hotkey.cfg`.
-
-## Новое в 0.8.0
-
-- Интерфейс мода на языке игры (русский / английский, около 1900 строк).
-- Длинные пояснения показываются только по кнопке «?».
-- Вкладка «Игрок»: переключатели бесконечного режима строителя и свободной установки.
-- Вкладка «Удобство»: счётчик FPS рядом с инфо-HUD, помощник фермы перенесён сюда из «Карты».
-- Совместимость со Starlight (ex-SR2E): меню не открываются одновременно, кнопка «Creator Toolkit» в меню паузы.
-
-### Идеи из других модов
-
-Часть функций 0.7.0 повторяет идеи модов с Nexus Mods (код написан с нуля): Smooth Zoom, FPS Counter, Background FPS Limiter и Name Your Save — **Damiano**; Fov Changer — **huoyan1231**; Interpolate All Rigid Bodies — **Brynzananas**; Placement Improvements — **Lunarsnail0**. Если у вас стоит один из этих модов, не включайте ту же функцию в CT одновременно с ним.
-
-## Возможности
-
-| Вкладка | Что умеет |
+| Tab | What it does |
 |---|---|
-| Игрок | Бессмертие, бесконечная энергия, скорость ×1–10, высокий прыжок ×1–5, полёт / NoClip, бесконечный режим строителя, свободная установка. |
-| Спавн | Каталог в порядке Слаймопедии с поиском: слаймы, еда, плорты, материалы. От 1 до 25 объектов перед камерой или курсором в выбранное место с поворотом («Выбрать место…», гордо тоже), удаление созданного модом. Гаджеты: список с карточкой, бесконечный режим строителя, свободная установка. |
-| Ресурсы | Деньги и другие валюты (добавить сумму, установить ровно, обнулить, игровой максимум), заполнение выбранного слота вакпака. |
-| Мир | Перемотка и заморозка времени, погода текущей зоны (включая слаймовый дождь), запрет Варров, заморозка слаймов. |
-| Открытия | Слаймопедия, улучшения, двери, зоны и карта, стили слаймов и гаджеты. «Трекинг мира»: что собрано и что осталось, награды капсул, направление и расстояние. |
-| Съёмка | Скрыть HUD и вакпак, до пяти точек камеры с телепортом. «Камера и запись…»: FOV 30–120°, плавный зум, плавная физика, счётчик FPS, лимит FPS в фоне. «Скорость времени…»: ×0.05–×5, закрепление (не сбрасывается после Esc и паузы), плавная физика замедления. |
-| Карта | Атлас, Мои метки, Радар, Навигация (подробнее ниже). |
-| Удобство | Профили «Исследователь» и «Кадр», SOS, ближайшая неоткрытая капсула, автопополнение, инфо-HUD и счётчик FPS, ферма, имя сейва. |
-| Настройки | Клавиша меню и горячие клавиши для шести действий, плавный зум, счётчик FPS, «Оптимизация / Potato Mode», консоль. |
+| **Player** | **God mode**, **Infinite energy**, movement speed (`×1–10`), jump height (`×1–5`), **Flight** / NoClip, **Infinite builder mode**, **Free placement**. |
+| **Spawn** | Searchable Slimepedia-ordered catalog (**Slimes** with **All** / **Radiant** filter, **Food**, **Plorts**, **Resources**, **Gordo**, and **Gadgets**), `1–25` spawn count, **Spawn in front of the camera** / **Pick a spot…**, per-tile and bulk cleanup, plus gadget management with infinite/free builder toggles. |
+| **Resources** | Manage Newbucks and other currencies (**Add**, **Set**, **Clear**, **Maximum**) and fill the currently selected vacpack slot. |
+| **World** | Time skip & freeze time, trigger current-zone weather (including slime rain), disable Tarr spawns, and freeze slimes in place. |
+| **Unlocks** | Unlock Slimepedia entries, upgrades, doors, map zones, slime styles, and gadget blueprints. Includes **World tracking** (collected / remaining / unvisited counts, treasure pod contents, compass direction, and distance). |
+| **Capture** | **Clean shot** (hide HUD & vacpack), up to 5 saved camera teleport slots, **Camera & capture…** (FOV `30–120°`, **Smooth zoom**, **Smooth physics**, **FPS counter**, background FPS limit), and **Time speed…** (`×0.05–×5`, **Pin the speed** across Esc/pause/loads, smooth slow-motion physics). |
+| **Map** | **Atlas**, **My markers**, **Radar**, and **Navigation** (details below). |
+| **Utility** | One-click **Explorer** and **Shot** presets, **SOS** unstuck teleport, nearest unopened pod finder, ammo auto-refill, **Info HUD**, ranch/farm auto-feeder helper, and custom save names. |
+| **Settings** | Rebindable **Menu key**, optional **Hotkeys** for 6 quick actions (**Flight / NoClip**, **God mode**, **Infinite energy**, **Info HUD**, **FPS counter**, **Clean shot**), **Smooth zoom**, **FPS counter**, **Optimization / Potato Mode**, and **Console / Info** (diagnostic status, active hooks, font/icon info — informational panel, not a CLI prompt). |
 
-### Карта
+### Map Tools (`Map` Tab & Native Map Overlay)
 
-- **Атлас.** Капсулы (открытые скрываются по данным сейва), гордо, телепорты, ноды карты, исследовательские и фантомные дроны с маршрутами, ресурсы, двери и механизмы, горшочки и спавнеры. Группы слоёв с прогрессом, поиск, группировка близких точек и телепорт с проверкой посадки. Те же слои видны на карте игры, мини-карте и компасе.
-- **Мои метки.** До 32 меток на сейв: имя, 6 цветов, маяк и компас. Метки хранятся отдельно от `.sav`.
-- **Радар.** Выбранные объекты любых категорий в радиусе 25–250 м: список рядом, подсветка в мире, компас и мини-карта.
-- **Навигация.** Мини-карта: режим (выкл. / рельеф / радар), размер S/M/L, масштаб 30–300 м, угол экрана, непрозрачность, «по взгляду» или «север сверху», живой предпросмотр. Компас: дальность 50–1000 м, от 1 до 16 меток, приоритет фантомных дронов. Настройки сохраняются в `UserData\CreatorToolkit\navigation.cfg`.
+- **Atlas:** Searchable list with **Nearest** button and 7 layer groups (**Treasures / Pods** with listed rewards, Gordos, teleporters, map nodes, research & phantom drones with routes, resources, doors/gadgets, pots, spawners) showing per-save completion progress. The same atlas panel and **Map layers** presets appear directly on the native in-game map (with an option to hide icons under unexplored fog).
+- **My markers:** Up to 32 custom waypoints per save, 6 colors, sort by distance/name/date, world beacon, and compass target — saved separately from `.sav` files.
+- **Radar:** Track any category (slimes, largos, gordos, food, plorts, resources) within `25–250 m`, including a favorite-food button for corralled slimes, with world highlights, compass pips, and minimap markers.
+- **Navigation:** Live minimap preview and settings (mode `Off / Terrain / Radar`, size `S/M/L`, range `30–300 m`, screen corner, opacity, heading-up or north-up) plus compass controls (`50–1000 m`, `1–16` markers, phantom drone priority). Saved in `UserData\CreatorToolkit\navigation.cfg`.
 
-Мини-карта, компас и автоматизация фермы по умолчанию выключены.
+*Minimap, compass, and farm automation are off by default.*
 
-## Сборка из исходников
+---
 
-Нужны Windows, PowerShell 5.1 и .NET 8 SDK (мод собирается под `net6.0`). Скрипты ищут `dotnet` в `_work\dotnet` внутри репозитория, а сборки игры — в `refs\`. Обе папки не входят в репозиторий.
+## Standalone Sibling Mods (`SlimeMap` & `SlimeFPS`)
+
+If you only want the minimap/atlas or graphics optimization without the full creator menu, both modules are also released as standalone mods built from this repository:
+
+- **[SlimeMap](https://github.com/slitvin12/SlimeMap)** ([Download](https://github.com/slitvin12/SlimeMap/releases/latest)) — Standalone minimap, compass, radar, custom waypoints, and atlas overlay (**F7**, config in `UserData\SlimeMap\navigation.cfg`).
+- **[SlimeFPS](https://github.com/slitvin12/SlimeFPS)** ([Download](https://github.com/slitvin12/SlimeFPS/releases/latest)) — Graphics optimization presets, LOD/decor/shadow controls, runtime FPS limiter, smooth physics, and FPS counter (**F8**, config in `UserData\SlimeFPS`).
+
+When `SlimeMap.dll` or `SlimeFPS.dll` is present in `Mods\`, Creator Toolkit detects it automatically and hands over navigation / FPS optimization without duplicate HUD overlays or double counters.
+
+---
+
+## Mod Compatibility
+
+- **Lycoreia 2.x (and Ranching Together / SR2MP):** Optional reflection-based integration (friends without Creator Toolkit can play normally). Displays teammates on the minimap with view arrows and **StreamerMode** support, automatically yields menu/zoom/hotkeys to Lycoreia overlays (`ChatHud`, `InputGate`, `LycoreiaMenu`, `WhatsNewPopup`, `CoopWheel`), enforces host `Allow Cheats` rules, keeps background FPS >= 30 during co-op sessions, and stores guest waypoints per host key.
+- **Starlight (ex-SR2E):** Mutually exclusive menus, adds a `Creator Toolkit` button in the pause menu, and yields Flight when Starlight NoClip is active.
+- **[Classic Slimes](https://github.com/slitvin12/ClassicSlimes) (`1.3.5+` / `1.3.9+`):** Classic Gordos (`Rad`, `Quantum`, `Mosaic`) appear with their icons on the atlas, minimap, and tracker; Largo compass markers fall back to parent icons; particle optimization preserves classic effects; and in **Creator Toolkit 0.9.2+**, all modded non-largo Radiant slimes (Mosaic, Rad, Glitch, Quicksilver) are dynamically available in **Spawn → Slimes → Radiant**.
+- **[SlimeMap](https://github.com/slitvin12/SlimeMap) (`1.1.1+`) & [SlimeFPS](https://github.com/slitvin12/SlimeFPS) (`1.1.1+`):** Automatic clean handoff when installed together.
+
+---
+
+## Release Highlights
+
+### `0.9.2`
+- **Dynamic modded Radiant slime catalog:** **Spawn → Slimes → Radiant** and Agent Director (`/spawn/list?filter=radiant`, `/spawn`) dynamically discover registered non-largo Radiant `SlimeDefinition` types with `RadiantBase` (including **Mosaic**, **Rad**, **Glitch**, and **Quicksilver** from Classic Slimes `1.3.9+`), using `RadiantBase._icon` artwork and distinct `SlimeDefinition.<Name>|radiant` catalog keys.
+
+### `0.9.1`
+- **Lycoreia `2.0 / 2.1.0-rc4` co-op polish:** Minimap teammate markers with StreamerMode, full UI overlay/input yielding, host `Allow Cheats` gating, per-host guest waypoints, 30 FPS co-op background floor, `VacuumExpelHook` safety, and Classic Slimes `1.3.5+` integration.
+
+### `0.9.0`
+- **9-language localization & CJK typography:** Complete built-in translations (`EN`, `RU`, `FR`, `DE`, `ES`, `ZH`, `JA`, `KO`, `PT` — 2,179 lines each) with live language switching and dynamic CJK font loading.
+
+### `0.8.5 – 0.8.8`
+- Seamless single-surface UI widgets & IL2CPP nine-slice scaling fixes, **Pick a spot…** cursor placement with rotation, **Time speed…** (`×0.05–×5`) with **Pin the speed** & smooth physics, **World tracking**, Newbucks **Set / Clear**, customizable **Menu key** & action **Hotkeys**, **My markers**, **Radar**, **Atlas**, and live **Navigation** minimap preview.
+
+### Credits / Inspirations
+Several quality-of-life ideas from `0.7.0` were implemented from scratch following mods by **Damiano** (Smooth Zoom, FPS Counter, Background FPS Limiter, Name Your Save), **huoyan1231** (Fov Changer), **Brynzananas** (Interpolate All Rigid Bodies), and **Lunarsnail0** (Placement Improvements). If you use any of those standalone mods, avoid enabling the duplicate toggle inside Creator Toolkit.
+
+---
+
+## Building from Source
+
+Requires Windows, PowerShell 5.1, and .NET 8 SDK (targeting `net6.0`). Build scripts expect `dotnet` in `_work\dotnet` and game assemblies in `refs\` (both gitignored).
 
 ```powershell
-# 1. Локальный .NET 8 SDK
+# 1. Local .NET 8 SDK
 New-Item -ItemType Directory _work -Force | Out-Null
 Invoke-WebRequest https://dot.net/v1/dotnet-install.ps1 -OutFile _work\dotnet-install.ps1
 powershell -ExecutionPolicy Bypass -File _work\dotnet-install.ps1 -Channel 8.0 -InstallDir _work\dotnet
 
-# 2. Сборки игры и MelonLoader из своей установки (после первого запуска с MelonLoader)
+# 2. Copy game & MelonLoader assemblies from your installation (after launching MelonLoader once)
 $game = 'D:\SteamLibrary\steamapps\common\Slime Rancher 2'
 New-Item -ItemType Directory refs -Force | Out-Null
 Copy-Item "$game\MelonLoader\Il2CppAssemblies\*.dll" refs\
 Copy-Item "$game\MelonLoader\net6\MelonLoader.dll", "$game\MelonLoader\net6\0Harmony.dll", "$game\MelonLoader\net6\Il2CppInterop.Common.dll", "$game\MelonLoader\net6\Il2CppInterop.HarmonySupport.dll", "$game\MelonLoader\net6\Il2CppInterop.Runtime.dll" refs\
 
-# 3. Сборка -> _work\creator-stage\CreatorToolkit.dll
+# 3. Build -> _work\creator-stage\CreatorToolkit.dll
 powershell -ExecutionPolicy Bypass -File src\creator\build.ps1
 
-# 4. Офлайн-проверки (игра не запускается)
+# 4. Run offline policy & regression tests (no game launch required)
 powershell -ExecutionPolicy Bypass -File src\creator\test.ps1
 
-# 5. Установка проверенной DLL (игра должна быть закрыта)
+# 5. Install verified DLL (close the game first)
 $env:SR2_GAME_DIR = $game
 powershell -ExecutionPolicy Bypass -File src\creator\install.ps1
 ```
 
-`install.ps1` ставит DLL, только если `test.ps1` прошёл именно для неё. Сценарии проверки в запущенной игре описаны в [`tools/ct-test/TESTING.md`](tools/ct-test/TESTING.md).
+`install.ps1` only copies the DLL if `test.ps1` passes for that exact build. Live in-game verification steps are documented in [`tools/ct-test/TESTING.md`](tools/ct-test/TESTING.md).
 
-## Структура
+## Repository Structure
 
-- `src/creator/` — код мода (C#, IL2CPP через Il2CppInterop) и встроенные данные карты.
-- `src/slimemap/`, `src/slimefps/` — самостоятельные сборки SlimeMap и SlimeFPS из того же кода (отдельные репозитории: [SlimeMap](https://github.com/slitvin12/SlimeMap), [SlimeFPS](https://github.com/slitvin12/SlimeFPS)).
-- `src/creator/tests/` — офлайн-проверки политик и данных.
-- `tools/ct-test/` — сценарии проверки в игре.
+- `src/creator/` — main mod source (C# / IL2CPP via Il2CppInterop), localization tables, and embedded atlas/database assets.
+- `src/slimemap/`, `src/slimefps/` — standalone SlimeMap and SlimeFPS builds sharing the same source modules ([SlimeMap](https://github.com/slitvin12/SlimeMap), [SlimeFPS](https://github.com/slitvin12/SlimeFPS)).
+- `src/creator/tests/` — offline policy & static-wiring regression suite.
+- `src/agentdirector/` & `tools/ct-test/` — optional automation bridge and live test harness.
 
-## Лицензия
+## License
 
-Код мода распространяется по лицензии [MIT](LICENSE). Сторонние материалы под неё не подпадают (подробно — [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)):
+Mod source code is licensed under the [MIT](LICENSE) license. Third-party assets and data remain under their respective terms (see [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)):
 
-- Slime Rancher 2, её названия и графика принадлежат Monomi Park. Сборок и файлов игры в репозитории нет, их берут из своей установки.
-- `src/creator/FandomAtlas.rgba` — значки интерактивной карты вики [ru.slimerancher.fandom.com](https://ru.slimerancher.fandom.com) (это графика игры).
-- `src/creator/FandomMarkers.tsv` — точки и подсказки, частично основанные на материалах Fandom-вики ([CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)).
+- Slime Rancher 2, its names, and graphics belong to Monomi Park. No game binaries or proprietary game assets are distributed in this repository.
+- `src/creator/FandomAtlas.rgba` — wiki map icons from [ru.slimerancher.fandom.com](https://ru.slimerancher.fandom.com) (original game graphics).
+- `src/creator/FandomMarkers.tsv` — marker coordinates and notes partially based on Fandom wiki data ([CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)).
