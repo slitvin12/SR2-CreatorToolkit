@@ -2,7 +2,7 @@
 
 An in-game creator, exploration, and quality-of-life menu mod for **Slime Rancher 2** built on **MelonLoader**. Includes a live world atlas (treasure pods, gordos, drones, resources), minimap and compass, custom waypoints, an object/favorite-food radar, farm helpers, a full spawner (including Radiant slimes and Gordos), time & weather controls, unlock toggles, photo mode with FOV/smooth zoom, an FPS counter & background limiter, smooth slow-motion physics, and optional action hotkeys.
 
-**Author:** [slitvin12](https://github.com/slitvin12) · **Version:** 0.9.2 · Unofficial fan mod, not affiliated with Monomi Park.
+**Author:** [slitvin12](https://github.com/slitvin12) · **Version:** 0.9.3 · Unofficial fan mod, not affiliated with Monomi Park.
 
 > **No text commands to memorize:** Creator Toolkit is controlled entirely through a visual point-and-click in-game menu opened with **Insert** (rebindable under **Settings → Menu key**). The interface automatically follows your in-game language across all **9 supported languages** (`EN`, `RU`, `FR`, `DE`, `ES`, `ZH`, `JA`, `KO`, `PT`) with CJK font support.
 
@@ -102,7 +102,7 @@ When `SlimeMap.dll` or `SlimeFPS.dll` is present in `Mods\`, Creator Toolkit det
 
 ## Mod Compatibility
 
-- **Lycoreia 2.x (and Ranching Together / SR2MP):** Optional reflection-based integration (friends without Creator Toolkit can play normally). Displays teammates on the minimap with view arrows and **StreamerMode** support, automatically yields menu/zoom/hotkeys to Lycoreia overlays (`ChatHud`, `InputGate`, `LycoreiaMenu`, `WhatsNewPopup`, `CoopWheel`), enforces host `Allow Cheats` rules, keeps background FPS >= 30 during co-op sessions, and stores guest waypoints per host key.
+- **Lycoreia 2.x (and Ranching Together / SR2MP):** Optional integration via the official public Lycoreia SDK (`LycoreiaApi` v1 / `LycoreiaClient.cs`, no `Lycoreia.dll` dependency, stable across Lycoreia updates), with reflection fallback for older pre-SDK Lycoreia 2.x builds and Ranching Together (`SR2MP`). Friends without Creator Toolkit can play normally. Displays teammates on the minimap with view arrows and **StreamerMode** support, automatically yields menu/zoom/hotkeys to Lycoreia overlays, enforces host `Allow Cheats` rules, keeps background FPS >= 30 during co-op sessions, publishes spawned actors via `PublishSpawn`, records cheat actions via `BeginCheat`, and stores guest waypoints per host session key.
 - **Starlight (ex-SR2E):** Mutually exclusive menus, adds a `Creator Toolkit` button in the pause menu, and yields Flight when Starlight NoClip is active.
 - **[Classic Slimes](https://github.com/slitvin12/ClassicSlimes) (`1.3.5+` / `1.3.9+`):** Classic Gordos (`Rad`, `Quantum`, `Mosaic`) appear with their icons on the atlas, minimap, and tracker; Largo compass markers fall back to parent icons; particle optimization preserves classic effects; and in **Creator Toolkit 0.9.2+**, all modded non-largo Radiant slimes (Mosaic, Rad, Glitch, Quicksilver) are dynamically available in **Spawn → Slimes → Radiant**.
 - **[SlimeMap](https://github.com/slitvin12/SlimeMap) (`1.1.1+`) & [SlimeFPS](https://github.com/slitvin12/SlimeFPS) (`1.1.1+`):** Automatic clean handoff when installed together.
@@ -110,6 +110,9 @@ When `SlimeMap.dll` or `SlimeFPS.dll` is present in `Mods\`, Creator Toolkit det
 ---
 
 ## Release Highlights
+
+### `0.9.3`
+- **Official Lycoreia SDK v1 integration:** Integrated `LycoreiaClient.cs` (`LycoreiaSdk`) with zero compile-time dependency on `Lycoreia.dll`, binding the stable public `LycoreiaApi` v1 contract (`Role`, `CheatsAllowed` / `CheatsDeniedReason`, `TypingOpen`, `OverlayOpen`, `Players` with StreamerMode, `SessionKey`, `PublishSpawn`, `BeginCheat`, `Register`, and live `RoleChanged` / `CheatsAllowedChanged` events) while keeping reflection fallback for older pre-SDK Lycoreia builds and `SR2MP`.
 
 ### `0.9.2`
 - **Dynamic modded Radiant slime catalog:** **Spawn → Slimes → Radiant** and Agent Director (`/spawn/list?filter=radiant`, `/spawn`) dynamically discover registered non-largo Radiant `SlimeDefinition` types with `RadiantBase` (including **Mosaic**, **Rad**, **Glitch**, and **Quicksilver** from Classic Slimes `1.3.9+`), using `RadiantBase._icon` artwork and distinct `SlimeDefinition.<Name>|radiant` catalog keys.

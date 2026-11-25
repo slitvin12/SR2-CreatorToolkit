@@ -35,12 +35,13 @@ internal sealed class CustomWaypointTools
     internal string SaveKey=>_store.Save;
     private string _loadedSaveKey="";
     internal CustomWaypointTools(ToolkitMod app)=>_app=app;
+    private static bool IsCoopSaveKey(string key)=>key.StartsWith("coop_",StringComparison.Ordinal)||key.StartsWith("lyc_",StringComparison.Ordinal);
     internal void EnsureLoaded()
     {
         if(!_app.Ready)return;
         string coopKey=_app.Coop?.Role==CoopRole.Client?(_app.Coop.CoopSaveKey??""):"";
         bool useCoop=coopKey.Length>0&&WaypointStore.SaveKey(coopKey);
-        if(_session!=IntPtr.Zero&&_session==_app.Session&&(useCoop?_loadedSaveKey==coopKey:!_loadedSaveKey.StartsWith("coop_",StringComparison.Ordinal)))return;
+        if(_session!=IntPtr.Zero&&_session==_app.Session&&(useCoop?_loadedSaveKey==coopKey:!IsCoopSaveKey(_loadedSaveKey)))return;
         string saveName;
         if(useCoop)saveName=coopKey;
         else

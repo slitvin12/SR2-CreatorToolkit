@@ -62,7 +62,7 @@ internal static class CoopRegression
         int gate=queue<0?-1:mod.IndexOf("stringdenied=Coop?.Deny(label);if(denied!=null){Notify(denied);return;}",queue,StringComparison.Ordinal);
         int enqueue=queue<0?-1:mod.IndexOf("_jobs.Enqueue(",queue,StringComparison.Ordinal);
         Check(gate>queue&&gate<enqueue,"Queue refuses denied actions before enqueueing");
-        Check(mod.Contains("stringlate=Coop?.Deny(label);if(late!=null)thrownewInvalidOperationException(late);action();"),"queued action rechecks the rule right before it runs");
+        Check(mod.Contains("stringlate=null;usingvarcheatScope=Coop?.BeginAction(label,outlate);if(late!=null)thrownewInvalidOperationException(late);action();"),"queued action rechecks the rule right before it runs");
         Check(mod.Contains("stringdenied=Coop?.Deny(title);if(denied!=null){Notify(denied);return;}Pending=newConfirmation"),"confirmation is refused before it is shown");
         Check(mod.Contains("BindSession();Coop.Poll();"),"session role is polled every frame before the Ready gate");
         Check(mod.Contains("_readyTicks=new(string,Action)[]{(\"cooprules\",Coop.Enforce),"),"co-op rules are enforced first among ready ticks");
@@ -76,7 +76,17 @@ internal static class CoopRegression
         Check(bridge.Contains("\"Lycoreia.Owned.Components.UI.ChatHud\"")&&bridge.Contains("\"Lycoreia.Owned.Components.UI.InputGate\"")&&
             bridge.Contains("\"Lycoreia.Owned.Components.UI.LycoreiaMenu\"")&&bridge.Contains("\"Lycoreia.Owned.Components.UI.CoopWheel\"")&&
             bridge.Contains("\"Lycoreia.Game.Hooks.VacuumExpelHook\""),"bridge binds Lycoreia 2.x / 2.1.0-rc4 UI gates and guest spawn protection");
-        Check(!bridgeRaw.Contains("using SR2MP")&&!bridgeRaw.Contains("typeof(SR2MP")&&!bridgeRaw.Contains("using Starlight"),"bridge has no compile-time SR2MP/Starlight dependency");
+        Check(File.Exists(Path.Combine(dir,"LycoreiaClient.cs")),"Lycoreia SDK client source is present");
+        string[] sdkMembers={"LycoreiaClient.Available","LycoreiaClient.Register","LycoreiaClient.Role","LycoreiaClient.CheatsAllowed","LycoreiaClient.SessionKey",
+            "LycoreiaClient.TypingOpen","LycoreiaClient.OverlayOpen","LycoreiaClient.Players","LycoreiaClient.PublishSpawn","LycoreiaClient.BeginCheat",
+            "LycoreiaClient.RoleChanged","LycoreiaClient.CheatsAllowedChanged"};
+        Check(sdkMembers.All(m=>bridgeRaw.Contains(m,StringComparison.Ordinal)),"bridge uses official Lycoreia SDK v1 members");
+        int apiCheck=bridge.IndexOf("\"Lycoreia.Api.LycoreiaApi\"",StringComparison.Ordinal),legacyCall=bridge.IndexOf("ProbeLycoreiaLegacy(",StringComparison.Ordinal);
+        Check(apiCheck>=0&&legacyCall>apiCheck,"bridge checks Lycoreia.Api.LycoreiaApi before falling back to legacy internal reflection");
+        Check(!bridgeRaw.Contains("using SR2MP")&&!bridgeRaw.Contains("typeof(SR2MP")&&!bridgeRaw.Contains("using Starlight")&&
+            !bridgeRaw.Contains("using Lycoreia;")&&!bridgeRaw.Contains("typeof(Lycoreia"),"bridge has no compile-time Lycoreia/SR2MP/Starlight dependency");
+        string waypoints=File.ReadAllText(Path.Combine(dir,"CustomWaypointTools.cs"));
+        Check(waypoints.Contains("\"coop_\"")&&waypoints.Contains("\"lyc_\""),"custom waypoints recognise both legacy coop_ and SDK lyc_ session keys");
         Check(bridge.Contains("_nextPoll=now+0.5f;")&&bridge.Contains("_nextProbe=now+10f;"),"session poll is throttled (0.5 s, probe every 10 s)");
         Check(bridge.Contains("if(Role==CoopRole.Offline)returnnull;")&&bridge.Contains("if(Role==CoopRole.Offline)return;"),"offline bridge is inert");
         Check(ui.Contains("coop?_app.Coop.Footer:_app.Hotkey?.Footer??\"Insert  ·  Esc\""),"menu footer shows the co-op rule while in a session");
@@ -85,9 +95,9 @@ internal static class CoopRegression
         using var pe=new PEReader(File.OpenRead(dll));
         var md=pe.GetMetadataReader();
         var refs=md.AssemblyReferences.Select(h=>md.GetString(md.GetAssemblyReference(h).Name)).ToArray();
-        Check(!refs.Any(n=>n.Equals("SR2MP",StringComparison.OrdinalIgnoreCase)||n.Equals("Starlight",StringComparison.OrdinalIgnoreCase)),"release DLL does not reference SR2MP or Starlight");
+        Check(!refs.Any(n=>n.Equals("Lycoreia",StringComparison.OrdinalIgnoreCase)||n.Equals("SR2MP",StringComparison.OrdinalIgnoreCase)||n.Equals("Starlight",StringComparison.OrdinalIgnoreCase)),"release DLL does not reference Lycoreia, SR2MP or Starlight");
         var types=md.TypeDefinitions.Select(h=>md.GetString(md.GetTypeDefinition(h).Name)).ToHashSet(StringComparer.Ordinal);
-        Check(types.Contains("MultiplayerBridge")&&types.Contains("MultiplayerPolicy"),"co-op modules packaged");
+        Check(types.Contains("MultiplayerBridge")&&types.Contains("MultiplayerPolicy")&&types.Contains("LycoreiaClient"),"co-op and Lycoreia SDK modules packaged");
         bool metadata=false;
         foreach(var h in md.GetAssemblyDefinition().GetCustomAttributes())
         {

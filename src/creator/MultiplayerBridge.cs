@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using LycoreiaSdk;
 using UnityEngine;
 namespace CreatorToolkit;
 internal readonly struct CoopPeer
@@ -13,17 +14,11 @@ internal readonly struct CoopPeer
     internal CoopPeer(string id, string name, GameObject root, Transform transform, Color color)
     { Id = id; Name = name; Root = root; Transform = transform; Color = color; }
 }
-// Live link to Ranching Together (SR2MP) through reflection only: Creator Toolkit has no
-// reference to SR2MP/Starlight, works the same without them, and friends do not need CT.
-//  • role: SR2MP.Main.Server.IsRunning (host) / SR2MP.Main.Client.IsConnected (guest);
-//  • server rules: SR2MP.GlobalVariables.CheatsEnabled (the host's "Allow Cheats");
-//  • spawn sync: SR2MP.GlobalVariables.ActorManager.RegisterSpawnOverNetwork(GameObject) — CT creates
-//    actors through GameModel.InstantiateActorModel, which SR2MP does not intercept on its own.
-// Lycoreia 2.x (the renamed mod, assembly "Lycoreia"): Lycoreia.Compat.ModFacade.Server.IsRunning /
-// Client.IsConnected, the live Lycoreia.Mod.Session cheat rule (host: AllowCheats, guest:
-// HostAllowsCheats), its own uGUI overlays (ChatHud, InputGate, LycoreiaMenu, CoopWheel, WhatsNewPopup)
-// and its own InstantiateActor spawn-publishing postfix (plus VacuumExpelHook for CT guest spawns).
-// Polled twice a second through cached delegates (no per-frame reflection).
+// Live link to Ranching Together (SR2MP) and Lycoreia without any compile-time reference:
+//  • Lycoreia 2.x (SDK v1): bound via LycoreiaSdk.LycoreiaClient (one reflection lookup for
+//    Lycoreia.Api.LycoreiaApi, stable across Lycoreia updates).
+//  • Legacy pre-SDK Lycoreia 2.x & Ranching Together (SR2MP): reflection fallback.
+// Polled twice a second through cached delegates / SDK events (no per-frame reflection).
 internal sealed class MultiplayerBridge
 {
     private readonly ToolkitMod _app;
@@ -34,21 +29,25 @@ internal sealed class MultiplayerBridge
     private IDictionary _remoteAvatars;
     private FieldInfo _avatarId, _avatarName, _avatarRoot, _avatarTransform, _avatarColor;
     private readonly List<CoopPeer> _peers = new();
-    private float _nextProbe, _nextPoll;
-    private bool _bound, _announceFailed, _lycoreiaWarned, _lycoreiaCheatsFallbackWarned;
+    private float _nextProbe, _nextPoll, _nextPlayerCheatLog;
+    private bool _bound, _useLycoreiaSdk, _sdkEventsSubscribed, _sdkDirty, _announceFailed, _lycoreiaWarned, _lycoreiaCheatsFallbackWarned;
 
     internal CoopRole Role { get; private set; } = CoopRole.Offline;
     internal bool ServerCheats { get; private set; }
     internal bool Installed { get; private set; }
     internal bool InSession => Role != CoopRole.Offline;
     internal string Footer { get; private set; } = "";
-    internal bool CanSyncSpawns => _announce != null;
-    internal bool ChatOpen { get { if (!_bound || _chatOpen == null) return false; try { return _chatOpen(); } catch { return false; } } }
-    internal bool UiOpen { get { if (!_bound || _uiOpen == null) return false; try { return _uiOpen(); } catch { return false; } } }
+    internal bool CanSyncSpawns => _useLycoreiaSdk || _announce != null;
+    internal bool ChatOpen { get { if (_useLycoreiaSdk) return LycoreiaClient.TypingOpen; if (!_bound || _chatOpen == null) return false; try { return _chatOpen(); } catch { return false; } } }
+    internal bool UiOpen { get { if (_useLycoreiaSdk) return LycoreiaClient.OverlayOpen; if (!_bound || _uiOpen == null) return false; try { return _uiOpen(); } catch { return false; } } }
     internal string CoopSaveKey { get; private set; } = "";
     internal IReadOnlyList<CoopPeer> Peers => _peers;
 
-    internal MultiplayerBridge(ToolkitMod app) => _app = app;
+    internal MultiplayerBridge(ToolkitMod app)
+    {
+        _app = app;
+        try { LycoreiaClient.Register(_app.Info?.Name ?? Assembly.GetExecutingAssembly().GetName().Name, ToolkitMod.Version); } catch { }
+    }
 
     /// Every frame, before the Ready gate: refresh the session role (cheap until the poll time).
     internal void Poll()
@@ -56,15 +55,29 @@ internal sealed class MultiplayerBridge
         float now = Time.unscaledTime;
         if (!_bound && now >= _nextProbe) { _nextProbe = now + 10f; try { Probe(); } catch (Exception e) { _bound = false; _app.Fail("coop probe", e); } }
         if (_bound && _app.MenuOpen && UiOpen) _app.CloseMenu();
-        if (!_bound || now < _nextPoll) return;
+        if (!_bound || (!_sdkDirty && now < _nextPoll)) return;
+        _sdkDirty = false;
         _nextPoll = now + 0.5f;
         CoopRole role; bool cheats;
-        try
+        if (_useLycoreiaSdk)
         {
-            role = _isHost() ? CoopRole.Host : _isClient() ? CoopRole.Client : CoopRole.Offline;
-            cheats = role != CoopRole.Offline && _cheats();
+            role = LycoreiaClient.Role switch
+            {
+                LycoreiaRole.Host => CoopRole.Host,
+                LycoreiaRole.Guest => CoopRole.Client,
+                _ => CoopRole.Offline,
+            };
+            cheats = role != CoopRole.Offline && LycoreiaClient.CheatsAllowed;
         }
-        catch (Exception e) { _bound = false; _peers.Clear(); CoopSaveKey = ""; _app.Fail("coop state", e); return; }
+        else
+        {
+            try
+            {
+                role = _isHost() ? CoopRole.Host : _isClient() ? CoopRole.Client : CoopRole.Offline;
+                cheats = role != CoopRole.Offline && _cheats();
+            }
+            catch (Exception e) { _bound = false; _peers.Clear(); CoopSaveKey = ""; _app.Fail("coop state", e); return; }
+        }
         RefreshCoopContext(role);
         if (role == Role && cheats == ServerCheats) return;
         var previous = Role;
@@ -80,6 +93,34 @@ internal sealed class MultiplayerBridge
 
     private void RefreshCoopContext(CoopRole role)
     {
+        if (_useLycoreiaSdk)
+        {
+            try
+            {
+                CoopSaveKey = role == CoopRole.Client ? BuildLycoreiaSaveKey(LycoreiaClient.SessionKey) : "";
+            }
+            catch { CoopSaveKey = role == CoopRole.Client ? "coop_guest" : ""; }
+
+            _peers.Clear();
+            if (role == CoopRole.Offline) return;
+            try
+            {
+                var players = LycoreiaClient.Players;
+                for (int i = 0; i < players.Count; i++)
+                {
+                    var p = players[i];
+                    if (p == null || p.IsLocal) continue;
+                    var tr = p.Transform;
+                    if (tr == null || tr.WasCollected) continue;
+                    var root = tr.gameObject;
+                    if (root == null || root.WasCollected) continue;
+                    _peers.Add(new CoopPeer(p.Id ?? "", p.Name ?? "", root, tr, p.Color));
+                }
+            }
+            catch { }
+            return;
+        }
+
         try
         {
             if (role == CoopRole.Client)
@@ -113,6 +154,14 @@ internal sealed class MultiplayerBridge
         catch { }
     }
 
+    private static string BuildLycoreiaSaveKey(string key)
+    {
+        if (string.IsNullOrWhiteSpace(key)) return "coop_guest";
+        if (WaypointStore.SaveKey(key)) return key;
+        if (key.Length > 80 && WaypointStore.SaveKey(key.Substring(0, 80))) return key.Substring(0, 80);
+        return BuildCoopSaveKey(key);
+    }
+
     private static string BuildCoopSaveKey(string raw)
     {
         if (string.IsNullOrWhiteSpace(raw)) return "coop_guest";
@@ -129,6 +178,7 @@ internal sealed class MultiplayerBridge
 
     private void Probe()
     {
+        if (LycoreiaClient.Available) { BindLycoreiaSdk(); return; }
         Assembly asm = null, lycoreia = null;
         foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
         {
@@ -137,7 +187,17 @@ internal sealed class MultiplayerBridge
             if (n.StartsWith("SR2MP,", StringComparison.Ordinal)) asm = a;
             else if (n.StartsWith("Lycoreia,", StringComparison.Ordinal)) lycoreia = a;
         }
-        if (lycoreia != null) { ProbeLycoreia(lycoreia); return; }
+        if (lycoreia != null)
+        {
+            if (lycoreia.GetType("Lycoreia.Api.LycoreiaApi") != null)
+            {
+                if (LycoreiaClient.Available) { BindLycoreiaSdk(); return; }
+                _nextProbe = Time.unscaledTime + 1f;
+                return;
+            }
+            ProbeLycoreiaLegacy(lycoreia);
+            return;
+        }
         if (asm == null) return;
         Installed = true;
         const BindingFlags S = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
@@ -165,7 +225,26 @@ internal sealed class MultiplayerBridge
             _app.LoggerInstance.Msg("Ranching Together detected: co-op rules active" + (_announce != null ? ", spawn sync available." : ", spawn sync unavailable (API changed)."));
     }
 
-    private void ProbeLycoreia(Assembly asm)
+    private void BindLycoreiaSdk()
+    {
+        Installed = true;
+        _useLycoreiaSdk = true;
+        _bound = true;
+        MultiplayerPolicy.ModName = "Lycoreia";
+        if (!_sdkEventsSubscribed)
+        {
+            _sdkEventsSubscribed = true;
+            LycoreiaClient.RoleChanged += _ => _sdkDirty = true;
+            LycoreiaClient.CheatsAllowedChanged += allowed =>
+            {
+                _sdkDirty = true;
+                if (!allowed && _app.Ready) { ServerCheats = false; Enforce(); }
+            };
+        }
+        _app.LoggerInstance.Msg("Lycoreia " + LycoreiaClient.ModVersion + " detected via SDK (API v" + LycoreiaClient.ApiVersion + "): co-op rules active, spawn sync available.");
+    }
+
+    private void ProbeLycoreiaLegacy(Assembly asm)
     {
         Installed = true;
         MultiplayerPolicy.ModName = "Lycoreia";
@@ -318,8 +397,68 @@ internal sealed class MultiplayerBridge
         if (Role == CoopRole.Offline) return null;
         var kind = MultiplayerPolicy.Classify(label);
         if (kind == CoopKind.Free || TurningOff(label)) return null;
-        return MultiplayerPolicy.Deny(kind, Role, ServerCheats);
+        string denied = MultiplayerPolicy.Deny(kind, Role, ServerCheats);
+        if (denied != null && _useLycoreiaSdk && kind != CoopKind.SoloOnly && !(kind == CoopKind.HostWorld && Role == CoopRole.Client))
+            return LycoreiaClient.CheatsDeniedReason ?? denied;
+        return denied;
     }
+
+    internal IDisposable BeginAction(string label, out string denied)
+    {
+        denied = Deny(label);
+        if (denied != null) return null;
+        if (!_useLycoreiaSdk || Role == CoopRole.Offline) return null;
+        var kind = MultiplayerPolicy.Classify(label);
+        if (kind == CoopKind.Free || TurningOff(label)) return null;
+        var scope = LycoreiaClient.BeginCheat(CheatKind(label));
+        if (!scope.Allowed)
+        {
+            denied = scope.Reason ?? MultiplayerPolicy.Deny(kind, Role, false);
+            scope.Dispose();
+            return null;
+        }
+        return scope;
+    }
+
+    internal bool AllowPlayerCheat(string kind = "player")
+    {
+        if (Role == CoopRole.Offline) return true;
+        if (_useLycoreiaSdk)
+        {
+            if (LycoreiaClient.CheatsAllowed && Time.unscaledTime < _nextPlayerCheatLog) return true;
+            using var scope = LycoreiaClient.BeginCheat(kind);
+            if (scope.Allowed) { _nextPlayerCheatLog = Time.unscaledTime + 2f; return true; }
+            _app.Notify(scope.Reason ?? MultiplayerPolicy.Deny(CoopKind.Cheat, Role, false));
+            return false;
+        }
+        if (MultiplayerPolicy.PlayerCheats(Role, ServerCheats)) return true;
+        _app.Notify(MultiplayerPolicy.Deny(CoopKind.Cheat, Role, ServerCheats));
+        return false;
+    }
+
+    private static string CheatKind(string label) => label switch
+    {
+        "spawn" => "spawn",
+        "currency max" or "currency add" or "currency set" or "currency 100000" or "currency 10000" or "Уменьшить нью-баксы?" or "Обнулить нью-баксы?" => "currency",
+        "teleport waypoint" or "map click teleport" or "custom map teleport" or "safe custom teleport" or "tracking teleport"
+            or "m27 acceptance tracking teleport" or "teleport atlas marker" or "recall checkpoint"
+            or "safe native phenomenon travel" or "atlas return" or "return from atlas" => "teleport",
+        "weather" or "clear weather" or "native weather" or "Дождаться твёрдой фазы Aurora?" => "weather",
+        "set hour" or "set time" or "time +1" or "time +6" => "time",
+        "Открыть дверь?" or "Открыть весь атлас?" or "Открыть всю Слаймопедию" or "Открыть карту и ноды"
+            or "Применить все улучшения" or "Открыть все двери" or "Открыть все стили слаймов"
+            or "Открыть все чертежи гаджетов" or "Открыть все стили вакпака" => "unlock",
+        "refill vitals" or "auto refill request" or "Включить автопополнение?" or "fill ammo"
+            or "refinery fill request" or "refinery all +100 request" or "refinery selected fill request"
+            or "refinery selected +100 request" or "m26 acceptance refinery request"
+            or "Включить автокормление загонов?" or "Включить фермерского помощника?"
+            or "Накормить голодных слаймов вокруг?" or "Заполнить Преобразователь?"
+            or "Добавить ресурсы Преобразователя?" => "vitals",
+        "infinite builder" or "free placement" or "Заменить содержимое слота?" => "builder",
+        "flight" or "hotkey god mode" or "hotkey infinite energy" or "explorer profile" or "tarr" => "player",
+        _ when label != null && label.StartsWith("Разместить «", StringComparison.Ordinal) => "builder",
+        _ => label,
+    };
 
     // Toggle labels: switching a running effect OFF is always allowed.
     private bool TurningOff(string label) => label switch
@@ -371,10 +510,20 @@ internal sealed class MultiplayerBridge
                 "Кооп (" + MultiplayerPolicy.ModName + "): заморозка времени, мобов и ускорение симуляции выключены — они не синхронизируются.");
     }
 
-    /// After CT created an actor: let SR2MP replicate it (owner = this player). Offline — no-op.
+    /// After CT created an actor: let Lycoreia / SR2MP replicate it (owner = this player). Offline — no-op.
     internal void AnnounceSpawn(GameObject go)
     {
-        if (Role == CoopRole.Offline || _announce == null || go == null || go.WasCollected) return;
+        if (Role == CoopRole.Offline || go == null || go.WasCollected) return;
+        if (_useLycoreiaSdk)
+        {
+            if (!LycoreiaClient.PublishSpawn(go, out string reason) && !string.IsNullOrEmpty(reason) && !_announceFailed)
+            {
+                _announceFailed = true;
+                _app.LoggerInstance.Warning("Lycoreia spawn sync refused: " + reason);
+            }
+            return;
+        }
+        if (_announce == null) return;
         bool bumped = false;
         try
         {

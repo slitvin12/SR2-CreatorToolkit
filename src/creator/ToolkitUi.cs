@@ -1465,9 +1465,7 @@ internal sealed partial class ToolkitUi
 
     private bool AllowPlayerCheat()
     {
-        if (MultiplayerPolicy.PlayerCheats(_app.Coop.Role, _app.Coop.ServerCheats)) return true;
-        _app.Notify(MultiplayerPolicy.Deny(CoopKind.Cheat, _app.Coop.Role, _app.Coop.ServerCheats));
-        return false;
+        return _app.Coop == null || _app.Coop.AllowPlayerCheat();
     }
 
     private void PlayerPage(Rect area)
